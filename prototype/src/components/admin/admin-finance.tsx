@@ -1,7 +1,7 @@
 "use client";
 
 import { financeKpis } from "@/lib/payments/finance-kpis";
-import { shortProviderInvoiceId } from "@/lib/payments/streampay";
+import { shortProviderInvoiceId } from "@/lib/payments/invoice-display";
 import { Copy } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { AdminDateRange } from "./admin-date-range";

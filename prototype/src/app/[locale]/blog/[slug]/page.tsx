@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: { absolute: post.title },
       description: post.excerpt,
-      robots: { index: true, follow: true },
+      robots: { index: !IS_STAGING, follow: !IS_STAGING },
       alternates: { canonical },
       openGraph: {
         type: "article",
@@ -99,7 +99,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${post.title} — Genora.art`,
     description: post.excerpt,
-    robots: { index: true, follow: true },
+    robots: { index: !IS_STAGING, follow: !IS_STAGING },
     alternates: { canonical },
     openGraph: {
       type: "article",
@@ -119,7 +119,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogArticlePage({ params }: Props) {
-  if (IS_STAGING) notFound();
   const post = await getBlogPost((await params).slug);
   if (!post) notFound();
   const locale = await requestLocale();

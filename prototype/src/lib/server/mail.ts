@@ -5,10 +5,21 @@ import { getMailCopy, supportTopicLabel } from "@/lib/mail-copy";
 import { renderActionEmailHtml } from "@/lib/mail-layout";
 import { applyPublicContactEmail } from "@/lib/public-contact";
 import { getAuthMailboxEmail, getPrimarySupportEmail } from "@/lib/server/support-mailboxes";
+import { query } from "@/lib/server/db";
+import { decryptSecret } from "@/lib/server/totp";
 import nodemailer from "nodemailer";
 import path from "node:path";
 
-function smtpConfig() {
+async function smtpConfig(kind: "auth" | "support") {
+  const role = kind === "auth" ? "is_auth" : "is_primary";
+  const rows = await query<{ email: string; app_password_encrypted: string }>(
+    `SELECT email,app_password_encrypted FROM support_mailboxes WHERE ${role}=true AND enabled=true LIMIT 1`,
+  );
+  if (rows[0]) {
+    return { host: "mail.privateemail.com", port: 465, secure: true, auth: {
+      user: rows[0].email, pass: decryptSecret(rows[0].app_password_encrypted),
+    } };
+  }
   const host = process.env.SMTP_HOST;
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASSWORD;
@@ -17,8 +28,8 @@ function smtpConfig() {
   return { host, port, secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === "true" : port === 465, auth: { user, pass } };
 }
 
-function transport() {
-  return nodemailer.createTransport(smtpConfig());
+async function transport(kind: "auth" | "support" = "auth") {
+  return nodemailer.createTransport(await smtpConfig(kind));
 }
 
 async function sender(kind: "auth" | "support" = "auth") {
@@ -26,7 +37,7 @@ async function sender(kind: "auth" | "support" = "auth") {
   const fromName = process.env.SMTP_FROM_NAME ?? (kind === "support" ? "Support Service" : "Genora.art");
   return {
     from: { name: fromName, address: fromEmail },
-    replyTo: process.env.SMTP_REPLY_TO ?? fromEmail,
+    replyTo: process.env.SMTP_REPLY_TO ?? (kind === "auth" ? await getPrimarySupportEmail() : fromEmail),
   };
 }
 
@@ -36,18 +47,18 @@ function escapeHtml(value: string): string {
   })[character]!);
 }
 
-const brandAttachment={filename:"genora-logo.png",path:path.join(process.cwd(),"public","logo-mark.png"),cid:"genora-logo"};
-const brandHeader=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:24px"><img src="cid:genora-logo" width="30" height="30" alt="" style="display:block;width:30px;height:30px"><div style="font-size:18px;font-weight:700;letter-spacing:-.02em"><span style="color:#FF6F00">Model</span><span style="color:#111111">Station</span></div></div>`;
+const brandAttachment={filename:"genora-logo.png",path:path.join(process.cwd(),"public","favicon","genora-icon.png"),cid:"genora-logo"};
+const brandHeader=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:24px"><img src="cid:genora-logo" width="30" height="30" alt="" style="display:block;width:30px;height:30px"><div style="font-size:18px;font-weight:700;letter-spacing:-.02em"><span style="color:#111111">Genora</span><span style="color:#FF6F00">.art</span></div></div>`;
 const mailShell=(content:string)=>`<div style="background:#f4f7fb;padding:32px 16px;font-family:Arial,sans-serif;color:#111111"><div style="max-width:560px;margin:auto;background:#fff;border:1px solid #dbe4ef;border-radius:18px;padding:32px">${brandHeader}${content}</div></div>`;
 
 export async function verifySmtpConnection(): Promise<void> {
-  await transport().verify();
+  await (await transport()).verify();
 }
 
 export async function sendEmailVerification(email: string, verificationUrl: string, locale?: string | null): Promise<void> {
   const copy = getAuthMailCopy(locale).verification;
   const contact = await getPrimarySupportEmail();
-  await transport().sendMail({
+  await (await transport()).sendMail({
     ...await sender("auth"),
     to: email,
     attachments: [brandAttachment],
@@ -60,7 +71,7 @@ export async function sendEmailVerification(email: string, verificationUrl: stri
 export async function sendPasswordReset(email: string, resetUrl: string, locale?: string | null): Promise<void> {
   const copy = getAuthMailCopy(locale).reset;
   const contact = await getPrimarySupportEmail();
-  await transport().sendMail({
+  await (await transport()).sendMail({
     ...await sender("auth"),
     to: email,
     attachments: [brandAttachment],
@@ -71,13 +82,13 @@ export async function sendPasswordReset(email: string, resetUrl: string, locale?
 }
 
 export async function sendAdminInvitation(email: string, invitationUrl: string): Promise<void> {
-  await transport().sendMail({
+  await (await transport()).sendMail({
     ...await sender("auth"),
     to: email,
     attachments:[brandAttachment],
     subject: "Приглашение в Genora.art Admin",
     text: `Вас пригласили в Genora.art Admin. Задайте пароль по ссылке: ${invitationUrl}\n\nСсылка действует 24 часа.`,
-    html: mailShell(`<h1 style="font-size:22px;margin:0">Приглашение в Genora.art Admin</h1><p>Для завершения создания администратора задайте пароль.</p><p><a href="${invitationUrl}" style="display:inline-block;padding:12px 18px;background:#3b82f6;color:white;text-decoration:none;border-radius:10px">Задать пароль</a></p><p style="color:#64748b;font-size:13px">Ссылка действует 24 часа. Если вы не ожидали это письмо, ничего не делайте.</p>`),
+    html: mailShell(`<h1 style="font-size:22px;margin:0">Приглашение в Genora.art Admin</h1><p>Для завершения создания администратора задайте пароль.</p><p><a href="${invitationUrl}" style="display:inline-block;padding:12px 18px;background:#FF6F00;color:white;text-decoration:none;border-radius:10px">Задать пароль</a></p><p style="color:#64748b;font-size:13px">Ссылка действует 24 часа. Если вы не ожидали это письмо, ничего не делайте.</p>`),
   });
 }
 
@@ -85,7 +96,7 @@ export async function sendSupportReply(email:string,subject:string,reply:string,
   const copy = getMailCopy(locale);
   const signOff = escapeHtml(copy.supportSignOff).replace(/\n/g, "<br>");
   const safeReply=escapeHtml(reply).replace(/\n/g,"<br>");
-  await transport().sendMail({...await sender("support"),to:email,attachments:[brandAttachment],subject,text:`${reply}\n\n${copy.supportSignOff}`,html:mailShell(`<div style="font-size:15px;line-height:1.7;color:#334155">${safeReply}</div><p style="margin-top:28px;font-size:13px;color:#64748b">${signOff}</p>`)});
+  await (await transport("support")).sendMail({...await sender("support"),to:email,attachments:[brandAttachment],subject,text:`${reply}\n\n${copy.supportSignOff}`,html:mailShell(`<div style="font-size:15px;line-height:1.7;color:#334155">${safeReply}</div><p style="margin-top:28px;font-size:13px;color:#64748b">${signOff}</p>`)});
 }
 
 export async function sendSupportReceipt(input: { email: string; publicId: string; topic: string; message: string; locale?: string | null }): Promise<void> {
@@ -94,7 +105,7 @@ export async function sendSupportReceipt(input: { email: string; publicId: strin
   const safeId = escapeHtml(input.publicId);
   const safeTopic = escapeHtml(topic);
   const safeMessage = escapeHtml(input.message).replace(/\n/g, "<br>");
-  await transport().sendMail({
+  await (await transport("support")).sendMail({
     ...await sender("support"),
     to: input.email,
     attachments: [brandAttachment],

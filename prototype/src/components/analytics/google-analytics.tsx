@@ -32,7 +32,6 @@ export function GoogleAnalytics() {
   const consent = useSyncExternalStore(subscribe, snapshot, () => "pending");
   const pathname = usePathname();
 
-  if (!MEASUREMENT_ID) return null;
 
   useEffect(() => {
     window.dataLayer = window.dataLayer ?? [];
@@ -53,6 +52,8 @@ export function GoogleAnalytics() {
       page_title: document.title,
     });
   }, [consent, pathname]);
+
+  if (!MEASUREMENT_ID) return null;
 
   return (
     <>

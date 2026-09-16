@@ -12,7 +12,6 @@ export function BlogPreviewContent({ posts }: { posts: BlogPost[] }) {
   const t = useT();
   const { locale } = useLocale();
   const visible = selectHomepagePosts(posts, locale);
-  if (!visible.length) return null;
   const dateFormat = new Intl.DateTimeFormat(getLocaleOption(locale).intl, {
     day: "numeric",
     month: "long",

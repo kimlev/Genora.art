@@ -70,7 +70,7 @@ export async function listSupportMailboxes(): Promise<PublicMailbox[]> {
 export async function listEnabledMailboxRows(): Promise<SupportMailboxRow[]> {
   await ensureEnvMailbox();
   return query<SupportMailboxRow>(`SELECT ${MAILBOX_COLUMNS}
-    FROM support_mailboxes WHERE enabled=true ORDER BY created_at,email`);
+    FROM support_mailboxes WHERE enabled=true AND NOT (is_auth=true AND is_primary=false) ORDER BY created_at,email`);
 }
 
 export async function getMailboxRow(id: string): Promise<SupportMailboxRow | null> {

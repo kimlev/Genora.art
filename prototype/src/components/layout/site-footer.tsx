@@ -3,7 +3,6 @@
 import { useT } from "@/components/providers/locale-provider";
 import { BrandWordmark } from "@/components/layout/brand-wordmark";
 import { ShieldCheck } from "lucide-react";
-import Image from "next/image";
 import { Link } from "@/components/ui/locale-link";
 import { usePublicContactEmail } from "@/components/layout/use-public-contact-email";
 
@@ -43,13 +42,6 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-9 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
           <div className="col-span-2 space-y-4 lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <Image
-                src="/logo-mark.png"
-                alt=""
-                width={28}
-                height={28}
-                className="size-7"
-              />
               <BrandWordmark className="text-base" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-steel">

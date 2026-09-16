@@ -27,7 +27,7 @@ services:
       args:
         NEXT_PUBLIC_APP_ORIGIN: https://dev.genora.art
         NEXT_PUBLIC_STAGING: "1"
-        NEXT_PUBLIC_GA_MEASUREMENT_ID: ""
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: "G-D07763XPWC"
     image: genora-app:dev
     container_name: genora-dev-app
     restart: unless-stopped
@@ -35,7 +35,7 @@ services:
     environment:
       NEXT_PUBLIC_APP_ORIGIN: https://dev.genora.art
       NEXT_PUBLIC_STAGING: "1"
-      NEXT_PUBLIC_GA_MEASUREMENT_ID: ""
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: "G-D07763XPWC"
     ports: ["127.0.0.1:14311:3310"]
     depends_on:
       postgres: {condition: service_healthy}
