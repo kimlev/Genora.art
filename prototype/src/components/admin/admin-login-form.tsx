@@ -23,7 +23,7 @@ export function AdminLoginForm() {
       if(data?.code==="PIN_REQUIRED") setPinRequired(true);
       setError(data?.error??"Не удалось выполнить вход"); setSubmitting(false); return;
     }
-    router.replace("/admin"); router.refresh();
+    router.replace("/"); router.refresh();
   };
 
   return <main className="grid min-h-dvh place-items-center px-4 py-10">
