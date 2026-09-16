@@ -71,7 +71,7 @@ jobs:
             set -e
             cd /srv/apps/genora-art
             bash infra/production/prepare-env.sh
-            cp infra/production/nginx-modelstation.conf /etc/nginx/sites-available/genora.art.conf
+            cp infra/production/nginx-prod-hosts.conf /etc/nginx/sites-available/genora.art.conf
             ln -sfn /etc/nginx/sites-available/genora.art.conf /etc/nginx/sites-enabled/genora.art.conf
             nginx -t
             systemctl reload nginx

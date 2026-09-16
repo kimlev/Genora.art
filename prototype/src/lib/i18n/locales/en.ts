@@ -284,7 +284,7 @@ export const en: Dictionary = {
     headline: "From idea to finished visual — in one window",
     body: "Choose a model or a ready agent, add a description and a reference if you need one. Genora.art assembles the settings and saves the result to your history.",
     cta: "Open the generator",
-    imageAlt: "Futuristic Genora.art model station",
+    imageAlt: "Futuristic Genora.art creative workspace",
     items: [
       {
         title: "Text to image",
