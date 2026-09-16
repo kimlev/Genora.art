@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 const support = await readFile(new URL("../src/components/admin/admin-support.tsx", import.meta.url), "utf8");
 const supportRoute = await readFile(new URL("../src/app/api/admin/support/route.ts", import.meta.url), "utf8");
 const supportReadMigration = await readFile(new URL("../db/migrations/070_support_admin_read_at.sql", import.meta.url), "utf8");
-const devWorkflow = await readFile(new URL("../../.github/workflows/deploy-dev.yml", import.meta.url), "utf8");
+const devWorkflow = await readFile(new URL("../../.github/workflows/deploy.yml", import.meta.url), "utf8");
 
 test("unread support requests are bold and opening one persists the read state", () => {
   assert.match(support, /item\.readAt \? "font-normal" : "font-semibold"/);
@@ -16,6 +16,6 @@ test("unread support requests are bold and opening one persists the read state",
 });
 
 test("dev deploy recreates the support worker with the current application image", () => {
-  assert.match(devWorkflow, /docker compose up -d --build app support-worker/);
-  assert.match(devWorkflow, /docker compose ps app support-worker/);
+  assert.match(devWorkflow, /docker compose up -d --build postgres app support-worker/);
+  assert.match(devWorkflow, /docker compose ps/);
 });

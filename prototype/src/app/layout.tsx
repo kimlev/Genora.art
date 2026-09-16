@@ -30,6 +30,7 @@ export const metadata: Metadata = {
     follow: !IS_STAGING,
   },
   alternates: { canonical: "/" },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "ru_RU",
@@ -46,11 +47,17 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon/genora-icon.png?v=2", sizes: "512x512", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon/icon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon/icon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/favicon/genora-icon.png?v=2",
-    apple: "/favicon/apple-touch-icon.png?v=2",
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
+  appleWebApp: { capable: true, title: "Genora.art", statusBarStyle: "black-translucent" },
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
