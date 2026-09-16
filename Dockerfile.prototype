@@ -1,0 +1,28 @@
+FROM node:22-alpine AS deps
+WORKDIR /app
+COPY prototype/package.json prototype/package-lock.json ./
+RUN npm ci
+
+FROM node:22-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY prototype ./
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN npm run build
+
+FROM node:22-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3310
+ENV HOSTNAME=0.0.0.0
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=deps /app/node_modules/bcryptjs ./node_modules/bcryptjs
+COPY --from=deps /app/node_modules/nodemailer ./node_modules/nodemailer
+COPY --from=builder /app/db ./db
+COPY --from=builder /app/scripts ./scripts
+VOLUME ["/app/data"]
+EXPOSE 3310
+CMD ["node", "scripts/start.mjs"]

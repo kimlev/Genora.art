@@ -1,0 +1,12 @@
+{
+  "claude-haiku-4-5-20251001": "claude-haiku-4-5",
+  "claude-opus-4-5-20251101": "claude-opus-4-5",
+  "claude-sonnet-4-5-20250929": "claude-sonnet-4-5",
+  "gemma-4-26b-a4b-it": "gemma-4-26b",
+  "gemma-4-31b-it": "gemma-4-31b",
+  "grok-4.20-multi-agent-0309": "grok-4.20-multi-agent",
+  "grok-4.20-0309-non-reasoning": "grok-4.20",
+  "grok-4.20-0309-reasoning": "grok-4.20-reasoning",
+  "deepseek-v4-pro-0813": "deepseek-v4-pro",
+  "deepseek-v4-flash-0731": "deepseek-v4-flash"
+}

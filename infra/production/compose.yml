@@ -1,0 +1,49 @@
+name: genora-app
+
+services:
+  app:
+    build:
+      context: ../../prototype
+      dockerfile: Dockerfile
+    image: genora-app:latest
+    container_name: genora-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - /etc/nginx/.htpasswd-genora:/run/secrets/genora-preview.htpasswd:ro
+    ports:
+      - "127.0.0.1:13310:3310"
+    networks:
+      - genora-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3310/api/health >/dev/null || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  support-worker:
+    image: genora-app:latest
+    container_name: genora-support-worker
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: ["node", "scripts/support-worker.mjs"]
+    depends_on:
+      app:
+        condition: service_healthy
+    networks:
+      - genora-net
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+networks:
+  genora-net:
+    external: true

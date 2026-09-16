@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Агрегатор нейросетей</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section id="home" class="screen">
+      <h1 class="title">Агрегатор нейросетей</h1>
+      <button type="button" id="btn-go" class="btn primary">GO</button>
+      <button type="button" id="btn-info" class="link-btn hidden">Информация о проекте</button>
+      <button type="button" id="btn-rescan" class="link-btn hidden">Пройти опрос заново</button>
+
+      <article id="anamnesis-card" class="anamnesis-card hidden" aria-live="polite">
+        <h2>Сохранённые данные проекта</h2>
+        <div class="block">
+          <div class="k">Описание</div>
+          <p id="preview-description" class="v"></p>
+        </div>
+        <div class="block">
+          <div class="k">Конкуренты</div>
+          <ul id="preview-competitors" class="v-list"></ul>
+        </div>
+        <div class="block">
+          <div class="k">Важно</div>
+          <p id="preview-priorities" class="v"></p>
+        </div>
+        <p class="card-hint">Нажмите GO — откроются эти же сохранённые параметры</p>
+      </article>
+
+      <div id="project-links" class="project-links hidden" aria-live="polite"></div>
+      <p id="github-status" class="github-status hidden" aria-live="polite"></p>
+    </section>
+
+    <section id="step-1" class="screen hidden">
+      <h2>Опишите проект (максимально подробно)</h2>
+      <textarea id="field-description" rows="10" placeholder="Расскажите, что это за продукт, для кого он и какую задачу решает…"></textarea>
+      <p id="error-description" class="error hidden">Пожалуйста, заполните описание проекта.</p>
+      <div class="actions">
+        <button type="button" id="btn-next-1" class="btn primary">Далее</button>
+      </div>
+    </section>
+
+    <section id="step-2" class="screen hidden">
+      <h2>Ссылки на конкурентов</h2>
+      <div class="add-row">
+        <input type="url" id="field-competitor" placeholder="https://…" />
+        <button type="button" id="btn-add-competitor" class="btn">Добавить</button>
+      </div>
+      <ul id="competitors-list" class="list"></ul>
+      <div class="actions">
+        <button type="button" id="btn-skip-2" class="btn ghost">Пропустить</button>
+        <button type="button" id="btn-next-2" class="btn primary">Далее</button>
+      </div>
+    </section>
+
+    <section id="step-3" class="screen hidden">
+      <h2>Что вам важно при реализации?</h2>
+      <textarea id="field-priorities" rows="8" placeholder="Приоритеты, ограничения, сроки, стиль…"></textarea>
+      <p id="error-step3" class="error hidden" role="alert"></p>
+      <div class="actions">
+        <button type="button" id="btn-skip-3" class="btn ghost">Пропустить</button>
+        <button type="button" id="btn-next-3" class="btn primary">Далее</button>
+      </div>
+    </section>
+
+    <section id="info" class="screen hidden">
+      <h2>Информация о проекте</h2>
+      <label class="label">Описание</label>
+      <textarea id="edit-description" rows="8"></textarea>
+      <label class="label">Конкуренты</label>
+      <div class="add-row">
+        <input type="url" id="edit-competitor" placeholder="https://…" />
+        <button type="button" id="btn-edit-add" class="btn">Добавить</button>
+      </div>
+      <ul id="edit-competitors-list" class="list"></ul>
+      <label class="label">Важно / приоритеты</label>
+      <textarea id="edit-priorities" rows="6"></textarea>
+      <div class="actions">
+        <button type="button" id="btn-cancel" class="btn ghost">Закрыть без сохранения</button>
+        <button type="button" id="btn-save" class="btn primary">Сохранить</button>
+      </div>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

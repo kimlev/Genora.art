@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 512 512">
+  <title>Genora.art</title>
+  <rect width="512" height="512" fill="#4A9EFF"/>
+  <rect x="190" y="108" width="224" height="224" rx="54" fill="none" stroke="#FFFFFF" stroke-width="28"/>
+  <rect x="98" y="200" width="224" height="224" rx="54" fill="none" stroke="#FFFFFF" stroke-width="28"/>
+  <circle cx="256" cy="266" r="38" fill="#FFFFFF"/>
+</svg>

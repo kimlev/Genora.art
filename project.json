@@ -1,0 +1,59 @@
+{
+  "name": "Genora.art",
+  "displayName": "Агрегатор нейросетей",
+  "slug": "genora-art",
+  "host": "https://genora.art",
+  "prototypeHost": "https://genora.art",
+  "port": 3300,
+  "createdAt": "2026-08-06T17:02:30Z",
+  "managedBy": "fail",
+  "github": {
+    "private": true,
+    "repo": "kimlev/Genora.art",
+    "url": "https://github.com/kimlev/Genora.art",
+    "sshUrl": "git@github.com:kimlev/Genora.art.git",
+    "createdAt": "2026-08-06T17:16:51Z"
+  },
+  "links": [
+    {
+      "id": "website",
+      "label": "Genora.art",
+      "url": "https://genora.art"
+    },
+    {
+      "id": "dev-copy",
+      "label": "Genora.art (dev)",
+      "url": "https://dev.genora.art"
+    },
+    {
+      "id": "blog",
+      "label": "Блог Genora.art",
+      "url": "/blog"
+    },
+    {
+      "id": "logo-concepts",
+      "label": "Варианты логотипа Genora.art",
+      "url": "docs/logo-concepts"
+    },
+    {
+      "id": "releases",
+      "label": "Версии Genora.art",
+      "url": "docs/releases/README.md"
+    },
+    {
+      "id": "admin-architecture",
+      "label": "Архитектура админки Genora.art",
+      "url": "docs/architecture/admin-platform.md"
+    },
+    {
+      "id": "production-admin",
+      "label": "Production Admin Genora.art",
+      "url": "https://admin.genora.art"
+    },
+    {
+      "id": "integrator-api",
+      "label": "IntegratorAI API",
+      "url": "https://82.25.161.169:3143/v1"
+    }
+  ]
+}

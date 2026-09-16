@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-label="Выбор AI-модели">
+  <rect width="720" height="420" rx="36" fill="#edf6ff"/>
+  <circle cx="360" cy="210" r="64" fill="#FF6F00"/>
+  <circle cx="184" cy="124" r="46" fill="#fff" stroke="#b9dcff" stroke-width="4"/>
+  <circle cx="536" cy="124" r="46" fill="#fff" stroke="#b9dcff" stroke-width="4"/>
+  <circle cx="184" cy="296" r="46" fill="#fff" stroke="#b9dcff" stroke-width="4"/>
+  <circle cx="536" cy="296" r="46" fill="#fff" stroke="#b9dcff" stroke-width="4"/>
+  <path d="M225 144 300 181M495 144 420 181M225 276 300 239M495 276 420 239" stroke="#8fc6ff" stroke-width="8" stroke-linecap="round"/>
+  <path d="m334 210 18 18 37-43" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="184" y="132" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#111827">GPT</text>
+  <text x="536" y="132" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#111827">Claude</text>
+  <text x="184" y="304" text-anchor="middle" font-family="Arial" font-size="20" font-weight="700" fill="#111827">Gemini</text>
+  <text x="536" y="304" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#111827">Grok</text>
+</svg>

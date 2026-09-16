@@ -1,0 +1,279 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: Sora, system-ui, sans-serif;
+  background: linear-gradient(180deg, #f7f2e9 0%, #f3eee4 40%, #ebe4d6 100%);
+  color: #1d2a24;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 20px 64px;
+}
+
+.screen h1,
+.screen h2 {
+  margin: 0 0 24px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  text-align: center;
+}
+
+#home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 18vh;
+}
+
+.hidden {
+  display: none !important;
+}
+
+textarea,
+input[type="url"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #b7c4d6;
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  color: inherit;
+  resize: vertical;
+}
+
+textarea:focus,
+input[type="url"]:focus {
+  outline: 2px solid #2f4f7a;
+  outline-offset: 1px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid #2f4f7a;
+  background: #fff;
+  color: #152033;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #eef3f9;
+}
+
+.btn.primary {
+  background: #2f4f7a;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: #243d5f;
+}
+
+.btn.ghost {
+  border-color: transparent;
+  background: transparent;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.link-btn {
+  appearance: none;
+  border: none;
+  background: none;
+  color: #2f4f7a;
+  font: inherit;
+  font-size: 1.05rem;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.project-links {
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  max-width: 36rem;
+  font-size: 0.95rem;
+  color: #3a4a63;
+}
+
+.project-links a {
+  color: #2f4f7a;
+}
+
+.github-status {
+  margin: 8px 0 0;
+  text-align: center;
+  max-width: 36rem;
+  font-size: 0.95rem;
+  color: #3a4a63;
+}
+
+.github-status a {
+  color: #2f4f7a;
+}
+
+.github-status.error {
+  color: #8a3b3b;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.add-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.add-row input {
+  flex: 1;
+}
+
+.list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid #c5d0e0;
+  border-radius: 8px;
+  word-break: break-all;
+}
+
+.list li button {
+  flex-shrink: 0;
+  appearance: none;
+  border: none;
+  background: none;
+  color: #8a3b3b;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+}
+
+.label {
+  display: block;
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+
+.error {
+  color: #8a3b3b;
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+}
+
+#home .btn.primary {
+  min-width: 140px;
+  padding: 14px 28px;
+  font-size: 1.15rem;
+  background: #0d5c4d;
+  border-color: #0d5c4d;
+}
+
+#home .btn.primary:hover {
+  background: #0a4a3e;
+}
+
+.home-nav {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.home-nav a {
+  color: #0d5c4d;
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.home-nav a:hover { text-decoration: underline; }
+
+.anamnesis-card {
+  width: min(100%, 36rem);
+  margin-top: 12px;
+  text-align: left;
+  background: #fffdf8;
+  border: 1px solid #ddd2c0;
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 24px rgba(40, 30, 10, 0.06);
+}
+
+.anamnesis-card h2 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.anamnesis-card .block { margin-bottom: 12px; }
+.anamnesis-card .k {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b736e;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.anamnesis-card .v {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 13.5px;
+  color: #1d2a24;
+  max-height: 9em;
+  overflow: auto;
+}
+.anamnesis-card .v-list {
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: 13.5px;
+}
+.anamnesis-card .v-list a { color: #0d5c4d; }
+.anamnesis-card .card-hint {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #6b736e;
+}

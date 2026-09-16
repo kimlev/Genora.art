@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-label="Команда AI-агентов">
+  <rect width="720" height="420" rx="36" fill="#edf6ff"/>
+  <rect x="88" y="120" width="160" height="184" rx="28" fill="#fff" stroke="#d5eaff" stroke-width="4"/>
+  <rect x="280" y="82" width="160" height="222" rx="28" fill="#FF6F00"/>
+  <rect x="472" y="120" width="160" height="184" rx="28" fill="#fff" stroke="#d5eaff" stroke-width="4"/>
+  <circle cx="168" cy="181" r="31" fill="#e7f3ff"/><circle cx="360" cy="157" r="36" fill="#fff" fill-opacity=".2"/><circle cx="552" cy="181" r="31" fill="#e7f3ff"/>
+  <path d="M146 239h44M338 231h44M530 239h44" stroke="#FF6F00" stroke-width="10" stroke-linecap="round"/>
+  <path d="M338 231h44" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="156" cy="181" r="5" fill="#FF6F00"/><circle cx="180" cy="181" r="5" fill="#FF6F00"/><circle cx="348" cy="157" r="6" fill="#fff"/><circle cx="372" cy="157" r="6" fill="#fff"/><circle cx="540" cy="181" r="5" fill="#FF6F00"/><circle cx="564" cy="181" r="5" fill="#FF6F00"/>
+</svg>

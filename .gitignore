@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.env.*
+web/node_modules/
+prototype/node_modules/
+prototype/.next/

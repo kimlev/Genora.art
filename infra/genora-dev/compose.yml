@@ -1,0 +1,70 @@
+name: genora-dev
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: genora-dev-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: genora_dev
+      POSTGRES_USER: genora
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - genora-dev-pg:/var/lib/postgresql/data
+    networks: [genora-dev-net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U genora -d genora_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    security_opt: [no-new-privileges:true]
+
+  app:
+    build:
+      context: ../../prototype
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_APP_ORIGIN: https://dev.genora.art
+        NEXT_PUBLIC_STAGING: "1"
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: ""
+    image: genora-app:dev
+    container_name: genora-dev-app
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      NEXT_PUBLIC_APP_ORIGIN: https://dev.genora.art
+      NEXT_PUBLIC_STAGING: "1"
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: ""
+    ports: ["127.0.0.1:14311:3310"]
+    depends_on:
+      postgres: {condition: service_healthy}
+    networks: [genora-dev-net]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3310/api/health >/dev/null || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+
+  support-worker:
+    image: genora-app:dev
+    container_name: genora-dev-support-worker
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      SUPPORT_WORKER_URL: http://app:3310/api/internal/support/process
+    command: ["node", "scripts/support-worker.mjs"]
+    depends_on:
+      app: {condition: service_healthy}
+    networks: [genora-dev-net]
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+
+volumes:
+  genora-dev-pg:
+networks:
+  genora-dev-net:
+    name: genora-dev-net

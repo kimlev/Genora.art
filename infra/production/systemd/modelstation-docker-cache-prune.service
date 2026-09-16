@@ -1,0 +1,10 @@
+[Unit]
+Description=Prune unused Genora.art Docker build cache older than three days
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/genora-docker-cache-prune
+Nice=10
+IOSchedulingClass=idle
