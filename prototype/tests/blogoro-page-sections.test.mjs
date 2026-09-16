@@ -111,6 +111,7 @@ test("all seven pages render the server SEO slot instead of old placeholder arti
     "src/app/[locale]/songs/page.tsx",
   ].map((file) => readFileSync(path.join(root, file), "utf8"));
   const gallery = readFileSync(path.join(root, "src/components/catalog/studio-gallery-page.tsx"), "utf8");
+  const slot = readFileSync(path.join(root, "src/components/catalog/blogoro-seo-article-slot.tsx"), "utf8");
   const placeholder = readFileSync(path.join(root, "src/components/catalog/seo-article-placeholder.tsx"), "utf8");
   const oldClients = [
     "src/components/pricing/pricing-page-content.tsx",
@@ -128,6 +129,8 @@ test("all seven pages render the server SEO slot instead of old placeholder arti
   assert.match(placeholder, /data-blogoro-placeholder="true"/);
   assert.match(placeholder, /СЕО статья/);
   assert.match(placeholder, /Artículo SEO/);
+  assert.match(slot, /if \(IS_STAGING\) return <SeoArticlePlaceholder locale=\{locale\} \/>/);
+  assert.doesNotMatch(slot, /<SeoArticle articleId=/);
   assert.doesNotMatch(gallery, /<SeoArticle|history\.pushState/);
   assert.match(gallery, /router\.push\(hrefForTab\(next\)\)/);
 });
