@@ -1534,6 +1534,11 @@ export const en: Dictionary = {
       more: "Learn more",
       reject: "Decline",
       accept: "Accept",
+      settings: "Cookie settings",
+      customize: "Customize",
+      save: "Save choices",
+      analytics: "Analytics",
+      advertising: "Advertising and personalization",
     },
   },
   support: {

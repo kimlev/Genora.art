@@ -67,7 +67,7 @@ export function SiteShell({ children }: SiteShellProps) {
     return <>{children}</>;
   }
   if (isAuthPage) {
-    return <>{children}<GoogleAnalytics /></>;
+    return <>{children}<GoogleAnalytics /><CookieConsent /></>;
   }
 
   const sidebar = isProfile || isAuthenticatedSupport ? (

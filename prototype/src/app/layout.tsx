@@ -4,6 +4,7 @@ import { getLocaleOption } from "@/lib/i18n";
 import { resolveRequestLocale } from "@/lib/locale-from-request";
 import { LOCALE_COOKIE, LOCALE_HEADER, SITE_NAME, seoCopy, siteJsonLd } from "@/lib/seo";
 import { IS_STAGING, publicSiteUrl } from "@/lib/site-env";
+import { GOOGLE_CONSENT_BOOTSTRAP } from "@/lib/cookie-consent";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies, headers } from "next/headers";
@@ -78,6 +79,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: GOOGLE_CONSENT_BOOTSTRAP }} />
+      </head>
       <body className="flex min-h-full flex-col bg-bg text-text">
         <script
           type="application/ld+json"

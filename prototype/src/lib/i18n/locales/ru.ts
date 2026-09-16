@@ -1534,6 +1534,11 @@ export const ru: Dictionary = {
       more: "Подробнее",
       reject: "Отказаться",
       accept: "Согласиться",
+      settings: "Настройки cookies",
+      customize: "Настроить",
+      save: "Сохранить выбор",
+      analytics: "Аналитика",
+      advertising: "Реклама и персонализация",
     },
   },
   support: {

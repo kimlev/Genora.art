@@ -5,6 +5,7 @@ import { BrandWordmark } from "@/components/layout/brand-wordmark";
 import { ShieldCheck } from "lucide-react";
 import { Link } from "@/components/ui/locale-link";
 import { usePublicContactEmail } from "@/components/layout/use-public-contact-email";
+import { CONSENT_OPEN_EVENT } from "@/lib/cookie-consent";
 
 const productLinks = [
   { href: "/models", labelKey: "models" as const },
@@ -113,6 +114,15 @@ export function SiteFooter() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <button
+                  type="button"
+                  className="text-sm text-steel transition-colors hover:text-text"
+                  onClick={() => window.dispatchEvent(new Event(CONSENT_OPEN_EVENT))}
+                >
+                  {t.legal.consent.settings ?? t.legal.consent.dialogLabel}
+                </button>
+              </li>
             </ul>
           </div>
         </div>

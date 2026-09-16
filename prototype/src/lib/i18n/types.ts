@@ -388,6 +388,11 @@ export type LegalDictionary = {
     more: string;
     reject: string;
     accept: string;
+    settings?: string;
+    customize?: string;
+    save?: string;
+    analytics?: string;
+    advertising?: string;
   };
 };
 
