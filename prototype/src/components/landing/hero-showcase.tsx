@@ -98,7 +98,7 @@ function ImagesCard({ onNavigate, copy, badges, title, description }: { onNaviga
       onClick={() => onNavigate("#image-generation")}
       onKeyDown={(event) => activateWithKeyboard(event, () => onNavigate("#image-generation"))}
       role="link"
-      className="group relative min-h-[230px] cursor-pointer overflow-hidden rounded-[26px] genora-hero-card border border-border bg-surface p-6 text-[#6b4d14] shadow-[0_22px_55px_-38px_rgba(171,116,13,0.55)] outline-none ring-offset-2 ring-offset-bg transition-[border-color,box-shadow] hover:border-[#dba33c] hover:shadow-[0_26px_70px_-35px_rgba(191,126,13,0.62)] focus-visible:ring-2 focus-visible:ring-[#d39b31] sm:col-span-7 lg:col-span-8"
+      className="genora-hero-card group relative min-h-[230px] cursor-pointer overflow-hidden rounded-[26px] border border-[#efd59f] bg-[linear-gradient(135deg,#fff7df_0%,#ffedc0_100%)] p-6 text-[#6b4d14] shadow-[0_22px_55px_-38px_rgba(171,116,13,0.55)] outline-none ring-offset-2 ring-offset-bg transition-[border-color,box-shadow] hover:border-[#dba33c] hover:shadow-[0_26px_70px_-35px_rgba(191,126,13,0.62)] focus-visible:ring-2 focus-visible:ring-[#d39b31] sm:col-span-7 lg:col-span-8"
     >
       <div className="pointer-events-none absolute -left-16 -top-20 size-56 rounded-full bg-white/35 blur-2xl transition-transform duration-700 group-hover:translate-x-16 group-hover:translate-y-8 group-focus:translate-x-16 group-focus:translate-y-8" />
       <span aria-hidden className="pointer-events-none absolute -right-10 -top-12 size-36 rounded-full bg-[#FF6F00]/12 transition-transform duration-700 ease-out group-hover:-translate-x-10 group-hover:translate-y-7 group-focus:-translate-x-10 group-focus:translate-y-7" />
@@ -136,25 +136,25 @@ function TextCard({ onNavigate, copy, title }: { onNavigate: Navigate; copy: Her
       onClick={() => onNavigate("#demo")}
       onKeyDown={(event) => activateWithKeyboard(event, () => onNavigate("#demo"))}
       role="link"
-      className="group relative min-h-[230px] cursor-pointer overflow-hidden rounded-[26px] genora-hero-card border border-border bg-surface p-6 text-[#163d58] shadow-[0_22px_55px_-38px_rgba(23,127,170,0.6)] outline-none ring-offset-2 ring-offset-bg transition-[border-color,box-shadow] hover:border-[#55b9df] hover:shadow-[0_26px_70px_-35px_rgba(23,127,170,0.58)] focus-visible:ring-2 focus-visible:ring-[#36a7d4] sm:col-span-6 lg:col-span-5"
+      className="genora-hero-card group relative min-h-[230px] cursor-pointer overflow-hidden rounded-[26px] border border-[#9ad5ea] bg-[linear-gradient(135deg,#dff5ff_0%,#bce8f8_100%)] p-6 text-[#163d58] shadow-[0_22px_55px_-38px_rgba(23,127,170,0.6)] outline-none ring-offset-2 ring-offset-bg transition-[border-color,box-shadow] hover:border-[#55b9df] hover:shadow-[0_26px_70px_-35px_rgba(23,127,170,0.58)] focus-visible:ring-2 focus-visible:ring-[#36a7d4] sm:col-span-6 lg:col-span-5"
     >
       <div className="relative flex min-h-[180px] items-center justify-center transition-all duration-300 group-hover:-translate-y-3 group-hover:opacity-0 group-focus-visible:-translate-y-3 group-focus-visible:opacity-0">
         <div className="text-center">
-          <span className="mx-auto inline-flex size-12 items-center justify-center rounded-2xl bg-white text-[#FF6F00] shadow-[0_12px_28px_-15px_rgba(36,111,236,0.85)]">
+          <span className="genora-card-accent mx-auto inline-flex size-12 items-center justify-center rounded-2xl bg-white text-[#347cff] shadow-[0_12px_28px_-15px_rgba(36,111,236,0.85)]">
             <MessageSquare className="size-5" />
           </span>
-          <h2 className="mt-4 text-[22px] font-bold text-[#FF6F00]">{title}</h2>
+          <h2 className="genora-card-accent mt-4 text-[22px] font-bold text-[#347cff]">{title}</h2>
           <p className="mt-2 text-[14px] font-semibold">{copy.textSubtitle}</p>
           <p className="mt-1 text-[12px] text-[#4f7186]">{copy.textExtra}</p>
         </div>
       </div>
 
       <div className="absolute inset-0 flex flex-col justify-center gap-2.5 p-5 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden>
-        <div className="translate-y-2 self-end rounded-[16px_16px_4px_16px] bg-[#FF6F00] px-3.5 py-2 text-[12px] font-medium text-white opacity-0 shadow-sm transition-all delay-75 duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+        <div className="genora-card-accent-bg translate-y-2 self-end rounded-[16px_16px_4px_16px] bg-[#347cff] px-3.5 py-2 text-[12px] font-medium text-white opacity-0 shadow-sm transition-all delay-75 duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
           {copy.textQuestion}
         </div>
         <div className="flex translate-y-2 items-start gap-2 opacity-0 transition-all delay-300 duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-          <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-white text-[#FF6F00] shadow-sm"><Bot className="size-3.5" /></span>
+          <span className="genora-card-accent inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-white text-[#347cff] shadow-sm"><Bot className="size-3.5" /></span>
           <div className="rounded-[4px_16px_16px_16px] bg-white/90 px-3.5 py-2 text-[12px] leading-relaxed text-[#25455b] shadow-sm">
             {copy.textAnswer}
           </div>
@@ -171,16 +171,16 @@ function VideoCard({ onOpen, onNavigate, copy }: { onOpen: () => void; onNavigat
       onClick={() => onNavigate("#video")}
       onKeyDown={(event) => activateWithKeyboard(event, () => onNavigate("#video"))}
       role="link"
-      className="group relative min-h-[230px] cursor-pointer overflow-hidden rounded-[26px] genora-hero-card border border-border bg-surface p-6 text-left text-[#145f4b] shadow-[0_22px_55px_-38px_rgba(18,163,122,0.55)] outline-none ring-offset-2 ring-offset-bg transition-[border-color,box-shadow] hover:border-[#FF6F00] hover:shadow-[0_26px_70px_-35px_rgba(18,163,122,0.58)] focus-visible:ring-2 focus-visible:ring-[#FF6F00] sm:col-span-6 lg:col-span-7"
+      className="genora-hero-card group relative min-h-[230px] cursor-pointer overflow-hidden rounded-[26px] border border-[#8ed4bb] bg-[linear-gradient(135deg,#e8faf3_0%,#ccefe3_100%)] p-6 text-left text-[#145f4b] shadow-[0_22px_55px_-38px_rgba(18,163,122,0.55)] outline-none ring-offset-2 ring-offset-bg transition-[border-color,box-shadow] hover:border-[#12a37a] hover:shadow-[0_26px_70px_-35px_rgba(18,163,122,0.58)] focus-visible:ring-2 focus-visible:ring-[#12a37a] sm:col-span-6 lg:col-span-7"
       aria-label={copy.videoNav}
     >
-      <span aria-hidden className="pointer-events-none absolute -left-14 -top-16 size-40 rounded-full bg-[#FF6F00]/13 transition-transform duration-700 ease-out group-hover:translate-x-12 group-hover:translate-y-8 group-focus:translate-x-12 group-focus:translate-y-8" />
+      <span aria-hidden className="genora-card-decoration pointer-events-none absolute -left-14 -top-16 size-40 rounded-full bg-[#12a37a]/13 transition-transform duration-700 ease-out group-hover:translate-x-12 group-hover:translate-y-8 group-focus:translate-x-12 group-focus:translate-y-8" />
       <span aria-hidden className="pointer-events-none absolute -bottom-12 left-[28%] size-28 rounded-full bg-white/58 transition-transform duration-700 ease-out group-hover:translate-x-16 group-hover:-translate-y-7 group-focus:translate-x-16 group-focus:-translate-y-7" />
       <div className="relative z-10 max-w-[52%] transition-all duration-300 group-hover:-translate-x-3 group-hover:opacity-0 group-focus:-translate-x-3 group-focus:opacity-0">
-        <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-white/80 text-[#FF6F00] shadow-[0_12px_28px_-16px_rgba(18,163,122,0.72)]">
+        <span className="genora-card-accent inline-flex size-11 items-center justify-center rounded-2xl bg-white/80 text-[#0d7a5b] shadow-[0_12px_28px_-16px_rgba(18,163,122,0.72)]">
           <Play className="size-5 fill-current" />
         </span>
-        <h2 className="mt-4 text-[22px] font-bold tracking-[-0.02em] text-[#FF6F00]">{copy.videoTitle}</h2>
+        <h2 className="genora-card-accent mt-4 text-[22px] font-bold tracking-[-0.02em] text-[#0d7a5b]">{copy.videoTitle}</h2>
         <p className="mt-2 text-[14px] font-semibold leading-snug">{copy.videoDescription}</p>
         <p className="mt-1 text-[12px] leading-relaxed text-[#4d7d6f]">{copy.videoExtra}</p>
       </div>

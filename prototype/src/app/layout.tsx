@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: defaultCopy.title,
     description: defaultCopy.description,
     url: publicSiteUrl("/"),
-    images: [{ url: "/favicon/genora-icon.png", width: 512, height: 512, alt: SITE_NAME }],
+    images: [{ url: "/favicon/genora-icon.png?v=2", width: 512, height: 512, alt: SITE_NAME }],
   },
   twitter: {
     card: "summary_large_image",
@@ -46,10 +46,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon/genora-icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon/genora-icon.png?v=2", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/favicon/genora-icon.png",
-    apple: "/favicon/genora-icon.png",
+    shortcut: "/favicon/genora-icon.png?v=2",
+    apple: "/favicon/apple-touch-icon.png?v=2",
   },
 };
 

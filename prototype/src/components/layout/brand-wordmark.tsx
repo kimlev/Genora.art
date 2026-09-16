@@ -6,13 +6,25 @@ type BrandWordmarkProps = {
 };
 
 export function BrandWordmark({ className, theme }: BrandWordmarkProps) {
+  const imageClassName = "h-auto max-h-9 w-full object-contain object-left";
+
   return (
     <span
       className={cn("inline-flex h-9 w-[180px] items-center", className)}
       aria-label="Genora.art"
     >
-      <img src="/brand/genora-logo-light.svg" alt="Genora.art" className={cn("h-auto max-h-9 w-full object-contain object-left", theme === "dark" ? "hidden" : theme === "light" ? "block" : "block dark:hidden")} />
-      <img src="/brand/genora-logo-dark.svg" alt="Genora.art" className={cn("h-auto max-h-9 w-full object-contain object-left", theme === "dark" ? "block" : theme === "light" ? "hidden" : "hidden dark:block")} />
+      {theme ? (
+        <img
+          src={theme === "dark" ? "/brand/genora-logo-dark.svg?v=2" : "/brand/genora-logo-light.svg?v=2"}
+          alt="Genora.art"
+          className={imageClassName}
+        />
+      ) : (
+        <>
+          <img src="/brand/genora-logo-light.svg?v=2" alt="Genora.art" className={cn(imageClassName, "block dark:hidden")} />
+          <img src="/brand/genora-logo-dark.svg?v=2" alt="Genora.art" className={cn(imageClassName, "hidden dark:block")} />
+        </>
+      )}
     </span>
   );
 }
