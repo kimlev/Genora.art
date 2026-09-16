@@ -93,7 +93,7 @@ function RegistrationBonusSettings() {
     setSaving(false);
   };
 
-  if (loading) return <div className="grid min-h-24 place-items-center"><Loader2 className="size-6 animate-spin text-blue-400" /></div>;
+  if (loading) return <div className="grid min-h-24 place-items-center"><Loader2 className="size-6 animate-spin text-orange-400" /></div>;
 
   return (
     <div className="max-w-xl">
@@ -107,7 +107,7 @@ function RegistrationBonusSettings() {
           step={1}
           value={thousands}
           onChange={(event) => setThousands(event.target.value)}
-          className="h-11 w-32 rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-950 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+          className="h-11 w-32 rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-950 outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
         />
         <span className="text-sm text-slate-600 dark:text-slate-400">K токенов</span>
       </div>
@@ -115,12 +115,12 @@ function RegistrationBonusSettings() {
         type="button"
         disabled={saving}
         onClick={() => void save()}
-        className="mt-5 inline-flex h-10 items-center gap-2 rounded-xl bg-blue-600 px-4 text-xs font-semibold text-white disabled:opacity-50"
+        className="mt-5 inline-flex h-10 items-center gap-2 rounded-xl bg-orange-600 px-4 text-xs font-semibold text-white disabled:opacity-50"
       >
         {saving ? <Loader2 className="size-4 animate-spin" /> : null}
         Сохранить
       </button>
-      {message ? <p className="mt-3 text-xs text-blue-700 dark:text-blue-300">{message}</p> : null}
+      {message ? <p className="mt-3 text-xs text-orange-700 dark:text-orange-300">{message}</p> : null}
     </div>
   );
 }
@@ -179,11 +179,11 @@ function WelcomeBonusSettings() {
         ))}
       </div>
       <p className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">Сумма: {withCreditGlyphs(formatWelcomeTokens(welcomeBonusTotal(config)))}</p>
-      <button type="button" disabled={saving} onClick={() => void save()} className="mt-4 inline-flex h-10 items-center gap-2 rounded-xl bg-blue-600 px-4 text-xs font-semibold text-white disabled:opacity-50">
+      <button type="button" disabled={saving} onClick={() => void save()} className="mt-4 inline-flex h-10 items-center gap-2 rounded-xl bg-orange-600 px-4 text-xs font-semibold text-white disabled:opacity-50">
         {saving ? <Loader2 className="size-4 animate-spin" /> : null}
         Сохранить
       </button>
-      {message ? <p className="mt-3 text-xs text-blue-700 dark:text-blue-300">{message}</p> : null}
+      {message ? <p className="mt-3 text-xs text-orange-700 dark:text-orange-300">{message}</p> : null}
       <div className="mt-5 space-y-2">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Логи изменений</p>
         {logs.length === 0 ? <p className="text-xs text-slate-500">Пока нет записей</p> : logs.map((log) => (
@@ -214,12 +214,12 @@ const TYPE_LABELS: Record<string, string> = { chat: "текст", image: "изо
 const STATUS_LABELS: Record<AdminRequest["status"], string> = { success: "успех", running: "выполняется", error: "ошибка" };
 const STATUS_PILL: Record<AdminRequest["status"], string> = {
   success: "bg-emerald-100 text-emerald-800",
-  running: "bg-blue-100 text-blue-800",
+  running: "bg-orange-100 text-orange-900",
   error: "bg-rose-100 text-rose-800",
 };
 const STATUS_SWATCH: Record<AdminRequest["status"], string> = {
   success: "bg-emerald-500",
-  running: "bg-blue-500",
+  running: "bg-orange-500",
   error: "bg-rose-500",
 };
 function lastThreeDays() {

@@ -238,7 +238,7 @@ export function AdminPricingMultipliers() {
                     type="button"
                     disabled={busy || !provider.items.length}
                     onClick={() => applyToModels(provider.id, providerValues[provider.id] ?? "")}
-                    className="text-xs text-sky-600 hover:text-sky-700 disabled:opacity-40"
+                    className="text-xs text-orange-600 hover:text-orange-700 disabled:opacity-40"
                   >
                     Применить ко всем
                   </button>

@@ -32,7 +32,7 @@ export function AdminCountryPicker({ value, onChange }: { value: string[]; onCha
         <X className="size-3 text-slate-500" aria-label={`Убрать ${option.name}`} />
       </button>)}
       <button type="button" onClick={() => setOpen(true)} aria-label="Добавить страну"
-        className="grid size-8 place-items-center rounded-full border border-slate-300 bg-white text-slate-700 hover:border-blue-400 hover:text-blue-600 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200">
+        className="grid size-8 place-items-center rounded-full border border-slate-300 bg-white text-slate-700 hover:border-orange-400 hover:text-orange-600 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200">
         <CirclePlus className="size-4" />
       </button>
     </div>
@@ -54,7 +54,7 @@ export function AdminCountryPicker({ value, onChange }: { value: string[]; onCha
             <button type="button" onClick={() => toggle(option.code)}
               className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs ${
                 checked
-                  ? "bg-blue-500 text-white"
+                  ? "bg-orange-500 text-white"
                   : "text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
               }`}>
               <span aria-hidden className="w-5 text-center">{checked ? "✓" : option.flag}</span>

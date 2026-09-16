@@ -100,7 +100,7 @@ export function AdminSelect({
                   onClick={() => pick(option.value)}
                   className={cn(
                     "flex w-full items-start gap-2 rounded-lg px-2.5 py-2 text-left text-xs normal-case",
-                    option.value === value ? "bg-blue-50 text-slate-900 dark:bg-blue-500/15 dark:text-slate-100" : "text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800",
+                    option.value === value ? "bg-orange-50 text-slate-900 dark:bg-orange-500/15 dark:text-slate-100" : "text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800",
                   )}
                 >
                   {"icon" in option && option.icon ? <span className="grid size-5 shrink-0 place-items-center">{option.icon}</span> : null}
@@ -111,7 +111,7 @@ export function AdminSelect({
                       ? <span className="block truncate text-[10px] text-slate-500">{option.hint}</span>
                       : null}
                   </span>
-                  {option.value === value ? <Check className="mt-0.5 size-3.5 shrink-0 text-blue-400" /> : null}
+                  {option.value === value ? <Check className="mt-0.5 size-3.5 shrink-0 text-orange-400" /> : null}
                 </button>
               </li>
             ))}

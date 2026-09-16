@@ -151,7 +151,7 @@ export function AdminPayments() {
     <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
       <p className="min-w-0 flex-1 text-xs text-slate-500">Секретные ключи провайдеров в браузер не отдаются: в админке настраиваются регион, методы оплаты и комиссия. Ссылку на оплату пропишет интеграция.</p>
       <button type="button" onClick={() => { setEditingMethod(null); setEditingId(null); setForm(form && !editingId ? null : { ...emptyForm }); }} disabled={busy}
-        className="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-500 px-4 text-xs font-semibold text-white disabled:opacity-50">
+        className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-500 px-4 text-xs font-semibold text-white disabled:opacity-50">
         <Plus className="size-4" />{form && !editingId ? "Скрыть форму" : "Добавить"}
       </button>
     </div>
@@ -329,10 +329,10 @@ function ProviderForm({ form, methods, busy, editing, onChange, onSave, onCancel
           return <button key={method.id} type="button"
             onClick={() => set("methodIds", checked ? form.methodIds.filter((id) => id !== method.id) : [...form.methodIds, method.id])}
             className={cn("inline-flex items-center gap-2 rounded-full border py-1 pl-1 pr-3 text-xs",
-              checked ? "border-blue-500 bg-blue-500/15 text-slate-100" : "border-slate-700 bg-slate-900 text-slate-300")}>
+              checked ? "border-orange-500 bg-orange-500/15 text-slate-100" : "border-slate-700 bg-slate-900 text-slate-300")}>
             <MethodLogo method={method} />{method.name}
             <MethodRegion method={method} />
-            {checked ? <Check className="size-3.5 text-blue-300" /> : null}
+            {checked ? <Check className="size-3.5 text-orange-300" /> : null}
           </button>;
         })}
         <button type="button" onClick={() => setAdding((value) => !value)}
@@ -402,30 +402,30 @@ function ProviderForm({ form, methods, busy, editing, onChange, onSave, onCancel
       </div> : null}
       <div className="inline-flex h-9 w-max items-center rounded-full border border-slate-300 bg-white p-0.5 dark:border-slate-600 dark:bg-slate-900">
         <button type="button" onClick={() => set("feePayer", "client")}
-          className={cn("h-8 rounded-full px-3 text-xs font-medium", form.feePayer === "client" ? "bg-blue-500 text-white" : "text-slate-800 dark:text-slate-100")}>Платит клиент</button>
+          className={cn("h-8 rounded-full px-3 text-xs font-medium", form.feePayer === "client" ? "bg-orange-500 text-white" : "text-slate-800 dark:text-slate-100")}>Платит клиент</button>
         <button type="button" onClick={() => set("feePayer", "merchant")}
-          className={cn("h-8 rounded-full px-3 text-xs font-medium", form.feePayer === "merchant" ? "bg-blue-500 text-white" : "text-slate-800 dark:text-slate-100")}>Платит магазин</button>
+          className={cn("h-8 rounded-full px-3 text-xs font-medium", form.feePayer === "merchant" ? "bg-orange-500 text-white" : "text-slate-800 dark:text-slate-100")}>Платит магазин</button>
       </div>
     </fieldset>
 
     <div className="flex flex-wrap items-end gap-4">
       <label className="grid max-w-64 gap-1 text-xs text-slate-300">
         <span className="inline-flex items-center gap-2">
-          <input type="checkbox" checked={form.enabled} onChange={(event) => set("enabled", event.target.checked)} className="size-4 accent-blue-500" />
+          <input type="checkbox" checked={form.enabled} onChange={(event) => set("enabled", event.target.checked)} className="size-4 accent-orange-500" />
           Включить сразу
         </span>
         <span className="text-[10px] text-slate-500">Провайдер начинает работать. Без галочки он сохранится черновиком и платежи через него не пойдут.</span>
       </label>
       <label className="grid max-w-64 gap-1 text-xs text-slate-300">
         <span className="inline-flex items-center gap-2">
-          <input type="checkbox" checked={form.clientVisible} onChange={(event) => set("clientVisible", event.target.checked)} className="size-4 accent-blue-500" />
+          <input type="checkbox" checked={form.clientVisible} onChange={(event) => set("clientVisible", event.target.checked)} className="size-4 accent-orange-500" />
           Показывать клиентам
         </span>
         <span className="text-[10px] text-slate-500">Провайдер появляется у клиентов при пополнении. Нужны обе галочки: с одной он останется невидимым.</span>
       </label>
       <div className="ml-auto flex gap-2">
         <button type="button" onClick={onCancel} className="h-10 rounded-xl border border-slate-700 px-4 text-xs text-slate-300">Отмена</button>
-        <button type="submit" disabled={busy} className="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-500 px-5 text-xs font-semibold text-white disabled:opacity-40">
+        <button type="submit" disabled={busy} className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-500 px-5 text-xs font-semibold text-white disabled:opacity-40">
           {busy ? <Loader2 className="size-4 animate-spin" /> : editing ? <Pencil className="size-4" /> : <Plus className="size-4" />}{editing ? "Сохранить" : "Добавить провайдера"}
         </button>
       </div>
@@ -481,7 +481,7 @@ function MethodEditForm({ method, busy, onSave, onCancel, onError }: {
     </fieldset>
     <div className="flex justify-end gap-2">
       <button type="button" onClick={onCancel} className="h-10 rounded-xl border border-slate-700 px-4 text-xs text-slate-300">Отмена</button>
-      <button type="submit" disabled={busy || name.trim().length < 2} className="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-500 px-5 text-xs font-semibold text-white disabled:opacity-40">
+      <button type="submit" disabled={busy || name.trim().length < 2} className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-500 px-5 text-xs font-semibold text-white disabled:opacity-40">
         {busy ? <Loader2 className="size-4 animate-spin" /> : <Pencil className="size-4" />}Сохранить метод
       </button>
     </div>
@@ -490,7 +490,7 @@ function MethodEditForm({ method, busy, onSave, onCancel, onError }: {
 
 function Choice({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return <button type="button" onClick={onClick} aria-pressed={active}
-    className={cn("rounded-xl border px-3.5 py-1.5 text-xs font-medium", active ? "border-blue-500 bg-blue-500/15 text-slate-900 dark:text-slate-100" : "border-slate-300 bg-white text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100")}>
+    className={cn("rounded-xl border px-3.5 py-1.5 text-xs font-medium", active ? "border-orange-500 bg-orange-500/15 text-slate-900 dark:text-slate-100" : "border-slate-300 bg-white text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100")}>
     {children}
   </button>;
 }

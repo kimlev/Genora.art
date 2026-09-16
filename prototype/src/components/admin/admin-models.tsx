@@ -91,7 +91,7 @@ export function AdminModels() {
             }}
             className="min-w-48"
           />
-          <button type="button" onClick={apply} className="ml-auto inline-flex h-10 items-center rounded-xl bg-blue-500 px-5 text-xs font-semibold text-white">
+          <button type="button" onClick={apply} className="ml-auto inline-flex h-10 items-center rounded-xl bg-orange-500 px-5 text-xs font-semibold text-white">
             Применить
           </button>
         </div>

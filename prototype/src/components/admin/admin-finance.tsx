@@ -94,7 +94,7 @@ export function AdminFinance() {
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-7">
       {([
         ["Счетов, кол-во", moneyInt(kpis.invoiceCount), "border-slate-200/80 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50"],
-        ["Выставлено, USD", moneyUsd(kpis.issuedUsd), "border-sky-100 bg-sky-50 dark:border-sky-900/40 dark:bg-sky-950/30"],
+        ["Выставлено, USD", moneyUsd(kpis.issuedUsd), "border-orange-100 bg-orange-50 dark:border-orange-900/40 dark:bg-orange-950/30"],
         ["Оплачено, USD", moneyUsd(kpis.paidUsd), "border-emerald-100 bg-emerald-50 dark:border-emerald-900/40 dark:bg-emerald-950/30"],
         ["Конверсия, %", moneyPct(kpis.conversion), "border-teal-100 bg-teal-50 dark:border-teal-900/40 dark:bg-teal-950/30"],
         ["Зачислено, USD", moneyUsd(kpis.creditedUsd), "border-green-100 bg-green-50/80 dark:border-green-900/40 dark:bg-green-950/25"],

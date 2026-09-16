@@ -13,7 +13,7 @@ type Mailbox = { id: string; email: string; provider: string; providerLabel: str
 
 const statusLabels = { new: "Новое", in_progress: "В работе", requires_human: "Требуется сотрудник" } as const;
 const statusStyles = {
-  new: "bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-200",
+  new: "bg-orange-100 text-orange-900 dark:bg-orange-500/20 dark:text-orange-200",
   in_progress: "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-200",
   requires_human: "bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-200",
 } as const;
@@ -235,17 +235,17 @@ export function AdminSupport() {
     }
   };
 
-  if (loading) return <div className="grid min-h-72 place-items-center"><Loader2 className="size-6 animate-spin text-blue-400"/></div>;
+  if (loading) return <div className="grid min-h-72 place-items-center"><Loader2 className="size-6 animate-spin text-orange-400"/></div>;
 
   return <>
     <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-      <button type="button" onClick={() => openMailboxForm()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-600 px-4 text-xs font-semibold text-white">
+      <button type="button" onClick={() => openMailboxForm()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-600 px-4 text-xs font-semibold text-white">
         <Plus className="size-4"/>Подключить почту
       </button>
       <div className="flex flex-wrap items-center gap-2">
         <label className="text-xs font-medium text-slate-600 dark:text-slate-400">
           Почта
-          <select value={filterInbox} onChange={(event) => setFilterInbox(event.target.value)} className="ml-2 h-10 rounded-xl border border-slate-300 bg-white px-3 text-xs text-slate-900 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
+          <select value={filterInbox} onChange={(event) => setFilterInbox(event.target.value)} className="ml-2 h-10 rounded-xl border border-slate-300 bg-white px-3 text-xs text-slate-900 outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
             <option value="">Все подключённые</option>
             {mailboxes.map((mailbox) => <option key={mailbox.id} value={mailbox.email}>{mailbox.email}</option>)}
           </select>
@@ -258,9 +258,9 @@ export function AdminSupport() {
       <div className="mb-4 flex flex-wrap gap-2">
         {mailboxes.map((mailbox) => (
           <div key={mailbox.id} className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
-            <Mail className="size-3.5 text-blue-600"/>
+            <Mail className="size-3.5 text-orange-600"/>
             <span className="font-medium">{mailbox.email}</span>
-            {mailbox.isPrimary ? <span className="rounded-full bg-blue-100 px-1.5 py-0.5 text-[10px] font-semibold text-blue-700 dark:bg-blue-500/20 dark:text-blue-200">Главная</span> : null}
+            {mailbox.isPrimary ? <span className="rounded-full bg-orange-100 px-1.5 py-0.5 text-[10px] font-semibold text-orange-700 dark:bg-orange-500/20 dark:text-orange-200">Главная</span> : null}
             {mailbox.isAuth ? <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200">2ФА</span> : null}
             <span className="text-slate-500">{mailbox.providerLabel}</span>
             <button type="button" aria-label={`Редактировать ${mailbox.email}`} onClick={() => openMailboxForm(mailbox)} className="grid size-7 place-items-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"><Pencil className="size-3.5"/></button>
@@ -270,7 +270,7 @@ export function AdminSupport() {
         ))}
       </div>
     ) : <p className="mb-4 text-xs text-slate-500">Подключённых почт пока нет. Новые письма не будут попадать в обращения.</p>}
-    {message && !selected ? <p className="mb-3 text-xs text-blue-700 dark:text-blue-300">{message}</p> : null}
+    {message && !selected ? <p className="mb-3 text-xs text-orange-700 dark:text-orange-300">{message}</p> : null}
 
     <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/60">
       <table className="w-full min-w-[860px] border-collapse">
@@ -283,7 +283,7 @@ export function AdminSupport() {
           <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-500">Статус</th>
         </tr></thead>
         <tbody>{items.map((item) => <tr key={item.id} onClick={() => open(item)} className={`cursor-pointer border-t border-slate-200 text-xs text-slate-950 transition hover:bg-slate-50 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/55 ${item.readAt ? "font-normal" : "font-semibold"}`}>
-          <td className="px-4 py-3 font-semibold text-blue-700 dark:text-blue-300">{item.publicId}</td>
+          <td className="px-4 py-3 font-semibold text-orange-700 dark:text-orange-300">{item.publicId}</td>
           <td className="px-4 py-3">{item.inboxEmail || "—"}</td>
           <td className="px-4 py-3">{date(item.createdAt)}</td>
           <td className="px-4 py-3">{item.email}</td>
@@ -298,7 +298,7 @@ export function AdminSupport() {
       <section className="flex h-[min(92dvh,880px)] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white text-slate-950 shadow-2xl dark:border-slate-700 dark:bg-[#0b1626] dark:text-slate-100">
         <header className="shrink-0 flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 dark:border-slate-800">
           <div>
-            <p className="text-xs font-semibold text-blue-700 dark:text-blue-300">Обращение № {selected.publicId}</p>
+            <p className="text-xs font-semibold text-orange-700 dark:text-orange-300">Обращение № {selected.publicId}</p>
             <h2 className="mt-1 font-semibold">{selected.name} · {selected.email}</h2>
             <p className="mt-1 text-xs text-slate-600 dark:text-slate-500">{topicLabels[selected.topic] ?? selected.topic} · {date(selected.createdAt)}{selected.inboxEmail ? ` · на ${selected.inboxEmail}` : ""}</p>
           </div>
@@ -307,7 +307,7 @@ export function AdminSupport() {
               type="button"
               disabled={translating}
               onClick={() => void translate()}
-              className="inline-flex h-9 items-center gap-2 rounded-xl bg-blue-600 px-3 text-xs font-semibold text-white disabled:opacity-50"
+              className="inline-flex h-9 items-center gap-2 rounded-xl bg-orange-600 px-3 text-xs font-semibold text-white disabled:opacity-50"
             >
               {translating ? <Loader2 className="size-4 animate-spin"/> : <Languages className="size-4"/>}
               {translating ? "Перевод" : selected.translationRu ? (showTranslation ? "Оригинал" : "Показать перевод") : "Перевод"}
@@ -316,24 +316,24 @@ export function AdminSupport() {
           </div>
         </header>
         <div className="relative min-h-0 flex-1 overflow-hidden bg-slate-50/60 dark:bg-transparent">
-          <div className="h-full space-y-3 overflow-y-auto overscroll-contain p-5">{loadingDetail && !selected.messages.length ? <div className="grid min-h-40 place-items-center"><Loader2 className="size-5 animate-spin text-blue-400"/></div> : selected.messages.map((entry) => (
+          <div className="h-full space-y-3 overflow-y-auto overscroll-contain p-5">{loadingDetail && !selected.messages.length ? <div className="grid min-h-40 place-items-center"><Loader2 className="size-5 animate-spin text-orange-400"/></div> : selected.messages.map((entry) => (
             <div key={entry.id} className={`flex ${entry.direction === "outbound" ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[min(100%,42rem)] overflow-x-auto rounded-2xl px-4 py-3 ${entry.direction === "outbound" ? "bg-blue-600 text-white" : "border border-slate-200 bg-white text-black dark:border-transparent dark:bg-slate-900 dark:text-slate-200"}`}>
-                {entry.direction === "outbound" ? <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">{entry.content}</p> : <div className="email-body max-w-full overflow-x-auto break-words text-sm leading-relaxed [overflow-wrap:anywhere] [&_a]:text-blue-700 [&_a]:underline [&_img]:h-auto [&_img]:max-w-full [&_table]:w-full [&_td]:align-top" dangerouslySetInnerHTML={{ __html: renderEmailHtml(entry.content) }} />}
-                <p className={`mt-2 text-[10px] ${entry.direction === "outbound" ? "text-blue-100" : "text-slate-600 dark:text-slate-500"}`}>{entry.direction === "outbound" ? "Агент поддержки" : "Клиент"} · {date(entry.createdAt)}</p>
+              <div className={`max-w-[min(100%,42rem)] overflow-x-auto rounded-2xl px-4 py-3 ${entry.direction === "outbound" ? "bg-orange-600 text-white" : "border border-slate-200 bg-white text-black dark:border-transparent dark:bg-slate-900 dark:text-slate-200"}`}>
+                {entry.direction === "outbound" ? <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">{entry.content}</p> : <div className="email-body max-w-full overflow-x-auto break-words text-sm leading-relaxed [overflow-wrap:anywhere] [&_a]:text-orange-700 [&_a]:underline [&_img]:h-auto [&_img]:max-w-full [&_table]:w-full [&_td]:align-top" dangerouslySetInnerHTML={{ __html: renderEmailHtml(entry.content) }} />}
+                <p className={`mt-2 text-[10px] ${entry.direction === "outbound" ? "text-orange-100" : "text-slate-600 dark:text-slate-500"}`}>{entry.direction === "outbound" ? "Агент поддержки" : "Клиент"} · {date(entry.createdAt)}</p>
               </div>
             </div>
           ))}</div>
           {showTranslation && selected.translationRu ? (
             <div className="absolute inset-0 z-10 overflow-y-auto overscroll-contain bg-white/95 p-5 dark:bg-[#0b1626]/95">
               <div className="mx-auto max-w-[42rem] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-black dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
-                <div className="email-body max-w-full overflow-x-auto break-words text-sm leading-relaxed [overflow-wrap:anywhere] [&_a]:text-blue-700 [&_a]:underline" dangerouslySetInnerHTML={{ __html: renderEmailHtml(selected.translationRu) }} />
+                <div className="email-body max-w-full overflow-x-auto break-words text-sm leading-relaxed [overflow-wrap:anywhere] [&_a]:text-orange-700 [&_a]:underline" dangerouslySetInnerHTML={{ __html: renderEmailHtml(selected.translationRu) }} />
                 <p className="mt-2 text-[10px] text-slate-600 dark:text-slate-500">Переведено на русский{selected.translatedAt ? ` · ${date(selected.translatedAt)}` : ""}</p>
               </div>
             </div>
           ) : null}
         </div>
-        <div className="relative z-20 shrink-0 border-t border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-[#0b1626]"><label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-500">Ответ<textarea value={reply} onChange={(event) => setReply(event.target.value)} className="mt-2 min-h-32 w-full rounded-xl border border-slate-300 bg-white p-4 text-sm normal-case text-black outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white" placeholder="Подготовьте ответ вручную или через AI-агента"/></label>{selected.status === "requires_human" ? <p className="mt-3 rounded-xl bg-amber-100 px-3 py-2 text-xs font-medium text-amber-900 dark:bg-amber-500/15 dark:text-amber-200">AI-ответы остановлены. Обращение должен продолжить сотрудник.</p> : null}{message ? <p className="mt-3 text-xs text-blue-700 dark:text-blue-300">{message}</p> : null}<div className="mt-4 flex flex-wrap gap-3"><button onClick={() => void action("draft")} disabled={working || selected.status === "requires_human"} className="inline-flex h-10 items-center gap-2 rounded-xl border border-blue-600 px-4 text-xs font-semibold text-blue-700 disabled:opacity-50 dark:border-blue-500 dark:text-blue-300"><Sparkles className="size-4"/>Подготовить через AI</button><button onClick={() => void action("send")} disabled={working || !reply.trim()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-600 px-4 text-xs font-semibold text-white disabled:opacity-50">{working ? <Loader2 className="size-4 animate-spin"/> : <Send className="size-4"/>}Отправить письмо</button><span className="ml-auto inline-flex items-center gap-2 text-xs text-slate-600 dark:text-slate-500"><Mail className="size-4"/>{selected.email}</span></div></div>
+        <div className="relative z-20 shrink-0 border-t border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-[#0b1626]"><label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-500">Ответ<textarea value={reply} onChange={(event) => setReply(event.target.value)} className="mt-2 min-h-32 w-full rounded-xl border border-slate-300 bg-white p-4 text-sm normal-case text-black outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white" placeholder="Подготовьте ответ вручную или через AI-агента"/></label>{selected.status === "requires_human" ? <p className="mt-3 rounded-xl bg-amber-100 px-3 py-2 text-xs font-medium text-amber-900 dark:bg-amber-500/15 dark:text-amber-200">AI-ответы остановлены. Обращение должен продолжить сотрудник.</p> : null}{message ? <p className="mt-3 text-xs text-orange-700 dark:text-orange-300">{message}</p> : null}<div className="mt-4 flex flex-wrap gap-3"><button onClick={() => void action("draft")} disabled={working || selected.status === "requires_human"} className="inline-flex h-10 items-center gap-2 rounded-xl border border-orange-600 px-4 text-xs font-semibold text-orange-700 disabled:opacity-50 dark:border-orange-500 dark:text-orange-300"><Sparkles className="size-4"/>Подготовить через AI</button><button onClick={() => void action("send")} disabled={working || !reply.trim()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-600 px-4 text-xs font-semibold text-white disabled:opacity-50">{working ? <Loader2 className="size-4 animate-spin"/> : <Send className="size-4"/>}Отправить письмо</button><span className="ml-auto inline-flex items-center gap-2 text-xs text-slate-600 dark:text-slate-500"><Mail className="size-4"/>{selected.email}</span></div></div>
       </section>
     </div> : null}
 
@@ -347,29 +347,29 @@ export function AdminSupport() {
           <button type="button" aria-label="Закрыть" onClick={() => setFormOpen(false)} className="grid size-9 place-items-center rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"><X className="size-4"/></button>
         </div>
         <label className="mt-4 block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">Почта
-          <input value={formEmail} onChange={(event) => setFormEmail(event.target.value)} type="email" autoComplete="off" className="mt-2 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm normal-case text-slate-950 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white" placeholder="support@example.com"/>
+          <input value={formEmail} onChange={(event) => setFormEmail(event.target.value)} type="email" autoComplete="off" className="mt-2 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm normal-case text-slate-950 outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white" placeholder="support@example.com"/>
         </label>
         <label className="mt-3 block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">Пароль приложения
-          <input value={formPassword} onChange={(event) => setFormPassword(event.target.value)} type="password" autoComplete="new-password" className="mt-2 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm normal-case text-slate-950 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white" placeholder={editingId ? "Оставьте пустым, чтобы не менять" : "Пароль приложения"}/>
+          <input value={formPassword} onChange={(event) => setFormPassword(event.target.value)} type="password" autoComplete="new-password" className="mt-2 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm normal-case text-slate-950 outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white" placeholder={editingId ? "Оставьте пустым, чтобы не менять" : "Пароль приложения"}/>
         </label>
         <div className="mt-3 flex items-center justify-between gap-3">
           <span className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">Главная</span>
-          <Switch checked={formPrimary} onCheckedChange={setFormPrimary} className="data-checked:bg-blue-600" />
+          <Switch checked={formPrimary} onCheckedChange={setFormPrimary} className="data-checked:bg-orange-600" />
         </div>
         <div className="mt-3 flex items-center justify-between gap-3">
           <span className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">2ФА</span>
-          <Switch checked={formAuth} onCheckedChange={setFormAuth} className="data-checked:bg-blue-600" />
+          <Switch checked={formAuth} onCheckedChange={setFormAuth} className="data-checked:bg-orange-600" />
         </div>
         <p className="mt-2 text-[11px] leading-relaxed text-slate-500">Главной и 2ФА может быть только по одной почте. Главная — футер, документы и форма. 2ФА — письма регистрации и рассылки.</p>
         <label className="mt-3 block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">Провайдер
-          <select value={formProvider} onChange={(event) => setFormProvider(event.target.value as typeof SUPPORT_MAIL_PROVIDERS[number]["id"])} className="mt-2 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm normal-case text-slate-950 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
+          <select value={formProvider} onChange={(event) => setFormProvider(event.target.value as typeof SUPPORT_MAIL_PROVIDERS[number]["id"])} className="mt-2 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm normal-case text-slate-950 outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
             {SUPPORT_MAIL_PROVIDERS.map((provider) => <option key={provider.id} value={provider.id}>{provider.label}</option>)}
           </select>
         </label>
         {formError ? <p className="mt-3 text-xs text-red-600 dark:text-red-300">{formError}</p> : null}
         <div className="mt-5 flex justify-end gap-2">
           <button type="button" onClick={() => setFormOpen(false)} className="inline-flex h-10 items-center rounded-xl border border-slate-300 px-4 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-300">Отмена</button>
-          <button type="button" onClick={() => void saveMailbox()} disabled={savingMailbox} className="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-600 px-4 text-xs font-semibold text-white disabled:opacity-50">{savingMailbox ? <Loader2 className="size-4 animate-spin"/> : null}Сохранить</button>
+          <button type="button" onClick={() => void saveMailbox()} disabled={savingMailbox} className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-600 px-4 text-xs font-semibold text-white disabled:opacity-50">{savingMailbox ? <Loader2 className="size-4 animate-spin"/> : null}Сохранить</button>
         </div>
       </section>
     </div> : null}

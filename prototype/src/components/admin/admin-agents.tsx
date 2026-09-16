@@ -238,7 +238,7 @@ export function AdminAgents() {
   };
 
   if (loading && !items.length) {
-    return <div className="grid min-h-40 place-items-center"><Loader2 className="size-6 animate-spin text-blue-400" /></div>;
+    return <div className="grid min-h-40 place-items-center"><Loader2 className="size-6 animate-spin text-orange-400" /></div>;
   }
 
   if (editor) {
@@ -381,11 +381,11 @@ export function AdminAgents() {
                 className="min-h-64 rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 font-mono text-xs text-slate-100"
               />
             </label>
-            <button type="button" disabled={!canSave} onClick={() => void save()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-600 px-4 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400">
+            <button type="button" disabled={!canSave} onClick={() => void save()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-600 px-4 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400">
               {saving ? <Loader2 className="size-4 animate-spin" /> : null}
               Сохранить
             </button>
-            {message ? <p className="text-xs text-blue-300">{message}</p> : null}
+            {message ? <p className="text-xs text-orange-300">{message}</p> : null}
           </div>
         </div>
       </div>
@@ -400,7 +400,7 @@ export function AdminAgents() {
           <button
             type="button"
             onClick={() => { setKind("all"); setTagFilter("all"); }}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm ${kind === "all" ? "border-blue-500 bg-blue-500 text-white" : "border-slate-700 bg-slate-900 text-slate-400 hover:text-slate-100"}`}
+            className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm ${kind === "all" ? "border-orange-500 bg-orange-500 text-white" : "border-slate-700 bg-slate-900 text-slate-400 hover:text-slate-100"}`}
           >
             <LayoutGrid className="size-3.5" />
             Все агенты
@@ -412,7 +412,7 @@ export function AdminAgents() {
                 key={item}
                 type="button"
                 onClick={() => { setKind(item); setTagFilter("all"); }}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm ${kind === item ? "border-blue-500 bg-blue-500 text-white" : "border-slate-700 bg-slate-900 text-slate-400 hover:text-slate-100"}`}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm ${kind === item ? "border-orange-500 bg-orange-500 text-white" : "border-slate-700 bg-slate-900 text-slate-400 hover:text-slate-100"}`}
               >
                 <Icon className="size-3.5" />
                 {KIND_LABEL[item]}
@@ -422,9 +422,9 @@ export function AdminAgents() {
         </div>
         {kind !== "all" ? (
           <div className="flex flex-wrap gap-2 border-t border-slate-800 pt-3">
-            <button type="button" onClick={() => setTagFilter("all")} className={`rounded-full px-3 py-1.5 text-xs ${tagFilter === "all" ? "bg-blue-500/20 font-semibold text-blue-300" : "bg-slate-950 text-slate-400 hover:text-slate-100"}`}>Все теги</button>
+            <button type="button" onClick={() => setTagFilter("all")} className={`rounded-full px-3 py-1.5 text-xs ${tagFilter === "all" ? "bg-orange-500/20 font-semibold text-orange-300" : "bg-slate-950 text-slate-400 hover:text-slate-100"}`}>Все теги</button>
             {systemAgentTagOptions(kind).map((tag) => (
-              <button key={tag} type="button" onClick={() => setTagFilter(tag)} className={`rounded-full px-3 py-1.5 text-xs ${tagFilter === tag ? "bg-blue-500/20 font-semibold text-blue-300" : "bg-slate-950 text-slate-400 hover:text-slate-100"}`}>
+              <button key={tag} type="button" onClick={() => setTagFilter(tag)} className={`rounded-full px-3 py-1.5 text-xs ${tagFilter === tag ? "bg-orange-500/20 font-semibold text-orange-300" : "bg-slate-950 text-slate-400 hover:text-slate-100"}`}>
                 {TAG_LABEL[tag] ?? tag}
               </button>
             ))}

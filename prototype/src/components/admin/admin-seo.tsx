@@ -53,7 +53,7 @@ export function AdminSeo(){
     setSending(false);
   };
 
-  if(loading&&!data)return <div className="grid min-h-72 place-items-center"><Loader2 className="size-6 animate-spin text-blue-400"/></div>;
+  if(loading&&!data)return <div className="grid min-h-72 place-items-center"><Loader2 className="size-6 animate-spin text-orange-400"/></div>;
 
   return <div className="space-y-5">
     <div className="flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
@@ -108,10 +108,10 @@ export function AdminSeo(){
       {data?.indexNow.configured
         ?<p className="text-xs text-slate-400">Новые статьи блога уходят в Яндекс и Bing автоматически при публикации. Здесь можно отправить произвольные адреса — например, после правки посадочной страницы. Google этот протокол не поддерживает и берёт страницы из карты сайта.</p>
         :<Setup lines={["Ключ IndexNow не задан, автоматические уведомления отключены.","Задайте на сервере INDEXNOW_KEY: строка из латиницы, цифр и дефисов длиной от 8 символов."]}/>}
-      <textarea value={urls} onChange={(event)=>setUrls(event.target.value)} placeholder={"https://genora.art/ru/blog/статья\nhttps://genora.art/en/pricing"} className="min-h-28 w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-xs text-slate-100 outline-none focus:border-blue-500"/>
+      <textarea value={urls} onChange={(event)=>setUrls(event.target.value)} placeholder={"https://genora.art/ru/blog/статья\nhttps://genora.art/en/pricing"} className="min-h-28 w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-xs text-slate-100 outline-none focus:border-orange-500"/>
       <div className="flex flex-wrap items-center gap-3">
-        <button type="button" disabled={sending||!data?.indexNow.configured} onClick={()=>void submit()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-500 px-4 text-xs font-semibold text-white disabled:opacity-60">{sending?<Loader2 className="size-4 animate-spin"/>:<Send className="size-4"/>}Отправить</button>
-        {notice?<p className="text-xs text-blue-300">{notice}</p>:null}
+        <button type="button" disabled={sending||!data?.indexNow.configured} onClick={()=>void submit()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-500 px-4 text-xs font-semibold text-white disabled:opacity-60">{sending?<Loader2 className="size-4 animate-spin"/>:<Send className="size-4"/>}Отправить</button>
+        {notice?<p className="text-xs text-orange-300">{notice}</p>:null}
       </div>
     </Card>
   </div>;

@@ -166,7 +166,6 @@ html:not(.dark) .admin-shell {
   color: var(--text);
 }
 html:not(.dark) .admin-shell .bg-slate-950,
-html:not(.dark) .admin-shell .bg-\[\#07111f\]\/95 { background: color-mix(in oklab, var(--surface) 96%, transparent); }
 html:not(.dark) .admin-shell .bg-slate-900\/70,
 html:not(.dark) .admin-shell .bg-slate-900\/60,
 html:not(.dark) .admin-shell .bg-slate-900\/40,

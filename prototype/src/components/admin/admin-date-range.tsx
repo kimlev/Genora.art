@@ -39,7 +39,7 @@ export function AdminDateRange({
           {secondary}
         </div>
       ) : null}
-      <button type="button" disabled={loading || !from || !to} onClick={onApply} className="ml-auto h-10 rounded-xl bg-blue-500 px-4 text-xs font-semibold text-white disabled:opacity-60">
+      <button type="button" disabled={loading || !from || !to} onClick={onApply} className="ml-auto h-10 rounded-xl bg-orange-500 px-4 text-xs font-semibold text-white disabled:opacity-60">
         Показать
       </button>
     </div>
