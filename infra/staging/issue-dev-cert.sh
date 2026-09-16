@@ -3,9 +3,8 @@
 set -euo pipefail
 
 for name in dev.genora.art dev.admin.genora.art; do
-  ip="$(dig +short "$name" A | tail -n 1)"
-  if [ "$ip" != "66.29.130.39" ]; then
-    echo "DNS $name ещё не указывает на 66.29.130.39 (сейчас: ${ip:-пусто})" >&2
+  if ! dig +short "$name" A | grep -q .; then
+    echo "DNS $name ещё не опубликован" >&2
     exit 1
   fi
 done

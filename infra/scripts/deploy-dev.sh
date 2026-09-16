@@ -4,7 +4,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-HOST="genora-prod"
+HOST="kim-vps"
 REMOTE="/srv/apps/genora-art-dev"
 
 echo "==> rsync → $HOST:$REMOTE"
@@ -26,10 +26,9 @@ echo "==> поднимаем копию на сервере"
 ssh "$HOST" "bash -s" <<'EOF'
 set -euo pipefail
 cd /srv/apps/genora-art-dev
-bash infra/staging/prepare-env.sh
-bash infra/staging/update-env.sh
 bash infra/staging/apply-dev-nginx.sh /srv/apps/genora-art-dev
-cd /srv/apps/genora-art-dev/infra/staging
+cd /srv/apps/genora-art-dev/infra/genora-dev
+test -f .env
 docker compose up -d postgres
 for attempt in $(seq 1 30); do
   status="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' genora-dev-postgres 2>/dev/null || true)"
@@ -42,9 +41,6 @@ for attempt in $(seq 1 30); do
   fi
   sleep 2
 done
-if ! docker exec genora-dev-postgres psql -U genora -d genora_dev -tAc "SELECT to_regclass('public.users')" | grep -q users; then
-  bash /srv/apps/genora-art-dev/infra/staging/clone-prod-db.sh
-fi
 docker compose up -d --build app support-worker
 for attempt in $(seq 1 40); do
   status="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' genora-dev-app 2>/dev/null || true)"
