@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { useLocale, useT } from "@/components/providers/locale-provider";
-import { Link } from "@/components/ui/locale-link";
 import {
   CONSENT_CHANGE_EVENT,
   CONSENT_OPEN_EVENT,
@@ -12,7 +11,9 @@ import {
   serializeCookieConsent,
   type CookieConsentPreferences,
 } from "@/lib/cookie-consent";
+import { SITE_ORIGIN } from "@/lib/site-env";
 import { Check, Cookie, LockKeyhole, Settings2 } from "lucide-react";
+import NextLink from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 function subscribe(callback: () => void) {
@@ -90,7 +91,7 @@ export function CookieConsent() {
             <h2 className="text-base font-semibold text-white">{t.legal.consent.dialogLabel}</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-white/70">
               {t.legal.consent.text}{" "}
-              <Link href="/legal/privacy" className="font-medium text-[#FF6F00] underline underline-offset-4">{t.legal.consent.more}</Link>
+              <NextLink href={`${SITE_ORIGIN}/${locale}/legal/privacy`} className="font-medium text-[#FF6F00] underline underline-offset-4">{t.legal.consent.more}</NextLink>
             </p>
           </div>
         </div>
