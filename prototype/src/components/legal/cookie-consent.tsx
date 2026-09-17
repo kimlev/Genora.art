@@ -91,7 +91,7 @@ export function CookieConsent() {
             <h2 className="text-base font-semibold text-white">{t.legal.consent.dialogLabel}</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-white/70">
               {t.legal.consent.text}{" "}
-              <NextLink href={`${SITE_ORIGIN}/${locale}/legal/privacy`} className="font-medium text-[#FF6F00] underline underline-offset-4">{t.legal.consent.more}</NextLink>
+              <NextLink href={`${SITE_ORIGIN}/${locale}/legal/cookies`} className="font-medium text-[#FF6F00] underline underline-offset-4">{t.legal.consent.more}</NextLink>
             </p>
           </div>
         </div>

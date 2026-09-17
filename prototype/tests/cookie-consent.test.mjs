@@ -40,7 +40,7 @@ test("banner offers accept, reject, customize and later reopening", async () => 
   assert.match(banner, /copy\.customize/);
   assert.match(banner, /onClick=\{\(\) => setCustomizing\(true\)\}/);
   assert.match(banner, /onClick=\{\(\) => closeAfterSave\(draft\)\}/);
-  assert.match(banner, /href=\{`\$\{SITE_ORIGIN\}\/\$\{locale\}\/legal\/privacy`\}/);
+  assert.match(banner, /href=\{`\$\{SITE_ORIGIN\}\/\$\{locale\}\/legal\/cookies`\}/);
   assert.match(banner, /t\.legal\.consent\.accept/);
   assert.match(banner, /copy\.essential/);
   assert.doesNotMatch(banner, /aria-label="Close"/);
