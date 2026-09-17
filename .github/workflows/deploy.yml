@@ -38,6 +38,7 @@ jobs:
               "$release_dir/" /srv/apps/genora-art-dev/
             cd /srv/apps/genora-art-dev
             test -f infra/genora-dev/.env
+            DEST_ENV=/srv/apps/genora-art-dev/infra/genora-dev/.env bash infra/staging/update-env.sh
             bash infra/staging/apply-dev-nginx.sh /srv/apps/genora-art-dev
             cd infra/genora-dev
             docker compose up -d --build postgres app support-worker
