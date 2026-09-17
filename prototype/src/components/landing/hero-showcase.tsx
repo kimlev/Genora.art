@@ -15,8 +15,8 @@ import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent }
 
 const singerVideo = "/landing/singer-alive.mp4";
 const singerPoster = "/landing/songs-hero-singer.jpg";
-const showcaseVideo = "/landing/genora-showcase.mp4";
-const showcasePoster = "/landing/genora-showcase.webp";
+const showcaseVideo = "/landing/genora-home-video.mp4";
+const showcasePoster = "/landing/genora-showcase-first-frame.jpg";
 const imageBefore = "/agents/anime-hero-before.jpg";
 const imageAfter = "/agents/anime-hero-after.jpg";
 
