@@ -17,13 +17,16 @@ test("heavy authenticated studios are warmed after the persistent shell mounts",
   assert.match(loaders, /music: \(\) => import\("@\/components\/music\/music-studio"\)/);
 });
 
-test("sidebar prepares localized routes and studio chunks before navigation", () => {
+test("sidebar prepares studio chunks without eagerly prefetching persistent authenticated routes", () => {
   assert.match(localeRouter, /export function useLocalePrefetch/);
   assert.match(localeRouter, /router\.prefetch\(localizeHref\(href, locale\)\)/);
-  assert.match(sidebar, /AUTHENTICATED_PREFETCH_PATHS\.forEach\(prefetchLocale\)/);
+  assert.match(sidebar, /const prepareSurface = \(href: SurfaceHref\)/);
+  assert.match(sidebar, /if \(!user \|\| !isPersistentSurfaceHref\(href\)\) prefetchLocale\(href\)/);
   assert.match(sidebar, /preloadableSurfaceForHref\(href\)/);
-  assert.match(sidebar, /preloadAuthenticatedSurface\(preloadableSurface\)\.then\(navigate, navigate\)/);
-  assert.match(sidebar, /request === navigationRequest\.current/);
+  assert.match(sidebar, /onPointerEnter=\{\(\) => prepareSurface\("\/video-examples"\)\}/);
+  assert.match(sidebar, /if \(preloadableSurface\) void preloadAuthenticatedSurface\(preloadableSurface\)/);
+  assert.doesNotMatch(sidebar, /AUTHENTICATED_PREFETCH_PATHS/);
+  assert.doesNotMatch(sidebar, /\.then\(navigate, navigate\)/);
 });
 
 test("already visited authenticated surfaces remain mounted", () => {
