@@ -4,7 +4,6 @@ import { imageAverageRequestCost } from "@/lib/admin-models";
 import { BALANCE_TOKENS_PER_USD } from "@/lib/billing";
 import { DEFAULT_MUSIC_MULTIPLIER, musicDbId, musicModelMultiplier, musicModelTokenPrices } from "@/lib/catalog/music-studio";
 import {
-  AVERAGE_VIDEO_SECONDS,
   DEFAULT_VIDEO_MULTIPLIER,
   averageCatalogVideoTokens,
   videoDbId,
@@ -21,6 +20,9 @@ import {
 import { utcDateString } from "@/lib/welcome-bonus";
 import { integratorAverageCosts, integratorImageCatalog, integratorModels, integratorMusicCatalog, integratorVideoCatalog } from "@/lib/server/integrator";
 import { query } from "@/lib/server/db";
+
+const SPEND_ENOUGH_VIDEO_SECONDS = 5;
+const SPEND_ENOUGH_VIDEO_RESOLUTION = "480p";
 
 export type SpendEnoughSnapshot = {
   day: string;
@@ -106,7 +108,11 @@ async function computeVideoCatalogTokens(): Promise<{ videoTokens: number; video
       ?? DEFAULT_VIDEO_MULTIPLIER;
     return { ...model, multiplier, ...videoModelTokenPrices(model, multiplier) };
   });
-  const videoTokens = Math.round(averageCatalogVideoTokens(priced, AVERAGE_VIDEO_SECONDS));
+  const videoTokens = Math.round(averageCatalogVideoTokens(
+    priced,
+    SPEND_ENOUGH_VIDEO_SECONDS,
+    SPEND_ENOUGH_VIDEO_RESOLUTION,
+  ));
   return { videoTokens, videoUsd: videoTokens > 0 ? videoTokens / BALANCE_TOKENS_PER_USD : 0 };
 }
 

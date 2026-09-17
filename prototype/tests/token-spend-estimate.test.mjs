@@ -94,6 +94,16 @@ test("averages catalog video prices for an 8 second clip", () => {
   ]), 1_200);
 });
 
+test("prices the spend-enough video estimate as a 5 second 480p clip", () => {
+  assert.equal(averageCatalogVideoTokens([
+    { tariffs: [
+      { key: "480p", resolution: "480p", sound: ["on"], usd: 0.1, tokens: 100 },
+      { key: "720p", resolution: "720p", sound: ["on"], usd: 0.2, tokens: 200 },
+    ] },
+    { tariffs: [{ key: "720p", resolution: "720p", sound: ["on"], usd: 0.3, tokens: 300 }] },
+  ], 5, "480p"), 500);
+});
+
 test("builds the spend estimate from credited tokens", () => {
   const estimate = estimateTokenSpend(10_000, [
     { inputPer1MUsd: 0.1, outputPer1MUsd: 0.4 },
