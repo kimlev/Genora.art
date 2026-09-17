@@ -99,9 +99,10 @@ export async function POST(request: Request) {
       { status: 202 },
     );
   } catch (error) {
-    console.error("register_failed", error instanceof Error ? error.message : "unknown");
-    if ((error as Error).message === "SMTP_NOT_CONFIGURED") return jsonError(copy.mailNotConfigured, 503);
-    if ((error as Error).message === "ADMIN_EMAIL_RESERVED") return jsonError(copy.adminEmailReserved, 409);
+    const message = error instanceof Error ? error.message : "unknown";
+    console.error("register_failed", message);
+    if (message === "SMTP_NOT_CONFIGURED" || /timeout|ETIMEDOUT|ECONNREFUSED|ECONNRESET/i.test(message)) return jsonError(copy.mailNotConfigured, 503);
+    if (message === "ADMIN_EMAIL_RESERVED") return jsonError(copy.adminEmailReserved, 409);
     return jsonError(copy.registerFailed, 500);
   }
 }

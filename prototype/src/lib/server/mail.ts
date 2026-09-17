@@ -29,7 +29,12 @@ async function smtpConfig(kind: "auth" | "support") {
 }
 
 async function transport(kind: "auth" | "support" = "auth") {
-  return nodemailer.createTransport(await smtpConfig(kind));
+  return nodemailer.createTransport({
+    ...await smtpConfig(kind),
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 20_000,
+  });
 }
 
 async function sender(kind: "auth" | "support" = "auth") {

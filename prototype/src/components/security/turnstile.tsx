@@ -6,7 +6,8 @@ import { IS_STAGING } from "@/lib/site-env";
 import Script from "next/script";
 import { useCallback, useEffect, useRef } from "react";
 
-const SITE_KEY = "0x4AAAAAAERBzz8W0mt9xYZD";
+const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
+const BYPASS_STAGING = IS_STAGING && !SITE_KEY;
 
 declare global {
   interface Window {
@@ -35,14 +36,15 @@ export function Turnstile({
   const failCountRef = useRef(0);
 
   const renderWidget = useCallback(() => {
-    if (IS_STAGING) return;
+    if (BYPASS_STAGING) return;
+    if (!SITE_KEY) return onError?.();
     if (!hostRef.current || !window.turnstile || widgetRef.current) return;
     widgetRef.current = window.turnstile.render(hostRef.current, {
       sitekey: SITE_KEY,
       action,
       theme: "auto",
       size: "flexible",
-      appearance: "always",
+      appearance: "interaction-only",
       retry: "auto",
       "refresh-expired": "auto",
       callback: (token: string) => {
@@ -59,7 +61,7 @@ export function Turnstile({
   }, [action, onError, onToken]);
 
   useEffect(() => {
-    if (IS_STAGING) {
+    if (BYPASS_STAGING) {
       onToken("staging");
       return;
     }
@@ -73,7 +75,7 @@ export function Turnstile({
     widgetRef.current = null;
   }, []);
 
-  if (IS_STAGING) return null;
+  if (BYPASS_STAGING) return null;
 
   return (
     <>

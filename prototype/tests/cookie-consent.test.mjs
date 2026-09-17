@@ -3,6 +3,8 @@ import test from "node:test";
 import { readFile } from "node:fs/promises";
 import {
   GOOGLE_CONSENT_BOOTSTRAP,
+  consentCookie,
+  cookieConsentFromHeader,
   googleConsentSignals,
   parseCookieConsent,
 } from "../src/lib/cookie-consent.ts";
@@ -33,6 +35,13 @@ test("legacy acceptance does not silently grant advertising", () => {
   });
 });
 
+test("consent cookie is shared by Genora subdomains", () => {
+  const value = { version: 2, analytics: false, advertising: false };
+  const cookie = consentCookie(value, "dev.admin.genora.art");
+  assert.match(cookie, /Domain=\.genora\.art/);
+  assert.deepEqual(parseCookieConsent(cookieConsentFromHeader(cookie)), value);
+});
+
 test("banner offers accept, reject, customize and later reopening", async () => {
   const banner = await readFile(new URL("../src/components/legal/cookie-consent.tsx", import.meta.url), "utf8");
   const footer = await readFile(new URL("../src/components/layout/site-footer.tsx", import.meta.url), "utf8");
@@ -40,6 +49,7 @@ test("banner offers accept, reject, customize and later reopening", async () => 
   assert.match(banner, /copy\.customize/);
   assert.match(banner, /onClick=\{\(\) => setCustomizing\(true\)\}/);
   assert.match(banner, /onClick=\{\(\) => closeAfterSave\(draft\)\}/);
+  assert.match(banner, /setJustSaved\(saveConsent\(value\)\)/);
   assert.match(banner, /href=\{`\$\{SITE_ORIGIN\}\/\$\{locale\}\/legal\/cookies`\}/);
   assert.match(banner, /t\.legal\.consent\.accept/);
   assert.match(banner, /copy\.essential/);

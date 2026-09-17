@@ -1,4 +1,5 @@
-export const CONSENT_STORAGE_KEY = "genora-cookie-consent";
+export const CONSENT_STORAGE_KEY = "genora-cookie-consent-v2";
+export const CONSENT_COOKIE_NAME = "genora_cookie_consent_v2";
 export const CONSENT_CHANGE_EVENT = "genora-cookie-consent-change";
 export const CONSENT_OPEN_EVENT = "genora-cookie-consent-open";
 
@@ -29,6 +30,19 @@ export function parseCookieConsent(raw: string | null): CookieConsentPreferences
 
 export function serializeCookieConsent(value: CookieConsentPreferences): string {
   return JSON.stringify(value);
+}
+
+export function cookieConsentFromHeader(cookieHeader: string): string | null {
+  for (const item of cookieHeader.split(";")) {
+    const [name, ...parts] = item.trim().split("=");
+    if (name === CONSENT_COOKIE_NAME) return decodeURIComponent(parts.join("="));
+  }
+  return null;
+}
+
+export function consentCookie(value: CookieConsentPreferences, hostname: string): string {
+  const domain = hostname === "genora.art" || hostname.endsWith(".genora.art") ? "; Domain=.genora.art" : "";
+  return `${CONSENT_COOKIE_NAME}=${encodeURIComponent(serializeCookieConsent(value))}; Path=/; Max-Age=31536000; SameSite=Lax; Secure${domain}`;
 }
 
 export function googleConsentSignals(value: CookieConsentPreferences | null) {

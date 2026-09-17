@@ -7,6 +7,8 @@ import {
   CONSENT_OPEN_EVENT,
   CONSENT_STORAGE_KEY,
   REJECTED_CONSENT,
+  consentCookie,
+  cookieConsentFromHeader,
   parseCookieConsent,
   serializeCookieConsent,
   type CookieConsentPreferences,
@@ -26,19 +28,23 @@ function subscribe(callback: () => void) {
 }
 
 function getSnapshot() {
-  return localStorage.getItem(CONSENT_STORAGE_KEY) ?? "";
+  return cookieConsentFromHeader(document.cookie) ?? localStorage.getItem(CONSENT_STORAGE_KEY) ?? "";
 }
 
-function saveConsent(value: CookieConsentPreferences) {
-  localStorage.setItem(CONSENT_STORAGE_KEY, serializeCookieConsent(value));
+function saveConsent(value: CookieConsentPreferences): string {
+  const serialized = serializeCookieConsent(value);
+  localStorage.setItem(CONSENT_STORAGE_KEY, serialized);
+  document.cookie = consentCookie(value, window.location.hostname);
   window.dispatchEvent(new Event(CONSENT_CHANGE_EVENT));
+  return serialized;
 }
 
 export function CookieConsent() {
   const t = useT();
   const { locale } = useLocale();
   const storedConsent = useSyncExternalStore(subscribe, getSnapshot, () => "");
-  const consent = parseCookieConsent(storedConsent);
+  const [justSaved, setJustSaved] = useState("");
+  const consent = parseCookieConsent(justSaved || storedConsent);
   const [manuallyOpen, setManuallyOpen] = useState(false);
   const [customizing, setCustomizing] = useState(false);
   const [draft, setDraft] = useState<CookieConsentPreferences>(REJECTED_CONSENT);
@@ -57,7 +63,7 @@ export function CookieConsent() {
 
   useEffect(() => {
     const open = () => {
-      setDraft(parseCookieConsent(localStorage.getItem(CONSENT_STORAGE_KEY)) ?? REJECTED_CONSENT);
+      setDraft(parseCookieConsent(cookieConsentFromHeader(document.cookie) ?? localStorage.getItem(CONSENT_STORAGE_KEY)) ?? REJECTED_CONSENT);
       setCustomizing(true);
       setManuallyOpen(true);
     };
@@ -66,7 +72,7 @@ export function CookieConsent() {
   }, []);
 
   const closeAfterSave = (value: CookieConsentPreferences) => {
-    saveConsent(value);
+    setJustSaved(saveConsent(value));
     setDraft(value);
     setCustomizing(false);
     setManuallyOpen(false);
