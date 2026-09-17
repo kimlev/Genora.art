@@ -23,7 +23,7 @@ import { date, money, number, tokens, td, th, type DashboardData, type Section, 
 const usageTypeLabels:Record<UsageKind,string>={chat:"текст",image:"изображение",video:"видео",song:"песня"};
 
 function adminSectionUrl(id: Section) {
-  return id==="overview" ? "/admin" : `/admin?section=${id}`;
+  return id==="overview" ? "/" : `/?section=${id}`;
 }
 
 type Admin={id:string;email:string;name:string|null};

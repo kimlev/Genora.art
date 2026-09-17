@@ -20,9 +20,10 @@ const SIDEBAR_WIDTH = "xl:ps-[280px]";
 
 type SiteShellProps = {
   children: ReactNode;
+  isAdminHost?: boolean;
 };
 
-export function SiteShell({ children }: SiteShellProps) {
+export function SiteShell({ children, isAdminHost = false }: SiteShellProps) {
   const t = useT();
   const { locale } = useLocale();
   const pathname = useAppPathname();
@@ -63,7 +64,7 @@ export function SiteShell({ children }: SiteShellProps) {
     && activeSurface !== "profile"
     && !pinGallery;
 
-  if (isAdminPage) {
+  if (isAdminHost || isAdminPage) {
     return <>{children}</>;
   }
   if (isAuthPage) {

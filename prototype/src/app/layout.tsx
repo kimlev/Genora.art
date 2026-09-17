@@ -5,6 +5,7 @@ import { resolveRequestLocale } from "@/lib/locale-from-request";
 import { LOCALE_COOKIE, LOCALE_HEADER, SITE_NAME, seoCopy, siteJsonLd } from "@/lib/seo";
 import { IS_STAGING, publicSiteUrl } from "@/lib/site-env";
 import { GOOGLE_CONSENT_BOOTSTRAP } from "@/lib/cookie-consent";
+import { isAdminHostname, requestHostname } from "@/lib/admin-host";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies, headers } from "next/headers";
@@ -64,6 +65,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const headersList = await headers();
   const cookieStore = await cookies();
+  const isAdminHost = isAdminHostname(requestHostname(
+    headersList.get("x-forwarded-host"),
+    headersList.get("host"),
+  ));
   const locale = resolveRequestLocale({
     appHeader: headersList.get(LOCALE_HEADER),
     cookie: cookieStore.get(LOCALE_COOKIE)?.value,
@@ -89,7 +94,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         />
         <div className="flex min-h-full flex-1 flex-col overflow-x-clip">
           <AppProviders initialLocale={locale}>
-            <SiteShell>{children}</SiteShell>
+            <SiteShell isAdminHost={isAdminHost}>{children}</SiteShell>
           </AppProviders>
         </div>
       </body>

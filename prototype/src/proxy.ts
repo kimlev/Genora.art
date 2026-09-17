@@ -7,17 +7,8 @@ import {
 } from "@/lib/locale-from-request";
 import { LOCALE_COOKIE, LOCALE_HEADER, LOCALE_QUERY } from "@/lib/seo";
 import { cookiePath } from "@/lib/site-env";
+import { isAdminHostname, requestHostname } from "@/lib/admin-host";
 import { NextResponse, type NextRequest } from "next/server";
-
-const ADMIN_HOSTS = new Set(["admin.genora.art", "dev.admin.genora.art"]);
-
-function requestHostname(request: NextRequest): string {
-  return (request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? request.nextUrl.hostname)
-    .split(",")[0]
-    .trim()
-    .replace(/:\d+$/, "")
-    .toLowerCase();
-}
 
 function adminPublicPath(pathname: string): string | null {
   if (pathname === "/admin") return "/";
@@ -49,7 +40,11 @@ function preferredLocale(request: NextRequest): Locale {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isAdminHost = ADMIN_HOSTS.has(requestHostname(request));
+  const isAdminHost = isAdminHostname(requestHostname(
+    request.headers.get("x-forwarded-host"),
+    request.headers.get("host"),
+    request.nextUrl.hostname,
+  ));
 
   // Административные страницы и API доступны только на выделенных поддоменах.
   // В адресной строке поддомена внутренний префикс /admin никогда не показывается.
