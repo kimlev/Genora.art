@@ -391,6 +391,7 @@ export type LegalDictionary = {
     settings?: string;
     customize?: string;
     save?: string;
+    essential?: string;
     analytics?: string;
     advertising?: string;
   };

@@ -12,7 +12,7 @@ import {
   serializeCookieConsent,
   type CookieConsentPreferences,
 } from "@/lib/cookie-consent";
-import { Check, Cookie, Settings2, X } from "lucide-react";
+import { Check, Cookie, LockKeyhole, Settings2 } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 function subscribe(callback: () => void) {
@@ -42,13 +42,14 @@ export function CookieConsent() {
   const [customizing, setCustomizing] = useState(false);
   const [draft, setDraft] = useState<CookieConsentPreferences>(REJECTED_CONSENT);
   const fallback = locale === "ru" ? {
-    customize: "Настроить", save: "Сохранить выбор", analytics: "Аналитика", advertising: "Реклама и персонализация",
+    customize: "Настроить", save: "Сохранить выбор", essential: "Обязательные cookies — всегда включены", analytics: "Аналитика", advertising: "Реклама и персонализация",
   } : {
-    customize: "Customize", save: "Save choices", analytics: "Analytics", advertising: "Advertising and personalization",
+    customize: "Customize", save: "Save choices", essential: "Essential cookies — always enabled", analytics: "Analytics", advertising: "Advertising and personalization",
   };
   const copy = {
     customize: t.legal.consent.customize ?? fallback.customize,
     save: t.legal.consent.save ?? fallback.save,
+    essential: t.legal.consent.essential ?? fallback.essential,
     analytics: t.legal.consent.analytics ?? fallback.analytics,
     advertising: t.legal.consent.advertising ?? fallback.advertising,
   };
@@ -89,18 +90,16 @@ export function CookieConsent() {
             <h2 className="text-base font-semibold text-white">{t.legal.consent.dialogLabel}</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-white/70">
               {t.legal.consent.text}{" "}
-              <Link href="/legal/cookies" className="font-medium text-[#FF6F00] underline underline-offset-4">{t.legal.consent.more}</Link>
+              <Link href="/legal/privacy" className="font-medium text-[#FF6F00] underline underline-offset-4">{t.legal.consent.more}</Link>
             </p>
           </div>
-          {manuallyOpen ? (
-            <button type="button" aria-label="Close" className="rounded-xl p-2 text-white/60 transition hover:bg-white/10 hover:text-white" onClick={() => setManuallyOpen(false)}>
-              <X className="size-5" />
-            </button>
-          ) : null}
         </div>
 
         {customizing ? (
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="flex items-center justify-between gap-4 rounded-2xl border border-[#FF6F00]/30 bg-[#FF6F00]/[0.08] px-4 py-3 text-sm font-medium text-white/90">
+              <span>{copy.essential}</span><LockKeyhole className="size-5 shrink-0 text-[#FF8A1C]" />
+            </div>
             <ConsentToggle
               checked={draft.analytics}
               label={copy.analytics}

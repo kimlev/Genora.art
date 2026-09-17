@@ -38,6 +38,11 @@ test("banner offers accept, reject, customize and later reopening", async () => 
   const footer = await readFile(new URL("../src/components/layout/site-footer.tsx", import.meta.url), "utf8");
   assert.match(banner, /t\.legal\.consent\.reject/);
   assert.match(banner, /copy\.customize/);
+  assert.match(banner, /onClick=\{\(\) => setCustomizing\(true\)\}/);
+  assert.match(banner, /onClick=\{\(\) => closeAfterSave\(draft\)\}/);
+  assert.match(banner, /href="\/legal\/privacy"/);
   assert.match(banner, /t\.legal\.consent\.accept/);
+  assert.match(banner, /copy\.essential/);
+  assert.doesNotMatch(banner, /aria-label="Close"/);
   assert.match(footer, /CONSENT_OPEN_EVENT/);
 });

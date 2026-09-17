@@ -24,7 +24,9 @@ export function isSameOrigin(request: Request): boolean {
   if (!origin) return true;
   const allowedOrigins = new Set([
     new URL(request.url).origin,
-    ...(process.env.APP_ORIGIN ?? "")
+    ...[process.env.APP_ORIGIN, process.env.ADMIN_PUBLIC_ORIGIN]
+      .filter(Boolean)
+      .join(",")
       .split(",")
       .map((value) => value.trim().replace(/\/$/, ""))
       .filter(Boolean),
