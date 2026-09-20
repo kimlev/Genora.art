@@ -36,7 +36,7 @@ export function MusicGuideSections() {
                       <span className={cn("grid size-9 place-items-center rounded-xl", tone.icon)}>
                         <Icon className="size-4" />
                       </span>
-                      <h3 className="font-semibold text-text">{localizedMusicTagName(item, locale)}</h3>
+                      <h3 className={cn("font-semibold text-text", tone.title)}>{localizedMusicTagName(item, locale)}</h3>
                     </div>
                     <p className="mt-3 text-sm leading-relaxed text-steel">{locale === "ru" ? item.text : item.promptEn}</p>
                   </article>

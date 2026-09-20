@@ -18,11 +18,11 @@ import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 const TAG_STYLES = [
-  "border-[#9ec9ff] bg-[#eef6ff] text-[#1d6fd4]",
-  "border-[#d4b3f0] bg-[#f6edff] text-[#6d28d9]",
-  "border-[#f3c19a] bg-[#fff3e8] text-[#c24e16]",
-  "border-[#f2c4d4] bg-[#fff0f5] text-[#b42364]",
-  "border-[#8ed4bb] bg-[#e8faf3] text-[#0d7a5b]",
+  "border-[#9ec9ff] bg-[#eef6ff] text-[#1d6fd4] dark:text-[#a9d3ff]",
+  "border-[#d4b3f0] bg-[#f6edff] text-[#6d28d9] dark:text-[#d6b5ff]",
+  "border-[#f3c19a] bg-[#fff3e8] text-[#c24e16] dark:text-[#ffbd84]",
+  "border-[#f2c4d4] bg-[#fff0f5] text-[#b42364] dark:text-[#f7aabc]",
+  "border-[#8ed4bb] bg-[#e8faf3] text-[#0d7a5b] dark:text-[#9de4c4]",
 ] as const;
 
 const TAG_ICONS: LucideIcon[] = [Mic2, Music2, WandSparkles, Heart, Sparkles];
@@ -42,11 +42,15 @@ const STEP_TONES = [
 ] as const;
 
 const STEP_CHIP_TONES = [
-  "border-[#d4b3f0] bg-[#f3e8ff] text-[#3b1764]",
-  "border-[#9ec9ff] bg-[#e4f1ff] text-[#0b3d7a]",
-  "border-[#f3c19a] bg-[#ffe8d4] text-[#6a2e0a]",
-  "border-[#8ed4bb] bg-[#dcf6ec] text-[#0a4a36]",
+  "border-[#d4b3f0] bg-[#f3e8ff] text-[#3b1764] dark:text-[#d6b5ff]",
+  "border-[#9ec9ff] bg-[#e4f1ff] text-[#0b3d7a] dark:text-[#a9d3ff]",
+  "border-[#f3c19a] bg-[#ffe8d4] text-[#6a2e0a] dark:text-[#ffbd84]",
+  "border-[#8ed4bb] bg-[#dcf6ec] text-[#0a4a36] dark:text-[#9de4c4]",
 ] as const;
+
+const STEP_DARK_HEADINGS = ["dark:text-[#a9d3ff]", "dark:text-[#ffbd84]", "dark:text-[#9de4c4]"] as const;
+const REASON_DARK_HEADINGS = ["dark:text-[#d6b5ff]", "dark:text-[#a9d3ff]", "dark:text-[#9de4c4]", "dark:text-[#ffbd84]", "dark:text-[#ded4bf]"] as const;
+const EXTRA_DARK_HEADINGS = ["dark:text-[#a9d3ff]", "dark:text-[#9de4c4]", "dark:text-[#d6b5ff]"] as const;
 
 const EXTRA_ITEM_TONES = [
   "border-[#9ec9ff] bg-[linear-gradient(180deg,#eef6ff_0%,#ffffff_74%)] hover:-translate-y-1 hover:shadow-[0_16px_32px_-20px_rgba(29,111,212,0.4)]",
@@ -126,7 +130,7 @@ export function SongsPageLanding() {
               {copy.tags.map((tag, index) => {
                 const Icon = TAG_ICONS[index] ?? Music2;
                 return (
-                  <span key={tag} className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold ${TAG_STYLES[index % TAG_STYLES.length]}`}>
+                  <span key={tag} className={`genora-songs-tag inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold ${TAG_STYLES[index % TAG_STYLES.length]}`}>
                     <Icon className="size-3.5" />
                     {tag}
                   </span>
@@ -148,12 +152,12 @@ export function SongsPageLanding() {
           {copy.steps.map((step, index) => (
             <article
               key={step.title}
-              className={`flex h-full flex-col rounded-[28px] border p-5 shadow-[0_18px_40px_-32px_rgba(30,80,160,0.28)] transition-all duration-300 ${STEP_TONES[index % STEP_TONES.length]}`}
+              className={`genora-songs-card flex h-full flex-col rounded-[28px] border p-5 shadow-[0_18px_40px_-32px_rgba(30,80,160,0.28)] transition-all duration-300 ${STEP_TONES[index % STEP_TONES.length]}`}
             >
               <p className="font-serif text-4xl font-semibold text-text/20">{String(index + 1).padStart(2, "0")}</p>
-              <h3 className="mt-2 text-xl font-semibold text-text">{step.title}</h3>
+              <h3 className={`mt-2 text-xl font-semibold text-text ${STEP_DARK_HEADINGS[index % STEP_DARK_HEADINGS.length]}`}>{step.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-steel">{step.text}</p>
-              <div className="mt-auto flex min-h-[8.75rem] items-center rounded-2xl border border-white/70 bg-white/70 p-4">
+              <div className="genora-songs-card-inner mt-auto flex min-h-[8.75rem] items-center rounded-2xl border border-white/70 bg-white/70 p-4">
                 {index === 0 ? (
                   <p className="text-sm italic leading-relaxed text-steel">{step.hint}</p>
                 ) : null}
@@ -162,7 +166,7 @@ export function SongsPageLanding() {
                     {(step.chips ?? []).map((chip, chipIndex) => (
                       <span
                         key={`${chip.type}-${chip.value}`}
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${STEP_CHIP_TONES[chipIndex % STEP_CHIP_TONES.length]}`}
+                        className={`genora-songs-tag inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${STEP_CHIP_TONES[chipIndex % STEP_CHIP_TONES.length]}`}
                       >
                         <span>{chip.type}</span>
                         <span className="opacity-50">·</span>
@@ -186,11 +190,11 @@ export function SongsPageLanding() {
             {copy.reasons.map((reason, index) => {
               const Icon = REASON_ICONS[index] ?? Sparkles;
               return (
-                <article key={reason.title} className={`flex h-full min-h-[16rem] flex-col rounded-[24px] border p-4 transition-all duration-300 ${REASON_TONES[index % REASON_TONES.length]}`}>
-                  <span className="inline-flex size-9 items-center justify-center rounded-xl bg-white/80 text-text shadow-sm">
+                <article key={reason.title} className={`genora-songs-card flex h-full min-h-[16rem] flex-col rounded-[24px] border p-4 transition-all duration-300 ${REASON_TONES[index % REASON_TONES.length]}`}>
+                  <span className="genora-songs-card-icon inline-flex size-9 items-center justify-center rounded-xl bg-white/80 text-text shadow-sm">
                     <Icon className="size-4" />
                   </span>
-                  <h3 className="mt-4 text-base font-semibold leading-snug text-text">{reason.title}</h3>
+                  <h3 className={`mt-4 text-base font-semibold leading-snug text-text ${REASON_DARK_HEADINGS[index % REASON_DARK_HEADINGS.length]}`}>{reason.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-steel">{reason.text}</p>
                 </article>
               );
@@ -213,9 +217,9 @@ export function SongsPageLanding() {
                 {copy.extraItems.map((item, index) => (
                   <article
                     key={item.title}
-                    className={`flex h-full min-h-[9.5rem] flex-col rounded-2xl border p-3.5 transition-all duration-300 ${EXTRA_ITEM_TONES[index % EXTRA_ITEM_TONES.length]}`}
+                    className={`genora-songs-card flex h-full min-h-[9.5rem] flex-col rounded-2xl border p-3.5 transition-all duration-300 ${EXTRA_ITEM_TONES[index % EXTRA_ITEM_TONES.length]}`}
                   >
-                    <h3 className="text-sm font-semibold text-text">{item.title}</h3>
+                    <h3 className={`text-sm font-semibold text-text ${EXTRA_DARK_HEADINGS[index % EXTRA_DARK_HEADINGS.length]}`}>{item.title}</h3>
                     <p className="mt-1.5 text-xs leading-relaxed text-steel">{item.text}</p>
                   </article>
                 ))}

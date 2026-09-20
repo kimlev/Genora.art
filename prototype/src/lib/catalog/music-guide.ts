@@ -154,9 +154,9 @@ export const MUSIC_GUIDE_SECTIONS = [
   { id: "music-purposes", title: "Назначение", lead: "Зачем трек нужен: подарок, ролик, колыбельная или короткое интро.", items: MUSIC_GUIDE_PURPOSES },
 ] as const;
 
-export type MusicTileTone = { card: string; icon: string };
+export type MusicTileTone = { card: string; icon: string; title: string };
 
-const TILE_TONES: MusicTileTone[] = [
+const TILE_TONES: Omit<MusicTileTone, "title">[] = [
   { card: "border-rose-100 bg-rose-50/80 hover:border-rose-200 hover:bg-rose-100/90 hover:shadow-md hover:-translate-y-0.5", icon: "bg-rose-100 text-rose-600" },
   { card: "border-sky-100 bg-sky-50/80 hover:border-sky-200 hover:bg-sky-100/90 hover:shadow-md hover:-translate-y-0.5", icon: "bg-sky-100 text-sky-600" },
   { card: "border-amber-100 bg-amber-50/80 hover:border-amber-200 hover:bg-amber-100/90 hover:shadow-md hover:-translate-y-0.5", icon: "bg-amber-100 text-amber-700" },
@@ -170,6 +170,22 @@ const TILE_TONES: MusicTileTone[] = [
   { card: "border-stone-200 bg-stone-50/80 hover:border-stone-300 hover:bg-stone-100/90 hover:shadow-md hover:-translate-y-0.5", icon: "bg-stone-200 text-stone-600" },
   { card: "border-cyan-100 bg-cyan-50/80 hover:border-cyan-200 hover:bg-cyan-100/90 hover:shadow-md hover:-translate-y-0.5", icon: "bg-cyan-100 text-cyan-700" },
 ];
+
+// Keep the pastel light palette; use restrained, hue-matched surfaces and labels at night.
+const DARK_TILE_TONES = [
+  { card: "dark:border-[#67414d] dark:bg-[#2b2024] dark:hover:border-[#b56b80] dark:hover:bg-[#34262c]", icon: "dark:bg-[#45303a] dark:text-[#f7aabc]", title: "dark:text-[#f7aabc]" },
+  { card: "dark:border-[#405870] dark:bg-[#202934] dark:hover:border-[#7299bd] dark:hover:bg-[#293543]", icon: "dark:bg-[#304458] dark:text-[#a9d3ff]", title: "dark:text-[#a9d3ff]" },
+  { card: "dark:border-[#66502c] dark:bg-[#2d251b] dark:hover:border-[#ae8242] dark:hover:bg-[#382e20]", icon: "dark:bg-[#493922] dark:text-[#ffd18a]", title: "dark:text-[#ffd18a]" },
+  { card: "dark:border-[#365f4d] dark:bg-[#1c2b25] dark:hover:border-[#639b7d] dark:hover:bg-[#23382e]", icon: "dark:bg-[#294c3b] dark:text-[#9de4c4]", title: "dark:text-[#9de4c4]" },
+  { card: "dark:border-[#5b4774] dark:bg-[#282236] dark:hover:border-[#9173b4] dark:hover:bg-[#342a43]", icon: "dark:bg-[#403151] dark:text-[#d6b5ff]", title: "dark:text-[#d6b5ff]" },
+  { card: "dark:border-[#745033] dark:bg-[#2d231d] dark:hover:border-[#bb7840] dark:hover:bg-[#392a21]", icon: "dark:bg-[#513724] dark:text-[#ffbd84]", title: "dark:text-[#ffbd84]" },
+  { card: "dark:border-[#406269] dark:bg-[#1d2b2c] dark:hover:border-[#6c9ba4] dark:hover:bg-[#26383a]", icon: "dark:bg-[#2c4b50] dark:text-[#91dbe0]", title: "dark:text-[#91dbe0]" },
+  { card: "dark:border-[#6d416f] dark:bg-[#2e2231] dark:hover:border-[#a972a9] dark:hover:bg-[#392a3e]", icon: "dark:bg-[#4b3050] dark:text-[#eeafea]", title: "dark:text-[#eeafea]" },
+  { card: "dark:border-[#5a673e] dark:bg-[#282c1f] dark:hover:border-[#93a665] dark:hover:bg-[#323826]", icon: "dark:bg-[#414d2e] dark:text-[#c7e18b]", title: "dark:text-[#c7e18b]" },
+  { card: "dark:border-[#465a8c] dark:bg-[#22263a] dark:hover:border-[#798fca] dark:hover:bg-[#2b3148]", icon: "dark:bg-[#34436a] dark:text-[#bac8ff]", title: "dark:text-[#bac8ff]" },
+  { card: "dark:border-[#625b4c] dark:bg-[#292722] dark:hover:border-[#948b78] dark:hover:bg-[#33302a]", icon: "dark:bg-[#454137] dark:text-[#ded4bf]", title: "dark:text-[#ded4bf]" },
+  { card: "dark:border-[#42677a] dark:bg-[#1d2b31] dark:hover:border-[#70a6be] dark:hover:bg-[#253840]", icon: "dark:bg-[#305064] dark:text-[#a2e3f2]", title: "dark:text-[#a2e3f2]" },
+] as const;
 
 const TILE_TONE_BY_ID: Record<string, number> = {
   pop: 0, disco: 0, salsa: 0, cheerful: 0, congratulation: 0, entertainment: 0,
@@ -186,7 +202,8 @@ const TILE_TONE_BY_ID: Record<string, number> = {
 
 export function musicTileTone(id: string): MusicTileTone {
   const mapped = TILE_TONE_BY_ID[id];
-  if (mapped != null) return TILE_TONES[mapped] ?? TILE_TONES[0];
-  const index = [...id].reduce((sum, char) => sum + char.charCodeAt(0), 0) % TILE_TONES.length;
-  return TILE_TONES[index] ?? TILE_TONES[0];
+  const index = mapped ?? [...id].reduce((sum, char) => sum + char.charCodeAt(0), 0) % TILE_TONES.length;
+  const light = TILE_TONES[index] ?? TILE_TONES[0];
+  const dark = DARK_TILE_TONES[index] ?? DARK_TILE_TONES[0];
+  return { card: `${light.card} ${dark.card}`, icon: `${light.icon} ${dark.icon}`, title: dark.title };
 }
