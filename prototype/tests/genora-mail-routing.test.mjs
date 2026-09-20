@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import ts from "typescript";
 
-function loadMail() {
+function loadMail(accepted = ["test@example.invalid"]) {
   const connections = [];
   const messages = [];
   const source = readFileSync(new URL("../src/lib/server/mail.ts", import.meta.url), "utf8");
@@ -17,15 +17,15 @@ function loadMail() {
     "@/lib/mail-copy": { getMailCopy: () => ({ supportSignOff: "Genora.art support" }) },
     "@/lib/mail-layout": { renderActionEmailHtml: () => "<p>Confirm</p>" },
     "@/lib/public-contact": { applyPublicContactEmail: value => value },
-    nodemailer: { createTransport: config => { connections.push(config); return { verify: async () => true, sendMail: async msg => { messages.push(msg); } }; } },
+    nodemailer: { createTransport: config => { connections.push(config); return { verify: async () => true, sendMail: async msg => { messages.push(msg); return { accepted }; } }; } },
     "node:path": { join: (...parts) => parts.join("/") },
   };
-  const module = { exports: {} };
+  const compiledModule = { exports: {} };
   new Function("require", "module", "exports", compiled)(name => {
     assert.ok(name in mocks, "Unexpected dependency: " + name);
     return mocks[name];
-  }, module, module.exports);
-  return { mail: module.exports, connections, messages };
+  }, compiledModule, compiledModule.exports);
+  return { mail: compiledModule.exports, connections, messages };
 }
 
 test("registration uses the configured auth mailbox password and support reply address", async () => {
@@ -45,4 +45,12 @@ test("support replies authenticate with support mailbox and escape message HTML"
   assert.equal(messages[0].from.address, "support@genora.art");
   assert.ok(messages[0].html.includes("&lt;script&gt;"));
   assert.ok(!messages[0].html.includes("<script>"));
+});
+
+test("registration rejects an SMTP response that did not accept the recipient", async () => {
+  const { mail } = loadMail([]);
+  await assert.rejects(
+    mail.sendEmailVerification("test@example.invalid", "https://dev.genora.art/ru/verify-email#test", "ru"),
+    { message: "SMTP_RECIPIENT_NOT_ACCEPTED" },
+  );
 });

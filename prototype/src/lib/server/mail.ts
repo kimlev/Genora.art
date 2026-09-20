@@ -63,7 +63,7 @@ export async function verifySmtpConnection(): Promise<void> {
 export async function sendEmailVerification(email: string, verificationUrl: string, locale?: string | null): Promise<void> {
   const copy = getAuthMailCopy(locale).verification;
   const contact = await getPrimarySupportEmail();
-  await (await transport()).sendMail({
+  const result = await (await transport()).sendMail({
     ...await sender("auth"),
     to: email,
     attachments: [brandAttachment],
@@ -71,6 +71,9 @@ export async function sendEmailVerification(email: string, verificationUrl: stri
     text: applyPublicContactEmail(copy.text(verificationUrl), contact),
     html: renderActionEmailHtml({ locale: locale ?? "en", url: verificationUrl, ...copy, footer: applyPublicContactEmail(copy.footer, contact) }),
   });
+  if (!result.accepted?.some((recipient) => (typeof recipient === "string" ? recipient : recipient.address).toLowerCase() === email.toLowerCase())) {
+    throw new Error("SMTP_RECIPIENT_NOT_ACCEPTED");
+  }
 }
 
 export async function sendPasswordReset(email: string, resetUrl: string, locale?: string | null): Promise<void> {
