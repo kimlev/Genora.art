@@ -1250,7 +1250,7 @@ export const ja: Dictionary = {
     materials: "資料",
     documentation: "ドキュメント",
     copyright: "© Genora.art. All rights reserved.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. All rights reserved.",
+    copyrightFull: "© Genora.art — Sangerto LTD. All rights reserved.",
     securePayment: "安全な支払い",
     links: {
       models: "モデル",

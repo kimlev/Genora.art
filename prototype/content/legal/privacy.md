@@ -1,6 +1,6 @@
 # Политика конфиденциальности Genora.art
 
-**Оператор (data user / контролёр):** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Оператор (data user / контролёр):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Контакт по вопросам данных:** support@genora.art
 
 **Редакция:** 2.0
@@ -227,7 +227,7 @@
 
 ## 15. Контакты
 
-**Оператор:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Оператор:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Запросы по данным, обращения и жалобы:** support@genora.art
 
 Мы рассматриваем обращения по вопросам обработки персональных данных напрямую и стремимся урегулировать их без привлечения третьих лиц. Обращение направляется с адреса электронной почты, привязанного к аккаунту; порядок и сроки рассмотрения описаны в §10.

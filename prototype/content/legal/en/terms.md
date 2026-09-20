@@ -1,6 +1,6 @@
 # Genora.art Terms of Use
 
-**Operator:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact:** support@genora.art
 **Service:** the website genora.art, its subdomains, applications, and related features.
 
@@ -12,7 +12,7 @@
 
 ## Preamble. Read this before you start using the Service
 
-These Terms of Use (**“Terms”**) are a legally binding agreement between you (**“User”**, **“you”**) and ELVARON LIMITED (**“Company”**, **“we”**, **“us”**) concerning access to the Genora.art service (**“Service”**).
+These Terms of Use (**“Terms”**) are a legally binding agreement between you (**“User”**, **“you”**) and Sangerto LTD (**“Company”**, **“we”**, **“us”**) concerning access to the Genora.art service (**“Service”**).
 
 BY CREATING AN ACCOUNT, CLICKING “I AGREE”, TOPPING UP YOUR BALANCE, OR USING THE SERVICE IN ANY WAY, YOU CONFIRM THAT YOU HAVE READ, UNDERSTOOD, AND ACCEPT THESE TERMS AND THE DOCUMENTS INCORPORATED INTO THEM. IF YOU DO NOT AGREE — DO NOT USE THE SERVICE.
 
@@ -409,9 +409,9 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 ## 27. Particulars and contacts
 
-**ELVARON LIMITED**
-Registration No. 79402144
-14/F, China Building, 29 Queen's Road Central, Central, Hong Kong
+**Sangerto LTD**
+CRN: 17456264
+71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA
 Email: support@genora.art
 Website: https://genora.art
 

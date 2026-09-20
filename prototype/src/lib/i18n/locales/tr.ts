@@ -1250,7 +1250,7 @@ export const tr: Dictionary = {
     materials: "Materyaller",
     documentation: "Dokümantasyon",
     copyright: "© Genora.art. Tüm hakları saklıdır.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Tüm hakları saklıdır.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Tüm hakları saklıdır.",
     securePayment: "Güvenli ödeme",
     links: {
       models: "Modeller",

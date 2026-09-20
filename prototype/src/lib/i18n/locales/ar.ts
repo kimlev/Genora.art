@@ -1250,7 +1250,7 @@ export const ar: Dictionary = {
     materials: "المواد",
     documentation: "التوثيق",
     copyright: "© Genora.art. جميع الحقوق محفوظة.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. جميع الحقوق محفوظة.",
+    copyrightFull: "© Genora.art — Sangerto LTD. جميع الحقوق محفوظة.",
     securePayment: "دفع آمن",
     links: {
       models: "النماذج",

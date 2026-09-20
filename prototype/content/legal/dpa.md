@@ -1,6 +1,6 @@
 # Соглашение об обработке персональных данных (DPA)
 
-**Обработчик:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong (**«Обработчик»**, **«Genora.art»**).
+**Обработчик:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA (**«Обработчик»**, **«Genora.art»**).
 **Контролёр:** организация или иное лицо, заключившее с Обработчиком договор об использовании Genora.art (**«Клиент»**).
 **Контакт:** support@genora.art
 
@@ -273,7 +273,7 @@ DPA считается заключённым: (а) с момента, когд�
 
 Для получения подписанного экземпляра DPA направьте на **support@genora.art** запрос с указанием: полного наименования и адреса Клиента; номера регистрации; имени и должности подписанта; описания предполагаемого использования Сервиса; сведений о категориях данных и Субъектах данных; необходимости включения SCC и применимых модулей.
 
-**ELVARON LIMITED**
-Registration No. 79402144
-14/F, China Building, 29 Queen's Road Central, Central, Hong Kong
+**Sangerto LTD**
+CRN: 17456264
+71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA
 support@genora.art

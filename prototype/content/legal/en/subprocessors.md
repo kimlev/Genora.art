@@ -1,6 +1,6 @@
 # Genora.art Sub-processors and Data Recipients
 
-**Operator:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact:** support@genora.art
 
 **Version:** 2.0
@@ -47,7 +47,7 @@ Practices of storage, logging, and training on data are determined by each provi
 
 | Function | Provider category | Data categories |
 |---------|----------------------|------------------|
-| Request-routing and consumption-accounting gateway | operator’s own infrastructure (ELVARON LIMITED) | request contents, consumption metrics, memory items |
+| Request-routing and consumption-accounting gateway | operator’s own infrastructure (Sangerto LTD) | request contents, consumption metrics, memory items |
 | Placement of servers and database | professional provider of hosting infrastructure and computing capacity | data located on servers in a stored and processed state |
 | Traffic protection, attack filtering, determination of request country | provider of network protection and traffic delivery | IP address, request headers, country code, request characteristics |
 | Sending of transactional emails: address verification, service notices | corporate email service provider | email address, email contents |
@@ -111,4 +111,4 @@ The Company is responsible for the selection of sub-processors and for the exist
 ## 9. Contacts
 
 Requests regarding sub-processors, notices, and objections: **support@genora.art**
-ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.

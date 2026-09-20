@@ -1,6 +1,6 @@
 # Политика допустимого использования Genora.art
 
-**Оператор:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Оператор:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Контакт для сообщений о нарушениях:** support@genora.art
 
 **Редакция:** 2.2

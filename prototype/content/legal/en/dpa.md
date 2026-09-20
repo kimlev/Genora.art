@@ -1,6 +1,6 @@
 # Data Processing Agreement (DPA)
 
-**Processor:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong (**“Processor”**, **“Genora.art”**).
+**Processor:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA (**“Processor”**, **“Genora.art”**).
 **Controller:** the organization or other person that has entered into an agreement with the Processor for the use of Genora.art (**“Customer”**).
 **Contact:** support@genora.art
 
@@ -273,7 +273,7 @@ The names and jurisdictions of specific providers of the infrastructure layer ar
 
 To obtain a signed counterpart of the DPA, send to **support@genora.art** a request specifying: the Customer’s full name and address; registration number; the name and position of the signatory; a description of the intended use of the Service; information about the categories of data and Data Subjects; the need to include the SCC and the applicable modules.
 
-**ELVARON LIMITED**
-Registration No. 79402144
-14/F, China Building, 29 Queen's Road Central, Central, Hong Kong
+**Sangerto LTD**
+CRN: 17456264
+71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA
 support@genora.art

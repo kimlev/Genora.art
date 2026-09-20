@@ -1,6 +1,6 @@
 # Genora.art Privacy Policy
 
-**Operator (data user / controller):** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Operator (data user / controller):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact for data matters:** support@genora.art
 
 **Version:** 2.0
@@ -227,7 +227,7 @@ We may update the Policy. The number of the current version is indicated in the 
 
 ## 15. Contacts
 
-**Operator:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Data requests, communications, and complaints:** support@genora.art
 
 We review communications regarding the processing of personal data directly and seek to resolve them without involving third parties. A communication is sent from the email address linked to the account; the procedure and time limits for review are described in §10.

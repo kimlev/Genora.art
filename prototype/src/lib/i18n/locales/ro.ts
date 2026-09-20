@@ -1250,7 +1250,7 @@ export const ro: Dictionary = {
     materials: "Materiale",
     documentation: "Documentație",
     copyright: "© Genora.art. Toate drepturile rezervate.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Toate drepturile rezervate.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Toate drepturile rezervate.",
     securePayment: "Plată sigură",
     links: {
       models: "Modele",

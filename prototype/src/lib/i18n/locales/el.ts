@@ -1250,7 +1250,7 @@ export const el: Dictionary = {
     materials: "Υλικό",
     documentation: "Τεκμηρίωση",
     copyright: "© Genora.art. Με επιφύλαξη παντός δικαιώματος.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Με επιφύλαξη παντός δικαιώματος.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Με επιφύλαξη παντός δικαιώματος.",
     securePayment: "Ασφαλής πληρωμή",
     links: {
       models: "Μοντέλα",

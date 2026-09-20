@@ -1,6 +1,6 @@
 # Genora.art Intellectual Property and Copyright Policy
 
-**Operator:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact for rights-infringement communications:** support@genora.art (subject: “IP”)
 
 **Version:** 2.0
@@ -117,4 +117,4 @@ The Company reviews communications prepared in accordance with the rules of the 
 ## 11. Contacts
 
 **support@genora.art**
-ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.

@@ -1,6 +1,6 @@
 # Genora.art Security Policy
 
-**Operator:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Security contact:** support@genora.art (email subject: “Security”)
 
 **Version:** 2.0
@@ -142,4 +142,4 @@ For transparency, the Company states the following limitations as of the date of
 ## 13. Contacts
 
 **support@genora.art**
-ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.

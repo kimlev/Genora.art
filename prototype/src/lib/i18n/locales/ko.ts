@@ -1250,7 +1250,7 @@ export const ko: Dictionary = {
     materials: "자료",
     documentation: "문서",
     copyright: "© Genora.art. All rights reserved.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. All rights reserved.",
+    copyrightFull: "© Genora.art — Sangerto LTD. All rights reserved.",
     securePayment: "안전한 결제",
     links: {
       models: "모델",

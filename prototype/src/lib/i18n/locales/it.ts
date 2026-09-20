@@ -1250,7 +1250,7 @@ export const it: Dictionary = {
     materials: "Materiali",
     documentation: "Documentazione",
     copyright: "© Genora.art. Tutti i diritti riservati.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Tutti i diritti riservati.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Tutti i diritti riservati.",
     securePayment: "Pagamento sicuro",
     links: {
       models: "Modelli",

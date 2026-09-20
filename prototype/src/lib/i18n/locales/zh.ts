@@ -1250,7 +1250,7 @@ export const zh: Dictionary = {
     materials: "资料",
     documentation: "文档",
     copyright: "© Genora.art. 保留所有权利。",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. 保留所有权利。",
+    copyrightFull: "© Genora.art — Sangerto LTD. 保留所有权利。",
     securePayment: "安全支付",
     links: {
       models: "模型",

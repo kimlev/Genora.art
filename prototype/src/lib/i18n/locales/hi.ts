@@ -1250,7 +1250,7 @@ export const hi: Dictionary = {
     materials: "सामग्री",
     documentation: "दस्तावेज़",
     copyright: "© Genora.art. सर्वाधिकार सुरक्षित।",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. सर्वाधिकार सुरक्षित।",
+    copyrightFull: "© Genora.art — Sangerto LTD. सर्वाधिकार सुरक्षित।",
     securePayment: "सुरक्षित भुगतान",
     links: {
       models: "मॉडल",
