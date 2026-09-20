@@ -3,7 +3,7 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact:** support@genora.art
 
-**Version:** 2.0
+**Version:** 2.1
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -68,10 +68,10 @@ The following information is retained after account deletion to the extent neces
 
 | Category | Period | Basis |
 |-----------|------|-----------|
-| Payment records, invoices, accounting documents | 7 years | s. 373 Companies Ordinance (Cap. 622), s. 51C Inland Revenue Ordinance (Cap. 112) |
-| Consumption and tariffication records in de-identified or aggregated form | 7 years | accounting, tax reporting, resolution of disputes over charges |
-| Security logs and information about violations, blocks, fraud | up to 12 months; for confirmed violations — up to 3 years | protection of the Service and third parties, legitimate interest |
-| Correspondence on requests, disputes, and claims | up to 24 months; if a dispute exists — until its conclusion and expiry of the limitation period | protection of legal position |
+| Payment records, invoices, accounting documents | normally 6 years after the relevant company financial year; longer if law, an enquiry or a dispute requires it | UK accounting and tax obligations |
+| Consumption and tariffication records needed for accounting, or in de-identified or aggregated form | according to the applicable accounting period or until no longer needed for a related dispute | accounting, tax reporting, resolution of disputes over charges |
+| Security logs and information about violations, blocks, fraud | while needed for security, abuse prevention or a related claim, subject to review | protection of the Service and third parties, legitimate interest |
+| Correspondence on requests, disputes, and claims | while needed to resolve the matter and any related claim | protection of legal position |
 | Data subject to retention at the request of a court or competent authority | according to the request | legal obligation |
 
 Data previously transmitted to AI Providers as part of completed requests are processed and deleted in accordance with the policies of the respective providers; the Company cannot ensure their deletion on the third party’s side and is not responsible for their practices.
@@ -100,9 +100,9 @@ Data previously transmitted to AI Providers as part of completed requests are pr
 
 ## 9. Time limits for execution
 
-9.1. After successful verification of account ownership: access is terminated within 3 business days; the principal deletion of data is performed within 30 calendar days.
+9.1. We assess a verified erasure request without undue delay and normally respond within one calendar month, subject to any extension permitted by applicable law. We then carry out the deletion or explain which data must remain and why. Technical expiry of a session or token does not itself erase its database record.
 
-9.2. Deletion of data from backups occurs as they naturally rotate, generally within 90 calendar days; until that time the data are not used for purposes other than disaster recovery and compliance with legal requirements.
+9.2. If backup copies exist, they are removed through the applicable backup-retention and rotation process. We do not state a fixed deletion period for those copies until the current backup configuration has been verified. Before rotation, backups are used only for recovery or a legal obligation, and restored data remain subject to the original erasure request.
 
 9.3. If execution of the request requires a technical check or is connected with an unfinished dispute or bank proceeding, the period may be extended with notice of the reasons.
 

@@ -3,7 +3,7 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact:** support@genora.art
 
-**Version:** 2.0
+**Version:** 2.1
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -54,6 +54,8 @@ Practices of storage, logging, and training on data are determined by each provi
 | Acceptance of payments and processing of refunds | licensed payment providers and payment intermediaries | payment and contact data entered on the provider’s side, amount, currency, status, transaction identifier |
 | Domain registration and DNS servicing | domain-name registrar and DNS operator | technical domain data |
 | Professional advisers: legal, accounting, audit | engaged as needed on the basis of confidentiality obligations | minimally necessary information |
+
+**Location of primary storage.** The application and its separate PostgreSQL database are hosted on a European server. Development and production use separate database configurations. This describes the primary application storage, not the location of every email, network log, backup, payment record or copy processed by a selected AI Provider. Those recipients may be outside Europe, as explained in the Privacy Policy. The retention and location of any backups must be verified against the active server configuration before a fixed promise is made.
 
 **On disclosure of specific providers.** This page discloses functions, categories of providers, and categories of data transferred — the volume necessary to inform about data recipients in accordance with applicable law. The names of specific legal entities are not published: their disclosure relates to information about the organization of infrastructure and protection of the Service against targeted attacks.
 

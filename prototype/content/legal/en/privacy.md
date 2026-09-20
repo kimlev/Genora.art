@@ -1,11 +1,11 @@
 # Genora.art Privacy Policy
 
-**Operator (data user / controller):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+**Operator (controller):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact for data matters:** support@genora.art
 
-**Version:** 2.0
+**Version:** 2.1
 **Effective date:** from the date of publication on the website.
-**Supersedes:** version 1.0.
+**Supersedes:** version 2.0.
 
 ---
 
@@ -13,7 +13,7 @@
 
 This Policy explains what data Genora.art collects, why, on what legal basis, to whom it is disclosed, how long it is retained, and what rights you have. The Policy applies to the website genora.art and its subdomains, the account, chat, agents, memory, payments, support, and related features (**“Service”**).
 
-The Policy has been prepared taking into account the requirements of: the Personal Data (Privacy) Ordinance (Cap. 486) of Hong Kong (**“PDPO”**), including Data Protection Principles 1–6; Regulation (EU) 2016/679 (**“GDPR”**) and the UK GDPR — in respect of users from the EEA, Switzerland, and the United Kingdom; the California Consumer Privacy Act as amended by the CPRA (**“CCPA/CPRA”**) — in respect of California residents; and other applicable data-protection rules.
+The Company is established in the United Kingdom and processes personal data under the UK GDPR and the Data Protection Act 2018. The EU GDPR, Swiss data-protection law, the California CCPA/CPRA, and other local rules also apply where their territorial requirements are met. The location of a server does not by itself determine which privacy law applies.
 
 This Policy is not part of a commercial offer and does not expand the Company’s obligations beyond what is expressly provided by mandatory rules of law.
 
@@ -21,7 +21,7 @@ This Policy is not part of a commercial offer and does not expand the Company’
 
 ## 2. Key warning: what you should not send to the Service
 
-The Service transmits the contents of your requests to third-party AI Providers, some of which are located outside Hong Kong, the EEA, and your country, including the United States and mainland China.
+The Service's primary application database is hosted on a server in Europe. This does **not** mean that all processing stays in Europe: the contents of a request are transmitted to the selected third-party AI Provider, which may process them elsewhere, including in the United States or mainland China. Email, traffic-protection, payment and other services may also involve separate providers and locations. See §§7–8.
 
 **Do not send to the Service:**
 
@@ -81,25 +81,25 @@ Data are obtained: (a) directly from you — upon registration, use of chat, fil
 
 ## 5. Purposes of processing and legal bases
 
-| No. | Purpose | Data categories | Legal basis (GDPR / UK GDPR) | PDPO alignment |
-|---|------|------------------|--------------------------------------|-------------------|
-| 1 | Creation and maintenance of the account, authentication | 3.1, 3.2 | Performance of a contract — Art. 6(1)(b) | DPP1, DPP3 |
-| 2 | Email verification, access recovery | 3.1 | Performance of a contract — Art. 6(1)(b) | DPP1 |
-| 3 | Execution of requests to Models, operation of agents | 3.3 | Performance of a contract — Art. 6(1)(b) | DPP1, DPP3 |
-| 4 | Retention of history and memory across chats | 3.3 | Performance of a contract; for optional features — consent, Art. 6(1)(a) | DPP1, DPP3 |
-| 5 | Cost calculation, Balance maintenance, billing | 3.4, 3.5 | Performance of a contract — Art. 6(1)(b) | DPP1 |
-| 6 | Accounting and tax records | 3.5 | Legal obligation — Art. 6(1)(c) | DPP2 |
-| 7 | User support | 3.1, 3.6, 3.4 | Performance of a contract; legitimate interest — Art. 6(1)(f) | DPP1, DPP3 |
-| 8 | Security, prevention of fraud and abuse | 3.2, 3.7, 3.4 | Legitimate interest — Art. 6(1)(f) | DPP4 |
-| 9 | Ensuring operability, error diagnosis | 3.7 | Legitimate interest — Art. 6(1)(f) | DPP4 |
-| 10 | Compliance with sanctions requirements and AI Provider requirements | 3.1, 3.2 | Legal obligation; legitimate interest | DPP3 |
-| 11 | Responses to lawful requests of authorities, defense in disputes | all applicable | Legal obligation; legitimate interest | DPP3, DPP2 |
-| 12 | Service notices (changes to terms, security, payments) | 3.1 | Performance of a contract; legal obligation | DPP3 |
-| 13 | Optional analytics and marketing communications | 3.1, 3.2 | Consent — Art. 6(1)(a); withdrawable at any time | DPP3 + express consent under Part VI-A PDPO |
+| No. | Purpose | Data categories | Legal basis (GDPR / UK GDPR) |
+|---|------|------------------|--------------------------------------|
+| 1 | Creation and maintenance of the account, authentication | 3.1, 3.2 | Performance of a contract — Art. 6(1)(b) |
+| 2 | Email verification, access recovery | 3.1 | Performance of a contract — Art. 6(1)(b) |
+| 3 | Execution of requests to Models, operation of agents | 3.3 | Performance of a contract — Art. 6(1)(b) |
+| 4 | Retention of history and memory across chats | 3.3 | Performance of a contract; for optional features — consent, Art. 6(1)(a) |
+| 5 | Cost calculation, Balance maintenance, billing | 3.4, 3.5 | Performance of a contract — Art. 6(1)(b) |
+| 6 | Accounting and tax records | 3.5 | Legal obligation — Art. 6(1)(c) |
+| 7 | User support | 3.1, 3.6, 3.4 | Performance of a contract; legitimate interest — Art. 6(1)(f) |
+| 8 | Security, prevention of fraud and abuse | 3.2, 3.7, 3.4 | Legitimate interest — Art. 6(1)(f) |
+| 9 | Ensuring operability, error diagnosis | 3.7 | Legitimate interest — Art. 6(1)(f) |
+| 10 | Compliance with sanctions requirements and AI Provider requirements | 3.1, 3.2 | Legal obligation; legitimate interest |
+| 11 | Responses to lawful requests of authorities, defense in disputes | all applicable | Legal obligation; legitimate interest |
+| 12 | Service notices (changes to terms, security, payments) | 3.1 | Performance of a contract; legal obligation |
+| 13 | Optional analytics and marketing communications | 3.1, 3.2 | Consent — Art. 6(1)(a); withdrawable at any time |
 
 The Company **does not use** your data and the contents of requests to train its own models and does not sell personal data.
 
-Direct marketing (including communications about new features and offers) is carried out only with your express consent, as required by Part VI-A PDPO; consent is withdrawn via the link in the email or by contacting support@genora.art and terminates such use.
+Direct marketing (including communications about new features and offers) is carried out only where a valid consent or another applicable legal basis exists. Where consent is required, it can be withdrawn via the link in the email or by contacting support@genora.art.
 
 ---
 
@@ -143,11 +143,11 @@ Direct marketing (including communications about new features and offers) is car
 
 ## 8. International data transfers
 
-8.1. Infrastructure and AI Providers may be located outside Hong Kong and the country of your residence, including in the **United States**, the **EEA**, **Singapore**, and **mainland China** (for Kimi/Moonshot AI and Qwen/Alibaba Cloud models).
+8.1. The primary application database is hosted on a server in Europe, separately from the production environment. The UK-based controller may access data to operate the Service. Network protection, corporate email, payments, and the AI Provider selected for a request can process relevant data in other countries, including the **United States**, **Singapore**, and **mainland China** for certain models. European hosting does not make a request to an overseas provider an EU-only request. Hosting location does not establish the location of every backup or copy held by a third party.
 
-8.2. For transfers subject to the GDPR/UK GDPR, the available mechanisms are applied: the European Commission’s standard contractual clauses (Decision 2021/914) with the relevant modules, the UK International Data Transfer Addendum, a transfer-circumstance assessment, and supplementary measures (volume minimization, channel encryption, access restriction).
+8.2. Where an international transfer is restricted under the UK GDPR or EU GDPR, the Company assesses the recipient and uses a valid transfer mechanism where required, such as an applicable adequacy decision or appropriate contractual safeguards (EU standard contractual clauses and/or a UK transfer instrument), together with any necessary assessment and supplementary protections. This Policy does not itself execute those agreements or guarantee that every third-party destination is covered; a transfer must not proceed without an applicable legal basis.
 
-8.3. Section 33 of the PDPO, which regulates transfers of data outside Hong Kong, is not in force as of the date of this version; independently of that, the Company applies contractual measures recommended by the Office of the Privacy Commissioner for Personal Data of Hong Kong (PCPD).
+8.3. Data received from the EEA by the UK controller and subsequent disclosures to other recipients are assessed separately under the applicable EU and UK transfer rules. Requests for the current locations and safeguards for a specific provider can be sent to support@genora.art.
 
 8.4. **Special warning regarding mainland China.** The legal regimes of certain countries, including the PRC, permit access by competent authorities to data. If such a transfer is unacceptable to you, do not select models of the corresponding providers and do not send them data. The Company cannot guarantee the impossibility of access by authorities of foreign states to data located in their jurisdiction.
 
@@ -159,19 +159,18 @@ Direct marketing (including communications about new features and offers) is car
 
 | Data | Retention period | Basis |
 |--------|---------------|-----------|
-| Account profile and settings | while the account is active, then up to 90 days after confirmed deletion | contract, dispute resolution |
+| Account profile and settings | while the account is active; after a verified deletion request, only information still needed for a legal obligation or claim is retained | contract, legal obligation, disputes |
 | Password hash | while the account is active | security |
-| Email-verification token | 24 hours | security |
-| Sessions | 12 hours, or 30 days if “remember me” is selected; then deletion or de-identification | security |
-| Chat history, attachments, memory | until deleted by you, deletion of the account, or expiry of the period set by product rules | contract, consent |
-| Consumption and billing records | 7 years | s. 373 Companies Ordinance (Cap. 622), s. 51C Inland Revenue Ordinance (Cap. 112) |
-| Payment records and documents | 7 years | accounting and tax legislation |
-| Support requests | up to 24 months after closure of the request | legitimate interest, disputes |
-| Security logs and access events | up to 12 months, then deletion or de-identification | security |
-| Records of violations, blocks, fraud | up to 3 years; if a dispute exists — until its conclusion | protection of rights |
+| Email-verification token | usable for 24 hours; expired token records are removed during maintenance | security |
+| Sessions | usable until their configured expiry or revocation; expired records are removed during maintenance | security |
+| Chat history, attachments, memory | while available in the account or until a verified deletion request is processed, subject to legal retention exceptions | contract, consent |
+| Consumption, billing and payment records required for accounts or tax | normally 6 years after the relevant company financial year, longer where an applicable law, enquiry or dispute requires it | UK accounting and tax obligations |
+| Support requests | while needed to resolve the request and any related claim, then deleted or de-identified | legitimate interest, disputes |
+| Security logs and access events | while needed to investigate incidents, prevent abuse or defend a claim, then deleted or de-identified | security |
+| Records of violations, blocks, fraud | while needed for fraud prevention or a related dispute, subject to periodic review | protection of rights |
 | Materials necessary for a legal claim | until expiry of the limitation period | protection of rights |
 
-Certain service records of use in the internal gateway may be retained in de-identified or aggregated form after deletion of a conversation, because they are necessary for accounting, tariffication, and abuse protection.
+Technical expiry does not by itself erase a database row. Deletion and backup rotation are separate operational processes; no fixed backup-deletion period is promised until the relevant retention configuration is verified. Certain service records of use in the internal gateway may be retained in de-identified or aggregated form after deletion of a conversation when needed for accounting, tariffication, or abuse protection. The provider's own retention rules apply to copies already transmitted to it.
 
 ---
 
@@ -179,19 +178,18 @@ Certain service records of use in the internal gateway may be retained in de-ide
 
 10.1. Depending on applicable law, you may:
 
-- **PDPO:** obtain confirmation of the existence of data, access to data and their correction (ss. 18–22A), and withdraw consent to direct marketing;
-- **GDPR / UK GDPR:** access (Art. 15), rectification (16), erasure (17), restriction of processing (18), portability (20), objection to processing based on legitimate interest (21), withdrawal of consent (7(3)), complaint to a supervisory authority (77);
+- **UK GDPR / EU GDPR where applicable:** access (Art. 15), rectification (16), erasure (17), restriction of processing (18), portability (20), objection to processing based on legitimate interest (21), withdrawal of consent (7(3)), complaint to a supervisory authority (77);
 - **CCPA/CPRA:** know the categories of data collected and recipients, obtain a copy, delete, correct, limit the use of sensitive data, and not be discriminated against for exercising rights.
 
 10.2. **How to exercise.** Send a request to **support@genora.art** from the email address linked to the account, stating the substance of the request. To protect the account, we may ask you to confirm control of the address or other reasonable information. Requests through a representative are considered upon confirmation of authority.
 
-10.3. **Response period.** We respond within 30 calendar days (for the PDPO — no later than 40 days pursuant to s. 19 PDPO). The period may be extended in the event of a complex request, with notice of the reasons.
+10.3. **Response period.** We respond without undue delay and normally within one calendar month of receipt of a valid request or the information reasonably needed to verify it. Where the law permits an extension for a complex request, we will notify you and explain the reason.
 
 10.4. **Fee.** A response is provided free of charge; for manifestly unfounded or excessively repetitive requests a reasonable fee may be charged to the extent permitted by law.
 
 10.5. **Limitations.** We may refuse in whole or in part if the request: infringes the rights of third parties; relates to data that must be retained by law; is connected with fraud prevention and security protection; creates a risk of disclosure of confidential information. A refusal is reasoned.
 
-10.6. **Complaints.** You may contact us, as well as a supervisory authority: the PCPD (Hong Kong), the data-protection supervisory authority of an EEA country, the ICO (United Kingdom), or another competent authority.
+10.6. **Complaints.** You may contact us or lodge a complaint with the UK Information Commissioner's Office (ICO), the competent EEA supervisory authority where the EU GDPR applies, or another authority with jurisdiction.
 
 ---
 

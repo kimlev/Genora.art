@@ -3,7 +3,7 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact:** support@genora.art
 
-**Version:** 2.0
+**Version:** 2.1
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -12,7 +12,7 @@
 
 This Policy describes which cookies, browser local storage, and similar technologies Genora.art uses, why they are needed, and how consent is given and withdrawn. The document applies together with the Privacy Policy and forms part of the Terms of Use.
 
-Legal framework: Directive 2002/58/EC (ePrivacy) and the national rules of EEA countries, PECR (United Kingdom), GDPR/UK GDPR in respect of personal data, PDPO (Cap. 486) of Hong Kong, CCPA/CPRA in respect of tracking.
+Legal framework: the UK Privacy and Electronic Communications Regulations (PECR) and UK GDPR; Directive 2002/58/EC (ePrivacy), national EEA rules and EU GDPR where applicable; CCPA/CPRA where applicable.
 
 ---
 

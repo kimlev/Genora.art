@@ -34,3 +34,18 @@ test("footer and localized copyright contain the new company", async () => {
     assert.doesNotMatch(content, /ELVARON LIMITED/);
   }
 });
+
+test("legal policies describe UK law and European primary storage without Hong Kong clauses", async () => {
+  for (const folder of ["content/legal", "content/legal/en"]) {
+    const files = (await readdir(join(root, folder))).filter((file) => file.endsWith(".md"));
+    for (const file of files) {
+      const content = await readFile(join(root, folder, file), "utf8");
+      assert.doesNotMatch(content, /Hong Kong|Гонконг|HKIAC|PDPO|PCPD|Companies Ordinance|Inland Revenue Ordinance/, `${folder}/${file}`);
+    }
+    const terms = await readFile(join(root, folder, "terms.md"), "utf8");
+    const privacy = await readFile(join(root, folder, "privacy.md"), "utf8");
+    assert.match(terms, /England and Wales|Англии и Уэльса/);
+    assert.match(privacy, /server in Europe|сервере в Европе/);
+    assert.match(privacy, /6 years|6 лет/);
+  }
+});

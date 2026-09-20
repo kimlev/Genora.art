@@ -4,7 +4,7 @@
 **Controller:** the organization or other person that has entered into an agreement with the Processor for the use of Genora.art (**“Customer”**).
 **Contact:** support@genora.art
 
-**Version:** 2.0
+**Version:** 2.1
 
 ---
 
@@ -20,7 +20,7 @@ In the event of a conflict between the DPA and the Terms of Use on matters of pe
 
 ## 1. Definitions
 
-**“Data Protection Legislation”** — the rules applicable to the processing, including the PDPO (Cap. 486) of Hong Kong, the GDPR (Regulation (EU) 2016/679), the UK GDPR and the Data Protection Act 2018, Swiss data-protection legislation, the CCPA/CPRA, and other applicable rules.
+**“Data Protection Legislation”** — the rules applicable to the processing, including the UK GDPR and Data Protection Act 2018, the EU GDPR (Regulation (EU) 2016/679) where applicable, Swiss data-protection legislation, the CCPA/CPRA, and other applicable rules.
 
 **“Customer Data”** — personal data that the Processor processes on behalf of the Customer in the provision of the Service.
 
@@ -38,7 +38,7 @@ Other terms are used in the meanings defined in the Terms of Use and the Data Pr
 
 ## 2. Roles of the parties
 
-2.1. In respect of Customer Data processed for the provision of the Service, **the Customer acts as controller** (data user in the terminology of the PDPO), and **the Processor acts as processor** (data processor).
+2.1. In respect of Customer Data processed for the provision of the Service, **the Customer acts as controller**, and **the Processor acts as processor**. Where the Processor independently determines purposes for account, billing, security or compliance data, its role is described in the Privacy Policy.
 
 2.2. In respect of data that the Processor processes for its own purposes — account maintenance, authentication, billing and accounting, ensuring security and preventing abuse, compliance with sanctions requirements, compliance with legal requirements, protection of legal position — **the Processor acts as an independent controller**. Such processing is governed by the Privacy Policy, and not by this DPA.
 
@@ -109,15 +109,15 @@ Access to Customer Data is granted only to those employees and contractors of th
 
 ## 8. International data transfers
 
-8.1. The Customer confirms that processing involves transfer of data outside Hong Kong and the Customer’s country, including to the United States, the EEA, Singapore, and **mainland China** — depending on the Models selected and the infrastructure.
+8.1. The primary application database is hosted on a server in Europe. Customer Data sent to a selected AI Provider or ancillary service may be processed outside Europe and the Customer's country, including in the United States, Singapore or **mainland China**, depending on the service selected. European hosting does not keep every request or third-party copy within Europe.
 
-8.2. For transfers subject to the GDPR, the **SCC, Module 2 (controller — processor)** apply, incorporated into the DPA by reference, with the following particulars: place — Hong Kong; governing law of the SCC — the law of an EU Member State as determined by the SCC; the SCC annexes are deemed completed with the information from Annexes 1–3 of this DPA; frequency of transfer — continuously, as requests are sent.
+8.2. Where a transfer is restricted under the EU GDPR or UK GDPR, the parties must identify an applicable adequacy decision or put in place an appropriate transfer instrument before that transfer. EU standard contractual clauses and a UK international data transfer instrument may be used where appropriate, with the required parties, modules, annexes and transfer assessment completed separately. This DPA does not itself execute or complete those instruments.
 
-8.3. For transfers subject to the UK GDPR, the UK International Data Transfer Addendum to the SCC applies.
+8.3. Receipt of data by the UK-based Processor from an EEA customer and any onward disclosure to another provider are assessed separately under the applicable EU and UK rules.
 
 8.4. The Processor conducts a reasonable assessment of the transfer circumstances and applies supplementary measures: minimization of data transferred, channel encryption, access restriction, contractual obligations to notify of lawful requests of authorities to the extent permitted by law.
 
-8.5. Section 33 of the PDPO is not in force as of the date of this version; independently of that, the Processor applies contractual measures recommended by the PCPD.
+8.5. Upon reasonable request, the Processor will identify the current recipients, processing locations and transfer safeguards relevant to the Customer's configuration, subject to legitimate confidentiality and security restrictions.
 
 8.6. The Processor **cannot guarantee** the impossibility of access by competent authorities of foreign states to data located in their jurisdiction. The Customer accepts this risk and must take it into account when selecting Models.
 
@@ -235,7 +235,7 @@ Access to Customer Data is granted only to those employees and contractors of th
 
 **Secrets management:** storage of keys and credentials in environment variables of the production environment; exclusion of secrets from the repository; rotation upon suspicion of compromise and personnel changes.
 
-**Continuity:** regular backup with restricted access; restoration procedures.
+**Continuity:** backup and restoration according to the verified operational configuration; access to any copies is restricted to authorized personnel. Backup frequency and location are confirmed separately before being included in contractual assurances.
 
 **Personnel:** confidentiality obligations; granting of access as needed; termination of access upon completion of the task or cooperation.
 

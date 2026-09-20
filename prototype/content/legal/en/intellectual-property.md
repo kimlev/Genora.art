@@ -3,7 +3,7 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact for rights-infringement communications:** support@genora.art (subject: “IP”)
 
-**Version:** 2.0
+**Version:** 2.1
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -16,7 +16,7 @@ This Policy describes the allocation of rights in the platform, your materials, 
 
 ## 2. Rights in the platform
 
-2.1. The Service and all its elements — source and object code, architecture, interfaces, design, layout, graphics, icons, texts, documentation, the model-catalog database, internal prompts and service instructions, the name “Genora.art”, logos, and other designations (**“Materials”**) — belong to the Company or its licensors and are protected by intellectual-property legislation, including the Copyright Ordinance (Cap. 528) and the Trade Marks Ordinance (Cap. 559) of Hong Kong, as well as international treaties.
+2.1. The Service and all its elements — source and object code, architecture, interfaces, design, layout, graphics, icons, texts, documentation, the model-catalog database, internal prompts and service instructions, the name “Genora.art”, logos, and other designations (**“Materials”**) — belong to the Company or its licensors and are protected by applicable intellectual-property law, including UK copyright and trade-mark law, as well as international treaties.
 
 2.2. You are granted a limited, revocable, non-exclusive, non-transferable right of access to the Service for your own use in accordance with the Terms. No other rights, licenses, or permissions are granted, whether expressly, by implication, or by reason of absence of objection.
 
@@ -110,7 +110,7 @@ Ideas, suggestions, comments, and materials voluntarily sent by you to the Compa
 
 ## 10. Notices from rights holders in other jurisdictions
 
-The Company reviews communications prepared in accordance with the rules of the Copyright Ordinance (Cap. 528) of Hong Kong, as well as communications prepared in a manner analogous to the requirements of the legislation of other jurisdictions (including notices in the format used in the United States under the Digital Millennium Copyright Act), provided that they contain the information listed in §6.1. Review of a communication in such a format does not mean submission of the Company to a foreign legal system and does not change the governing law and dispute-resolution procedure established by §20 of the Terms of Use.
+The Company reviews intellectual-property notices containing the information listed in §6.1, including notices submitted in a format used under the United States Digital Millennium Copyright Act. Accepting such a notice does not change the governing law and dispute-resolution procedure in §20 of the Terms of Use.
 
 ---
 

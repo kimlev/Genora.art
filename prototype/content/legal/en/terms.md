@@ -4,9 +4,9 @@
 **Contact:** support@genora.art
 **Service:** the website genora.art, its subdomains, applications, and related features.
 
-**Version:** 2.2
+**Version:** 2.3
 **Effective date:** for new users — from the date of publication on the website; for existing users — 30 calendar days after notice.
-**Supersedes:** version 1.0.
+**Supersedes:** version 2.2.
 
 ---
 
@@ -84,7 +84,7 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 ## 4. Sanctions, export control, and prohibited territories
 
-4.1. You represent and warrant that you, your organization, your beneficial owners, and your end users: (a) are not included in sanctions lists (including the OFAC SDN list, the lists of the UN, the EU, and the United Kingdom, and applicable Hong Kong restrictions); (b) are not located in, and are not residents of, a jurisdiction from which access is restricted by applicable law or the Provider Terms; (c) will not use the Service to re-export, transfer, or provide access to Models to persons to whom such access is prohibited.
+4.1. You represent and warrant that you, your organization, your beneficial owners, and your end users: (a) are not included in sanctions lists applicable to the Service (including the lists of the UN, the United Kingdom, the EU, and the US where applicable); (b) are not located in, and are not residents of, a jurisdiction from which access is restricted by applicable law or the Provider Terms; (c) will not use the Service to re-export, transfer, or provide access to Models to persons to whom such access is prohibited.
 
 4.2. Individual AI Providers independently restrict access by territory and by category of persons (**“Restricted Models”**). You undertake not to use a VPN, proxy, geolocation spoofing, relays, or other means of circumventing such restrictions, and not to assist other persons in doing so.
 
@@ -283,7 +283,7 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 16.5. No oral or written advice obtained from the Company or through the Service creates any warranty not expressly stated in these Terms.
 
-16.6. Certain jurisdictions do not allow the exclusion of certain warranties; to that extent the exclusions do not apply, and you may have additional rights provided by mandatory rules (including the Supply of Services (Implied Terms) Ordinance (Cap. 457) and the Control of Exemption Clauses Ordinance (Cap. 71) of Hong Kong).
+16.6. These exclusions do not limit rights that cannot lawfully be excluded, including applicable rights under the UK Consumer Rights Act 2015 and mandatory consumer-protection law in your country of residence.
 
 ---
 
@@ -327,21 +327,21 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 ---
 
-## 20. Governing law, dispute resolution, and arbitration
+## 20. Governing law and dispute resolution
 
-20.1. **Governing law.** These Terms and any related disputes are governed by the law of **Hong Kong (Hong Kong SAR, China)** without application of conflict-of-laws rules that would refer to another legal system, and with preservation of the mandatory consumer-protection rules of the country of your habitual residence, if they apply to you as a consumer.
+20.1. **Governing law.** These Terms and any related disputes are governed by the law of **England and Wales**, without depriving consumers of mandatory protections available under the law of their country of habitual residence.
 
 20.2. **Pre-action settlement.** Before initiating formal proceedings, a party sends the other party a written notice describing the dispute and the claimed relief: to the User — at the Account email address; to the Company — at support@genora.art and at the address specified in §27. The parties shall in good faith seek to settle the dispute within **30 days** from the date of receipt of the notice.
 
-20.3. **Arbitration.** If the dispute is not settled, it shall be finally resolved by **arbitration administered by the Hong Kong International Arbitration Centre (HKIAC)** in accordance with the HKIAC Administered Arbitration Rules in force at the time of filing, subject to the following: the seat of arbitration is Hong Kong; the language is English or Russian as agreed by the parties, and in the absence of agreement — English; the number of arbitrators is one; the award is final and binding.
+20.3. **Courts.** If the dispute is not settled, either party may bring a claim before the courts of England and Wales. A consumer may also bring a claim in any other court available under mandatory applicable law.
 
-20.4. **Waiver of class actions.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, CLAIMS ARE HEARD ONLY ON AN INDIVIDUAL BASIS. THE PARTIES WAIVE PARTICIPATION IN CLASS, COLLECTIVE, AND REPRESENTATIVE PROCEEDINGS, AND THE JOINDER OF CLAIMS OF DIFFERENT PERSONS WITHOUT THE CONSENT OF BOTH PARTIES.
+20.4. **Statutory rights.** Nothing in this section excludes a right to collective or representative proceedings where such a right is provided by mandatory applicable law.
 
 20.5. **Exceptions.** Nothing in §20 deprives a party of the right: to seek interim or injunctive relief; to protect intellectual-property rights in court; to apply to a consumer-protection authority or other competent authority; to use small-claims procedures, if available.
 
-20.6. **Consumer reservation.** If the mandatory rules of law of your country as a consumer do not permit an arbitration clause or a restriction of jurisdiction, the corresponding provision does not apply to you, and the dispute is heard by the court competent under those rules. The remaining provisions remain in force.
+20.6. **Consumer reservation.** A consumer's mandatory rights and access to competent courts are not restricted by this section.
 
-20.7. If §20.4 or the whole of §20.3 is held unenforceable, the dispute shall be heard exclusively by the courts of Hong Kong, to whose jurisdiction the parties submit as to substance and venue.
+20.7. Any agreement to use mediation or arbitration for a particular dispute may be made separately after that dispute arises, without limiting mandatory consumer rights.
 
 ---
 

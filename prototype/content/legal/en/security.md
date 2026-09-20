@@ -3,7 +3,7 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Security contact:** support@genora.art (email subject: “Security”)
 
-**Version:** 2.0
+**Version:** 2.1
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -43,11 +43,11 @@
 
 3.3. Session tokens are stored as irreversible hashes; the session cookie is issued with the `httpOnly`, `Secure`, and `SameSite=Lax` attributes.
 
-3.4. Data are placed in managed infrastructure with segregation of network contours: the public web layer, the application layer, the database, and the administrative contour are separated; the database is not published to the open network.
+3.4. The primary application database runs in a separate PostgreSQL container on the European application server; it is not published directly to the open network. Development and production configurations use separate databases. Network-protection, email and AI services are separate processing environments; their locations may differ.
 
 3.5. Access to the production environment is granted on the principle of least privilege, only to authorized persons and systems, using access keys instead of passwords.
 
-3.6. Backups are performed regularly; access to them is restricted; restoration is verified within operational procedures.
+3.6. Backup creation, location, access rules, retention and restoration tests depend on the active server configuration. This document does not assert a backup frequency or deletion deadline that has not been verified. Access to any backups must be restricted to authorized personnel.
 
 ---
 
