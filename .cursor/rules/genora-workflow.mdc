@@ -1,0 +1,46 @@
+---
+description: Genora.art — сначала граф GitNexus, затем бэк/фронт, затем автокоммит, деплой и отчёт
+alwaysApply: true
+---
+
+# Genora.art: граф → работа → коммит и деплой
+
+Если задание меняет бэкенд или фронтенд — сначала графы GitNexus, потом код,
+потом сами коммит и деплой, затем отчёт по пунктам.
+
+## Где что
+
+| Поле | Значение |
+|---|---|
+| GitHub | https://github.com/kimlev/Genora.art |
+| GitNexus | `repo: "Genora.art"` |
+| Ветка по умолчанию | `dev` → https://dev.genora.art |
+| Прод | ветка `prod` → https://genora.art (только по явной просьбе) |
+| Админка | https://dev.admin.genora.art / https://admin.genora.art |
+
+Бэкенд: `prototype/src/app/api/**`, `prototype/src/lib/server/**`, воркеры.
+Фронтенд: `prototype/src/app/**`, `prototype/src/components/**`, `web/**`.
+
+Не деплоить через `bash infra/scripts/deploy.sh` из Курсор.
+Не поднимать приложение на `82.25.161.169`.
+
+## Порядок
+
+1. **Графы, код не трогать.**  
+   `query({repo: "Genora.art", search_query: "…"})` → `context` →  
+   `impact({target: "symbolName", direction: "upstream", repo: "Genora.art"})`.  
+   HIGH/CRITICAL — предупредить до правок.
+2. **Сделать задание.** Только нужные символы.
+3. **Проверить.** `detect_changes` → `impact` → `check` →  
+   `node .gitnexus/run.cjs analyze` (битый FTS — `clean --force`, повтор).
+4. **Самим закоммитить и задеплоить, не спрашивать.**  
+   `ДД.ММ.ГГ — краткое описание` → пуш в текущую ветку →  
+   дождаться GitHub Actions **Deploy Genora**.
+5. **Отчёт по пунктам:**
+   - что сделано;
+   - коммит: https://github.com/kimlev/Genora.art/commit/`<hash>`;
+   - деплой: ветка, статус Actions, URL;
+   - GitNexus: граф обновлён.
+
+Не оставлять незакоммиченные правки. Секреты в git не класть.
+Force-push — только по явной просьбе.
