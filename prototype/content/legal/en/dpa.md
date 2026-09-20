@@ -4,7 +4,7 @@
 **Controller:** the organization or other person that has entered into an agreement with the Processor for the use of Genora.art (**“Customer”**).
 **Contact:** support@genora.art
 
-**Version:** 2.2
+**Version:** 2.3
 
 ---
 
@@ -235,7 +235,7 @@ Access to Customer Data is granted only to those employees and contractors of th
 
 **Secrets management:** storage of keys and credentials in environment variables of the production environment; exclusion of secrets from the repository; rotation upon suspicion of compromise and personnel changes.
 
-**Continuity:** the development database is backed up daily; its archive catalog is checked for readability, held on the same HOSTKEY VPS in Helsinki with server-administrator-only access, and deleted after 30 days. This does not replace an off-site copy or full test restore. The future production environment's regime is confirmed separately.
+**Continuity:** existing development-database copies are held on the HOSTKEY VPS in Helsinki with server-administrator-only access. The daily schedule is paused pending verification of separate encrypted object storage in the Netherlands; automatic 30-day rotation is not yet active. The future production environment's regime is confirmed separately.
 
 **Personnel:** confidentiality obligations; granting of access as needed; termination of access upon completion of the task or cooperation.
 

@@ -3,9 +3,9 @@
 **Operator (controller):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact for data matters:** support@genora.art
 
-**Version:** 2.2
+**Version:** 2.3
 **Effective date:** from the date of publication on the website.
-**Supersedes:** version 2.1.
+**Supersedes:** version 2.2.
 
 ---
 
@@ -170,7 +170,7 @@ Direct marketing (including communications about new features and offers) is car
 | Records of violations, blocks, fraud | while needed for fraud prevention or a related dispute, subject to periodic review | protection of rights |
 | Materials necessary for a legal claim | until expiry of the limitation period | protection of rights |
 
-Technical expiry does not by itself erase a database row. Daily development-database backups are held on the same HOSTKEY VPS in Helsinki for no more than 30 days and then automatically deleted. This is an operational recovery period, not a statutory UK GDPR period. Until rotation, backups are used only for recovery; data previously erased must be erased again after a restore. Copies on the same VPS do not protect against loss of the entire server. Certain service records of use in the internal gateway may be retained in de-identified or aggregated form after deletion of a conversation when needed for accounting, tariffication, or abuse protection. The provider's own retention rules apply to copies already transmitted to it.
+Technical expiry does not by itself erase a database row. During setup of separate object storage, existing development-database backups remain on the HOSTKEY VPS in Helsinki, Finland. Regular backup and automatic 30-day rotation are not yet enabled; no fixed deletion period is promised for these temporary copies. After an encrypted remote copy is verified, this policy and the actual retention period will be updated. Data previously erased must be erased again after a restore. Certain service records of use in the internal gateway may be retained in de-identified or aggregated form after deletion of a conversation when needed for accounting, tariffication, or abuse protection. The provider's own retention rules apply to copies already transmitted to it.
 
 ---
 

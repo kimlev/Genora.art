@@ -3,8 +3,6 @@ set -euo pipefail
 
 backup_dir=/srv/backups/genora-art-dev
 container=genora-dev-postgres
-# Daily rotation at 29 days ensures removal before a copy reaches 30 days.
-retention_minutes=41759
 
 umask 077
 install -d -m 0700 "$backup_dir"
@@ -21,6 +19,4 @@ docker exec -i "$container" pg_restore -l < "$temp_file" > /dev/null
 mv -n -- "$temp_file" "$backup_file"
 trap - EXIT
 
-# Remove only this job's completed dumps during the 29- to 30-day window.
-find "$backup_dir" -maxdepth 1 -type f -name 'genora-dev-*.dump' -mmin +"$retention_minutes" -delete
-printf 'Genora dev backup verified: %s (%s bytes)\n' "$backup_file" "$(stat -c %s "$backup_file")"
+python3 /srv/apps/genora-art-dev/infra/genora-dev/offload-postgres.py "$backup_file"

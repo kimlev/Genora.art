@@ -3,7 +3,7 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Security contact:** support@genora.art (email subject: “Security”)
 
-**Version:** 2.2
+**Version:** 2.3
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -47,7 +47,7 @@
 
 3.5. Access to the production environment is granted on the principle of least privilege, only to authorized persons and systems, using access keys instead of passwords.
 
-3.6. A development-database backup is created daily and its archive catalog is checked for readability. Copies reside on the same VPS in Helsinki, are accessible only to the server administrator, and are automatically deleted after 30 days. A full test restore is not part of the daily check; same-server storage does not protect against VPS loss. The future production environment's backup regime will be verified and published separately.
+3.6. Existing development-database copies are held on the HOSTKEY VPS in Helsinki with server-administrator-only access. The daily schedule is paused pending verification of separate encrypted object storage in the Netherlands. Automatic 30-day rotation is not yet active; same-server storage does not protect against VPS loss. The future production environment's regime will be verified and published separately.
 
 ---
 

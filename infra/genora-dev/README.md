@@ -9,14 +9,22 @@ This is an isolated dev deployment for `dev.genora.art`.
 
 ## Database backups
 
-The dev PostgreSQL database is backed up daily at 02:30 UTC to
-`/srv/backups/genora-art-dev` on the same HOSTKEY VPS in Helsinki, Finland.
-Only completed, catalog-verified custom-format dumps are retained for up to 30 days;
-older dumps are removed by the backup job. Files and directory are root-only.
-This local backup does not protect against loss of the entire VPS. Set up a
-separately approved off-site destination before claiming disaster recovery.
+The dev PostgreSQL database is backed up daily at 02:30 UTC. A root-only
+temporary dump in `/srv/backups/genora-art-dev` is checked with `pg_restore -l`,
+encrypted with a Genora-only AES-256-GCM key, uploaded into the separate
+`bce1ad038-genora-art-dev-backups` bucket at HOSTKEY's Netherlands cold S3
+endpoint, downloaded and verified by decryption and SHA-256, then removed from
+the VPS. Remote copies rotate in a 29- to 30-day window. If upload or
+verification fails, the local dump is retained for recovery and the job fails.
+Do not copy Blogoro's S3 credentials to Genora: they can access Blogoro backups.
+Provision a separate credential restricted to the Genora bucket (or a separate
+HOSTKEY S3 account) before enabling this schedule.
 
-Install the two `genora-dev-db-backup.*` units in `/etc/systemd/system/`, run
+Provision `/etc/genora-art/dev-backup-s3.json` with root-only mode `0600` and
+fields `endpoint`, `region`, `bucket`, `accessKeyId`, `secretAccessKey`, and a
+new Genora-only 32-byte hexadecimal `encryptionKey`. Never use Blogoro's
+encryption key. Install `python3-boto3` and `python3-cryptography` from the OS
+packages. Install the two `genora-dev-db-backup.*` units in `/etc/systemd/system/`, run
 `systemctl daemon-reload`, enable the timer, and run the service once. A
 successful `pg_restore -l` checks the archive catalog, not a full restore;
 periodically test a full restore in an isolated database.
