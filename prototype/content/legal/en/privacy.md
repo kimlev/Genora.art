@@ -3,9 +3,9 @@
 **Operator (controller):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact for data matters:** support@genora.art
 
-**Version:** 2.1
+**Version:** 2.2
 **Effective date:** from the date of publication on the website.
-**Supersedes:** version 2.0.
+**Supersedes:** version 2.1.
 
 ---
 
@@ -21,7 +21,7 @@ This Policy is not part of a commercial offer and does not expand the Company’
 
 ## 2. Key warning: what you should not send to the Service
 
-The Service's primary application database is hosted on a server in Europe. This does **not** mean that all processing stays in Europe: the contents of a request are transmitted to the selected third-party AI Provider, which may process them elsewhere, including in the United States or mainland China. Email, traffic-protection, payment and other services may also involve separate providers and locations. See §§7–8.
+The active development environment's primary application database is hosted on a HOSTKEY VPS in Helsinki, Finland (EU). This does **not** mean that all processing stays in Europe: the contents of a request are transmitted to the selected third-party AI Provider, which may process them elsewhere, including in the United States or mainland China. Email, traffic-protection, payment and other services may also involve separate providers and locations. See §§7–8.
 
 **Do not send to the Service:**
 
@@ -143,7 +143,7 @@ Direct marketing (including communications about new features and offers) is car
 
 ## 8. International data transfers
 
-8.1. The primary application database is hosted on a server in Europe, separately from the production environment. The UK-based controller may access data to operate the Service. Network protection, corporate email, payments, and the AI Provider selected for a request can process relevant data in other countries, including the **United States**, **Singapore**, and **mainland China** for certain models. European hosting does not make a request to an overseas provider an EU-only request. Hosting location does not establish the location of every backup or copy held by a third party.
+8.1. The active development environment's primary application database is hosted on a HOSTKEY VPS in Helsinki, Finland (EU), separately from the future production database. The UK-based controller may access data to operate the Service. Network protection, corporate email, payments, and the AI Provider selected for a request can process relevant data in other countries, including the **United States**, **Singapore**, and **mainland China** for certain models. European hosting does not make a request to an overseas provider an EU-only request. Hosting location does not establish the location of every copy held by a third party.
 
 8.2. Where an international transfer is restricted under the UK GDPR or EU GDPR, the Company assesses the recipient and uses a valid transfer mechanism where required, such as an applicable adequacy decision or appropriate contractual safeguards (EU standard contractual clauses and/or a UK transfer instrument), together with any necessary assessment and supplementary protections. This Policy does not itself execute those agreements or guarantee that every third-party destination is covered; a transfer must not proceed without an applicable legal basis.
 
@@ -170,7 +170,7 @@ Direct marketing (including communications about new features and offers) is car
 | Records of violations, blocks, fraud | while needed for fraud prevention or a related dispute, subject to periodic review | protection of rights |
 | Materials necessary for a legal claim | until expiry of the limitation period | protection of rights |
 
-Technical expiry does not by itself erase a database row. Deletion and backup rotation are separate operational processes; no fixed backup-deletion period is promised until the relevant retention configuration is verified. Certain service records of use in the internal gateway may be retained in de-identified or aggregated form after deletion of a conversation when needed for accounting, tariffication, or abuse protection. The provider's own retention rules apply to copies already transmitted to it.
+Technical expiry does not by itself erase a database row. Daily development-database backups are held on the same HOSTKEY VPS in Helsinki for no more than 30 days and then automatically deleted. This is an operational recovery period, not a statutory UK GDPR period. Until rotation, backups are used only for recovery; data previously erased must be erased again after a restore. Copies on the same VPS do not protect against loss of the entire server. Certain service records of use in the internal gateway may be retained in de-identified or aggregated form after deletion of a conversation when needed for accounting, tariffication, or abuse protection. The provider's own retention rules apply to copies already transmitted to it.
 
 ---
 

@@ -4,7 +4,7 @@
 **Controller:** the organization or other person that has entered into an agreement with the Processor for the use of Genora.art (**“Customer”**).
 **Contact:** support@genora.art
 
-**Version:** 2.1
+**Version:** 2.2
 
 ---
 
@@ -109,7 +109,7 @@ Access to Customer Data is granted only to those employees and contractors of th
 
 ## 8. International data transfers
 
-8.1. The primary application database is hosted on a server in Europe. Customer Data sent to a selected AI Provider or ancillary service may be processed outside Europe and the Customer's country, including in the United States, Singapore or **mainland China**, depending on the service selected. European hosting does not keep every request or third-party copy within Europe.
+8.1. The active development environment's primary database is hosted on a HOSTKEY VPS in Helsinki, Finland (EU). Customer Data sent to a selected AI Provider or ancillary service may be processed outside Europe and the Customer's country, including in the United States, Singapore or **mainland China**, depending on the service selected. European hosting does not keep every request or third-party copy within Europe.
 
 8.2. Where a transfer is restricted under the EU GDPR or UK GDPR, the parties must identify an applicable adequacy decision or put in place an appropriate transfer instrument before that transfer. EU standard contractual clauses and a UK international data transfer instrument may be used where appropriate, with the required parties, modules, annexes and transfer assessment completed separately. This DPA does not itself execute or complete those instruments.
 
@@ -235,7 +235,7 @@ Access to Customer Data is granted only to those employees and contractors of th
 
 **Secrets management:** storage of keys and credentials in environment variables of the production environment; exclusion of secrets from the repository; rotation upon suspicion of compromise and personnel changes.
 
-**Continuity:** backup and restoration according to the verified operational configuration; access to any copies is restricted to authorized personnel. Backup frequency and location are confirmed separately before being included in contractual assurances.
+**Continuity:** the development database is backed up daily; its archive catalog is checked for readability, held on the same HOSTKEY VPS in Helsinki with server-administrator-only access, and deleted after 30 days. This does not replace an off-site copy or full test restore. The future production environment's regime is confirmed separately.
 
 **Personnel:** confidentiality obligations; granting of access as needed; termination of access upon completion of the task or cooperation.
 

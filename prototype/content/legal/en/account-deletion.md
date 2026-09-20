@@ -3,7 +3,7 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Contact:** support@genora.art
 
-**Version:** 2.1
+**Version:** 2.2
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -102,7 +102,7 @@ Data previously transmitted to AI Providers as part of completed requests are pr
 
 9.1. We assess a verified erasure request without undue delay and normally respond within one calendar month, subject to any extension permitted by applicable law. We then carry out the deletion or explain which data must remain and why. Technical expiry of a session or token does not itself erase its database record.
 
-9.2. If backup copies exist, they are removed through the applicable backup-retention and rotation process. We do not state a fixed deletion period for those copies until the current backup configuration has been verified. Before rotation, backups are used only for recovery or a legal obligation, and restored data remain subject to the original erasure request.
+9.2. Daily development-database backups are automatically deleted no later than 30 days after creation. Before rotation, they are used only for recovery; after a restore, data covered by a confirmed erasure request is erased again. The copies reside on the same HOSTKEY VPS in Helsinki, Finland.
 
 9.3. If execution of the request requires a technical check or is connected with an unfinished dispute or bank proceeding, the period may be extended with notice of the reasons.
 

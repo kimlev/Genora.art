@@ -3,7 +3,7 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
 **Security contact:** support@genora.art (email subject: “Security”)
 
-**Version:** 2.1
+**Version:** 2.2
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -43,11 +43,11 @@
 
 3.3. Session tokens are stored as irreversible hashes; the session cookie is issued with the `httpOnly`, `Secure`, and `SameSite=Lax` attributes.
 
-3.4. The primary application database runs in a separate PostgreSQL container on the European application server; it is not published directly to the open network. Development and production configurations use separate databases. Network-protection, email and AI services are separate processing environments; their locations may differ.
+3.4. The active development environment's primary database runs in a separate PostgreSQL container on a HOSTKEY VPS in Helsinki, Finland (EU); it is not published directly to the open network. A separate database is planned for the future production environment. Network-protection, email and AI services are separate processing environments; their locations may differ.
 
 3.5. Access to the production environment is granted on the principle of least privilege, only to authorized persons and systems, using access keys instead of passwords.
 
-3.6. Backup creation, location, access rules, retention and restoration tests depend on the active server configuration. This document does not assert a backup frequency or deletion deadline that has not been verified. Access to any backups must be restricted to authorized personnel.
+3.6. A development-database backup is created daily and its archive catalog is checked for readability. Copies reside on the same VPS in Helsinki, are accessible only to the server administrator, and are automatically deleted after 30 days. A full test restore is not part of the daily check; same-server storage does not protect against VPS loss. The future production environment's backup regime will be verified and published separately.
 
 ---
 

@@ -1,0 +1,10 @@
+[Unit]
+Description=Back up the isolated Genora dev PostgreSQL database
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/flock -n /run/genora-dev-db-backup.lock /bin/bash /srv/apps/genora-art-dev/infra/genora-dev/backup-postgres.sh
+Nice=10
+IOSchedulingClass=idle

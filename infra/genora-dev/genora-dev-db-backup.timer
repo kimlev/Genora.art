@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Genora dev database backup
+
+[Timer]
+OnCalendar=*-*-* 02:30:00 UTC
+Persistent=true
+Unit=genora-dev-db-backup.service
+
+[Install]
+WantedBy=timers.target
