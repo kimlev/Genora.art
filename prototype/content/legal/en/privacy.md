@@ -1,11 +1,11 @@
 # Genora.art Privacy Policy
 
-**Operator (controller):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+**Operator (controller):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact for data matters:** support@genora.art
 
-**Version:** 2.3
+**Version:** 2.4
 **Effective date:** from the date of publication on the website.
-**Supersedes:** version 2.2.
+**Supersedes:** version 2.3.
 
 ---
 
@@ -170,7 +170,7 @@ Direct marketing (including communications about new features and offers) is car
 | Records of violations, blocks, fraud | while needed for fraud prevention or a related dispute, subject to periodic review | protection of rights |
 | Materials necessary for a legal claim | until expiry of the limitation period | protection of rights |
 
-Technical expiry does not by itself erase a database row. During setup of separate object storage, existing development-database backups remain on the HOSTKEY VPS in Helsinki, Finland. Regular backup and automatic 30-day rotation are not yet enabled; no fixed deletion period is promised for these temporary copies. After an encrypted remote copy is verified, this policy and the actual retention period will be updated. Data previously erased must be erased again after a restore. Certain service records of use in the internal gateway may be retained in de-identified or aggregated form after deletion of a conversation when needed for accounting, tariffication, or abuse protection. The provider's own retention rules apply to copies already transmitted to it.
+Technical expiry does not by itself erase a database row. Daily copies of the active development database are encrypted and stored in a separate HOSTKEY S3 bucket in the Netherlands; the source file on the Helsinki VPS is removed after the uploaded archive is verified. The planned S3 retention period is 30 days: rotation starts at day 29, and a storage lifecycle rule provides for expiration after 30 days. This is the Company's recovery policy, not a statutory UK GDPR period. Data previously erased must be erased again after a restore. A separate storage path is prepared for future production, but its database backups will begin only after that environment is launched and verified. Certain service records of use in the internal gateway may be retained in de-identified or aggregated form after deletion of a conversation when needed for accounting, tariffication, or abuse protection. The provider's own retention rules apply to copies already transmitted to it.
 
 ---
 
@@ -225,7 +225,7 @@ We may update the Policy. The number of the current version is indicated in the 
 
 ## 15. Contacts
 
-**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Data requests, communications, and complaints:** support@genora.art
 
 We review communications regarding the processing of personal data directly and seek to resolve them without involving third parties. A communication is sent from the email address linked to the account; the procedure and time limits for review are described in §10.

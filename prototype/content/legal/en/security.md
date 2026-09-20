@@ -1,9 +1,9 @@
 # Genora.art Security Policy
 
-**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Security contact:** support@genora.art (email subject: “Security”)
 
-**Version:** 2.3
+**Version:** 2.4
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -47,7 +47,7 @@
 
 3.5. Access to the production environment is granted on the principle of least privilege, only to authorized persons and systems, using access keys instead of passwords.
 
-3.6. Existing development-database copies are held on the HOSTKEY VPS in Helsinki with server-administrator-only access. The daily schedule is paused pending verification of separate encrypted object storage in the Netherlands. Automatic 30-day rotation is not yet active; same-server storage does not protect against VPS loss. The future production environment's regime will be verified and published separately.
+3.6. The development database is backed up daily. Its archive is checked for readability, encrypted with AES-256-GCM, sent to a separate HOSTKEY S3 bucket in the Netherlands, and verified by reading it back and checking its digest. The local VPS file is removed after verification. Planned retention is 30 days: daily rotation starts at day 29, and an S3 lifecycle rule provides for expiration after 30 days. Archive verification does not replace a full test restore. A separate storage path is prepared for future production, whose backups will be enabled separately.
 
 ---
 
@@ -142,4 +142,4 @@ For transparency, the Company states the following limitations as of the date of
 ## 13. Contacts
 
 **support@genora.art**
-Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.

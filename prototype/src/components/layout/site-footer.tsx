@@ -130,7 +130,6 @@ export function SiteFooter() {
         <div className="mt-10 space-y-1.5 border-t border-border pt-7 text-center text-sm leading-relaxed text-steel">
           <p>Operated by <strong className="font-semibold text-text">Sangerto LTD</strong> (CRN: <strong className="font-semibold text-text">17456264</strong>)</p>
           <p>Office address: 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM</p>
-          <p>Director: NAZARII SEMENYNA</p>
           <p>Email: <a href={`mailto:${contactEmail}`} className="font-semibold text-[#FF6F00] underline underline-offset-4">{contactEmail}</a></p>
           <p>{t.footer.copyrightFull}</p>
           <div className="pt-5" aria-label={t.footer.securePayment}>

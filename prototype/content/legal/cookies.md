@@ -1,6 +1,6 @@
 # Политика cookies Genora.art
 
-**Оператор:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+**Оператор:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Контакт:** support@genora.art
 
 **Редакция:** 2.1
@@ -98,4 +98,4 @@
 ## 9. Контакты
 
 Вопросы по cookies: **support@genora.art**
-Sangerto LTD, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+Sangerto LTD, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.

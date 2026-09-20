@@ -1,9 +1,9 @@
 # Genora.art Sub-processors and Data Recipients
 
-**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
 
-**Version:** 2.3
+**Version:** 2.4
 **Effective date:** from the date of publication on the website.
 
 ---
@@ -55,7 +55,7 @@ Practices of storage, logging, and training on data are determined by each provi
 | Domain registration and DNS servicing | domain-name registrar and DNS operator | technical domain data |
 | Professional advisers: legal, accounting, audit | engaged as needed on the basis of confidentiality obligations | minimally necessary information |
 
-**Location of primary storage.** The active development environment and its separate PostgreSQL database are hosted on a HOSTKEY VPS in Helsinki, Finland (EU). Existing database copies temporarily reside there too; separate object storage in the Netherlands is being connected but is not yet used for regular backup. A separate database is planned for the future production environment; its location and backup regime will be confirmed before launch. Primary storage location does not establish the location of every email, network log, payment record or copy processed by a selected AI Provider. Those recipients may be outside Europe, as explained in the Privacy Policy.
+**Location of primary storage.** The active development environment and its separate PostgreSQL database are hosted on a HOSTKEY VPS in Helsinki, Finland (EU). Encrypted daily development-database copies are held in a separate HOSTKEY S3 bucket in the Netherlands, with planned retention of 30 days. A separate database and backup path are prepared for future production and will be used after it launches. Primary storage location does not establish the location of every email, network log, payment record or copy processed by a selected AI Provider. Those recipients may be outside Europe, as explained in the Privacy Policy.
 
 **On disclosure of specific providers.** The primary hosting provider is named above. For other services, this page discloses functions, provider categories, and data categories. Further details about a particular recipient may be requested using the contacts below.
 
@@ -113,4 +113,4 @@ The Company is responsible for the selection of sub-processors and for the exist
 ## 9. Contacts
 
 Requests regarding sub-processors, notices, and objections: **support@genora.art**
-Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.

@@ -19,4 +19,4 @@ docker exec -i "$container" pg_restore -l < "$temp_file" > /dev/null
 mv -n -- "$temp_file" "$backup_file"
 trap - EXIT
 
-python3 /srv/apps/genora-art-dev/infra/genora-dev/offload-postgres.py "$backup_file"
+python3 /srv/apps/genora-art-dev/infra/genora-dev/offload-postgres.py dev "$backup_file"

@@ -1,10 +1,10 @@
 # Data Processing Agreement (DPA)
 
-**Processor:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA (**“Processor”**, **“Genora.art”**).
+**Processor:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM (**“Processor”**, **“Genora.art”**).
 **Controller:** the organization or other person that has entered into an agreement with the Processor for the use of Genora.art (**“Customer”**).
 **Contact:** support@genora.art
 
-**Version:** 2.3
+**Version:** 2.4
 
 ---
 
@@ -235,7 +235,7 @@ Access to Customer Data is granted only to those employees and contractors of th
 
 **Secrets management:** storage of keys and credentials in environment variables of the production environment; exclusion of secrets from the repository; rotation upon suspicion of compromise and personnel changes.
 
-**Continuity:** existing development-database copies are held on the HOSTKEY VPS in Helsinki with server-administrator-only access. The daily schedule is paused pending verification of separate encrypted object storage in the Netherlands; automatic 30-day rotation is not yet active. The future production environment's regime is confirmed separately.
+**Continuity:** the development database is backed up daily; its archive is encrypted and verified by reading it back after upload. Copies reside in a separate HOSTKEY S3 bucket in the Netherlands with planned 30-day retention and two rotation mechanisms: daily checking from day 29 and an S3 rule after 30 days. The local temporary dump is removed after verification. A full test restore and the future production environment's regime are confirmed separately.
 
 **Personnel:** confidentiality obligations; granting of access as needed; termination of access upon completion of the task or cooperation.
 
@@ -275,5 +275,5 @@ To obtain a signed counterpart of the DPA, send to **support@genora.art** a requ
 
 **Sangerto LTD**
 CRN: 17456264
-71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA
+71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM
 support@genora.art

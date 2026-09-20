@@ -9,7 +9,6 @@ const particulars = [
   "Sangerto LTD",
   "17456264",
   "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
-  "NAZARII SEMENYNA",
 ];
 
 test("all published legal documents identify the new operator", async () => {
@@ -19,6 +18,7 @@ test("all published legal documents identify the new operator", async () => {
     for (const file of files) {
       const content = await readFile(join(root, folder, file), "utf8");
       for (const value of particulars) assert.ok(content.includes(value), `${folder}/${file} lacks ${value}`);
+      assert.doesNotMatch(content, /NAZARII SEMENYNA|\bDirector\s*:|\bДиректор\s*:/i);
       assert.doesNotMatch(content, /ELVARON LIMITED|79402144|China Building/);
     }
   }
@@ -27,6 +27,7 @@ test("all published legal documents identify the new operator", async () => {
 test("footer and localized copyright contain the new company", async () => {
   const footer = await readFile(join(root, "src/components/layout/site-footer.tsx"), "utf8");
   for (const value of particulars) assert.ok(footer.includes(value));
+  assert.doesNotMatch(footer, /NAZARII SEMENYNA|\bDirector\s*:|\bДиректор\s*:/i);
   const locales = join(root, "src/lib/i18n/locales");
   for (const file of (await readdir(locales)).filter((name) => name.endsWith(".ts"))) {
     const content = await readFile(join(locales, file), "utf8");
@@ -45,7 +46,8 @@ test("legal policies describe UK law and European primary storage without Hong K
     const terms = await readFile(join(root, folder, "terms.md"), "utf8");
     const privacy = await readFile(join(root, folder, "privacy.md"), "utf8");
     assert.match(terms, /England and Wales|Англии и Уэльса/);
-    assert.match(privacy, /server in Europe|сервере в Европе/);
+    assert.match(privacy, /Helsinki, Finland|Хельсинки, Финляндия/);
+    assert.match(privacy, /Netherlands|Нидерландах/);
     assert.match(privacy, /6 years|6 лет/);
   }
 });

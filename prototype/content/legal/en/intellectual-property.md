@@ -1,6 +1,6 @@
 # Genora.art Intellectual Property and Copyright Policy
 
-**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact for rights-infringement communications:** support@genora.art (subject: “IP”)
 
 **Version:** 2.1
@@ -117,4 +117,4 @@ The Company reviews intellectual-property notices containing the information lis
 ## 11. Contacts
 
 **support@genora.art**
-Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.

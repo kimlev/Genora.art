@@ -1,6 +1,6 @@
 # Genora.art Terms of Use
 
-**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
 **Service:** the website genora.art, its subdomains, applications, and related features.
 
@@ -411,7 +411,7 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 **Sangerto LTD**
 CRN: 17456264
-71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM; Director: NAZARII SEMENYNA
+71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM
 Email: support@genora.art
 Website: https://genora.art
 

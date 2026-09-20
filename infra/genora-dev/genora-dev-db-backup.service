@@ -6,5 +6,6 @@ After=docker.service
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/flock -n /run/genora-dev-db-backup.lock /bin/bash /srv/apps/genora-art-dev/infra/genora-dev/backup-postgres.sh
+TimeoutStartSec=1h
 Nice=10
 IOSchedulingClass=idle
