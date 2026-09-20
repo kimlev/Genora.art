@@ -2,7 +2,6 @@ import { FaqAccordion } from "@/components/catalog/faq-accordion";
 import { SeoArticlePlaceholder } from "@/components/catalog/seo-article-placeholder";
 import type { Locale } from "@/lib/i18n";
 import { pageUrl, SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
-import { IS_STAGING } from "@/lib/site-env";
 import {
   BLOGORO_SEO_SLOT,
   getBlogoroPageSection,
@@ -16,7 +15,6 @@ type Props = {
 };
 
 export async function BlogoroSeoArticleSlot({ pagePath, articleId, locale }: Props) {
-  if (IS_STAGING) return <SeoArticlePlaceholder locale={locale} />;
   const published = await getBlogoroPageSection(pagePath, locale);
   if (!published) return <SeoArticlePlaceholder locale={locale} />;
 

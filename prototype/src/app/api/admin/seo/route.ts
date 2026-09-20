@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/server/admin-session";
 import { jsonError } from "@/lib/server/http";
 import { submitToIndexNow } from "@/lib/server/indexnow";
 import { seoStats } from "@/lib/server/seo-stats";
+import { IS_STAGING } from "@/lib/site-env";
 
 export const runtime="nodejs";
 
@@ -27,6 +28,7 @@ export async function GET(request:Request) {
 export async function POST(request:Request) {
   try {
     await requireAdmin();
+    if (IS_STAGING) return jsonError("Отправка адресов в поисковые системы доступна только на production",403);
     const body=await request.json().catch(()=>null) as {urls?:unknown}|null;
     const urls=Array.isArray(body?.urls)?body.urls.filter((item):item is string=>typeof item==="string"&&item.trim().length>0):[];
     if(!urls.length) return jsonError("Укажите хотя бы один адрес");

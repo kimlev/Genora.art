@@ -1,6 +1,7 @@
 import "server-only";
 
 import { SITE_ORIGIN } from "@/lib/seo";
+import { IS_STAGING } from "@/lib/site-env";
 import { credential, saveCredentials } from "@/lib/server/search-credentials";
 
 const API_ORIGIN = "https://api.webmaster.yandex.net/v4";
@@ -124,6 +125,7 @@ async function resolveHost(): Promise<{ userId: number; hostId: string }> {
  * поэтому исчерпание квоты — обычная ситуация, а не сбой.
  */
 export async function queueYandexRecrawl(url: string): Promise<{ taskId: string; quotaLeft: number }> {
+  if (IS_STAGING) throw new Error("Отправка страниц в Яндекс отключена на dev");
   const { userId, hostId } = await resolveHost();
   const result = await request<{ task_id?: string; quota_remainder?: number }>(
     `/user/${userId}/hosts/${encodeURIComponent(hostId)}/recrawl/queue/`,

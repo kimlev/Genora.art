@@ -1,6 +1,7 @@
 import "server-only";
 
 import { SITE_ORIGIN } from "@/lib/seo";
+import { IS_STAGING } from "@/lib/site-env";
 import { credential } from "@/lib/server/search-credentials";
 import { createSign } from "node:crypto";
 
@@ -88,6 +89,7 @@ async function accessToken(account: ServiceAccount): Promise<string> {
  * Повторная отправка карты сайта заставляет Google перечитать её и увидеть новые адреса.
  */
 export async function submitSitemapToGoogle(feedUrl = `${SITE_ORIGIN}/sitemap.xml`): Promise<void> {
+  if (IS_STAGING) throw new Error("Отправка карты сайта в Google отключена на dev");
   const account = await serviceAccount();
   if (!account) throw new Error("Доступ к Search Console не настроен");
   const [token, site] = await Promise.all([accessToken(account), searchConsoleSite()]);
