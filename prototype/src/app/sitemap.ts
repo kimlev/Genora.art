@@ -2,7 +2,6 @@ import { getBlogPosts } from "@/lib/blog/posts-query";
 import { legalDocuments } from "@/lib/legal/documents";
 import { languageAlternates, localeFromValue, pageUrl, PUBLIC_INDEX_PATHS } from "@/lib/seo";
 import { localeOptions } from "@/lib/i18n";
-import { IS_STAGING } from "@/lib/site-env";
 import type { MetadataRoute } from "next";
 
 /**
@@ -12,8 +11,9 @@ import type { MetadataRoute } from "next";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  if (IS_STAGING) return [];
-  // Демонстрационные статьи существуют только при пустой базе и в поиске отдавали бы 404
+  // Dev also needs a complete URL inventory for direct analysis, while robots and
+  // X-Robots-Tag continue to prevent public indexing there.
+  // Демонстрационные статьи существуют только при пустой базе и в поиске отдавали бы 404.
   const posts = (await getBlogPosts()).filter((post) => post.source !== "static");
   return [
     ...PUBLIC_INDEX_PATHS.flatMap((path) =>
@@ -25,19 +25,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         alternates: { languages: languageAlternates(path) },
       })),
     ),
-    ...legalDocuments.map((document) => ({
-      url: pageUrl(`/legal/${document.slug}`),
-      lastModified: new Date(),
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
-      alternates: {
-        languages: {
-          "x-default": pageUrl(`/legal/${document.slug}`),
-          ru: pageUrl(`/legal/${document.slug}`),
-          en: pageUrl(`/legal/${document.slug}`, "en"),
+    // Legal documents have only Russian and English texts. Other UI locales
+    // display the English fallback, so don't advertise them as translations.
+    ...legalDocuments.flatMap((document) =>
+      (["ru", "en"] as const).map((locale) => ({
+        url: pageUrl(`/legal/${document.slug}`, locale),
+        lastModified: new Date(),
+        changeFrequency: "yearly" as const,
+        priority: 0.3,
+        alternates: {
+          languages: {
+            "x-default": pageUrl(`/legal/${document.slug}`),
+            ru: pageUrl(`/legal/${document.slug}`),
+            en: pageUrl(`/legal/${document.slug}`, "en"),
+          },
         },
-      },
-    })),
+      })),
+    ),
     ...posts.map((post) => ({
       url: pageUrl(`/blog/${post.slug}`, localeFromValue(post.language)),
       lastModified: new Date(post.publishedAt),
