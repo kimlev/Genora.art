@@ -18,14 +18,16 @@ test("Consent Mode v2 denies all optional storage before a choice", () => {
   assert.match(GOOGLE_CONSENT_BOOTSTRAP, /document\.cookie/);
 });
 
-test("Google tag is emitted in the initial HTML while analytics events stay production-only", async () => {
+test("Google tag follows the client-side consent flow on every shell", async () => {
   const layout = await readFile(new URL("../src/app/layout.tsx", import.meta.url), "utf8");
   assert.doesNotMatch(layout, /!isAdminHost\s*\?/);
-  assert.match(layout, /googletagmanager\.com\/gtag\/js\?id=\$\{GOOGLE_MEASUREMENT_ID\}/);
-  assert.match(layout, /send_page_view:false/);
   const analytics = await readFile(new URL("../src/components/analytics/google-analytics.tsx", import.meta.url), "utf8");
+  assert.match(analytics, /googletagmanager\.com\/gtag\/js\?id=\$\{MEASUREMENT_ID\}/);
+  assert.match(analytics, /send_page_view:false/);
   assert.match(analytics, /IS_STAGING \|\| !analyticsGranted/);
   assert.match(analytics, /cookieConsentFromHeader\(document\.cookie\)/);
+  const shell = await readFile(new URL("../src/components/layout/site-shell.tsx", import.meta.url), "utf8");
+  assert.match(shell, /if \(isAdminHost \|\| isAdminPage\)[\s\S]*?<GoogleAnalytics \/>/);
 });
 
 test("custom consent maps analytics and advertising independently", () => {

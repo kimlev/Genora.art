@@ -1,9 +1,12 @@
 "use client";
 
+import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
-import { CONSENT_CHANGE_EVENT, CONSENT_STORAGE_KEY, cookieConsentFromHeader, googleConsentSignals, parseCookieConsent } from "@/lib/cookie-consent";
+import { CONSENT_CHANGE_EVENT, CONSENT_STORAGE_KEY, GOOGLE_CONSENT_BOOTSTRAP, cookieConsentFromHeader, googleConsentSignals, parseCookieConsent } from "@/lib/cookie-consent";
 import { IS_STAGING } from "@/lib/site-env";
+
+const MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-D07763XPWC";
 
 declare global {
   interface Window {
@@ -46,5 +49,12 @@ export function GoogleAnalytics() {
     });
   }, [analyticsGranted, pathname]);
 
-  return null;
+  return (
+    <>
+      <Script id="genora-google-consent" strategy="afterInteractive">
+        {`${GOOGLE_CONSENT_BOOTSTRAP}gtag('js',new Date());gtag('config','${MEASUREMENT_ID}',{send_page_view:false,anonymize_ip:true});`}
+      </Script>
+      <Script async src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`} strategy="afterInteractive" />
+    </>
+  );
 }

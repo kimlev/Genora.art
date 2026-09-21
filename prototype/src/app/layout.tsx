@@ -4,7 +4,6 @@ import { getLocaleOption } from "@/lib/i18n";
 import { resolveRequestLocale } from "@/lib/locale-from-request";
 import { LOCALE_COOKIE, LOCALE_HEADER, SITE_NAME, seoCopy, siteJsonLd } from "@/lib/seo";
 import { IS_STAGING, publicSiteUrl } from "@/lib/site-env";
-import { GOOGLE_CONSENT_BOOTSTRAP } from "@/lib/cookie-consent";
 import { isAdminHostname, requestHostname } from "@/lib/admin-host";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -22,8 +21,6 @@ const geistMono = Geist_Mono({
 });
 
 const defaultCopy = seoCopy("/", "ru");
-const GOOGLE_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-D07763XPWC";
-
 export const metadata: Metadata = {
   metadataBase: new URL(publicSiteUrl("/")),
   title: defaultCopy.title,
@@ -85,11 +82,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
       suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: GOOGLE_CONSENT_BOOTSTRAP }} />
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_MEASUREMENT_ID}`} />
-        <script dangerouslySetInnerHTML={{ __html: `gtag('js',new Date());gtag('config','${GOOGLE_MEASUREMENT_ID}',{send_page_view:false,anonymize_ip:true});` }} />
-      </head>
       <body className="flex min-h-full flex-col bg-bg text-text">
         <script
           type="application/ld+json"
