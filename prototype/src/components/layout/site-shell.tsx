@@ -65,7 +65,7 @@ export function SiteShell({ children, isAdminHost = false }: SiteShellProps) {
     && !pinGallery;
 
   if (isAdminHost || isAdminPage) {
-    return <>{children}</>;
+    return <>{children}<GoogleAnalytics /></>;
   }
   if (isAuthPage) {
     return <>{children}<GoogleAnalytics /><CookieConsent /></>;
