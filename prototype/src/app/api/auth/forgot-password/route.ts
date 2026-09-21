@@ -8,16 +8,9 @@ import { isLocale } from "@/lib/i18n";
 import { apiAuthCopy } from "@/lib/i18n/copy/api-auth";
 import { withLocalePath } from "@/lib/i18n/locale-path";
 import { requestLocale } from "@/lib/i18n/request-locale";
+import { publicAppOrigin } from "@/lib/server/public-origins";
 
 export const runtime = "nodejs";
-
-function publicBaseUrl(): string {
-  const value = process.env.APP_BASE_URL?.trim();
-  if (!value) throw new Error("APP_BASE_URL_NOT_CONFIGURED");
-  const url = new URL(value);
-  if (process.env.NODE_ENV === "production" && url.protocol !== "https:") throw new Error("APP_BASE_URL_MUST_USE_HTTPS");
-  return url.origin;
-}
 
 export async function POST(request: Request) {
   const headerLocale = await requestLocale();
@@ -40,7 +33,7 @@ export async function POST(request: Request) {
         await client.query("DELETE FROM password_reset_tokens WHERE user_id=$1 AND used_at IS NULL", [users[0].id]);
         await client.query("INSERT INTO password_reset_tokens(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '1 hour')", [tokenHash, users[0].id]);
       });
-      await sendPasswordReset(email, `${publicBaseUrl()}${withLocalePath("/reset-password", locale)}#${token}`, locale);
+      await sendPasswordReset(email, `${publicAppOrigin()}${withLocalePath("/reset-password", locale)}#${token}`, locale);
     }
     return Response.json({ ok: true }, { status: 202 });
   } catch (error) {

@@ -2,6 +2,7 @@ import "server-only";
 
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { createRemoteJWKSet, jwtVerify } from "jose";
+import { publicAppOrigin } from "@/lib/server/public-origins";
 
 export const GOOGLE_STATE_COOKIE = "genora_google_oauth";
 export const GOOGLE_STATE_TTL_SECONDS = 10 * 60;
@@ -29,11 +30,7 @@ export function isGoogleOAuthConfigured(): boolean {
 }
 
 export function publicBaseUrl(): string {
-  const value = process.env.APP_BASE_URL?.trim();
-  if (!value) throw new Error("APP_BASE_URL_NOT_CONFIGURED");
-  const url = new URL(value);
-  if (process.env.NODE_ENV === "production" && url.protocol !== "https:") throw new Error("APP_BASE_URL_MUST_USE_HTTPS");
-  return url.origin;
+  return publicAppOrigin();
 }
 
 export function loginErrorUrl(reason: string): string {

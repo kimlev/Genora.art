@@ -3,6 +3,7 @@ import { auditAdmin, requireAdmin } from "@/lib/server/admin-session";
 import { query } from "@/lib/server/db";
 import { isSameOrigin, isValidEmail, jsonError, normalizeEmail } from "@/lib/server/http";
 import { sendAdminInvitation } from "@/lib/server/mail";
+import { publicAdminOrigin } from "@/lib/server/public-origins";
 
 export const runtime = "nodejs";
 
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
     await query("DELETE FROM admin_invitations WHERE email=$1 AND accepted_at IS NULL", [email]);
     const rows = await query<{ id: string }>(`INSERT INTO admin_invitations(email,token_hash,invited_by,expires_at)
       VALUES($1,$2,$3,now()+interval '24 hours') RETURNING id`, [email, tokenHash, admin.id]);
-    const origin = (process.env.ADMIN_PUBLIC_ORIGIN || process.env.APP_ORIGIN?.split(",")[0] || new URL(request.url).origin).replace(/\/$/, "");
+    const origin = publicAdminOrigin();
     try {
       await sendAdminInvitation(email, `${origin}/admin/accept-invite?token=${encodeURIComponent(token)}`);
     } catch (error) {

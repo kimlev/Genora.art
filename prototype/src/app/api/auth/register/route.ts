@@ -15,19 +15,12 @@ import { getAuthMailCopy } from "@/lib/mail-auth-copy";
 import { getRegistrationBonusTokens } from "@/lib/server/site-settings";
 import { attachReferralSignup, startWelcomeBonusCampaign } from "@/lib/server/welcome-bonus";
 import { usageHistoryCopy, usageHistoryLocale } from "@/lib/usage-history-copy";
+import { publicAppOrigin } from "@/lib/server/public-origins";
 
 export const runtime = "nodejs";
 
 function hashToken(token: string): string {
   return createHash("sha256").update(token).digest("hex");
-}
-
-function publicBaseUrl(): string {
-  const value = process.env.APP_BASE_URL?.trim();
-  if (!value) throw new Error("APP_BASE_URL_NOT_CONFIGURED");
-  const url = new URL(value);
-  if (process.env.NODE_ENV === "production" && url.protocol !== "https:") throw new Error("APP_BASE_URL_MUST_USE_HTTPS");
-  return url.origin;
 }
 
 export async function POST(request: Request) {
@@ -91,7 +84,7 @@ export async function POST(request: Request) {
       // Keep the user and token uncommitted until SMTP accepts the message.
       // A failed delivery must not leave a new registration or invalidate the
       // previous verification link for an existing pending account.
-      await sendEmailVerification(email, `${publicBaseUrl()}${withLocalePath("/verify-email", locale)}#${token}`, locale);
+      await sendEmailVerification(email, `${publicAppOrigin()}${withLocalePath("/verify-email", locale)}#${token}`, locale);
       return true;
     });
     if (sent) console.info("register_verification_smtp_accepted");
