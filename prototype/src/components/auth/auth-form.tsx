@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getAuthMailCopy } from "@/lib/mail-auth-copy";
+import { getRegistrationDeliveryCopy } from "@/lib/i18n/copy/registration-delivery";
 import { cn } from "@/lib/utils";
 import { Link } from "@/components/ui/locale-link";
 import { useLocaleRouter } from "@/lib/i18n/use-locale-push";
@@ -31,6 +32,7 @@ export function AuthForm({ mode, googleEnabled = false, initialError = null, pin
   const router = useLocaleRouter();
   const { signIn, completePin } = useAuth();
   const isRegister = mode === "register";
+  const registrationDeliveryCopy = getRegistrationDeliveryCopy(locale);
 
   useEffect(() => {
     const ref = new URLSearchParams(window.location.search).get("ref");
@@ -146,12 +148,16 @@ export function AuthForm({ mode, googleEnabled = false, initialError = null, pin
 
   if (verificationMessage) {
     return (
-      <p
+      <div
         className="rounded-xl bg-emerald-500/10 p-4 text-center text-sm font-medium text-emerald-700 dark:text-emerald-300"
         role="status"
       >
-        {verificationMessage}
-      </p>
+        <p>{verificationMessage}</p>
+        <p className="mt-2 font-normal">{registrationDeliveryCopy.checkSpam}</p>
+        <Link href="/support" className="mt-2 inline-block font-normal underline underline-offset-4 hover:text-text">
+          {registrationDeliveryCopy.supportLink}
+        </Link>
+      </div>
     );
   }
 
