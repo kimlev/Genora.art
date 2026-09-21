@@ -65,6 +65,20 @@ services:
     security_opt: [no-new-privileges:true]
     cap_drop: [ALL]
 
+  youtube-worker:
+    image: genora-app:dev
+    container_name: genora-dev-youtube-worker
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      YOUTUBE_WORKER_URL: http://app:3310/api/internal/youtube/process
+    command: ["node", "scripts/youtube-worker.mjs"]
+    depends_on:
+      app: {condition: service_healthy}
+    networks: [genora-dev-net]
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+
 volumes:
   genora-dev-pg:
 networks:

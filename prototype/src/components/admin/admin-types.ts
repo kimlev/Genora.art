@@ -1,7 +1,7 @@
 import { formatTokensAsCredits } from "@/lib/credits";
 
-export type Section="overview"|"users"|"usage"|"pnl"|"finance"|"seo"|"admins"|"support"|"multipliers"|"payments"|"settings"|"marketing"|"requests"|"agents"|"models";
-const ADMIN_SECTIONS: readonly Section[]=["overview","users","usage","pnl","finance","seo","admins","support","multipliers","payments","settings","marketing","requests","agents","models"];
+export type Section="overview"|"users"|"usage"|"pnl"|"finance"|"seo"|"admins"|"support"|"multipliers"|"payments"|"settings"|"marketing"|"requests"|"agents"|"models"|"youtube"|"youtube-connect"|"youtube-research"|"youtube-plan"|"youtube-script"|"youtube-package"|"youtube-production"|"youtube-publish"|"youtube-analytics";
+const ADMIN_SECTIONS: readonly Section[]=["overview","users","usage","pnl","finance","seo","admins","support","multipliers","payments","settings","marketing","requests","agents","models","youtube","youtube-connect","youtube-research","youtube-plan","youtube-script","youtube-package","youtube-production","youtube-publish","youtube-analytics"];
 export function parseAdminSection(value: unknown): Section {
   return typeof value==="string" && ADMIN_SECTIONS.includes(value as Section) ? value as Section : "overview";
 }

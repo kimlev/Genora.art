@@ -6,7 +6,6 @@ import { welcomeBonusCopy } from "@/lib/i18n/copy/welcome-bonus-copy";
 import { useLocalePush } from "@/lib/i18n/use-locale-push";
 import { CREATE_FOTO_VIDEO_PATH } from "@/lib/routes";
 import { getLocaleOption } from "@/lib/i18n";
-import { IS_STAGING } from "@/lib/site-env";
 import { withCreditGlyphs } from "@/components/ui/credit-glyph";
 import { formatWelcomeTokens, type WelcomeBonusProgress } from "@/lib/welcome-bonus";
 import { Check, Gift, Mail, Send, X } from "lucide-react";
@@ -24,7 +23,6 @@ export function WelcomeBonusCard() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (!IS_STAGING) return;
     let active = true;
     const refresh = () => {
       void fetch("/api/welcome-bonus", { cache: "no-store" })
@@ -49,7 +47,7 @@ export function WelcomeBonusCard() {
   }, []);
 
   useEffect(() => {
-    if (!IS_STAGING || !open) return;
+    if (!open) return;
     void fetch("/api/welcome-bonus", { cache: "no-store" })
       .then((response) => (response.ok ? response.json() : null))
       .then((data: { progress?: WelcomeBonusProgress | null } | null) => {
@@ -58,7 +56,7 @@ export function WelcomeBonusCard() {
       .catch(() => undefined);
   }, [open]);
 
-  if (!IS_STAGING || !progress?.active || !progress.showTeaser) return null;
+  if (!progress?.active || !progress.showTeaser) return null;
 
   const shareText = copy.inviteMessage(progress.referralUrl);
   const creditDate = new Date(progress.creditAt).toLocaleDateString(intl, { day: "numeric", month: "long", year: "numeric" });

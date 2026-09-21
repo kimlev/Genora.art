@@ -51,6 +51,11 @@
       "url": "https://admin.genora.art"
     },
     {
+      "id": "dev-admin-youtube",
+      "label": "YouTube Genora (dev admin)",
+      "url": "https://dev.admin.genora.art/?section=youtube-connect"
+    },
+    {
       "id": "integrator-api",
       "label": "IntegratorAI API",
       "url": "https://82.25.161.169:3143/v1"

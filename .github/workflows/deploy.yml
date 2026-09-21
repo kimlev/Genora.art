@@ -41,7 +41,7 @@ jobs:
             DEST_ENV=/srv/apps/genora-art-dev/infra/genora-dev/.env bash infra/staging/update-env.sh
             bash infra/staging/apply-dev-nginx.sh /srv/apps/genora-art-dev
             cd infra/genora-dev
-            docker compose up -d --build postgres app support-worker
+            docker compose up -d --build postgres app support-worker youtube-worker
             for attempt in $(seq 1 40); do
               status="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' genora-dev-app 2>/dev/null || true)"
               [ "$status" = healthy ] && break
