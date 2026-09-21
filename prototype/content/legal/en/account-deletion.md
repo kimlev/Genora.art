@@ -3,18 +3,18 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
 
-**Version:** 2.4
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 
 ---
 
-## 1. Purpose
+## 1. What account deletion does
 
-This Policy describes the procedure for closing and deleting a Genora.art account, the consequences for history, memory, Balance, and related data, and the list of information that is retained as required by law. The Policy forms part of the Terms of Use and supplements the Privacy Policy.
+This document explains how to close a Genora account, what happens to history, memory, agents and Balance, and which limited records may remain for legal, accounting or security reasons. It supplements the Privacy Policy and the Terms of Use.
 
 ---
 
-## 2. Distinction between logout, deactivation, and deletion
+## 2. Three different account actions
 
 | Action | What happens | Reversibility |
 |----------|----------------|-------------|
@@ -24,7 +24,7 @@ This Policy describes the procedure for closing and deleting a Genora.art accoun
 
 ---
 
-## 3. How to submit a deletion request
+## 3. Sending Genora an erasure request
 
 3.1. Send an email to **support@genora.art** from the email address linked to the account, with the subject “Account deletion”.
 
@@ -62,7 +62,7 @@ This Policy describes the procedure for closing and deleting a Genora.art accoun
 
 ---
 
-## 6. What is retained and why
+## 6. Records that may survive deletion
 
 The following information is retained after account deletion to the extent necessary for the specific purpose:
 
@@ -98,7 +98,7 @@ Data previously transmitted to AI Providers as part of completed requests are pr
 
 ---
 
-## 9. Time limits for execution
+## 9. Timing, backups and restoration
 
 9.1. We assess a verified erasure request without undue delay and normally respond within one calendar month, subject to any extension permitted by applicable law. We then carry out the deletion or explain which data must remain and why. Technical expiry of a session or token does not itself erase its database record.
 

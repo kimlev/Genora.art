@@ -3,14 +3,14 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
 
-**Version:** 2.4
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 
 ---
 
-## 1. Purpose of the page
+## 1. How to read Genora’s recipient list
 
-1.1. This page discloses who may process data in the operation of Genora.art: the purpose of processing, the categories of data transferred, and the recipients. AI Providers to whom the contents of your requests are transmitted are disclosed by name and jurisdiction (§3). Providers of the infrastructure and ancillary layer are disclosed by category (§4), and their names are provided upon request in the manner described in the same section. The disclosure ensures transparency toward users and fulfills the requirements of applicable law on informing about data recipients and sub-processors, including Arts. 13–14 and Art. 28 GDPR.
+1.1. This page is Genora’s routing and recipient map. It separates AI providers that receive the content of a selected request from infrastructure vendors that support hosting, mail, traffic protection and payments. Named AI providers and their principal processing regions appear in §3; infrastructure roles and the way to request further vendor details appear in §4. This format is intended to provide the transparency required by GDPR Articles 13–14 and 28 where those provisions apply.
 
 1.2. This page forms part of the Privacy Policy and the DPA.
 
@@ -20,13 +20,13 @@
 
 ---
 
-## 2. Key principle of request routing
+## 2. One request, one selected provider
 
 The contents of a request and attached files are transmitted **only** to the AI Provider of the Model you selected, or to the provider selected by automatic mode if you have enabled it. Your request is not sent to the other providers in the list. By not selecting a particular provider’s model, you exclude transmission of your data to that provider.
 
 ---
 
-## 3. AI Providers (processing of request contents)
+## 3. AI providers that may receive request content
 
 | Provider | Models | What is transferred | Primary processing jurisdiction |
 |-----------|--------|----------------|-------------------------------|
@@ -43,7 +43,7 @@ Practices of storage, logging, and training on data are determined by each provi
 
 ---
 
-## 4. Infrastructure and ancillary services
+## 4. Hosting, email, protection and payment layers
 
 | Function | Provider category | Data categories |
 |---------|----------------------|------------------|

@@ -3,14 +3,14 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact for reports of violations:** support@genora.art
 
-**Version:** 2.2
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 
 ---
 
-## 1. Purpose and scope
+## 1. Genora safety boundary
 
-1.1. This Policy protects users, AI Providers, third parties, and the stability of the Service. It applies to the website, chat, agents, memory, file attachments, automation, administrative interfaces, and programmatic access, if provided.
+1.1. This Policy is Genora’s safety boundary for the website, chat, agents, memory, uploaded files, automation, administrative interfaces and any API access that may be offered. It protects users, providers, rights holders and the service infrastructure.
 
 1.2. This Policy forms part of the Terms of Use. A breach of it is a breach of contract.
 
@@ -20,7 +20,7 @@
 
 ---
 
-## 2. Lawfulness and third-party rights
+## 2. Lawful use and respect for other people’s rights
 
 It is prohibited to use the Service to:
 
@@ -33,9 +33,9 @@ It is prohibited to use the Service to:
 
 ---
 
-## 3. Prohibited content and purposes
+## 3. Content and purposes that Genora will not permit
 
-3.1. **Absolutely prohibited** (a violation results in immediate blocking without warning and, where there is a legal duty, a report to competent authorities):
+3.1. **Zero-tolerance categories.** A violation can lead to immediate blocking without advance warning and, where required or permitted by law, a report to the competent authority:
 
 1. harmful content generation in any form: text, images, audio, video, code, and any other materials;
 2. sexual materials involving minors, their description, stylization, or generation in any form;

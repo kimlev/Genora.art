@@ -3,18 +3,18 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact for rights-infringement communications:** support@genora.art (subject: “IP”)
 
-**Version:** 2.1
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 
 ---
 
-## 1. Purpose
+## 1. What this policy allocates
 
-This Policy describes the allocation of rights in the platform, your materials, and generation outputs, as well as the procedure for considering communications regarding infringement of intellectual-property rights. The Policy forms part of the Terms of Use; §8 of the Terms prevails in the event of a discrepancy in wording.
+This Genora policy separates four questions: ownership of the platform, rights you bring into a request, the uncertain legal status of machine-generated output, and the process for reporting infringement. It forms part of the Terms of Use; if the two documents differ, §8 of the Terms controls the license to User Content.
 
 ---
 
-## 2. Rights in the platform
+## 2. Genora platform materials
 
 2.1. The Service and all its elements — source and object code, architecture, interfaces, design, layout, graphics, icons, texts, documentation, the model-catalog database, internal prompts and service instructions, the name “Genora.art”, logos, and other designations (**“Materials”**) — belong to the Company or its licensors and are protected by applicable intellectual-property law, including UK copyright and trade-mark law, as well as international treaties.
 
@@ -26,7 +26,7 @@ This Policy describes the allocation of rights in the platform, your materials, 
 
 ---
 
-## 3. Your materials (Input)
+## 3. Material you submit
 
 3.1. You retain all rights in Input that you held before transmitting it to the Service. The Company does not acquire ownership of your Input.
 
@@ -38,7 +38,7 @@ This Policy describes the allocation of rights in the platform, your materials, 
 
 ---
 
-## 4. Generation outputs
+## 4. Material returned by a Model
 
 4.1. **Rights in Output.** The scope of rights in Output is determined by the combination of: applicable law (which in most jurisdictions does not recognize the protectability of works created without a human creative contribution), the Provider Terms of the corresponding Model, and the nature of your source materials and creative contribution.
 

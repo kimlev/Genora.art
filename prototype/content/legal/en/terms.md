@@ -4,19 +4,21 @@
 **Contact:** support@genora.art
 **Service:** the website genora.art, its subdomains, applications, and related features.
 
-**Version:** 2.3
+**Version:** 3.0
 **Effective date:** for new users — from the date of publication on the website; for existing users — 30 calendar days after notice.
-**Supersedes:** version 2.2.
+**Supersedes:** version 2.3.
 
 ---
 
-## Preamble. Read this before you start using the Service
+## Preamble. The Genora agreement
 
-These Terms of Use (**“Terms”**) are a legally binding agreement between you (**“User”**, **“you”**) and Sangerto LTD (**“Company”**, **“we”**, **“us”**) concerning access to the Genora.art service (**“Service”**).
+These Terms are the Genora.art service agreement between you (**“User”**, **“you”**) and Sangerto LTD (**“Company”**, **“we”**, **“us”**). They govern the Genora website, its applications, account, generation tools, agents, billing and support functions (**“Service”**). They are drafted for this Service and do not incorporate the terms of any other product or website.
 
 BY CREATING AN ACCOUNT, CLICKING “I AGREE”, TOPPING UP YOUR BALANCE, OR USING THE SERVICE IN ANY WAY, YOU CONFIRM THAT YOU HAVE READ, UNDERSTOOD, AND ACCEPT THESE TERMS AND THE DOCUMENTS INCORPORATED INTO THEM. IF YOU DO NOT AGREE — DO NOT USE THE SERVICE.
 
-Please pay particular attention to the following sections: **§9 (AI Outputs and absence of professional advice)**, **§16 (Disclaimer of warranties)**, **§17 (Limitation of liability)**, **§18 (Indemnification)**, **§20 (Governing law and arbitration; waiver of class actions)**. These sections allocate risk between the parties and constitute an essential term of the bargain.
+Before using the Service, read in particular **§9 (AI Outputs)**, **§10 (restricted use)**, **§13 (privacy)**, **§16 (warranties)**, **§17 (liability)** and **§20 (law and disputes)**. These clauses explain the limits of an AI intermediary, the prohibited content rules and the mandatory consumer-law carve-outs.
+
+For users in the EEA, the United Kingdom or Switzerland, a mandatory right or remedy that cannot lawfully be excluded remains available. No wording in these Terms is intended to remove that protection.
 
 **Documents incorporated into these Terms by reference** and forming a single whole with them:
 
@@ -34,7 +36,7 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 ---
 
-## 1. Definitions
+## 1. Words used in the Genora service
 
 **“AI Provider”** — a third party that supplies an artificial intelligence model, access to which is provided through the Service (including, in particular, OpenAI, Anthropic, Google, Moonshot AI (Kimi), xAI, Alibaba Cloud (Qwen), and other persons that we may include or exclude at any time).
 
@@ -56,7 +58,7 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 ---
 
-## 2. Legal nature of the Service: aggregator, not model developer
+## 2. What Genora provides — and what it does not
 
 2.1. Genora.art is a **technical intermediary and routing interface**. The Service accepts your Input, routes it to the selected AI Provider through its own gateway, and returns the Output to you, and also provides ancillary features: conversation history, agents, cross-chat memory, model comparison, a unified Balance, and billing.
 
@@ -70,7 +72,7 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 ---
 
-## 3. Right to use and age restrictions
+## 3. Eligibility and age gate
 
 3.1. The Service is intended for persons who have reached **18 years of age** and who have full legal capacity to enter into a contract. If the law of your jurisdiction sets a different age of full legal capacity, the higher threshold applies.
 
@@ -82,7 +84,7 @@ Please pay particular attention to the following sections: **§9 (AI Outputs and
 
 ---
 
-## 4. Sanctions, export control, and prohibited territories
+## 4. Sanctions, geographic access and provider restrictions
 
 4.1. You represent and warrant that you, your organization, your beneficial owners, and your end users: (a) are not included in sanctions lists applicable to the Service (including the lists of the UN, the United Kingdom, the EU, and the US where applicable); (b) are not located in, and are not residents of, a jurisdiction from which access is restricted by applicable law or the Provider Terms; (c) will not use the Service to re-export, transfer, or provide access to Models to persons to whom such access is prohibited.
 

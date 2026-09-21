@@ -3,23 +3,25 @@
 **Operator (controller):** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact for data matters:** support@genora.art
 
-**Version:** 2.4
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 **Supersedes:** version 2.3.
 
 ---
 
-## 1. What this document is about
+## 1. Genora privacy overview
 
-This Policy explains what data Genora.art collects, why, on what legal basis, to whom it is disclosed, how long it is retained, and what rights you have. The Policy applies to the website genora.art and its subdomains, the account, chat, agents, memory, payments, support, and related features (**“Service”**).
+This notice is Genora.art’s description of its personal-data practices. It identifies the data used by the website, account, chat, agents, memory, payments and support functions, the purpose and legal ground for each use, the recipients, the retention logic and the rights available to you.
 
 The Company is established in the United Kingdom and processes personal data under the UK GDPR and the Data Protection Act 2018. The EU GDPR, Swiss data-protection law, the California CCPA/CPRA, and other local rules also apply where their territorial requirements are met. The location of a server does not by itself determine which privacy law applies.
 
-This Policy is not part of a commercial offer and does not expand the Company’s obligations beyond what is expressly provided by mandatory rules of law.
+This notice is not a promise that every third-party recipient applies the same policy. Each recipient remains responsible for its own independent processing. Where a mandatory rule gives you stronger protection than this notice, that rule prevails.
+
+**European implementation note.** Where the EU GDPR applies because Genora offers services to people in the EEA or monitors their behaviour, Sangerto applies the GDPR principles, records the required information under Articles 13–14, supports the rights in Articles 15–22, and uses a written EU representative where Article 27 requires one. No representative is named here unless and until one is formally appointed.
 
 ---
 
-## 2. Key warning: what you should not send to the Service
+## 2. Data you must keep out of a normal Genora request
 
 The active development environment's primary application database is hosted on a HOSTKEY VPS in Helsinki, Finland (EU). This does **not** mean that all processing stays in Europe: the contents of a request are transmitted to the selected third-party AI Provider, which may process them elsewhere, including in the United States or mainland China. Email, traffic-protection, payment and other services may also involve separate providers and locations. See §§7–8.
 
@@ -37,7 +39,7 @@ You independently determine the content of Input and are responsible for the law
 
 ---
 
-## 3. Categories of data processed
+## 3. Information Genora may handle
 
 ### 3.1 Account data
 
@@ -79,7 +81,7 @@ Data are obtained: (a) directly from you — upon registration, use of chat, fil
 
 ---
 
-## 5. Purposes of processing and legal bases
+## 5. Why each category is used
 
 | No. | Purpose | Data categories | Legal basis (GDPR / UK GDPR) |
 |---|------|------------------|--------------------------------------|
@@ -141,7 +143,7 @@ Direct marketing (including communications about new features and offers) is car
 
 ---
 
-## 8. International data transfers
+## 8. Transfers outside the United Kingdom and EEA
 
 8.1. The active development environment's primary application database is hosted on a HOSTKEY VPS in Helsinki, Finland (EU), separately from the future production database. The UK-based controller may access data to operate the Service. Network protection, corporate email, payments, and the AI Provider selected for a request can process relevant data in other countries, including the **United States**, **Singapore**, and **mainland China** for certain models. European hosting does not make a request to an overseas provider an EU-only request. Hosting location does not establish the location of every copy held by a third party.
 
@@ -174,7 +176,7 @@ Technical expiry does not by itself erase a database row. Daily copies of the ac
 
 ---
 
-## 10. Your rights
+## 10. Requests, rights and complaints
 
 10.1. Depending on applicable law, you may:
 

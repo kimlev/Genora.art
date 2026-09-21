@@ -3,14 +3,14 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Security contact:** support@genora.art (email subject: “Security”)
 
-**Version:** 2.4
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 
 ---
 
-## 1. Status of the document and reservation
+## 1. What this security statement means
 
-1.1. This document describes the Company’s approach to the security of the Service and is published for transparency toward users and corporate customers.
+1.1. This is Genora’s current security description for users and corporate customers. It records the safeguards and known limitations that apply to the Service at the date shown above.
 
 1.2. This document **is not** a warranty of the absence of incidents, a service-level agreement, a certificate of compliance with any standard, or a representation as to result. It does not create obligations going beyond the Terms of Use and mandatory rules of law.
 
@@ -20,7 +20,7 @@
 
 ---
 
-## 2. Shared-responsibility model
+## 2. Responsibilities are shared
 
 | Area | Company responsible | User responsible |
 |---------|-------------------|------------------------|
@@ -35,7 +35,7 @@
 
 ---
 
-## 3. Protection of data in transit and at rest
+## 3. How Genora protects the service and stored data
 
 3.1. All user traffic is transmitted over a protected TLS channel with valid certificates; access over an unprotected protocol is redirected to a protected one.
 
@@ -95,7 +95,7 @@ The following are applied: validation of input data and limitation of attachment
 
 ---
 
-## 8. Incident response
+## 8. Handling a security incident
 
 8.1. Upon detection of an incident, the Company: contains and limits spread; preserves evidence; eliminates the cause; restores normal operation; conducts a review and implements preventive measures.
 

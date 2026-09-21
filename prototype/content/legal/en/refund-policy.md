@@ -3,14 +3,14 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
 
-**Version:** 2.0
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 
 ---
 
-## 1. Subject and general principle
+## 1. What this refund document covers
 
-1.1. This Policy determines the conditions for refunds of payments for topping up the internal Genora.art Balance. It forms part of the Terms of Use; terms are used in the meanings defined in the Terms.
+1.1. This document explains how Genora reviews a payment correction, a failed credit, an unauthorised transaction and a consumer withdrawal request. It applies to paid Balance and is read together with the Terms of Use.
 
 1.2. The Balance provides **immediate access to a digital service**: from the moment of crediting you may send requests to Models, and the Company incurs actual costs to AI Providers for each request.
 
@@ -20,17 +20,17 @@
 
 ---
 
-## 2. Consent to immediate performance and waiver of the right of withdrawal (for EEA and United Kingdom consumers)
+## 2. Immediate digital performance and consumer withdrawal
 
-2.1. If you are a consumer in the EEA or the United Kingdom, the law generally provides a 14-day period to withdraw from a contract for digital content and digital services.
+2.1. An EEA or UK consumer may have a statutory withdrawal period for a digital service. The right and its exceptions are determined by the law applicable to the consumer’s contract.
 
-2.2. By paying for Balance, you **expressly request** that performance begin immediately and **confirm that you are aware**: upon commencement of performance and as the service is actually consumed, the right of withdrawal is lost in respect of the consumed portion (Art. 16(m) of Directive 2011/83/EU and corresponding national rules).
+2.2. Before a paid request is executed, Genora asks the consumer to expressly request immediate performance and acknowledge the statutory consequence. Once the digital service has begun and Balance has been consumed, the withdrawal exception for the consumed part may apply under Article 16(m) of Directive 2011/83/EU and the implementing national law.
 
 2.3. In respect of the **unused** remainder, the right of withdrawal within 14 days is preserved and is exercised in accordance with §5.
 
 ---
 
-## 3. Cases in which a refund is made
+## 3. Situations that can lead to a refund or correction
 
 Each request is reviewed individually and in good faith. A refund is generally approved upon confirmation of one of the following circumstances:
 
@@ -45,7 +45,7 @@ Each request is reviewed individually and in good faith. A refund is generally a
 
 ---
 
-## 4. Cases in which a refund is not made
+## 4. Situations that normally do not qualify
 
 A refund is generally not available if:
 

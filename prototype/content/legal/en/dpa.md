@@ -4,13 +4,13 @@
 **Controller:** the organization or other person that has entered into an agreement with the Processor for the use of Genora.art (**“Customer”**).
 **Contact:** support@genora.art
 
-**Version:** 2.4
+**Version:** 3.0
 
 ---
 
-## Manner of conclusion
+## How this DPA becomes applicable
 
-This DPA applies to the processing of personal data carried out by the Processor on the Customer’s instructions in the provision of Genora.art, and constitutes an integral part of the Terms of Use.
+This DPA applies when a Customer uses Genora.art to process personal data on its documented instructions. It is the controller–processor schedule for that use and is read together with the Terms of Use, Privacy Policy and the annexes below.
 
 The DPA is deemed concluded: (a) from the moment the Customer begins to use the Service to process personal data for commercial purposes; or (b) from the moment the parties sign a separate counterpart of the DPA. A signed counterpart, as well as annexes on technical measures and, where necessary, standard contractual clauses, are provided upon request to support@genora.art.
 
@@ -18,7 +18,7 @@ In the event of a conflict between the DPA and the Terms of Use on matters of pe
 
 ---
 
-## 1. Definitions
+## 1. Terms used in this schedule
 
 **“Data Protection Legislation”** — the rules applicable to the processing, including the UK GDPR and Data Protection Act 2018, the EU GDPR (Regulation (EU) 2016/679) where applicable, Swiss data-protection legislation, the CCPA/CPRA, and other applicable rules.
 
@@ -36,7 +36,7 @@ Other terms are used in the meanings defined in the Terms of Use and the Data Pr
 
 ---
 
-## 2. Roles of the parties
+## 2. Who decides what
 
 2.1. In respect of Customer Data processed for the provision of the Service, **the Customer acts as controller**, and **the Processor acts as processor**. Where the Processor independently determines purposes for account, billing, security or compliance data, its role is described in the Privacy Policy.
 
@@ -48,7 +48,7 @@ Other terms are used in the meanings defined in the Terms of Use and the Data Pr
 
 ---
 
-## 3. Customer obligations and representations
+## 3. Customer safeguards before sending data
 
 3.1. The Customer represents and warrants that:
 
@@ -65,7 +65,7 @@ Other terms are used in the meanings defined in the Terms of Use and the Data Pr
 
 ---
 
-## 4. Processing on instructions
+## 4. Genora’s processing instructions
 
 4.1. The Processor processes Customer Data only on the Customer’s documented instructions. Documented instructions are deemed to be: the Terms of Use, this DPA, account settings, the actions of the Customer’s users in the interface, and requests sent through support.
 

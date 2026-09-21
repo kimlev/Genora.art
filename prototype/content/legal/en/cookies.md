@@ -3,14 +3,14 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
 
-**Version:** 2.1
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 
 ---
 
-## 1. Purpose of the document
+## 1. How Genora uses browser storage
 
-This Policy describes which cookies, browser local storage, and similar technologies Genora.art uses, why they are needed, and how consent is given and withdrawn. The document applies together with the Privacy Policy and forms part of the Terms of Use.
+This document is the Genora-specific inventory of cookies, local storage and comparable browser mechanisms. It explains what is essential for sign-in and security, what is optional, and how you can give, refuse or later change consent. It should be read with the Privacy Policy and Terms of Use.
 
 Legal framework: the UK Privacy and Electronic Communications Regulations (PECR) and UK GDPR; Directive 2002/58/EC (ePrivacy), national EEA rules and EU GDPR where applicable; CCPA/CPRA where applicable.
 
@@ -26,7 +26,7 @@ Legal framework: the UK Privacy and Electronic Communications Regulations (PECR)
 
 ---
 
-## 3. Legal approach
+## 3. Consent model used by Genora
 
 3.1. Strictly necessary technologies are used on the basis of performance of a contract and a legitimate interest in ensuring security; consent is not required for them, and they cannot be refused without loss of operability of the Service.
 
@@ -55,15 +55,17 @@ Legal framework: the UK Privacy and Electronic Communications Regulations (PECR)
 | Interface settings | language, theme, state of panels and last-selected models | until browser data are cleared |
 | Drafts and local workspace state | preservation of unfinished input and chat state on the device | until browser data are cleared or you log out of the account |
 
-### 4.3 Analytics and marketing
+### 4.3 Analytics, Google tag and advertising settings
 
-As of the date of this version, Genora.art **does not use** third-party analytics and advertising cookies, counters, pixels, or social-network trackers.
+Genora may load the Google tag and the Google Analytics measurement property `G-D07763XPWC`, but analytics storage and related measurement are disabled by default. The tag receives the Consent Mode v2 defaults (`analytics_storage`, `ad_storage`, `ad_user_data` and `ad_personalization` set to `denied`) before an optional choice is recorded. A page-view or analytics request is enabled only after the visitor grants the analytics category.
+
+Genora does not enable advertising or personalised-advertising storage by default. Advertising-related signals remain denied unless the visitor separately grants that category in the consent controls.
 
 If such technologies are added, before they are enabled: (a) the Policy will be updated with the provider, purpose, duration, and data transferred; (b) a separate category will appear in the banner with the ability to consent or refuse; (c) until consent is obtained, the technologies will not be activated.
 
 ---
 
-## 5. Consent management
+## 5. Giving and changing a choice
 
 5.1. On the first visit, a banner is displayed with a choice: accept optional technologies or refuse them. The decision is stored on the device.
 
@@ -73,7 +75,7 @@ If such technologies are added, before they are enabled: (a) the Policy will be 
 
 ---
 
-## 6. Management through the browser and device
+## 6. Browser controls and their consequences
 
 6.1. You may view, delete, and block cookies in the browser settings, and also use private-browsing mode.
 
