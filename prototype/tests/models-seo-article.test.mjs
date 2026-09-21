@@ -15,6 +15,7 @@ test("Russian models page uses the supplied SEO article only for ru", () => {
   const ru = getSeoArticle("models", "ru");
   const en = getSeoArticle("models", "en");
   assert.equal(ru.title, "Как подобрать AI-модель под задачу: каталог, сравнение и расходы");
+  assert.equal(en.title, "How to choose an AI model for your work: a practical guide to quality and cost");
   assert.notEqual(en.title, ru.title);
   assert.ok(ru.sections.length >= 6);
   assert.ok(ru.faq.length >= 7);
