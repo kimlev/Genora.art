@@ -45,6 +45,7 @@ COPY --from=builder --chown=node:node /app/scripts/start.mjs ./scripts/start.mjs
 COPY --from=builder --chown=node:node /app/scripts/seed-production-admin.mjs ./scripts/seed-production-admin.mjs
 COPY --from=builder --chown=node:node /app/scripts/seed-genora-dev.mjs ./scripts/seed-genora-dev.mjs
 COPY --from=builder --chown=node:node /app/scripts/support-worker.mjs ./scripts/support-worker.mjs
+COPY --from=builder --chown=node:node /app/scripts/youtube-worker.mjs ./scripts/youtube-worker.mjs
 COPY --from=builder --chown=node:node /app/scripts/save-search-credentials.mjs ./scripts/save-search-credentials.mjs
 USER node
 EXPOSE 3310

@@ -44,13 +44,15 @@ test("OAuth tokens are encrypted and publication stays approval-gated", async ()
 });
 
 test("dev worker processes scheduled YouTube automation", async () => {
-  const [compose, worker, internalRoute] = await Promise.all([
+  const [compose, worker, internalRoute, dockerfile] = await Promise.all([
     read("../infra/genora-dev/compose.yml"),
     read("scripts/youtube-worker.mjs"),
     read("src/app/api/internal/youtube/process/route.ts"),
+    read("Dockerfile"),
   ]);
   assert.match(compose, /youtube-worker:/);
   assert.match(worker, /api\/internal\/youtube\/process/);
   assert.match(internalRoute, /timingSafeEqual/);
   assert.match(internalRoute, /runDueYoutubeAutomations/);
+  assert.match(dockerfile, /youtube-worker\.mjs/);
 });
