@@ -8,127 +8,79 @@
 
 ---
 
-## 1. What account deletion does
+## 1. Scope of this procedure
 
-This document explains how to close a Genora account, what happens to history, memory, agents and Balance, and which limited records may remain for legal, accounting or security reasons. It supplements the Privacy Policy and the Terms of Use.
+This policy describes permanent closure of a Genora account. It explains what happens to the profile, conversations, uploaded material, memory, agents and Balance, and why a small set of records can remain after closure. It complements the Privacy Policy, Terms of Use and Refund Policy.
 
----
+## 2. Do not confuse these actions
 
-## 2. Three different account actions
+| Action | Result | Can it be reversed? |
+|---|---|---|
+| Sign out | ends the current browser session; account data stay available | yes |
+| Stop using Genora | leaves the account, history and Balance in place; inactivity rules may later apply | yes |
+| Delete the account | ends access and starts removal of the account data described below | no, after completion |
 
-| Action | What happens | Reversibility |
-|----------|----------------|-------------|
-| Logout from the account | the current session is ended, data are retained | reversible |
-| Cessation of use | data are retained, Balance is retained, unused Balance may be cancelled after 12 months of inactivity | reversible |
-| Account deletion | profile, history, memory, and settings are deleted, access is terminated | **irreversible** |
+## 3. How to ask for deletion
 
----
+3.1. Email **support@genora.art** from the address attached to the account. Use the subject “Account deletion” and state that you want permanent deletion.
 
-## 3. Sending Genora an erasure request
+3.2. Include the account email and, if needed, ask for an export before removal. An authorised corporate administrator may request deletion for a business account, but must tell affected invited users.
 
-3.1. Send an email to **support@genora.art** from the email address linked to the account, with the subject “Account deletion”.
+3.3. If a self-service deletion control is added to the profile, using it creates the same request and has the same irreversible effect.
 
-3.2. Specify: the account email address; confirmation of the intention to delete the account permanently; and, if necessary, a request to provide a copy of the data in advance.
+## 4. Ownership checks
 
-3.3. When a self-service deletion function appears in the personal account, a request may be created directly in the interface; the procedure and consequences will remain the same.
+We may ask for a confirmation link, a fresh login or limited payment/use information so that a third party cannot erase someone else’s account. A request from an unverified address or person without authority is not executed. We explain a refusal where security allows us to do so.
 
-3.4. A request on behalf of an organization is submitted by an authorized person; for corporate accounts, deletion may affect the data of invited users, of which the administrator must notify them independently.
+## 5. Data removed after confirmation
 
----
+Subject to the exceptions in section 6, Genora removes or de-identifies:
 
-## 4. Identity verification and protection against unauthorized deletion
+- profile and optional contact details, language, theme and other account settings;
+- the password hash, active sessions and access tokens;
+- chats, saved images, uploaded attachments and related metadata held in the account;
+- memory entries, extracted facts and relationships used to personalise conversations;
+- custom agents, agent settings, ratings and reviews linked to the account;
+- open support conversations, which are closed and retained only where section 6 requires it.
 
-4.1. To protect against abuse, we may ask you to: confirm control of the email address; perform a repeated login; provide information about the last top-up or use operation.
+For fraud prevention, opt-out enforcement and prevention of repeated registration bonuses, Genora may keep a one-way hash of the account email. It cannot be used as the account’s working address.
 
-4.2. If it is impossible to confirm ownership of the account, deletion may be refused with a statement of the reason.
+## 6. Records that can lawfully remain
 
-4.3. A request received not from the account address and without confirmation of authority is not executed.
+| Record | Expected period | Why it may remain |
+|---|---|---|
+| invoices, payment and accounting evidence | normally 6 years after the relevant financial year, or longer when a law, audit or dispute requires it | UK accounting/tax duties |
+| usage and tariff evidence needed to explain a charge | for the applicable accounting period or related dispute | accounting and defence of claims |
+| security events, fraud indicators and enforcement history | while needed for protection of the Service or a related claim, with periodic review | security and abuse prevention |
+| support, complaint and dispute correspondence | until the issue and any connected claim are closed | legal position and support |
+| material frozen by a court or authority | for the period of the order | legal obligation |
 
----
+An AI provider may retain a copy of a completed request under that provider’s own terms. Genora cannot erase a third party’s copy by deleting the Genora account.
 
-## 5. What is deleted
+## 7. Balance and refund requests
 
-5.1. After confirmation of the request, the following are deleted or de-identified:
+Deleting an account does not automatically refund unused paid Balance. Send a Refund Policy request before deletion if a refund is sought; after closure it may be impossible to verify the payment or restore the balance. Consumed credits and promotional credits are not refundable except where mandatory law says otherwise.
 
-- profile: name, nickname, avatar, country of registration, region, city, address, postal code, time zone, language and interface settings, response-style preferences;
-- access credentials: password hash, all active sessions and tokens;
-- chat and message history available in the account, including saved images and attachment metadata;
-- saved memory items, extracted facts and relations used for context across conversations;
-- custom agents and their settings;
-- reviews, model ratings, and comparison results linked to the account — are deleted or de-identified;
-- open support requests — are closed; correspondence is processed under §6.
+## 8. Export before deletion
 
-5.2. The email address may be retained in the form of an irreversible hash solely in order to: prevent re-registration of a person whose access was terminated for a violation; implement your opt-out from marketing communications; prevent repeated receipt of registration bonuses.
+Save conversations and files that matter to you before sending the request. If you ask for a copy of available personal data together with the deletion request, Genora will provide it in a reasonable machine-readable format under the Privacy Policy. Once removal is complete, an export may no longer be possible.
 
----
+## 9. Timing and backup copies
 
-## 6. Records that may survive deletion
+After ownership is verified, Genora normally responds within one calendar month, subject to a lawful extension for a complex request. Encrypted copies of the active development database are stored in HOSTKEY S3 in the Netherlands with a planned 30-day lifecycle. The local dump on the HOSTKEY VPS in Helsinki, Finland is removed after the uploaded copy has been checked. A copy that still exists during its rotation window is used only for recovery; if it is restored, the deletion request is applied again.
 
-The following information is retained after account deletion to the extent necessary for the specific purpose:
+An unfinished dispute, payment investigation or legal hold may delay removal of the affected record. We explain the reason and remove it when the hold ends.
 
-| Category | Period | Basis |
-|-----------|------|-----------|
-| Payment records, invoices, accounting documents | normally 6 years after the relevant company financial year; longer if law, an enquiry or a dispute requires it | UK accounting and tax obligations |
-| Consumption and tariffication records needed for accounting, or in de-identified or aggregated form | according to the applicable accounting period or until no longer needed for a related dispute | accounting, tax reporting, resolution of disputes over charges |
-| Security logs and information about violations, blocks, fraud | while needed for security, abuse prevention or a related claim, subject to review | protection of the Service and third parties, legitimate interest |
-| Correspondence on requests, disputes, and claims | while needed to resolve the matter and any related claim | protection of legal position |
-| Data subject to retention at the request of a court or competent authority | according to the request | legal obligation |
+## 10. No restoration or automatic inheritance
 
-Data previously transmitted to AI Providers as part of completed requests are processed and deleted in accordance with the policies of the respective providers; the Company cannot ensure their deletion on the third party’s side and is not responsible for their practices.
+Completed deletion cannot restore history, memory, agents, settings or Balance. A new registration, where permitted, starts empty and receives no old bonus or data. A person whose access ended for a material violation may be refused a new account.
 
----
+## 11. Closure by Genora
 
-## 7. Balance and refunds
+Genora may close an account for the reasons in the Terms of Use, including a serious policy breach, fraud, sanctions risk, legal requirement or discontinuation of the Service. The same removal rules and lawful-retention exceptions apply. The treatment of unused Balance follows the Terms and the Refund Policy.
 
-7.1. Account deletion **does not in itself create a right to a refund** of unused Balance.
-
-7.2. If you claim a refund, submit the request **before** account deletion, in accordance with the Refund Policy. After deletion, restoration of the Balance and confirmation of the right to a refund may become impossible.
-
-7.3. Used Balance is not restored and is not refundable.
-
-7.4. Bonus and promotional credits are cancelled without compensation.
-
----
-
-## 8. Data export before deletion
-
-8.1. We recommend that you independently save the conversations and materials you need before submitting a request.
-
-8.2. Upon your request submitted together with the deletion request, we will provide a copy of available personal data in a machine-readable or other reasonable format in accordance with §10 of the Privacy Policy. After deletion is completed, provision of a copy is impossible.
-
----
-
-## 9. Timing, backups and restoration
-
-9.1. We assess a verified erasure request without undue delay and normally respond within one calendar month, subject to any extension permitted by applicable law. We then carry out the deletion or explain which data must remain and why. Technical expiry of a session or token does not itself erase its database record.
-
-9.2. Encrypted development-database copies are stored in HOSTKEY S3 in the Netherlands; the planned retention period is 30 days. Rotation starts at day 29, and a storage lifecycle rule provides for expiration after 30 days. Until deletion, copies are used only for recovery; restored data remains subject to a confirmed erasure request. The local source file on the Helsinki VPS is removed after the uploaded copy is verified.
-
-9.3. If execution of the request requires a technical check or is connected with an unfinished dispute or bank proceeding, the period may be extended with notice of the reasons.
-
----
-
-## 10. Irreversibility and re-registration
-
-10.1. Deletion is irreversible: it is impossible to restore conversation history, memory, settings, and agents after completion of the procedure.
-
-10.2. Creation of a new account at the same email address is possible if access was not previously terminated for a breach of the Terms. A new account does not inherit history, memory, Balance, or bonus rights.
-
-10.3. The Company may refuse registration of a new account to a person whose access was terminated for a material breach, including violations of §3 of the Acceptable Use Policy and §4 of the Terms of Use.
-
----
-
-## 11. Deletion at the Company’s initiative
-
-11.1. The Company may close an account in the cases provided by §19 of the Terms of Use, including upon a breach of the rules, the existence of a legal or sanctions risk, or discontinuation of the Service.
-
-11.2. Upon closure of an account at the Company’s initiative, the same data-deletion time limits and the same exceptions for retained information apply.
-
-11.3. The fate of unused Balance upon such closure is determined by §19.4 of the Terms of Use.
-
----
-
-## 12. Contacts
+## 12. Contact
 
 **support@genora.art**
+
 Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.

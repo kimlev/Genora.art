@@ -8,96 +8,73 @@
 
 ---
 
-## 1. How Genora uses browser storage
+## 1. What this notice covers
 
-This document is the Genora-specific inventory of cookies, local storage and comparable browser mechanisms. It explains what is essential for sign-in and security, what is optional, and how you can give, refuse or later change consent. It should be read with the Privacy Policy and Terms of Use.
+Genora uses small pieces of browser storage to keep a signed-in session alive, protect forms, remember interface choices and, only where you allow it, measure how the site is used. This is the Genora inventory for cookies, `localStorage` and equivalent client-side mechanisms. Read it with the Privacy Policy.
 
-Legal framework: the UK Privacy and Electronic Communications Regulations (PECR) and UK GDPR; Directive 2002/58/EC (ePrivacy), national EEA rules and EU GDPR where applicable; CCPA/CPRA where applicable.
+The legal references are the UK Privacy and Electronic Communications Regulations, the UK GDPR, the ePrivacy rules applicable in the EEA and the EU GDPR where its territorial scope is met. A stricter local rule takes priority.
 
----
+## 2. Terms used here
 
-## 2. Definitions
+“Cookie” means a value written by a website into the browser. A session cookie normally disappears when the browser closes; a persistent cookie remains until its expiry or removal. `localStorage` is a separate browser store and is listed because it can also hold information on the device.
 
-**Cookie** — a small text file that a website stores in the device’s browser. A **session** cookie is deleted when the browser is closed; a **persistent** cookie remains until expiry or manual deletion.
+“First party” means Genora writes the value. “Third party” means another service writes or reads it, for example a traffic-protection provider or Google measurement service.
 
-**Local storage (localStorage)** — a browser mechanism for storing data on the device without transmitting it to the server with every request. Technically this is not a cookie, but it is disclosed here for completeness.
+## 3. Genora’s consent rules
 
-**First-party technologies** are placed by the genora.art domain. **Third-party** technologies are placed by other domains.
+3.1. Storage needed for login, security, request integrity, fraud prevention and operation of the site is used because the requested service cannot function safely without it. It is not optional advertising storage.
 
----
+3.2. Optional measurement is off until the visitor makes a positive choice. Before that choice, Genora sends the Google Consent Mode v2 defaults `analytics_storage`, `ad_storage`, `ad_user_data` and `ad_personalization` as `denied`.
 
-## 3. Consent model used by Genora
+3.3. The banner offers “Accept all”, “Reject all” and “Settings”. “Settings” keeps the panel open until a category choice is confirmed; the visitor can reopen the controls later. Refusing optional storage does not remove core access.
 
-3.1. Strictly necessary technologies are used on the basis of performance of a contract and a legitimate interest in ensuring security; consent is not required for them, and they cannot be refused without loss of operability of the Service.
+## 4. Storage used by the site
 
-3.2. Any optional technologies (analytics, performance measurement, marketing) are enabled **only after express consent**, where required by applicable law. Until consent is obtained, they are not set and do not read data.
+### 4.1 Required cookies
 
-3.3. Consent is voluntary, specific, informed, and withdrawable. Refusal does not impair access to the core functions of the Service.
+| Technology | Why it is needed | Typical lifetime |
+|---|---|---|
+| `genora_session` | links requests to an authenticated session | 12 hours, or 30 days when the user explicitly chooses “remember me” |
+| CSRF and request-integrity values | prevents forged form submissions and supports abuse controls | current session |
+| Preview access value | limits a closed preview to an authorised visitor | until the preview expires or the session ends |
+| Proxy or load-balancing values, where present | filters hostile traffic, applies rate limits and routes requests | provider-defined, from a session to 12 months |
 
----
+### 4.2 Device storage selected by the visitor
 
-## 4. List of technologies used
+| Key or group | Function | Lifetime |
+|---|---|---|
+| `genora-cookie-consent` | remembers the banner decision | until the site data are cleared or the choice is changed |
+| interface preferences | stores language, theme, panel state and the last selected model | until cleared |
+| draft/workspace state | keeps unfinished local input on the same device | until cleared, logout or replacement by the application |
 
-### 4.1 Strictly necessary
+### 4.3 Google measurement
 
-| Name | Type | Purpose | Duration |
-|--------------|-----|------------|------|
-| `genora_session` | first-party cookie, httpOnly, SameSite=Lax, Secure | identification of an authenticated session, maintenance of login | 12 hours; 30 days if “remember me for 30 days” is selected |
-| Technical cookies for form protection and request integrity | first-party, session | protection against cross-site request forgery and automated attacks | session |
-| Preview-access cookies (Preview) | first-party | restriction of access to a closed version of the site | session or until expiry of the access granted |
-| Network-protection and load-balancing cookies, if a protective proxy is used | third-party (protection provider) | filtering of malicious traffic, determination of request country, rate-limiting | from session to 12 months |
+The site may load the Google tag for the Analytics property `G-D07763XPWC`. Loading the tag does not by itself grant analytics consent. Genora keeps measurement storage disabled by default and enables page-view/analytics requests only after the analytics category is accepted. Advertising storage, user-data signals and personalised advertising remain denied unless a separate advertising choice is granted.
 
-### 4.2 Local storage
+If Genora adds another optional tool, its provider, purpose, duration and transfer will be listed here before activation, and the banner will expose a separate choice where the law requires one.
 
-| Key / category | Purpose | Duration |
-|------------------|------------|------|
-| `genora-cookie-consent` | storage of your decision on the cookie banner so that it does not reappear | until browser data are cleared |
-| Interface settings | language, theme, state of panels and last-selected models | until browser data are cleared |
-| Drafts and local workspace state | preservation of unfinished input and chat state on the device | until browser data are cleared or you log out of the account |
+## 5. How to choose or withdraw
 
-### 4.3 Analytics, Google tag and advertising settings
+On a first visit, the consent panel remains available until the visitor accepts, rejects or confirms settings. Clearing Genora site data causes the panel to appear again. A later change can also be requested at support@genora.art.
 
-Genora may load the Google tag and the Google Analytics measurement property `G-D07763XPWC`, but analytics storage and related measurement are disabled by default. The tag receives the Consent Mode v2 defaults (`analytics_storage`, `ad_storage`, `ad_user_data` and `ad_personalization` set to `denied`) before an optional choice is recorded. A page-view or analytics request is enabled only after the visitor grants the analytics category.
+Withdrawal does not disable required session or security storage. A browser that blocks it may be unable to sign in, submit a request, complete payment or pass security checks.
 
-Genora does not enable advertising or personalised-advertising storage by default. Advertising-related signals remain denied unless the visitor separately grants that category in the consent controls.
+## 6. Browser controls
 
-If such technologies are added, before they are enabled: (a) the Policy will be updated with the provider, purpose, duration, and data transferred; (b) a separate category will appear in the banner with the ability to consent or refuse; (c) until consent is obtained, the technologies will not be activated.
+The browser can show, delete or block cookies; private browsing can isolate them. Removing the session value signs the user out. Removing local storage resets theme, language, drafts and other device preferences. Blocking all cookies can make the Service unusable.
 
----
+Genora honours applicable privacy-control signals to the extent the particular technology can interpret them. Such a signal does not override storage strictly needed for a secure session.
 
-## 5. Giving and changing a choice
+## 7. Information associated with storage
 
-5.1. On the first visit, a banner is displayed with a choice: accept optional technologies or refuse them. The decision is stored on the device.
+Depending on the technology, the associated information may include a session identifier, consent decision, IP address or country code, browser/device type, access time and interface settings. The Privacy Policy explains purposes, recipients and retention; the Sub-processors page identifies relevant service categories.
 
-5.2. You may withdraw or change the decision by: clearing the site data in the browser (after which the banner will appear again) or contacting support@genora.art.
+## 8. Updates
 
-5.3. Refusal of optional technologies does not disable strictly necessary cookies, because without them login, a secure session, and protection against attacks are impossible.
+The version and effective date above change when the inventory or consent operation materially changes. Optional technologies that need consent are not activated before the applicable choice is obtained.
 
----
+## 9. Contact
 
-## 6. Browser controls and their consequences
+Questions about browser storage: **support@genora.art**
 
-6.1. You may view, delete, and block cookies in the browser settings, and also use private-browsing mode.
-
-6.2. Consequences: deletion of authentication cookies results in logout from the account; blocking of strictly necessary cookies makes login, chat, and payment unavailable; clearing local storage deletes interface settings and local drafts.
-
-6.3. Browser signals such as Do Not Track and Global Privacy Control are processed to the extent applicable to the technologies used. Because third-party analytics and advertising are not used, additional tracking opt-out is not required.
-
----
-
-## 7. Data obtained through these technologies
-
-Through the listed technologies the following may be processed: session identifier, IP address, country code, browser and device type, time of access, the fact of consent, interface preferences. Purposes, legal bases, and periods are described in the Privacy Policy; disclosure to providers is set out in the “Sub-processors” list.
-
----
-
-## 8. Changes to the Policy
-
-The Policy is updated when the composition of technologies changes. The number of the current version is indicated in the heading; the date it takes effect is indicated on the document page on the website. Material changes requiring consent are introduced no earlier than such consent is obtained.
-
----
-
-## 9. Contacts
-
-Questions regarding cookies: **support@genora.art**
-Sangerto LTD, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
+Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.

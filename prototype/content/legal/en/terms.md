@@ -2,419 +2,159 @@
 
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
-**Service:** the website genora.art, its subdomains, applications, and related features.
 
 **Version:** 3.0
-**Effective date:** for new users — from the date of publication on the website; for existing users — 30 calendar days after notice.
-**Supersedes:** version 2.3.
+**Effective date:** for a new account, on publication; for an existing account, 30 calendar days after notice.
 
 ---
 
-## Preamble. The Genora agreement
+## Preamble. The contract you are accepting
 
-These Terms are the Genora.art service agreement between you (**“User”**, **“you”**) and Sangerto LTD (**“Company”**, **“we”**, **“us”**). They govern the Genora website, its applications, account, generation tools, agents, billing and support functions (**“Service”**). They are drafted for this Service and do not incorporate the terms of any other product or website.
+These Terms are the Genora agreement: they describe the website, chat, agents, memory, model catalogue, Balance, support and connected services operated by Sangerto LTD. They are written for Genora and do not import the terms of another product. By creating an account or using a paid or free feature, you confirm that you have read these Terms and the incorporated Acceptable Use, Privacy, Cookie, Refund, Security, Sub-processors, Intellectual Property and Account Deletion policies.
 
-BY CREATING AN ACCOUNT, CLICKING “I AGREE”, TOPPING UP YOUR BALANCE, OR USING THE SERVICE IN ANY WAY, YOU CONFIRM THAT YOU HAVE READ, UNDERSTOOD, AND ACCEPT THESE TERMS AND THE DOCUMENTS INCORPORATED INTO THEM. IF YOU DO NOT AGREE — DO NOT USE THE SERVICE.
+Please read §§4, 6, 9, 10, 16, 17, 19 and 20 carefully. If you do not accept these Terms, do not create or use an account. Mandatory consumer rights in your country remain intact.
 
-Before using the Service, read in particular **§9 (AI Outputs)**, **§10 (restricted use)**, **§13 (privacy)**, **§16 (warranties)**, **§17 (liability)** and **§20 (law and disputes)**. These clauses explain the limits of an AI intermediary, the prohibited content rules and the mandatory consumer-law carve-outs.
+## 1. Words used in this agreement
 
-For users in the EEA, the United Kingdom or Switzerland, a mandatory right or remedy that cannot lawfully be excluded remains available. No wording in these Terms is intended to remove that protection.
+**Service** means Genora’s site, application, chat, agents, memory, billing, support, catalogue and related interfaces. **Model** means a third-party AI model made available through the Service. **Provider** means the company operating a Model or another connected service. **Input** means what you send, upload or select. **Output** means the response or generated material. **Balance** means paid or promotional credit. **Account** means the profile and credentials used to access the Service. **Company** means Sangerto LTD.
 
-**Documents incorporated into these Terms by reference** and forming a single whole with them:
+## 2. What Genora does
 
-1. Privacy Policy;
-2. Cookie Policy;
-3. Refund Policy;
-4. Acceptable Use Policy;
-5. Security Policy;
-6. Account Deletion Policy;
-7. List of Sub-processors;
-8. Intellectual Property and Copyright Policy;
-9. Data Processing Agreement (DPA) — for corporate customers;
-10. Model provider terms (**“Provider Terms”**) — to the extent applicable to the model you select;
-11. The pricing page and the published documentation of the Service.
+Genora provides a single interface and routing layer for third-party AI models. Sangerto is not the developer of those Models and does not control their weights, training data, independent terms, retention or availability. A request can be sent to the Provider associated with the Model you choose, or to the route selected by enabled automatic mode.
 
----
+## 3. Eligibility
 
-## 1. Words used in the Genora service
+You must be at least 18 and meet the age of independent consent in the place where you live. You need capacity and authority to enter this contract. A corporate account administrator confirms authority for the organisation and its invited users. Genora may ask for age, identity or account-control information where necessary for safety, payments or law.
 
-**“AI Provider”** — a third party that supplies an artificial intelligence model, access to which is provided through the Service (including, in particular, OpenAI, Anthropic, Google, Moonshot AI (Kimi), xAI, Alibaba Cloud (Qwen), and other persons that we may include or exclude at any time).
+## 4. Territory, sanctions and provider limits
 
-**“Model”** — a generative model or other third-party AI service available through the Service.
+Use is permitted only where Genora, the relevant Provider and applicable law permit it. Do not use the Service from a sanctioned territory or for a sanctioned person, evade export controls, or send data to a destination forbidden by your contract or law. A Provider can impose a stricter geography or category rule; that rule controls the affected request.
 
-**“Input”** — any data that you transmit to the Service: prompt text, files, images, audio, metadata, agent settings, and memory contents.
+## 5. Account and credentials
 
-**“Output”** — the response generated by a Model based on your Input.
+Give accurate registration information and keep the email current. Protect the password, mailbox, session and any key. You are responsible for activity using your credentials until you report compromise. Do not share an account, create accounts to evade a block or give access to customers without written permission. Genora may verify email, revoke sessions, throttle login and close suspicious accounts.
 
-**“User Content”** — Input and Output collectively.
+## 6. Balance, prices and payment
 
-**“Balance”** — internal accounting units (tokens) prepaid by you and used to pay for actual consumption of Service resources.
+6.1. Paid Balance is not a bank account, deposit or property held for investment. Prices and model estimates are shown before a charge where practicable and can change for future requests.
 
-**“Account”** — the User’s account.
+6.2. A request may reserve or spend Balance when submitted. Provider costs, failed or partial jobs and technical corrections are handled under the Refund Policy. Promotion and bonus credits have no cash value.
 
-**“Credentials”** — password, session tokens, confirmation codes, and API keys, if issued.
+6.3. Balance unused for 12 consecutive months may expire after notice, subject to mandatory law. A payment provider may be an independent controller and can impose its own verification.
 
-**“Preview Mode”** — a state of the Service or of a particular feature designated as a preview, beta, early access, or demonstration.
+6.4. You authorise the selected payment method for the displayed amount. Report an unauthorised charge promptly. Taxes, bank fees and currency conversion are allocated as shown at checkout or required by law.
 
----
+6.5. The Refund Policy governs corrections, statutory withdrawal, chargebacks and unused credit. It does not remove a non-waivable consumer right.
 
-## 2. What Genora provides — and what it does not
+## 7. Provider terms
 
-2.1. Genora.art is a **technical intermediary and routing interface**. The Service accepts your Input, routes it to the selected AI Provider through its own gateway, and returns the Output to you, and also provides ancillary features: conversation history, agents, cross-chat memory, model comparison, a unified Balance, and billing.
+Each Model can have its own use, content, commercial, retention, geographic and intellectual-property rules. You must review and follow them. If Provider Terms conflict with these Terms, the stricter Model rule controls your request. Genora does not promise that a Provider will preserve a prompt, offer a result or keep a Model available.
 
-2.2. The Company **does not develop, train, or control** the Models, and does not influence their architecture, training data, internal filters, quality, speed, or the content of Outputs.
+## 8. Input, output and limited licence
 
-2.3. Each AI Provider is an **independent third party**. The Company is not its agent, representative, or joint-venture partner, and makes no representations on its behalf.
+8.1. You keep rights you already hold in Input. You give the Company a limited, non-exclusive licence to transmit, store, display, transform and process Input only to operate the Service, route the request, provide history/memory/agents, bill, support, protect the system and comply with law. Genora does not use Input to train its own models.
 
-2.4. The composition of Models, providers, features, limits, and prices may be changed, reduced, or discontinued at any time, including by decision of an AI Provider, outside the Company’s control.
+8.2. You promise that you have the authority, consent and lawful basis required for Input, including another person’s data, image, voice or copyrighted work. Do not send data prohibited by the Privacy or Acceptable Use Policy.
 
-2.5. The Service or individual features thereof may be provided in Preview Mode: without warranties of stability, data integrity, backward compatibility, or any availability metrics.
+8.3. Output can be wrong, unsafe, incomplete, similar to another result or legally unprotectable. You review it before reliance or publication and carry responsibility for your use. A Provider may impose additional output conditions.
 
----
+## 9. No professional advice
 
-## 3. Eligibility and age gate
+Output is not medical, legal, tax, accounting, investment, insurance, engineering, psychological or educational advice. Check facts, citations, code, calculations and law with a qualified person. Do not use Output alone for treatment, credit, insurance, hiring, education, public benefits, migration, sanctions, life safety or critical-infrastructure decisions. Follow applicable AI law for risk assessment, human oversight, records, disclosure and labelling.
 
-3.1. The Service is intended for persons who have reached **18 years of age** and who have full legal capacity to enter into a contract. If the law of your jurisdiction sets a different age of full legal capacity, the higher threshold applies.
+## 10. Absolute and conditional prohibitions
 
-3.2. By registering, you represent and warrant that: (a) you are at least 18 years of age; (b) your access has not previously been terminated by us for a violation; (c) your use of the Service does not violate applicable law; (d) you are not subject to sanctions restrictions and are not acting for the benefit of a person who is subject to such restrictions.
+The Acceptable Use Policy is incorporated. Without limiting it, you must not:
 
-3.3. If you act on behalf of an organization, you represent that you have authority to bind it to these Terms, and you accept the Terms on its behalf. The term “you” in that case means both you and the organization, jointly and severally.
+1. create CSAM, sexual material involving a minor, pornography, erotica, explicit or sexually suggestive content, including adult sexual content, in any text, image, audio or video;
+2. create sexual violence, extreme violence, gore, dismemberment, zoophilia, terrorism/extremism assistance, hate speech or a deepfake of a person without consent;
+3. request harmful content, weapons/explosives/chemical/biological/radiological/nuclear instructions, malware, ransomware or security bypasses;
+4. defraud, phish, spam, manipulate markets, evade KYC/AML, impersonate, forge documents or signatures, stalk, unlawfully surveil or profile people;
+5. infringe rights, remove watermarks, copy protected works unlawfully or use another person’s likeness without the required permission;
+6. scrape, reverse engineer, extract system instructions, bypass quotas/filters/billing, spread load across accounts or create uncontrolled load;
+7. red-team or jailbreak a Model without written approval; or
+8. resell, relay, benchmark commercially or build a competing product without written permission.
 
-3.4. The Service is not intended for children. We do not knowingly collect data of persons below the age of independent consent established by law. Upon discovery of such an account, it is subject to immediate closure.
+Genora may reject, remove, rate-limit, suspend, terminate or report conduct. An immediate threat may be handled without advance notice; unused Balance can be withheld after a breach to the extent lawful.
 
----
+## 11. Availability and changes to the Service
 
-## 4. Sanctions, geographic access and provider restrictions
+Genora aims to operate the Service but gives no availability SLA unless a written enterprise agreement says otherwise. Maintenance, outages, queues, provider changes, price changes, feature removal and model replacement can occur. A Provider, host, network or payment outage may prevent a result. A change does not itself create a refund except under law or the Refund Policy.
 
-4.1. You represent and warrant that you, your organization, your beneficial owners, and your end users: (a) are not included in sanctions lists applicable to the Service (including the lists of the UN, the United Kingdom, the EU, and the US where applicable); (b) are not located in, and are not residents of, a jurisdiction from which access is restricted by applicable law or the Provider Terms; (c) will not use the Service to re-export, transfer, or provide access to Models to persons to whom such access is prohibited.
+## 12. Connected services
 
-4.2. Individual AI Providers independently restrict access by territory and by category of persons (**“Restricted Models”**). You undertake not to use a VPN, proxy, geolocation spoofing, relays, or other means of circumventing such restrictions, and not to assist other persons in doing so.
+Email, traffic protection, payment, hosting and AI Providers are third-party services. Their agreements, security and retention rules apply to their part. Genora may discontinue an integration or route without preserving it or paying compensation, subject to mandatory rights.
 
-4.3. A breach of §4 is a **material breach** and results in immediate suspension or termination of access without prior notice and without a refund, to the extent permitted by law.
+## 13. Privacy and corporate processing
 
-4.4. The Company may conduct compliance checks, including screening against sanctions lists, verification of payment instruments, and requests for supporting documents; if you refuse to provide them, access may be restricted.
+The Privacy and Cookie Policies govern personal data. You need a lawful basis and required notice for data about other people. A business processing Customer Data on instructions can request the DPA; the DPA prevails on its processing terms.
 
----
+## 14. Confidential information
 
-## 5. Account, security, and Credentials
+Non-public information identified as confidential or obviously confidential may be used only for the Service, shared only with people bound to protect it and guarded with reasonable care. This does not cover information already public, independently developed, lawfully received elsewhere, previously known or required to be disclosed by law (with notice where allowed).
 
-5.1. An Account is required to access most features. You must provide accurate information, verify your email address, and keep your information up to date.
+## 15. Genora materials
 
-5.2. You must keep your Credentials confidential, must not share access with third parties, and must not create multiple accounts to circumvent limits, promotions, bonuses, or blocks.
+The Company or its licensors own the code, design, text, catalogue, architecture, prompts, documentation, names, logos and other platform material. Genora grants only the personal, limited, revocable and non-transferable access expressly permitted here. Do not copy, modify, decompile, create a competing interface, remove notices or suggest endorsement.
 
-5.3. **You are responsible for all activity and all charges effected using your Account or Credentials**, whether or not authorized by you — except where such activity is a direct consequence of a proven breach of these Terms by the Company, and to the extent established by mandatory rules of law.
+## 16. Warranty disclaimer
 
-5.4. Any fact or suspicion of Account compromise must be reported **immediately** to support@genora.art. Until such notice is received, the Company may treat the actions as having been performed by you.
+TO THE MAXIMUM EXTENT ALLOWED BY LAW, THE SERVICE, MODELS, OUTPUTS AND PLATFORM MATERIAL ARE PROVIDED “AS IS” AND “AS AVAILABLE”. THE COMPANY DISCLAIMS IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS, TITLE, NON-INFRINGEMENT, ACCURACY, CONTINUITY, SECURITY AND ERROR-FREE OPERATION. GENORA DOES NOT PROMISE AN OUTPUT WILL BE CORRECT, CURRENT, UNIQUE, LAWFUL, SAFE, ORIGINAL OR FIT FOR A PARTICULAR PURPOSE, OR THAT DATA WILL NEVER BE LOST.
 
-5.5. We may suspend, restrict, or revoke Credentials and access if reasonably necessary to protect the Service, you, the Company, AI Providers, or third parties.
+This section does not remove rights that cannot be excluded, including mandatory consumer rights and liability for death or personal injury caused by negligence, fraud or fraudulent misrepresentation.
 
-5.6. We may provide corporate-account functionality with an administrator. The administrator determines settings for invited users (including logging, history retention, and memory), and the organization is responsible for the actions of its users.
+## 17. Liability limits
 
----
+TO THE MAXIMUM EXTENT PERMITTED, THE COMPANY PARTIES are not liable for indirect, special, punitive or consequential loss, lost profit/revenue/goodwill/data, replacement services or a decision based on Output. Their total liability for claims connected with the Service is limited to the greater of the amount paid to the Company in the three months before the event or USD 100.
 
-## 6. Balance, prices, and settlement
+The limit does not apply where law prohibits it. Genora is not responsible for a Provider’s act, third-party outage, your Input, an unprotected credential, data loss not caused by Genora or prohibited use. A claim must be brought within one year after it arose unless a mandatory period is longer.
 
-6.1. **Nature of the Balance.** The Balance consists of internal accounting units for recording consumption of the Service. The Balance: (a) is not money, electronic money, a payment instrument, a deposit, a security, or any other financial product; (b) has no equivalent in fiat currency outside the Service; (c) does not create proprietary rights; (d) does not accrue interest; (e) is not transferable between Accounts and may not be sold, gifted, or otherwise alienated; (f) may be used solely within the Service.
+## 18. Your indemnity
 
-6.2. **Pricing model.** Payment is made according to actual consumption: the cost depends on the selected Model, the number of input and output tokens, the tools used (including file recognition, audio, web search, and memory), and other resources. Commercial prices include the Company’s markup over the provider’s cost and are published in the interface and on the pricing page.
+You will defend and reimburse the Company Parties for claims, fines, losses and reasonable legal costs arising from your Input, Output use, breach, unlawful data, rights infringement, sanctions/export violation or dispute with your own users or customers. Genora may take over the defence; you must assist and cannot settle in a way that binds or admits fault for Genora without written consent.
 
-6.3. **Price changes.** Prices may change, including due to changes in AI Provider prices or currency exchange rates. Changes apply to requests executed after publication. Amounts already charged are not recalculated.
+## 19. Suspension and termination
 
-6.4. **Accounting currency.** Accounting is maintained in United States dollars (USD). Conversion, issuing-bank fees, cross-border payment fees, and exchange-rate differences are borne by the User.
+You may stop using Genora and request deletion under the Account Deletion Policy. Genora may suspend or terminate for breach, suspected fraud/compromise, provider/payment/authority demand, sanctions or legal risk, or discontinuation, with notice where practical.
 
-6.5. **Bonuses and promotional credits.** Bonus and promotional credits are granted at our discretion, have no monetary value, are not refundable or exchangeable, do not participate in the calculation of refunds, and may be cancelled or voided upon discovery of abuse, multiple accounts, or reversal of the original payment. Where both paid and bonus Balance exist, the Company determines the order in which they are consumed.
+Termination ends access but not charges already incurred. If Genora ends access for a reason unrelated to your breach, unused paid Balance can be refunded to the original payment method on written request, less permitted fees and bonus credit. After your breach, it is not refunded to the extent lawful. Data follows the Privacy and Account Deletion Policies.
 
-6.6. **Validity of the Balance.** The Company may cancel unused Balance upon the expiry of **12 months** from the date of the Account’s last activity, after sending prior notice to the Account email address at least 30 days in advance — to the extent permitted by applicable law.
+## 20. Law and disputes
 
-6.7. **Payment partners.** Payments are accepted through third-party payment providers indicated in the payment interface. Their terms and policies apply to you directly. The Company does not store full payment-card details. Payment by certain methods (in particular settlements in crypto-assets, if they become available) may be irrevocable by their nature.
+England and Wales law governs these Terms, but a consumer keeps mandatory protections and can sue in a court available under the law of habitual residence. Before formal proceedings, send a written description of the dispute to support@genora.art and the account email; the parties will try for 30 days. Courts in England and Wales have jurisdiction, subject to mandatory consumer, collective, small-claims, authority and interim-relief rights. Mediation or arbitration can be agreed separately after a dispute arises.
 
-6.8. **Taxes.** The stated prices do not include applicable taxes unless expressly indicated otherwise. The User independently bears all taxes, duties, and withholdings associated with the User’s use of the Service, other than taxes on the Company’s income. If the Company is required to withhold or charge a tax, the corresponding amount is added to the payment. A corporate customer must, upon request, provide information on tax status and the place of consumption of the service.
+## 21. Changes to these Terms
 
-6.9. **Default and uncredited payments.** Upon cancellation, reversal, dispute, or unsuccessful completion of a payment, the Company may cancel the corresponding Balance credit, restrict the Account, and demand reimbursement of expenses incurred.
+Material changes are announced at least 30 calendar days before taking effect by email or the interface, unless urgent law/security requires another method. Continued use accepts the new text; if you disagree, stop using the Service and request any eligible unused-Balance refund. Corrections, contact updates and provider-list changes can take effect on publication. The version applicable when a claim arose governs it.
 
-6.10. **Chargeback.** Initiating a bank dispute without first contacting support is treated as bad-faith conduct. During the dispute, the Account and the disputed Balance may be restricted; related expenses of the Company are subject to reimbursement by the User to the extent permitted by law.
+## 22. Electronic notices
 
-6.11. **Refunds** are governed by the Refund Policy. Used Balance corresponds to digital services already rendered and is not refundable, except in cases expressly provided by law.
+You agree that legally significant notices can be sent to the account email or shown in the Service and are written communications. Keep the address working; filters or loss of mailbox access do not make a valid notice disappear. Notices to Genora go to support@genora.art.
 
----
+## 23. Transfer of the agreement
 
-## 7. Model Provider Terms
+You may not assign this contract without written permission. Genora may transfer it during a merger, reorganisation, asset sale or business transfer, with notice and continued protection of personal data.
 
-7.1. By using a Model, you **additionally** accept the applicable Provider Terms of that Model and undertake to comply with them, and to ensure compliance by your employees, users, and customers.
+## 24. No agency; no implied third-party rights
 
-7.2. You must independently review the Provider Terms **before** using a Model and determine whether they permit your use case, including the processing of personal data, commercial use, rights in the Output, and territorial restrictions.
+The relationship is not employment, partnership, agency, fiduciary or joint venture. Except where a mandatory rule says otherwise, a person who is not a party has no right to enforce these Terms.
 
-7.3. Provider Terms may be changed by the provider at any time without notice to the Company. Continued use of the Model after such a change constitutes your acceptance of the updated terms.
+## 25. Events outside reasonable control
 
-7.4. The Company makes reasonable efforts to accurately reflect information about Models (logging, training on data, availability, limits), but **is not responsible for inaccuracies, obsolescence, or the absence of such information**, or for any acts or omissions of an AI Provider.
+Genora is not responsible for delay caused by an AI, hosting, network, payment or email provider, cyberattack, power/communications failure, government action, sanctions, law change, disaster, pandemic, war or civil unrest beyond reasonable control.
 
-7.5. The Company may suspend or terminate your access to a Model if it considers that you have violated or may violate the Provider Terms, or if the provider so requires. Resolution of a dispute with the provider is your responsibility; the provider retains full control over access to its Model.
+## 26. General provisions
 
-7.6. The Company **does not guarantee the availability** of any particular Model and provides access on an “as available” basis.
+These Terms and incorporated documents are the entire agreement. Failure to enforce a right is not a waiver. If one clause is invalid, the rest remains effective and the clause is narrowed or replaced to the closest lawful effect. Provisions on payment, input, privacy, rights, disclaimers, liability, indemnity, disputes and this section survive termination.
 
-7.7. AI Providers are **third-party beneficiaries** of §4, §7, §8, §9, §11, §17, and §18 of these Terms to the extent relating to the use of their Models.
+The Russian version is the authentic version of these Terms; this English text is provided for convenience, except where mandatory law requires otherwise. Preserve important data before closing an account.
 
----
-
-## 8. User Content, licenses, and model training
-
-8.1. **Rights in Input.** You retain all rights in Input that you held before transmitting it to the Service.
-
-8.2. **License to the Company.** You grant the Company a non-exclusive, royalty-free, worldwide license (with the right to sublicense solely to infrastructure providers and the selected AI Provider) to host, store, cache, reproduce, transmit, display, and technically modify (solely for formatting and transmission purposes) User Content — **solely** for: (a) fulfilling your request; (b) operation of the history, agent, and memory features that you have enabled; (c) billing; (d) technical support upon your request; (e) security and abuse prevention; (f) compliance with legal requirements.
-
-8.3. **No training on your content by the Company.** The Company does not use your User Content to train its own models. The Company seeks to select modes of interaction with AI Providers that exclude training on transmitted data; however, **the provider’s actual practice is determined by its Terms**, and the Company cannot guarantee it.
-
-8.4. **Representations regarding Input.** You represent and warrant that: (a) you are the rights holder of the Input or possess all necessary rights, consents, and permissions; (b) the Input and its processing under these Terms do not infringe copyright, patent, trademark, personality, reputation, image, secrecy, privacy, or other rights of third parties; (c) the Input does not contain personal data for the transmission of which you have no lawful basis; (d) the Input does not cause the Company to violate the law or the Provider Terms.
-
-8.5. **Rights in Output.** Rights in Output are determined by applicable law, the Provider Terms, and the nature of your source materials. The Company **does not represent or warrant** that the Output: is protectable, is unique, does not coincide with the results of other users, is not similar to third-party materials, is free of third-party rights, or is suitable for registration or commercial use. Further details are set out in the Intellectual Property Policy.
-
-8.6. **No duty to moderate.** The Company is not obliged to review, verify, or monitor User Content, but may at any time without prior notice restrict, block, or delete content that, in its reasonable discretion, violates these Terms, the Provider Terms, or the law.
-
-8.7. **Published content.** If the Service provides a function for publishing or sharing links to conversations, you understand that such content will become available to the recipients of the link, and you grant the rights necessary for that purpose. Responsibility for the content of published material rests with you.
-
-8.8. **Feedback.** Ideas, suggestions, and comments submitted by you may be used by the Company perpetually, royalty-free, and without restriction, without giving rise to any rights or claims on your part.
-
----
-
-## 9. AI Outputs: key warning and absence of professional advice
-
-9.1. Outputs are produced by **probabilistic** models and by their nature may contain: non-existent facts, references, citations, court cases, legal norms, dosages, and figures (“hallucinations”); errors in calculations and code; bias; outdated information; incomplete or mutually exclusive conclusions.
-
-9.2. An Output **is not** medical, legal, tax, accounting, financial, investment, insurance, engineering, psychological, educational, or other professional advice, and does not replace consultation with a qualified professional.
-
-9.3. **User obligations.** You undertake to: (a) independently verify material facts, figures, references, code, and legal assertions before applying them; (b) ensure meaningful human review before publishing an Output or taking action on its basis; (c) not make decisions with significant consequences solely on the basis of an Output; (d) not use the Service in emergency, accident, or life-threatening situations in place of contacting the relevant services; (e) label AI-generated content where required by applicable law.
-
-9.4. **Prohibited use cases without your own compliance.** You may not use an Output as the sole or determining basis for decisions concerning: health and treatment; lending, insurance, and financial access; hiring, dismissal, and personnel evaluation; education and examination admission; the provision of public or social services; legal status, migration, and human rights; the management of critical infrastructure; life safety. If applicable law (including artificial-intelligence legislation) classifies your use case as high-risk, you act as an independent responsible person and must ensure compliance with the relevant requirements yourself.
-
-9.5. **Allocation of responsibility.** You assume all risks associated with the use of an Output. The Company is not responsible for the accuracy, completeness, lawfulness, or fitness of an Output, for your actions based on it, or for any consequences of such actions.
-
----
-
-## 10. Acceptable use and prohibited conduct
-
-10.1. The full set of requirements is contained in the Acceptable Use Policy, which forms part of these Terms. The following is a non-exhaustive list of expressly prohibited actions.
-
-10.2. You undertake **not** to:
-
-1. use the Service for unlawful purposes, in violation of applicable law, sanctions or export restrictions, or the Provider Terms;
-2. infringe the rights of third parties, including intellectual-property rights, secrecy, confidentiality, and the right of publicity;
-3. create sexual materials involving minors (CSAM), content depicting sexual violence, extreme violence, gore and dismemberment, zoophilia, content related to terrorism and extremism, deepfakes without the consent of the people depicted, or hate speech;
-4. create, request, or generate harmful content (harmful content generation) in any form;
-5. create, request, or generate NSFW, explicit, or sexually suggestive materials: pornography, erotica, sexually explicit or sexually suggestive content, including content involving adults, in any form (text, image, audio, video, or otherwise);
-6. create instructions for the manufacture of weapons, explosive, chemical, biological, or radiological agents, malicious code, or the circumvention of security systems;
-7. engage in fraud, phishing, spam, market manipulation, circumvention of KYC/AML procedures, or impersonation of another person or organization;
-8. create misleading deepfakes, forged documents, identity documents, and signatures;
-9. resell access to Models, provide it to third parties, use the Service to create a competing product, conduct commercial benchmarking without written consent, or train your own models on Outputs if prohibited by the Provider Terms;
-10. engage in scraping, automated data collection, reverse engineering, decompilation, circumvention of technical protection measures and limits, or load-balancing across accounts, proxies, or keys to circumvent restrictions;
-11. conduct adversarial testing of Models (**Red Teaming**) — prompt injection, jailbreak, attempts to bypass filters and extract system instructions — without prior written approval from the Company;
-12. impair the operation of the Service: distribute malicious code, create excessive load, launch uncontrolled retry loops, or interfere with networks and servers;
-13. use the Service as a specialized repository of particularly sensitive data (medical, payment, biometric, government identifiers, children’s data);
-14. commit or facilitate any of the listed actions.
-
-10.3. **Response measures.** Depending on the risk, we may: warn, rate-limit, disable a feature, reject a request, suspend or terminate access, delete content, notify the AI Provider, and — where there is a legal duty or right — notify competent authorities. In the event of an immediate threat, measures are applied without prior notice.
-
-10.4. The Company is not obliged to store or provide to you content deleted in connection with a violation.
-
-10.5. The Service is **not intended** for harmful content generation or NSFW generation. Requesting, submitting, or generating harmful content, or explicit or sexually suggestive materials, in any form is prohibited.
-
----
-
-## 11. Service availability, changes, and absence of SLA
-
-11.1. We strive to maintain the operability of the Service, but **do not provide availability metrics (SLA)**, unless a separate written agreement with a corporate customer provides otherwise.
-
-11.2. Planned and unplanned maintenance, quality degradation, changes to the composition of Models and features, changes to limits and queues, and the complete discontinuation of individual features are possible.
-
-11.3. The Company is not responsible for interruptions caused by the acts or omissions of AI Providers, hosting and network providers, or payment partners, or for events outside its reasonable control (§25).
-
-11.4. Discontinuation or change of a feature does not in itself give rise to a right to a refund, except in cases expressly provided by law or the Refund Policy.
-
----
-
-## 12. Third-party services and integrations
-
-12.1. The Service may interact with third-party products (**“Third-Party Services”**), including payment systems, email services, security tools, and AI Providers.
-
-12.2. Use of Third-Party Services is governed by agreements between you and the relevant third party. The Company makes no representations as to their availability, security, or fitness for your requirements, and is not responsible for disclosure, alteration, or loss of data occurring on their side.
-
-12.3. The Company may discontinue any integration without giving rise to any right on your part to compensation, a refund, or preservation of the feature.
-
----
-
-## 13. Privacy and processing of personal data
-
-13.1. The processing of personal data is described in the Privacy Policy, which is incorporated into these Terms.
-
-13.2. For corporate customers that use the Service to process personal data, the DPA applies. An executable version of the DPA is entered into separately and, in the event of conflict, prevails over these Terms on matters of personal-data processing.
-
-13.3. You must have a lawful basis for transmitting to the Service any personal data of third parties and must provide the necessary notices and consents. The Company may rely on your representations in this regard.
-
----
-
-## 14. Confidential information of the parties
-
-14.1. **Confidential Information** means non-public information disclosed by one party to the other in connection with the Service and designated as confidential or that is obviously confidential, including non-public aspects of the Service, development plans, technical solutions, prices under individual agreements, and the terms of negotiations.
-
-14.2. The receiving party uses Confidential Information only in connection with the Service, applies no lesser degree of care than it applies to its own information of the same kind (but no less than reasonable care), and restricts access to persons bound by confidentiality obligations.
-
-14.3. Exceptions: information that has become publicly available without breach; previously known to the receiving party; lawfully obtained from a third party; independently developed; and Feedback.
-
-14.4. Disclosure required by law is permitted upon prior notice to the other party, if legally possible.
-
----
-
-## 15. Rights in the Service
-
-15.1. The Service, including source and object code, interfaces, design, structure, texts, documentation, designations, logos, and trademarks (**“Materials”**), belongs to the Company or its licensors and is protected by intellectual-property law.
-
-15.2. You are granted a limited, revocable, non-exclusive, non-transferable right of access to the Service for your own use in accordance with these Terms. All rights not expressly granted are reserved by the Company.
-
-15.3. It is prohibited to copy, modify, decompile, create derivative works, remove rights-holder notices, or use the Materials beyond the permitted scope.
-
----
-
-## 16. Disclaimer of warranties
-
-16.1. THE SERVICE, MODELS, OUTPUTS, AND ALL MATERIALS ARE PROVIDED “AS IS” AND “AS AVAILABLE”, WITHOUT ANY WARRANTIES, EXPRESS OR IMPLIED.
-
-16.2. TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE COMPANY DISCLAIMS ALL WARRANTIES, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT, AS WELL AS WARRANTIES ARISING FROM A COURSE OF DEALING OR USAGE OF TRADE.
-
-16.3. THE COMPANY DOES NOT WARRANT THAT: THE SERVICE WILL OPERATE UNINTERRUPTED, SECURELY, AND ERROR-FREE; DEFECTS WILL BE CORRECTED; OUTPUTS WILL BE ACCURATE, COMPLETE, CURRENT, LAWFUL, ORIGINAL, OR FIT FOR YOUR PURPOSE; A PARTICULAR MODEL OR PROVIDER WILL REMAIN AVAILABLE; DATA WILL NOT BE LOST.
-
-16.4. THE COMPANY MAKES NO REPRESENTATIONS REGARDING THE PRACTICES OF AI PROVIDERS WITH RESPECT TO STORAGE, LOGGING, TRAINING ON DATA, SECURITY, AVAILABILITY, AND INTELLECTUAL PROPERTY.
-
-16.5. No oral or written advice obtained from the Company or through the Service creates any warranty not expressly stated in these Terms.
-
-16.6. These exclusions do not limit rights that cannot lawfully be excluded, including applicable rights under the UK Consumer Rights Act 2015 and mandatory consumer-protection law in your country of residence.
-
----
-
-## 17. Limitation of liability
-
-17.1. TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE COMPANY AND ITS OFFICERS, MEMBERS, EMPLOYEES, CONTRACTORS, AFFILIATES, AND AGENTS (**“COMPANY PARTIES”**) ARE NOT LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE, OR CONSEQUENTIAL DAMAGES, OR FOR LOST PROFITS, LOSS OF REVENUE, GOODWILL, CONTRACTS, CUSTOMERS, OR DATA, FOR THE COST OF SUBSTITUTE SERVICES, OR FOR ANY CONSEQUENCES OF DECISIONS MADE ON THE BASIS OF OUTPUTS — REGARDLESS OF THE THEORY OF CLAIM AND WHETHER THE COMPANY PARTIES WERE ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-
-17.2. THE AGGREGATE LIABILITY OF THE COMPANY PARTIES FOR ALL CLAIMS RELATED TO THE SERVICE OR THESE TERMS IS LIMITED TO THE GREATER OF: (A) THE AMOUNT ACTUALLY PAID BY YOU TO THE COMPANY FOR THE THREE (3) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM; OR (B) 100 UNITED STATES DOLLARS.
-
-17.3. The limitations of §17 do not apply to liability that cannot be excluded or limited under applicable law, including liability for death or personal injury caused by negligence, for fraud and fraudulent misrepresentation, and to mandatory consumer rights.
-
-17.4. The Company is not responsible for: the acts and omissions of AI Providers and other third parties; the content of Outputs; the unavailability or change of Models; your Input; loss of data not caused by the Company’s fault; the consequences of compromise of your Credentials; use of the Service in violation of these Terms.
-
-17.5. Any claim against the Company must be brought within **one (1) year** from the moment the cause of action arose, unless mandatory rules of law establish a different period; upon expiry of that period the claim is deemed extinguished.
-
-17.6. The provisions of §16 and §17 allocate risk between the parties, constitute an essential element of the price bargain, and survive even if any other remedy fails of its essential purpose.
-
----
-
-## 18. Indemnification
-
-18.1. You undertake, upon the Company’s request, to defend the Company and the Company Parties, indemnify them, and hold them harmless from any claims, demands, actions, administrative proceedings, and related losses, fines, and reasonable legal expenses arising out of or in connection with: (a) your use of the Service, Models, and Outputs; (b) your breach of these Terms, the incorporated documents, or the Provider Terms; (c) your infringement of third-party rights, including intellectual-property rights and personal-data protection rights; (d) your Input; (e) your violation of applicable law, sanctions, or export restrictions; (f) disputes between you and any third party, including your own customers and users.
-
-18.2. The Company may, at its option and at its own expense, assume the defense of such a claim, which does not relieve you of the duty to indemnify; you undertake to provide reasonable assistance.
-
-18.3. You may not settle a claim in a manner that creates obligations or an admission of fault for the Company without its prior written consent.
-
----
-
-## 19. Suspension, termination, and consequences
-
-19.1. **Your right.** You may stop using the Service at any time and request deletion of the Account in accordance with the Account Deletion Policy.
-
-19.2. **The Company’s right.** The Company may suspend or terminate access in whole or in part: upon a breach of these Terms; upon a reasonable suspicion of fraud, abuse, or compromise; at the request of an AI Provider, payment partner, court, or competent authority; upon the emergence of a legal or sanctions risk; and upon discontinuation of the Service — with reasonable notice where practicable.
-
-19.3. **Consequences.** From the moment of termination, your right to use the Service ceases. The obligation to pay for resources actually consumed remains.
-
-19.4. **Fate of the Balance.** Upon termination of access at the Company’s initiative **not related to your breach**, unused paid Balance is refunded upon your written request to the original payment method within a reasonable time, less actual fees of payment partners and bonus credits. Upon termination due to **your breach** of these Terms, unused Balance is not refunded to the extent permitted by law.
-
-19.5. **Data.** After termination, data are deleted in accordance with the Privacy Policy and the Account Deletion Policy. The Company is not obliged to retain or export history, memory, and settings after termination of access; export should be performed in advance.
-
----
-
-## 20. Governing law and dispute resolution
-
-20.1. **Governing law.** These Terms and any related disputes are governed by the law of **England and Wales**, without depriving consumers of mandatory protections available under the law of their country of habitual residence.
-
-20.2. **Pre-action settlement.** Before initiating formal proceedings, a party sends the other party a written notice describing the dispute and the claimed relief: to the User — at the Account email address; to the Company — at support@genora.art and at the address specified in §27. The parties shall in good faith seek to settle the dispute within **30 days** from the date of receipt of the notice.
-
-20.3. **Courts.** If the dispute is not settled, either party may bring a claim before the courts of England and Wales. A consumer may also bring a claim in any other court available under mandatory applicable law.
-
-20.4. **Statutory rights.** Nothing in this section excludes a right to collective or representative proceedings where such a right is provided by mandatory applicable law.
-
-20.5. **Exceptions.** Nothing in §20 deprives a party of the right: to seek interim or injunctive relief; to protect intellectual-property rights in court; to apply to a consumer-protection authority or other competent authority; to use small-claims procedures, if available.
-
-20.6. **Consumer reservation.** A consumer's mandatory rights and access to competent courts are not restricted by this section.
-
-20.7. Any agreement to use mediation or arbitration for a particular dispute may be made separately after that dispute arises, without limiting mandatory consumer rights.
-
----
-
-## 21. Changes to the Terms
-
-21.1. We may change these Terms. For changes that materially affect your rights or obligations, notice is given at least **30 calendar days** in advance by email or through the Service interface.
-
-21.2. Continued use of the Service after the changes take effect constitutes acceptance of them. If you do not agree — stop using the Service and request a refund of unused paid Balance before the effective date of the changes.
-
-21.3. Other changes (clarifications, corrections, changes to contacts and the list of sub-processors) take effect upon publication.
-
-21.4. The version of the Terms in force at the time the cause of action arose applies to a dispute.
-
----
-
-## 22. Notices and electronic communications
-
-22.1. You agree to receive legally significant notices in electronic form — at the Account email address or through the Service interface. Such notices are deemed written and are deemed received on the day of sending.
-
-22.2. You must keep your email address up to date. The risk of non-receipt of a notice due to an inaccurate address, spam filters, or lack of access to the mailbox rests with you.
-
-22.3. Notices to the Company are sent to support@genora.art and, where necessary, to the address specified in §27.
-
----
-
-## 23. Assignment
-
-23.1. You may not assign or transfer rights and obligations under these Terms without the Company’s prior written consent.
-
-23.2. The Company may assign these Terms in whole or in part upon reorganization, merger, sale of assets, or other transfer of the business without your consent, with notice through the Service.
-
----
-
-## 24. No agency and no third-party rights
-
-24.1. These Terms do not create a relationship of agency, partnership, joint venture, employment, or fiduciary relationship between the parties.
-
-24.2. Except as expressly stated in §7.7, these Terms do not create rights of third parties.
-
----
-
-## 25. Force majeure
-
-25.1. The Company is not liable for non-performance or delay in performance caused by circumstances outside its reasonable control, including: failures and outages of AI Providers, hosting, network, and payment providers; cyberattacks; power and communications failures; changes in legislation, sanctions, and prohibitions; acts of governmental authorities; natural disasters; pandemics; military actions and civil unrest.
-
----
-
-## 26. Miscellaneous
-
-26.1. **Entire agreement.** These Terms together with the incorporated documents constitute the entire agreement of the parties with respect to the Service and supersede all prior understandings and representations.
-
-26.2. **No waiver.** Failure to exercise a right does not constitute a waiver of it.
-
-26.3. **Severability.** Invalidity of a provision does not entail invalidity of the remainder; an invalid provision is applied to the maximum permissible extent or is replaced by a provision of similar meaning.
-
-26.4. **Survival.** After termination of these Terms, §1, §6 (as to outstanding amounts), §8, §9, §13–§20, and §26 survive.
-
-26.5. **Headings** are for convenience and do not affect interpretation.
-
-26.6. **Language.** The authentic version of these Terms is the Russian version. Translations are provided for convenience; in the event of a discrepancy, the Russian version prevails, except where mandatory rules require otherwise.
-
-26.7. **Data export.** You are responsible for independently preserving data that is important to you before termination of access.
-
----
-
-## 27. Particulars and contacts
+## 27. Operator and contact
 
 **Sangerto LTD**
 CRN: 17456264
 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM
-Email: support@genora.art
-Website: https://genora.art
+**Email:** support@genora.art
+**Website:** https://genora.art
 
-Questions regarding these Terms, notices of violations, data requests, and claims should be sent to support@genora.art from the address linked to the Account.
+Send questions, notices, abuse reports, privacy requests and claims from the address linked to your Account where possible.

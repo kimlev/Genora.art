@@ -18,12 +18,25 @@ const legalFiles = [
   "subprocessors.md",
   "terms.md",
 ];
+const documentMarkers = {
+  "acceptable-use.md": "The safety line",
+  "account-deletion.md": "Scope of this procedure",
+  "cookies.md": "What this notice covers",
+  "dpa.md": "How this schedule attaches to the service",
+  "intellectual-property.md": "The four ownership questions",
+  "privacy.md": "The short version",
+  "refund-policy.md": "What a Balance payment buys",
+  "security.md": "What this statement describes",
+  "subprocessors.md": "Why this list exists",
+  "terms.md": "The contract you are accepting",
+};
 
 test("English Genora legal set has independent wording and no legacy operator references", async () => {
   for (const file of legalFiles) {
     const content = await readFile(join(legalRoot, file), "utf8");
     assert.match(content, /^\*\*Version:\*\*\s*3\.0/m, file);
     assert.match(content, /Genora/i, file);
+    assert.match(content, new RegExp(documentMarkers[file]), file);
     assert.doesNotMatch(content, /ModelStation|ELVARON LIMITED|Hong Kong|NAZARII SEMENYNA|\bDirector\s*:/i, file);
   }
 });

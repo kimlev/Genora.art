@@ -8,109 +8,61 @@
 
 ---
 
-## 1. How to read Genora’s recipient list
+## 1. Why this list exists
 
-1.1. This page is Genora’s routing and recipient map. It separates AI providers that receive the content of a selected request from infrastructure vendors that support hosting, mail, traffic protection and payments. Named AI providers and their principal processing regions appear in §3; infrastructure roles and the way to request further vendor details appear in §4. This format is intended to provide the transparency required by GDPR Articles 13–14 and 28 where those provisions apply.
+Genora is a routing service. A request is not sent to every provider in this list: content goes to the provider for the selected model, or to the provider chosen by automatic mode. The other entries support hosting, email, payments, traffic protection or administration. This page supplements the Privacy Policy and the DPA.
 
-1.2. This page forms part of the Privacy Policy and the DPA.
+For EU and UK GDPR purposes, a recipient’s role depends on its service and the data flow. A provider can be an independent controller, processor or sub-processor for a particular operation. The DPA governs Customer Data where Genora acts as processor.
 
-1.3. **Who is considered a sub-processor.** A provider that processes data on the Company’s instructions to perform a specific technical function. A mere hyperlink to an external site, use of public documentation, or mention of a brand does not create a sub-processor relationship.
+## 2. What a model selection means
 
-1.4. **Who acts independently.** Payment providers and AI Providers, in respect of their own purposes (security, abuse, compliance with the law), act as independent controllers and are responsible for their processing toward you directly in accordance with their terms.
+The selected provider may receive the prompt, files, output-related parameters and information needed to run the request. Genora does not broadcast the same prompt to the other AI companies. A provider’s own terms, retention choices, security and government-access rules apply to its copy. Do not send data to a model whose destination is unacceptable for your use case.
 
----
+## 3. AI providers that may process request content
 
-## 2. One request, one selected provider
+| Provider or group | Function | Possible processing location |
+|---|---|---|
+| OpenAI | GPT model requests | United States and/or EEA |
+| Anthropic | Claude model requests | United States |
+| Google | Gemini model requests | United States and/or EEA |
+| xAI | Grok model requests | United States |
+| Moonshot AI | Kimi model requests | mainland China |
+| Alibaba Cloud | Qwen model requests | mainland China and Singapore |
 
-The contents of a request and attached files are transmitted **only** to the AI Provider of the Model you selected, or to the provider selected by automatic mode if you have enabled it. Your request is not sent to the other providers in the list. By not selecting a particular provider’s model, you exclude transmission of your data to that provider.
+The active catalogue can change. The model card and current provider configuration control the route at the time of a request. Some providers may receive a technical request identifier or usage data in addition to the content needed to answer.
 
----
+## 4. Supporting service layers
 
-## 3. AI providers that may receive request content
+| Service category | Typical information involved | Purpose |
+|---|---|---|
+| HOSTKEY application hosting | stored account, request, billing and log data | application and database hosting; the active development database is on a VPS in Helsinki, Finland |
+| HOSTKEY S3 object storage | encrypted development backup archives | recovery copies in the Netherlands; planned lifecycle is 30 days |
+| IntegratorAI gateway operated for the service | request content and routing/usage data | provider connection and model dispatch |
+| traffic-protection and delivery provider | IP, headers, country and request signals | filtering, rate limiting and delivery |
+| corporate email provider | recipient address and message body | verification, recovery and service mail |
+| payment providers | payment token/identifier, amount, status and contact information | top-ups, refunds and fraud checks |
+| DNS/domain provider and professional advisers | only information needed for the relevant operation | domain, legal and compliance support |
 
-| Provider | Models | What is transferred | Primary processing jurisdiction |
-|-----------|--------|----------------|-------------------------------|
-| OpenAI (OpenAI, L.L.C. / OpenAI Ireland Ltd) | GPT line | request text, attachments, service parameters | United States, EEA |
-| Anthropic (Anthropic PBC) | Claude line | request text, attachments, service parameters | United States |
-| Google (Google LLC / Google Ireland Ltd) | Gemini line | request text, attachments, service parameters | United States, EEA |
-| xAI (X.AI LLC) | Grok line | request text, attachments, service parameters | United States |
-| Moonshot AI | Kimi line | request text, attachments, service parameters | **mainland China** |
-| Alibaba Cloud | Qwen line | request text, attachments, service parameters | **mainland China**, Singapore |
+Specific infrastructure vendors can be supplied to a Customer that has a compliance need and a DPA request, subject to security and confidentiality limits. The payment provider is shown before the payment is confirmed.
 
-**Warning regarding cross-border transfer.** Selection of Kimi and Qwen models means transmission of request contents to the jurisdiction of mainland China. The legal regimes of certain countries permit access by competent authorities to data. If such a transfer is unacceptable to you under law, contract, or internal policy, do not select the corresponding models and do not enable automatic provider selection.
+## 5. Categories of data that can travel
 
-Practices of storage, logging, and training on data are determined by each provider’s terms and are outside the Company’s control. The Company seeks to use modes of interaction that exclude training on transmitted data, but cannot guarantee this.
+Depending on the operation, a recipient can receive an account email, session and device signals, request text, uploaded files, generated content, model and pricing parameters, usage records, payment status, support correspondence or security events. Genora limits the transfer to what the selected feature requires.
 
----
+## 6. Contractual and operational safeguards
 
-## 4. Hosting, email, protection and payment layers
+Where a provider is a sub-processor, Genora requires confidentiality, security, purpose limitation and deletion/return commitments appropriate to the service. Transfers restricted by EU or UK law are assessed for adequacy or another lawful mechanism, including SCCs and the UK transfer addendum where appropriate. A contract does not eliminate the provider’s own jurisdictional risks.
 
-| Function | Provider category | Data categories |
-|---------|----------------------|------------------|
-| Request-routing and consumption-accounting gateway | operator’s own infrastructure (Sangerto LTD) | request contents, consumption metrics, memory items |
-| Placement of servers and database | professional provider of hosting infrastructure and computing capacity | data located on servers in a stored and processed state |
-| Traffic protection, attack filtering, determination of request country | provider of network protection and traffic delivery | IP address, request headers, country code, request characteristics |
-| Sending of transactional emails: address verification, service notices | corporate email service provider | email address, email contents |
-| Acceptance of payments and processing of refunds | licensed payment providers and payment intermediaries | payment and contact data entered on the provider’s side, amount, currency, status, transaction identifier |
-| Domain registration and DNS servicing | domain-name registrar and DNS operator | technical domain data |
-| Professional advisers: legal, accounting, audit | engaged as needed on the basis of confidentiality obligations | minimally necessary information |
+## 7. Updates and objections
 
-**Location of primary storage.** The active development environment and its separate PostgreSQL database are hosted on a HOSTKEY VPS in Helsinki, Finland (EU). Encrypted daily development-database copies are held in a separate HOSTKEY S3 bucket in the Netherlands, with planned retention of 30 days. A separate database and backup path are prepared for future production and will be used after it launches. Primary storage location does not establish the location of every email, network log, payment record or copy processed by a selected AI Provider. Those recipients may be outside Europe, as explained in the Privacy Policy.
+The list may change when Genora adds a model, replaces infrastructure or responds to a security or continuity need. A material sub-processor change is reflected here where practical before the new processing begins. A Customer with a DPA may send a reasoned objection within 30 days; the parties will seek a reasonable alternative, after which the Customer may stop the affected feature or end the relevant service.
 
-**On disclosure of specific providers.** The primary hosting provider is named above. For other services, this page discloses functions, provider categories, and data categories. Further details about a particular recipient may be requested using the contacts below.
+## 8. Allocation of responsibility
 
-Current names and jurisdictions of specific providers are provided:
+Genora is responsible for the route it controls. AI, payment, email, hosting and security providers remain responsible for their own systems and legally independent processing. Genora cannot promise that a third-party copy will remain in Europe or that a foreign authority cannot obtain access under its law.
 
-- to corporate customers that have entered into a DPA — upon request to support@genora.art, for the purposes of their own compliance assessment;
-- to users — to the extent necessary to exercise their rights in respect of personal data, upon a reasoned request;
-- to competent authorities — to the extent established by law.
+## 9. Contact
 
-The current payment provider is always indicated directly on the payment screen before confirmation of payment, and its terms and privacy policy apply to you directly.
+Requests for the current recipient details or transfer safeguards: **support@genora.art**
 
----
-
-## 5. Categories of data available to providers
-
-A provider receives only those data that are necessary for its function:
-
-- **AI Provider** — request contents, attachments, selected generation parameters;
-- **hosting** — all data in a stored and processed state on the server;
-- **protective contour** — network metadata: IP address, headers, country code, request characteristics;
-- **email provider** — recipient address and text of the transactional email;
-- **payment provider** — payment details entered by you directly on its side, amount, currency, transaction identifier, contact data;
-- **advisers** — individual information to the extent of the engagement.
-
-The Company seeks to minimize the composition and volume of data transferred and does not transmit conversation contents to providers that do not require them.
-
----
-
-## 6. Requirements for providers
-
-In selecting and retaining a provider, the following are taken into account: the purpose and volume of processing; the place of processing and storage; the existence of contractual guarantees, including data-processing terms and, where necessary, standard contractual clauses; security measures; restrictions on onward transfer; the procedure and time limits for deletion; the procedure for incident notification; the provider’s reputation and resilience.
-
-Processing by a provider is limited to the agreed service. Use of data by a provider for its own independent purposes is permitted only to the extent disclosed in its own terms, for which it is independently responsible.
-
----
-
-## 7. Changes to the composition of providers
-
-7.1. The composition of providers and Models changes together with the development of the catalog and infrastructure.
-
-7.2. Material changes (addition of a new sub-processor, change of processing jurisdiction) are published on this page, where possible **before** the new processing begins.
-
-7.3. **Right of objection for corporate customers.** A customer that has entered into a DPA may subscribe to change notices by sending a request to support@genora.art, and within 30 days from the date of notice may raise a reasoned objection to a new sub-processor. The parties in good faith discuss an alternative: a change of settings, disabling of the corresponding Model, or another configuration. If an alternative is impossible, the customer may discontinue use of the affected feature or terminate the contract in respect of such feature; other remedies do not apply.
-
-7.4. Replacement of a provider for the purpose of eliminating a security threat, ensuring continuity of operation, or complying with a legal requirement may be effected without prior notice, with subsequent disclosure on this page.
-
----
-
-## 8. Liability
-
-The Company is responsible for the selection of sub-processors and for the existence with them of contractual terms required by applicable law, to the extent established by §17 of the Terms of Use and the corresponding DPA. The Company **is not responsible** for the independent acts and omissions of providers that act toward you as independent controllers, including payment systems and AI Providers in respect of their own processing purposes.
-
----
-
-## 9. Contacts
-
-Requests regarding sub-processors, notices, and objections: **support@genora.art**
 Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
