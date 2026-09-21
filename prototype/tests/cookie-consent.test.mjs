@@ -13,6 +13,18 @@ test("Consent Mode v2 denies all optional storage before a choice", () => {
   for (const signal of ["analytics_storage", "ad_storage", "ad_user_data", "ad_personalization"]) {
     assert.match(GOOGLE_CONSENT_BOOTSTRAP, new RegExp(`${signal}:'denied'`));
   }
+  assert.match(GOOGLE_CONSENT_BOOTSTRAP, /gtag\('set','ads_data_redaction',true\)/);
+  assert.match(GOOGLE_CONSENT_BOOTSTRAP, /gtag\('set','url_passthrough',true\)/);
+  assert.match(GOOGLE_CONSENT_BOOTSTRAP, /document\.cookie/);
+});
+
+test("Google tag is emitted in the initial HTML while analytics events stay production-only", async () => {
+  const layout = await readFile(new URL("../src/app/layout.tsx", import.meta.url), "utf8");
+  assert.match(layout, /!isAdminHost/);
+  assert.match(layout, /googletagmanager\.com\/gtag\/js\?id=\$\{GOOGLE_MEASUREMENT_ID\}/);
+  assert.match(layout, /send_page_view:false/);
+  const analytics = await readFile(new URL("../src/components/analytics/google-analytics.tsx", import.meta.url), "utf8");
+  assert.match(analytics, /IS_STAGING \|\| !analyticsGranted/);
 });
 
 test("custom consent maps analytics and advertising independently", () => {

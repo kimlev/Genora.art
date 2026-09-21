@@ -1,11 +1,9 @@
 "use client";
 
-import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
 import { CONSENT_CHANGE_EVENT, CONSENT_STORAGE_KEY, googleConsentSignals, parseCookieConsent } from "@/lib/cookie-consent";
-
-const MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-D07763XPWC";
+import { IS_STAGING } from "@/lib/site-env";
 
 declare global {
   interface Window {
@@ -40,7 +38,7 @@ export function GoogleAnalytics() {
   }, [storedConsent]);
 
   useEffect(() => {
-    if (!analyticsGranted) return;
+    if (IS_STAGING || !analyticsGranted) return;
     window.gtag?.("event", "page_view", {
       page_path: pathname,
       page_location: window.location.href,
@@ -48,14 +46,5 @@ export function GoogleAnalytics() {
     });
   }, [analyticsGranted, pathname]);
 
-  if (!MEASUREMENT_ID) return null;
-
-  return (
-    <>
-      <Script id="genora-google-tag" strategy="afterInteractive">
-        {`window.gtag('js',new Date());window.gtag('config','${MEASUREMENT_ID}',{send_page_view:false,anonymize_ip:true});`}
-      </Script>
-      <Script async src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`} strategy="afterInteractive" />
-    </>
-  );
+  return null;
 }

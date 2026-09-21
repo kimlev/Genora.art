@@ -22,6 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 const defaultCopy = seoCopy("/", "ru");
+const GOOGLE_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-D07763XPWC";
 
 export const metadata: Metadata = {
   metadataBase: new URL(publicSiteUrl("/")),
@@ -85,7 +86,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: GOOGLE_CONSENT_BOOTSTRAP }} />
+        {!isAdminHost ? (
+          <>
+            <script dangerouslySetInnerHTML={{ __html: GOOGLE_CONSENT_BOOTSTRAP }} />
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_MEASUREMENT_ID}`} />
+            <script dangerouslySetInnerHTML={{ __html: `gtag('js',new Date());gtag('config','${GOOGLE_MEASUREMENT_ID}',{send_page_view:false,anonymize_ip:true});` }} />
+          </>
+        ) : null}
       </head>
       <body className="flex min-h-full flex-col bg-bg text-text">
         <script
