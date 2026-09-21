@@ -11,8 +11,8 @@ import type { MetadataRoute } from "next";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Dev also needs a complete URL inventory for direct analysis, while robots and
-  // X-Robots-Tag continue to prevent public indexing there.
+  // Dev also needs a complete URL inventory for direct analysis. Public crawlers
+  // may read it, while X-Robots-Tag and page metadata prevent dev indexing.
   // Демонстрационные статьи существуют только при пустой базе и в поиске отдавали бы 404.
   const posts = (await getBlogPosts()).filter((post) => post.source !== "static");
   return [
