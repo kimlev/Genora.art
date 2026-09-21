@@ -340,6 +340,7 @@ export const getBlogoroPageSection = cache(async function getBlogoroPageSection(
   );
   const row = rows[0];
   if (!row) return null;
+  if (normalizeLanguage(row.language) !== locale) return null;
   return {
     pagePath: row.page_path,
     locale: row.locale,
