@@ -341,6 +341,11 @@ export const getBlogoroPageSection = cache(async function getBlogoroPageSection(
   const row = rows[0];
   if (!row) return null;
   if (normalizeLanguage(row.language) !== locale) return null;
+  try {
+    if (splitLocalePath(new URL(row.canonical_url).pathname).locale !== locale) return null;
+  } catch {
+    return null;
+  }
   return {
     pagePath: row.page_path,
     locale: row.locale,
