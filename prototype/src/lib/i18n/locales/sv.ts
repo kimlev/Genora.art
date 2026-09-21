@@ -1244,7 +1244,7 @@ export const sv: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — aggregator för neurala nätverk med användningsbaserad fakturering.",
+    tagline: "Genora.art samlar verktyg för text, bilder, video och musik i en flexibel arbetsyta.",
     product: "Produkt",
     company: "Företag",
     legal: "Juridiskt",

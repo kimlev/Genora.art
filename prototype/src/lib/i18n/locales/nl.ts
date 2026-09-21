@@ -1244,7 +1244,7 @@ export const nl: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — aggregator van neurale netwerken met facturatie naar gebruik.",
+    tagline: "Genora.art brengt tools voor tekst, beeld, video en muziek samen in één flexibele werkruimte.",
     product: "Product",
     company: "Bedrijf",
     legal: "Juridisch",

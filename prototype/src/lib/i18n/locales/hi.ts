@@ -1244,7 +1244,7 @@ export const hi: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — उपयोग-आधारित बिलिंग वाला न्यूरल नेटवर्क एग्रीगेटर।",
+    tagline: "Genora.art टेक्स्ट, इमेज, वीडियो और संगीत के टूल को एक लचीले कार्यक्षेत्र में जोड़ता है।",
     product: "उत्पाद",
     company: "कंपनी",
     legal: "कानूनी",

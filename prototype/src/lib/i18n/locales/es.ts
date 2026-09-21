@@ -1244,7 +1244,7 @@ export const es: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — agregador de redes neuronales con facturación por uso.",
+    tagline: "Genora.art reúne herramientas de texto, imagen, vídeo y música en un espacio de trabajo flexible.",
     product: "Producto",
     company: "Empresa",
     legal: "Legal",

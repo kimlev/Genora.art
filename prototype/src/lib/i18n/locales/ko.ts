@@ -1244,7 +1244,7 @@ export const ko: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — 사용량 기반 과금의 신경망 애그리게이터.",
+    tagline: "Genora.art는 텍스트, 이미지, 영상, 음악 도구를 하나의 작업 공간에 모읍니다.",
     product: "제품",
     company: "회사",
     legal: "법률",

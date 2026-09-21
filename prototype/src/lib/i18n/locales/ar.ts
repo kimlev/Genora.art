@@ -1244,7 +1244,7 @@ export const ar: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — مجمّع شبكات عصبية بفوترة حسب الاستخدام.",
+    tagline: "تجمع Genora.art أدوات النصوص والصور والفيديو والموسيقى في مساحة عمل واحدة مرنة.",
     product: "المنتج",
     company: "الشركة",
     legal: "قانوني",

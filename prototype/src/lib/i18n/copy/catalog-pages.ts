@@ -54,8 +54,8 @@ type RoleId =
 
 const ui: Record<Locale, Omit<CatalogPagesCopy, keyof JumpCopy>> = {
   ru: {
-    modelsTitle: "Лучшие нейросети в одном месте",
-    modelsLead: "Найдите модель по задаче: текст, изображение или музыка. Короткое описание на карточке сразу говорит, для чего её применять.",
+    modelsTitle: "Каталог AI-моделей под разные задачи",
+    modelsLead: "Сопоставьте инструменты для текста, изображений, видео и музыки, а затем откройте модель с понятным сценарием применения.",
     searchPlaceholder: "Поиск модели",
     searchAria: "Найти модель по названию или провайдеру",
     groupPopular: "Популярные",
@@ -79,8 +79,8 @@ const ui: Record<Locale, Omit<CatalogPagesCopy, keyof JumpCopy>> = {
     placeholderAlt: "Заглушка примера генерации",
   },
   en: {
-    modelsTitle: "The best AI models in one place",
-    modelsLead: "Find a model by task: text, image, or music. The short card description tells you what it is for.",
+    modelsTitle: "A practical shortlist of AI models for every task",
+    modelsLead: "Compare text, image, video, and music tools by the result you need, then open a model with a clear use case.",
     searchPlaceholder: "Search models",
     searchAria: "Search a model by name or provider",
     groupPopular: "Popular",

@@ -1244,7 +1244,7 @@ export const ja: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — 従量課金のニューラルネットワークアグリゲーター。",
+    tagline: "Genora.artは、テキスト・画像・動画・音楽のツールを一つの制作スペースにまとめます。",
     product: "プロダクト",
     company: "会社",
     legal: "法務",

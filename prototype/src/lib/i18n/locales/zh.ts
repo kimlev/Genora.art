@@ -1244,7 +1244,7 @@ export const zh: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — 按用量计费的神经网络聚合器。",
+    tagline: "Genora.art 将文本、图像、视频和音乐工具汇集到一个灵活的创作空间。",
     product: "产品",
     company: "公司",
     legal: "法律信息",

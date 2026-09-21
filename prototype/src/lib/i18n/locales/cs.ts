@@ -1244,7 +1244,7 @@ export const cs: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — agregátor neuronových sítí s účtováním podle použití.",
+    tagline: "Genora.art spojuje nástroje pro text, obrázky, video a hudbu v jednom pracovním prostoru.",
     product: "Produkt",
     company: "Společnost",
     legal: "Právní",

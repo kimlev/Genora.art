@@ -1244,7 +1244,7 @@ export const fr: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — agrégateur de réseaux neuronaux avec facturation à l’usage.",
+    tagline: "Genora.art réunit les outils de texte, d’image, de vidéo et de musique dans un même espace de travail.",
     product: "Produit",
     company: "Entreprise",
     legal: "Mentions légales",

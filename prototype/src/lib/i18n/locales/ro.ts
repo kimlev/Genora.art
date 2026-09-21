@@ -1244,7 +1244,7 @@ export const ro: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — agregator de rețele neuronale cu facturare după utilizare.",
+    tagline: "Genora.art aduce instrumente pentru text, imagini, video și muzică într-un singur spațiu de lucru.",
     product: "Produs",
     company: "Companie",
     legal: "Legal",

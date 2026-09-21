@@ -1244,7 +1244,7 @@ export const tr: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — kullanıma göre faturalanan sinir ağı toplayıcısı.",
+    tagline: "Genora.art metin, görsel, video ve müzik araçlarını tek bir çalışma alanında bir araya getirir.",
     product: "Ürün",
     company: "Şirket",
     legal: "Yasal",
