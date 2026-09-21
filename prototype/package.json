@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start --port 3310",
     "lint": "eslint",
-    "test": "node --test --experimental-strip-types --import ./tests/alias-hook.mjs tests/*.test.mjs",
+    "test": "NEXT_PUBLIC_STAGING=1 node --test --experimental-strip-types --import ./tests/alias-hook.mjs tests/*.test.mjs",
     "db:migrate": "node scripts/migrate.mjs",
     "db:seed-dev": "node scripts/seed-dev.mjs",
     "db:seed-genora-dev": "node scripts/seed-genora-dev.mjs"

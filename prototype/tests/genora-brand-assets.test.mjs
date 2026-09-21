@@ -25,6 +25,7 @@ test("BIMI asset uses the Genora palette and the portable secure profile", () =>
   assert.doesNotMatch(bimi, /#4A9EFF/);
 });
 
-test("production public host has an isolated temporary redirect switch", () => {
-  assert.match(productionNginx, /include \/etc\/nginx\/snippets\/genora-public-temporary-redirect\.conf;/);
+test("production public host serves its own app without the temporary dev redirect", () => {
+  assert.doesNotMatch(productionNginx, /genora-public-temporary-redirect\.conf/);
+  assert.match(productionNginx, /server_name genora\.art www\.genora\.art server1\.genora\.art;/);
 });

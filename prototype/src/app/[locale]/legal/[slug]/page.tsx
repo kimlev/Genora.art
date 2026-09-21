@@ -13,11 +13,12 @@ export function generateStaticParams() {
 }
 
 function legalLanguages(slug: string) {
-  return {
+  const languages: Record<string, string> = {
     "x-default": pageUrl(`/legal/${slug}`),
-    ru: pageUrl(`/legal/${slug}`),
     en: pageUrl(`/legal/${slug}`, "en"),
   };
+  if (IS_STAGING) languages.ru = pageUrl(`/legal/${slug}`);
+  return languages;
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps<"/[locale]/legal/[slug]">): Promise<Metadata> {

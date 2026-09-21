@@ -18,6 +18,7 @@ import { sv } from "./locales/sv";
 import { tr } from "./locales/tr";
 import { zh } from "./locales/zh";
 import { isServedLocale } from "./served-locales";
+import { IS_STAGING } from "@/lib/site-env";
 import type { Dictionary, Locale } from "./types";
 import { LOCALE_STORAGE_KEY } from "./types";
 
@@ -26,7 +27,7 @@ export { RETIRED_LOCALE_CODES, SERVED_LOCALE_CODES, isRetiredLocale, isServedLoc
 export { LOCALE_STORAGE_KEY };
 export type { Dictionary, Locale };
 
-export const defaultLocale: Locale = "ru";
+export const defaultLocale: Locale = IS_STAGING ? "ru" : "en";
 
 export type LocaleOption = {
   code: Locale;
