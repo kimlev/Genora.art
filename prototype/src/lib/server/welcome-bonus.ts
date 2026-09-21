@@ -1,7 +1,6 @@
 import "server-only";
 
 import { randomBytes } from "node:crypto";
-import { IS_STAGING } from "@/lib/site-env";
 import {
   DEFAULT_WELCOME_BONUS_CONFIG,
   nextLoginDays,
@@ -112,7 +111,6 @@ export async function listWelcomeBonusLogs() {
 }
 
 export async function startWelcomeBonusCampaign(client: PoolClient, userId: string) {
-  if (!IS_STAGING) return;
   const settings = await query<{ version: number; config: unknown }>("SELECT version, config FROM welcome_bonus_settings ORDER BY version DESC LIMIT 1");
   const version = settings[0]?.version ?? 1;
   const config = asConfig(settings[0]?.config);
@@ -138,7 +136,6 @@ async function loadCampaign(userId: string): Promise<CampaignRow | null> {
 }
 
 export async function ensureWelcomeBonusCampaign(userId: string) {
-  if (!IS_STAGING) return;
   const settings = await getCurrentWelcomeBonusSettings();
   const code = randomBytes(5).toString("hex");
   await query(
@@ -158,7 +155,6 @@ export async function ensureWelcomeBonusCampaign(userId: string) {
 }
 
 export async function syncWelcomeBonusActivity(userId: string) {
-  if (!IS_STAGING) return;
   await query(
     `UPDATE welcome_bonus_campaigns c SET
       text_requests = GREATEST(
@@ -177,7 +173,6 @@ export async function syncWelcomeBonusActivity(userId: string) {
 }
 
 export async function getWelcomeBonusProgress(userId: string, origin: string, options?: { sync?: boolean }): Promise<WelcomeBonusProgress | null> {
-  if (!IS_STAGING) return null;
   if (options?.sync !== false) {
     await ensureWelcomeBonusCampaign(userId);
     await syncWelcomeBonusActivity(userId);
@@ -187,19 +182,16 @@ export async function getWelcomeBonusProgress(userId: string, origin: string, op
 }
 
 export async function creditDueWelcomeBonusForUser(userId: string, note: string) {
-  if (!IS_STAGING) return;
   const due = await query<CampaignRow>("SELECT user_id FROM welcome_bonus_campaigns WHERE user_id=$1 AND credited_at IS NULL AND now() >= ends_at", [userId]);
   if (!due[0]) return;
   await creditDueWelcomeBonuses(note, userId);
 }
 
 export async function dismissWelcomeBonusTeaser(userId: string) {
-  if (!IS_STAGING) return;
   await query("UPDATE welcome_bonus_campaigns SET dismissed_on=$2::date WHERE user_id=$1 AND credited_at IS NULL AND now() < ends_at", [userId, utcDateString()]);
 }
 
 export async function recordWelcomeBonusLogin(userId: string) {
-  if (!IS_STAGING) return;
   await ensureWelcomeBonusCampaign(userId);
   const today = utcDateString();
   const rows = await query<CampaignRow & { last_login_day: string | null }>(
@@ -223,7 +215,6 @@ export async function recordWelcomeBonusLogin(userId: string) {
 }
 
 export async function incrementWelcomeBonus(userId: string, task: Exclude<WelcomeBonusTaskId, "login" | "friends">) {
-  if (!IS_STAGING) return;
   const column = task === "texts" ? "text_requests" : task;
   const sql = `UPDATE welcome_bonus_campaigns SET ${column} = ${column} + 1
      WHERE user_id=$1 AND credited_at IS NULL AND now() < ends_at`;
@@ -234,7 +225,7 @@ export async function incrementWelcomeBonus(userId: string, task: Exclude<Welcom
 }
 
 export async function rememberReferralVisit(code: string, visitorKey: string) {
-  if (!IS_STAGING || !code || !visitorKey) return;
+  if (!code || !visitorKey) return;
   const rows = await query<{ user_id: string }>("SELECT user_id FROM welcome_bonus_campaigns WHERE referral_code=$1 AND credited_at IS NULL AND now() < ends_at", [code]);
   if (!rows[0]) return;
   await query(
@@ -246,7 +237,6 @@ export async function rememberReferralVisit(code: string, visitorKey: string) {
 }
 
 export async function attachReferralSignup(client: PoolClient, invitedUserId: string, visitorKey: string | null, code: string | null) {
-  if (!IS_STAGING) return;
   const referral = await client.query<{ referrer_id: string }>(
     `SELECT r.referrer_id FROM welcome_bonus_referrals r
      JOIN welcome_bonus_campaigns c ON c.user_id=r.referrer_id
@@ -262,7 +252,6 @@ export async function attachReferralSignup(client: PoolClient, invitedUserId: st
 }
 
 export async function creditDueWelcomeBonuses(note: string, userId?: string) {
-  if (!IS_STAGING) return 0;
   const due = userId
     ? await query<CampaignRow>("SELECT user_id FROM welcome_bonus_campaigns WHERE user_id=$1 AND credited_at IS NULL AND now() >= ends_at", [userId])
     : await query<CampaignRow>("SELECT user_id FROM welcome_bonus_campaigns WHERE credited_at IS NULL AND now() >= ends_at");
