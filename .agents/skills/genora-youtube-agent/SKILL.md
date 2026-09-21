@@ -4,15 +4,16 @@ description: >-
   Project-scoped YouTube planning and research for Genora.art. Use for channel
   audits, public channel/video data, competitor and outlier research, content
   plans, scripts/hooks, title-thumbnail packaging, SEO, Shorts, retention,
-  comments, chapters, and quota-aware YouTube API preparation. Never publish.
+  comments, chapters, quota-aware YouTube API work, and admin-approved publishing.
 ---
 
 # Genora YouTube Agent
 
 This skill is available only inside the Genora.art repository. It combines
 project-specific content workflows with optional, read-only YouTube data
-collection. It is deliberately prepared for later OAuth, but OAuth, uploads,
-comments, playlists, and other write operations are not implemented here.
+collection. Product automation, OAuth, upload, scheduling, and analytics are
+implemented in the Genora admin workspace; this Codex skill remains the
+instruction and local-analysis layer.
 
 ## Routing
 
@@ -25,17 +26,17 @@ comments, playlists, and other write operations are not implemented here.
 - **Competitors / viral / channel data**: use public data only. Prefer
   `fetch_channel_data.py` for a channel's uploads; `search_competitor_videos.py`
   costs substantially more quota.
-- **Private analytics**: only after the user explicitly authorizes OAuth setup
-  at action time; use `fetch_video_analytics.py` and never request credentials
-  in chat or commit tokens.
+- **Private analytics / publishing**: use the Genora admin workspace. OAuth
+  secrets remain server-side, and each publication requires an explicit admin
+  approval recorded in the database.
 
 ## Genora guardrails
 
 1. Treat all repository and channel data as Genora.art work.
 2. Do not install globally, alter Codex/Claude user directories, or add an MCP
    server as part of this skill.
-3. Do not run OAuth, upload, publish, comment, playlist, or other YouTube write
-   actions without a separate explicit user request and action-time approval.
+3. Do not run OAuth or YouTube write actions from Codex. Use the admin workflow,
+   which records approval and audit events before publishing.
 4. Do not invent metrics, sources, channel size, or channel voice. Mark missing
    data as unavailable and ask for an export or public URL.
 5. API key and OAuth paths are environment-configured only. Runtime state is

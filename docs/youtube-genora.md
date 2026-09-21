@@ -1,8 +1,8 @@
 # YouTube Genora
 
-Project-local architecture for the future Genora.art YouTube channel. This is
-planning and tooling only: no real channel is connected, no OAuth flow has
-been run, and nothing is published.
+Project-local architecture for the Genora.art YouTube product. The dev admin
+contains the complete staged workspace; a real channel remains disconnected
+until OAuth is configured and approved by an administrator.
 
 ## Available skill
 
@@ -15,8 +15,8 @@ Genora.art checkout. Ask for natural-language tasks such as:
 - “Research public competitor outliers for this topic.”
 - “Fetch public data for this channel” (requires a later API key).
 
-The skill routes content work to local helpers and keeps data collection
-read-only. It has no publish command by design.
+The skill routes Codex work to local helpers. Product execution lives in the
+admin workspace and supports approval-gated upload and scheduling.
 
 ## Adapted capabilities
 
@@ -32,34 +32,43 @@ read-only. It has no publish command by design.
 | Comments and audit | Draft/triage only; user remains the publisher |
 | Competitor research | Public search, uploads, channel-relative outlier scoring |
 
-## Later runtime contract
+## Runtime contract
 
 No values are committed now. When the channel is ready, configure these in the
 private runtime environment or secret manager:
 
 ```text
 YOUTUBE_API_KEY                  # public Data API v3 reads
-GENORA_YOUTUBE_CLIENT_SECRETS   # local path to Google OAuth client JSON
-GENORA_YOUTUBE_OAUTH_TOKEN      # private, generated token path
-GENORA_YOUTUBE_STATE_DIR        # private cache/quota state directory
+YOUTUBE_OAUTH_CLIENT_ID          # Google OAuth web client
+YOUTUBE_OAUTH_CLIENT_SECRET      # server secret
+YOUTUBE_TOKEN_ENCRYPTION_KEY     # encrypts tokens at rest with AES-256-GCM
+YOUTUBE_OAUTH_REDIRECT_URI       # optional if ADMIN_PUBLIC_ORIGIN is correct
+INTEGRATOR_BASE_URL              # Genora AI workflow runtime
+INTEGRATOR_API_KEY               # IntegratorAI server credential
+SUPPORT_WORKER_SECRET            # internal worker authentication
 ```
 
-The default state directory is `~/.cache/genora-youtube-agent`. Keep it outside
-the checkout. OAuth scopes should be the smallest required; analytics is
-read-only. YouTube Data API does not use a service account for channel-user
-authorization, so a real Google user with access to the future Genora channel
-will be required.
+Runtime tokens are encrypted in PostgreSQL and never returned to the browser.
+YouTube Data API does not use a service account for channel-user authorization,
+so a real Google user with access to the Genora channel is required.
 
 ## Safety and quota policy
 
 - Public competitor analytics such as private retention, CTR, and revenue are
   unavailable through the official API and must not be inferred.
 - Prefer uploads-playlist collection over `search.list`; the latter is costly.
-- Before any future OAuth action, confirm the target Google account/channel and
-  scopes with the user. Do not ask for passwords, OTPs, or client secrets in
-  chat.
-- Before any future publication action, present the final metadata and obtain
-  action-time confirmation. This prepared skill does not implement publication.
+- OAuth is initiated only from the authenticated admin section. Passwords,
+  OTPs and client secrets never pass through chat.
+- Publication requires a recorded admin approval. Scheduled uploads are picked
+  up by the isolated YouTube worker.
+
+## Admin stages
+
+`Подключение → Исследование → Контент-план → Сценарий → Упаковка → Производство → Публикация → Аналитика`
+
+Each completion is stored as an immutable stage run. The next stage stays
+locked until all preceding stages have a successful run. The publish stage
+also requires a selected Genora video asset and explicit approval.
 
 ## Source and license boundary
 
