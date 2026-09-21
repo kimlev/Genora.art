@@ -1,6 +1,7 @@
 import { IMAGE_SEO_TECH_RU } from "@/lib/content/image-seo-article-ru";
 import { MODELS_SEO_TECH_RU } from "@/lib/content/models-seo-article-ru";
 import { VIDEO_SEO_TECH_RU } from "@/lib/content/video-seo-article-ru";
+import { logoPageCopy } from "@/lib/i18n/copy/logo-page";
 import { defaultLocale, getDictionary, getLocaleOption, isLocale, localeOptions, type Locale } from "@/lib/i18n";
 import { catalogPagesCopy } from "@/lib/i18n/copy/catalog-pages";
 import { musicStudioCopy } from "@/lib/i18n/copy/music-page";
@@ -29,6 +30,7 @@ export const PUBLIC_INDEX_PATHS = [
   "/rating",
   "/support",
   "/about",
+  "/logo",
 ] as const;
 
 export function localeFromValue(value?: string | null): Locale {
@@ -61,6 +63,10 @@ export function seoCopy(path: string, locale: Locale): { title: string; descript
       return { title: t.pricingPage.metaTitle, description: t.pricingPage.metaDescription };
     case "/about":
       return { title: `${t.legal.aboutTitle} — ${brand}`, description: t.legal.aboutSections[0]?.body ?? t.why.subtitle };
+    case "/logo": {
+      const logo = logoPageCopy(locale);
+      return { title: `${logo.title} — ${brand}`, description: logo.description };
+    }
     case "/rating":
       return { title: `${t.rating.pageTitle} — ${brand}`, description: t.rating.pageSubtitle };
     case "/gallery":
