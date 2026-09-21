@@ -22,3 +22,9 @@ test("all outbound indexing channels and manual admin submission are disabled on
   assert.match(source("src/lib/server/yandex-webmaster.ts"), /if \(IS_STAGING\) throw new Error\("Отправка страниц в Яндекс отключена на dev"\)/);
   assert.match(source("src/app/api/admin/seo/route.ts"), /if \(IS_STAGING\) return jsonError\("Отправка адресов в поисковые системы доступна только на production",403\)/);
 });
+
+test("published Blogoro slugs render dynamically after deployment", () => {
+  const articlePage = source("src/app/[locale]/blog/[slug]/page.tsx");
+  assert.match(articlePage, /export const dynamic = "force-dynamic"/);
+  assert.doesNotMatch(articlePage, /generateStaticParams/);
+});

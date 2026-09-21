@@ -1,7 +1,7 @@
 import { ArticleToc } from "@/components/blog/article-toc";
 import { SiteFooter } from "@/components/layout/site-footer";
 import type { BlogPost } from "@/lib/blog/posts";
-import { getBlogPost, getBlogPosts } from "@/lib/blog/posts-query";
+import { getBlogPost } from "@/lib/blog/posts-query";
 import { getDictionary, getLocaleOption, isLocale, type Dictionary, type Locale } from "@/lib/i18n";
 import { splitLocalePath, withLocalePath } from "@/lib/i18n/locale-path";
 import { requestLocale } from "@/lib/i18n/request-locale";
@@ -61,12 +61,10 @@ function articleCanonical(post: BlogPost, articleLocale: Locale): string {
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  if (IS_STAGING) return [];
-  return (await getBlogPosts()).map((post) => ({ slug: post.slug }));
-}
+// Blogoro publishes articles after the image has been built. Rendering every
+// slug at request time keeps newly published DB records available immediately
+// and allows requestLocale() to read headers/cookies without static-render errors.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getBlogPost((await params).slug);
