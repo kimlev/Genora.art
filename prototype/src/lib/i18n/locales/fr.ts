@@ -352,10 +352,10 @@ export const fr: Dictionary = {
     ],
   },
   hero: {
-    badge: "Sans VPN ni carte étrangère",
-    titleBefore: "Tous les meilleurs ",
-    titleAccent: "modèles d’IA",
-    titleAfter: " dans un seul espace",
+    badge: "Une sélection ciblée d’outils d’IA pour le travail quotidien",
+    titleBefore: "Découvrez les ",
+    titleAccent: "outils d’IA",
+    titleAfter: " adaptés à votre prochaine idée",
     promptPlaceholder:
       "Demandez n’importe quoi — nous choisirons le meilleur modèle pour vous...",
     demoMode: "20K tokens offerts",
@@ -366,7 +366,7 @@ export const fr: Dictionary = {
       "En mode démo, Genora.art affiche la réponse ici. Créez un compte pour continuer sans limite.",
     ctaPrimary: "Essayer gratuitement",
     ctaSecondary: "Voir la démo",
-    trust: "Plus de 40 modèles · Pay-as-you-go · RU/EN",
+    trust: "40+ modèles · Facturation à l’usage · RU/EN",
     messagesLabel: "messages",
     entries: {
       text: {
@@ -386,7 +386,7 @@ export const fr: Dictionary = {
   why: {
     eyebrow: "Pourquoi Genora.art",
     title: "Moins d’outils. Plus de résultats.",
-    subtitle: "Une interface au lieu d’une dizaine d’onglets et de clés API",
+    subtitle: "Comparez les résultats, les modèles et les coûts depuis un même espace de travail",
     items: [
       {
         title: "Accès immédiat",
@@ -1294,8 +1294,8 @@ export const fr: Dictionary = {
     pinLabel: "Code PIN",
     pinHint: "Saisissez le code PIN du compte",
     pinInvalid: "Code PIN incorrect",
-    sideTitle: "Les meilleurs modèles d’IA dans un seul espace",
-    sideDescription: "Comparez les réponses, lancez des agents et conservez le contexte important sans changer de service.",
+    sideTitle: "Des outils pour un travail d’IA ciblé",
+    sideDescription: "Comparez les réponses, lancez des agents et gardez le contexte utile près de chaque tâche.",
     sideTriggers: ["Plus de 40 modèles", "Agents et mémoire", "Paiement à l’usage"],
     pleaseWait: "Veuillez patienter…",
     signInFailed: "La connexion a échoué",
@@ -1510,7 +1510,7 @@ export const fr: Dictionary = {
     aboutSections: [
       {
         title: "Mission",
-        body: "Genora.art rassemble les meilleurs modèles d’IA dans un espace de travail, avec une facturation transparente à l’usage — sans abonnement ni onglets en trop.",
+        body: "Genora.art offre aux équipes un espace pratique pour tester des outils d’IA, conserver un historique utile et payer selon l’usage réel.",
       },
       {
         title: "Pour qui",

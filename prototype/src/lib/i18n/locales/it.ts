@@ -352,10 +352,10 @@ export const it: Dictionary = {
     ],
   },
   hero: {
-    badge: "Niente VPN né carte estere",
-    titleBefore: "Tutti i migliori ",
-    titleAccent: "modelli AI",
-    titleAfter: " in uno spazio",
+    badge: "Una selezione mirata di strumenti AI per il lavoro quotidiano",
+    titleBefore: "Scopri gli ",
+    titleAccent: "strumenti AI",
+    titleAfter: " per la tua prossima idea",
     promptPlaceholder:
       "Chiedi qualsiasi cosa — sceglieremo il modello migliore per te...",
     demoMode: "20K token in regalo",
@@ -366,7 +366,7 @@ export const it: Dictionary = {
       "In modalità demo Genora.art mostra la risposta qui. Crea un account per continuare senza limiti.",
     ctaPrimary: "Prova gratis",
     ctaSecondary: "Vedi la demo",
-    trust: "40+ modelli · Pay-as-you-go · RU/EN",
+    trust: "40+ modelli · Prezzi in base all’uso · RU/EN",
     messagesLabel: "messaggi",
     entries: {
       text: {
@@ -386,7 +386,7 @@ export const it: Dictionary = {
   why: {
     eyebrow: "Perché Genora.art",
     title: "Meno strumenti. Più risultati.",
-    subtitle: "Un'interfaccia al posto di decine di schede e chiavi API",
+    subtitle: "Confronta risultati, modelli e costi da un unico spazio di lavoro",
     items: [
       {
         title: "Accesso immediato",
@@ -1294,8 +1294,8 @@ export const it: Dictionary = {
     pinLabel: "Codice PIN",
     pinHint: "Inserisci il codice PIN dell’account",
     pinInvalid: "Codice PIN errato",
-    sideTitle: "I principali modelli AI in uno spazio di lavoro",
-    sideDescription: "Confronta le risposte, esegui gli agenti e conserva il contesto importante senza cambiare servizio.",
+    sideTitle: "Strumenti per un lavoro AI mirato",
+    sideDescription: "Confronta le risposte, esegui agenti e mantieni il contesto utile vicino a ogni attività.",
     sideTriggers: ["40+ modelli", "Agenti e memoria", "Pay as you go"],
     pleaseWait: "Attendere…",
     signInFailed: "Impossibile accedere",
@@ -1510,7 +1510,7 @@ export const it: Dictionary = {
     aboutSections: [
       {
         title: "Missione",
-        body: "Genora.art riunisce i migliori modelli AI in uno spazio di lavoro, con fatturazione trasparente a consumo — senza abbonamenti né schede extra.",
+        body: "Genora.art offre ai team uno spazio pratico per provare strumenti AI, conservare una cronologia utile e pagare in base all’uso effettivo.",
       },
       {
         title: "A chi è rivolto",

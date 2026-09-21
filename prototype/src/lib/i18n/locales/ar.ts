@@ -352,10 +352,10 @@ export const ar: Dictionary = {
     ],
   },
   hero: {
-    badge: "بدون VPN أو بطاقات أجنبية",
-    titleBefore: "كل أبرز ",
-    titleAccent: "نماذج الذكاء الاصطناعي",
-    titleAfter: " في مساحة واحدة",
+    badge: "مجموعة مركزة من أدوات الذكاء الاصطناعي للعمل اليومي",
+    titleBefore: "اكتشف ",
+    titleAccent: "أدوات الذكاء الاصطناعي",
+    titleAfter: " المصممة لفكرتك التالية",
     promptPlaceholder:
       "اسأل عن أي شيء — سنختار أفضل نموذج لك...",
     demoMode: "20 ألف توكن هدية",
@@ -366,7 +366,7 @@ export const ar: Dictionary = {
       "في وضع العرض يعرض Genora.art الرد هنا. أنشئ حساباً للمتابعة بلا حدود.",
     ctaPrimary: "جرّب مجاناً",
     ctaSecondary: "شاهد العرض",
-    trust: "أكثر من 40 نموذجاً · Pay-as-you-go · RU/EN",
+    trust: "أكثر من 40 نموذجاً · تسعير حسب الاستخدام · RU/EN",
     messagesLabel: "رسائل",
     entries: {
       text: {
@@ -386,7 +386,7 @@ export const ar: Dictionary = {
   why: {
     eyebrow: "لماذا Genora.art",
     title: "أدوات أقل. نتائج أكثر.",
-    subtitle: "واجهة واحدة بدل عشرات التبويبات ومفاتيح واجهة البرمجة",
+    subtitle: "قارن النتائج والنماذج والتكاليف في مساحة عمل واحدة",
     items: [
       {
         title: "وصول فوري",
@@ -1294,8 +1294,8 @@ export const ar: Dictionary = {
     pinLabel: "رمز PIN",
     pinHint: "أدخل رمز PIN للحساب",
     pinInvalid: "رمز PIN غير صحيح",
-    sideTitle: "نماذج الذكاء الاصطناعي الرائدة في مساحة عمل واحدة",
-    sideDescription: "قارن الردود وشغّل الوكلاء واحفظ السياق المهم دون التنقّل بين الخدمات.",
+    sideTitle: "أدوات لعمل ذكاء اصطناعي مركز",
+    sideDescription: "قارن الردود وشغّل الوكلاء واحتفظ بالسياق المفيد قريباً من المهمة التي تعمل عليها.",
     sideTriggers: ["أكثر من 40 نموذجاً", "وكلاء وذاكرة", "Pay as you go"],
     pleaseWait: "يُرجى الانتظار…",
     signInFailed: "تعذّر تسجيل دخولك",
@@ -1510,7 +1510,7 @@ export const ar: Dictionary = {
     aboutSections: [
       {
         title: "المهمة",
-        body: "يجمع Genora.art أفضل نماذج الذكاء الاصطناعي في مساحة عمل واحدة بفوترة شفافة حسب الاستخدام — بلا اشتراكات أو تبويبات إضافية.",
+        body: "تمنح Genora.art الفرق مساحة عملية لتجربة أدوات الذكاء الاصطناعي وحفظ السجل المفيد والدفع حسب الاستخدام الفعلي.",
       },
       {
         title: "لمن هو",

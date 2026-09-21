@@ -352,10 +352,10 @@ export const es: Dictionary = {
     ],
   },
   hero: {
-    badge: "Sin VPN ni tarjetas extranjeras",
-    titleBefore: "Todos los mejores ",
-    titleAccent: "modelos de IA",
-    titleAfter: " en un solo espacio",
+    badge: "Una selección de herramientas de IA para el trabajo diario",
+    titleBefore: "Descubre ",
+    titleAccent: "herramientas de IA",
+    titleAfter: " para tu próxima idea",
     promptPlaceholder:
       "Pregunta lo que quieras — elegiremos el mejor modelo para ti...",
     demoMode: "20K tokens de regalo",
@@ -366,7 +366,7 @@ export const es: Dictionary = {
       "En el modo demo, Genora.art muestra la respuesta aquí. Crea una cuenta para continuar sin límites.",
     ctaPrimary: "Probar gratis",
     ctaSecondary: "Ver demo",
-    trust: "Más de 40 modelos · Pay-as-you-go · RU/EN",
+    trust: "Más de 40 modelos · Precio según uso · RU/EN",
     messagesLabel: "mensajes",
     entries: {
       text: {
@@ -386,7 +386,7 @@ export const es: Dictionary = {
   why: {
     eyebrow: "Por qué Genora.art",
     title: "Menos herramientas. Más resultados.",
-    subtitle: "Una interfaz en lugar de decenas de pestañas y claves API",
+    subtitle: "Compara resultados, modelos y costes desde un solo espacio de trabajo",
     items: [
       {
         title: "Acceso instantáneo",
@@ -1294,8 +1294,8 @@ export const es: Dictionary = {
     pinLabel: "Código PIN",
     pinHint: "Introduzca el código PIN de la cuenta",
     pinInvalid: "Código PIN incorrecto",
-    sideTitle: "Los principales modelos de IA en un solo espacio",
-    sideDescription: "Compara respuestas, ejecuta agentes y conserva el contexto importante sin cambiar de servicio.",
+    sideTitle: "Herramientas para trabajar con IA de forma enfocada",
+    sideDescription: "Compara respuestas, ejecuta agentes y conserva el contexto útil junto a cada tarea.",
     sideTriggers: ["Más de 40 modelos", "Agentes y memoria", "Paga según uses"],
     pleaseWait: "Espera un momento…",
     signInFailed: "No se pudo iniciar sesión",
@@ -1510,7 +1510,7 @@ export const es: Dictionary = {
     aboutSections: [
       {
         title: "Misión",
-        body: "Genora.art reúne los mejores modelos de IA en un espacio de trabajo con facturación transparente por uso — sin suscripciones ni pestañas extra.",
+        body: "Genora.art ofrece a los equipos un espacio práctico para probar herramientas de IA, conservar un historial útil y pagar según el uso real.",
       },
       {
         title: "Para quién es",

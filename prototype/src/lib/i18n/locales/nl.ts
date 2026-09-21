@@ -352,10 +352,10 @@ export const nl: Dictionary = {
     ],
   },
   hero: {
-    badge: "Geen VPN of buitenlandse kaarten",
-    titleBefore: "Alle top ",
-    titleAccent: "AI-modellen",
-    titleAfter: " in één ruimte",
+    badge: "Een gerichte selectie AI-tools voor dagelijks werk",
+    titleBefore: "Ontdek ",
+    titleAccent: "AI-tools",
+    titleAfter: " voor je volgende idee",
     promptPlaceholder:
       "Vraag wat je wilt — wij kiezen het beste model voor je...",
     demoMode: "20K tokens cadeau",
@@ -366,7 +366,7 @@ export const nl: Dictionary = {
       "In de demomodus toont Genora.art het antwoord hier. Maak een account aan om zonder limieten door te gaan.",
     ctaPrimary: "Gratis proberen",
     ctaSecondary: "Bekijk demo",
-    trust: "40+ modellen · Pay-as-you-go · RU/EN",
+    trust: "40+ modellen · Betalen naar gebruik · RU/EN",
     messagesLabel: "berichten",
     entries: {
       text: {
@@ -386,7 +386,7 @@ export const nl: Dictionary = {
   why: {
     eyebrow: "Waarom Genora.art",
     title: "Minder tools. Meer resultaat.",
-    subtitle: "Eén interface in plaats van tientallen tabbladen en API-sleutels",
+    subtitle: "Vergelijk resultaten, modellen en kosten vanuit één werkruimte",
     items: [
       {
         title: "Directe toegang",
@@ -1294,8 +1294,8 @@ export const nl: Dictionary = {
     pinLabel: "Pincode",
     pinHint: "Voer de pincode van het account in",
     pinInvalid: "Onjuiste pincode",
-    sideTitle: "Toonaangevende AI-modellen in één werkruimte",
-    sideDescription: "Vergelijk antwoorden, start agenten en bewaar belangrijke context zonder tussen diensten te wisselen.",
+    sideTitle: "Tools voor gericht AI-werk",
+    sideDescription: "Vergelijk antwoorden, start agenten en houd nuttige context bij de taak die je uitvoert.",
     sideTriggers: ["40+ modellen", "Agenten en geheugen", "Pay as you go"],
     pleaseWait: "Even geduld…",
     signInFailed: "Inloggen is niet gelukt",
@@ -1510,7 +1510,7 @@ export const nl: Dictionary = {
     aboutSections: [
       {
         title: "Missie",
-        body: "Genora.art brengt top-AI-modellen samen in één werkruimte met transparante facturatie naar gebruik — zonder abonnementen of extra tabbladen.",
+        body: "Genora.art geeft teams een praktische werkruimte om AI-tools te testen, nuttige geschiedenis te bewaren en naar werkelijk gebruik te betalen.",
       },
       {
         title: "Voor wie het is",

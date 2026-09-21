@@ -352,10 +352,10 @@ export const ro: Dictionary = {
     ],
   },
   hero: {
-    badge: "Fără VPN sau carduri străine",
-    titleBefore: "Toate ",
-    titleAccent: "modelele AI",
-    titleAfter: " de top într-un singur spațiu",
+    badge: "O selecție concentrată de instrumente AI pentru munca de zi cu zi",
+    titleBefore: "Descoperiți ",
+    titleAccent: "instrumente AI",
+    titleAfter: " pentru următoarea idee",
     promptPlaceholder:
       "Întreabă orice — alegem cel mai bun model pentru tine...",
     demoMode: "20K tokeni cadou",
@@ -366,7 +366,7 @@ export const ro: Dictionary = {
       "În modul demo, Genora.art arată răspunsul aici. Creează un cont ca să continui fără limite.",
     ctaPrimary: "Încearcă gratuit",
     ctaSecondary: "Vezi demo",
-    trust: "40+ modele · Pay-as-you-go · RU/EN",
+    trust: "40+ modele · Tarifare după utilizare · RU/EN",
     messagesLabel: "mesaje",
     entries: {
       text: {
@@ -386,7 +386,7 @@ export const ro: Dictionary = {
   why: {
     eyebrow: "De ce Genora.art",
     title: "Mai puține unelte. Mai multe rezultate.",
-    subtitle: "O interfață în loc de zeci de tab-uri și chei API",
+    subtitle: "Comparați rezultate, modele și costuri dintr-un singur spațiu de lucru",
     items: [
       {
         title: "Acces instant",
@@ -1294,8 +1294,8 @@ export const ro: Dictionary = {
     pinLabel: "Cod PIN",
     pinHint: "Introduceți codul PIN al contului",
     pinInvalid: "Cod PIN incorect",
-    sideTitle: "Modele AI de top într-un singur spațiu de lucru",
-    sideDescription: "Compară răspunsuri, rulează agenți și păstrează contextul important fără să schimbi serviciile.",
+    sideTitle: "Instrumente pentru lucru AI concentrat",
+    sideDescription: "Comparați răspunsuri, rulați agenți și păstrați contextul util lângă sarcina rezolvată.",
     sideTriggers: ["40+ modele", "Agenți și memorie", "Pay as you go"],
     pleaseWait: "Așteaptă…",
     signInFailed: "Autentificarea nu a reușit",
@@ -1510,7 +1510,7 @@ export const ro: Dictionary = {
     aboutSections: [
       {
         title: "Misiune",
-        body: "Genora.art aduce modele AI de top într-un spațiu de lucru cu facturare transparentă după utilizare — fără abonamente sau tab-uri extra.",
+        body: "Genora.art oferă echipelor un spațiu practic pentru testarea instrumentelor AI, păstrarea istoricului util și plata în funcție de utilizarea reală.",
       },
       {
         title: "Pentru cine e",

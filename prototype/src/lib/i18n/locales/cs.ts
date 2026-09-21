@@ -352,10 +352,10 @@ export const cs: Dictionary = {
     ],
   },
   hero: {
-    badge: "Bez VPN a zahraničních karet",
-    titleBefore: "Všechny špičkové ",
-    titleAccent: "AI modely",
-    titleAfter: " na jednom místě",
+    badge: "Výběr AI nástrojů pro každodenní práci",
+    titleBefore: "Objevte ",
+    titleAccent: "AI nástroje",
+    titleAfter: " pro svůj další nápad",
     promptPlaceholder:
       "Zeptejte se na cokoli — vybereme nejlepší model...",
     demoMode: "20K tokenů darem",
@@ -366,7 +366,7 @@ export const cs: Dictionary = {
       "V demo režimu Genora.art ukáže odpověď tady. Vytvořte účet a pokračujte bez limitů.",
     ctaPrimary: "Vyzkoušet zdarma",
     ctaSecondary: "Zobrazit demo",
-    trust: "40+ modelů · Pay-as-you-go · RU/EN",
+    trust: "40+ modelů · Cena podle použití · RU/EN",
     messagesLabel: "zpráv",
     entries: {
       text: {
@@ -386,7 +386,7 @@ export const cs: Dictionary = {
   why: {
     eyebrow: "Proč Genora.art",
     title: "Méně nástrojů. Více výsledků.",
-    subtitle: "Jedno rozhraní místo desítek záložek a API klíčů",
+    subtitle: "Porovnávejte výsledky, modely a náklady z jednoho pracovního prostoru",
     items: [
       {
         title: "Okamžitý přístup",
@@ -1294,8 +1294,8 @@ export const cs: Dictionary = {
     pinLabel: "PIN kód",
     pinHint: "Zadejte PIN kód účtu",
     pinInvalid: "Nesprávný PIN kód",
-    sideTitle: "Špičkové AI modely v jednom prostoru",
-    sideDescription: "Porovnávejte odpovědi, spouštějte agenty a uchovávejte důležitý kontext bez přepínání služeb.",
+    sideTitle: "Nástroje pro soustředěnou práci s AI",
+    sideDescription: "Porovnávejte odpovědi, spouštějte agenty a mějte užitečný kontext po ruce u řešené úlohy.",
     sideTriggers: ["40+ modelů", "Agenti a paměť", "Pay as you go"],
     pleaseWait: "Počkejte…",
     signInFailed: "Přihlášení se nepodařilo",
@@ -1510,7 +1510,7 @@ export const cs: Dictionary = {
     aboutSections: [
       {
         title: "Poslání",
-        body: "Genora.art spojuje špičkové AI modely do jednoho prostoru s průhledným účtováním podle použití — bez předplatného a dalších záložek.",
+        body: "Genora.art nabízí týmům praktický prostor pro zkoušení AI nástrojů, uchování užitečné historie a platbu podle skutečného použití.",
       },
       {
         title: "Pro koho je",
