@@ -5,6 +5,7 @@ export const de: Dictionary = {
   nav: {
     why: "Warum",
     agents: "Agenten",
+    songs: "Songs",
     pricing: "Preise",
     faq: "FAQ",
     signIn: "Anmelden",
@@ -351,10 +352,10 @@ export const de: Dictionary = {
     ],
   },
   hero: {
-    badge: "Ohne VPN und ausländische Karten",
-    titleBefore: "Alle führenden ",
-    titleAccent: "KI-Modelle",
-    titleAfter: " an einem Ort",
+    badge: "Eine fokussierte Auswahl an KI-Tools für den Arbeitsalltag",
+    titleBefore: "Entdecken Sie ",
+    titleAccent: "KI-Tools",
+    titleAfter: " für Ihre nächste Idee",
     promptPlaceholder:
       "Fragen Sie irgendetwas — wir wählen das beste Modell für Sie...",
     demoMode: "20.000 Tokens geschenkt",
@@ -365,7 +366,7 @@ export const de: Dictionary = {
       "Im Demomodus zeigt Genora.art die Antwort hier. Erstellen Sie ein Konto, um ohne Limits weiterzumachen.",
     ctaPrimary: "Kostenlos testen",
     ctaSecondary: "Demo ansehen",
-    trust: "40+ Modelle · Pay-as-you-go · RU/EN",
+    trust: "40+ Modelle · Abrechnung nach Nutzung · RU/EN",
     messagesLabel: "Nachrichten",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const de: Dictionary = {
   why: {
     eyebrow: "Warum Genora.art",
     title: "Weniger Tools. Mehr Ergebnis.",
-    subtitle: "Eine Oberfläche statt Dutzender Tabs und API-Schlüssel",
+    subtitle: "Vergleichen Sie Ergebnisse, Modelle und Kosten in einem Arbeitsbereich",
     items: [
       {
         title: "Sofortiger Zugang",
@@ -1243,14 +1244,14 @@ export const de: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — Aggregator für neuronale Netze mit nutzungsbasierter Abrechnung.",
+    tagline: "Genora.art bündelt Werkzeuge für Text, Bilder, Video und Musik in einem flexiblen Arbeitsbereich.",
     product: "Produkt",
     company: "Unternehmen",
     legal: "Rechtliches",
     materials: "Materialien",
     documentation: "Dokumentation",
     copyright: "© Genora.art. Alle Rechte vorbehalten.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Alle Rechte vorbehalten.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Alle Rechte vorbehalten.",
     securePayment: "Sichere Zahlung",
     links: {
       models: "Modelle",
@@ -1293,8 +1294,8 @@ export const de: Dictionary = {
     pinLabel: "PIN-Code",
     pinHint: "Geben Sie den PIN-Code des Kontos ein",
     pinInvalid: "Falscher PIN-Code",
-    sideTitle: "Führende KI-Modelle in einem Arbeitsbereich",
-    sideDescription: "Vergleichen Sie Antworten, führen Sie Agenten aus und bewahren Sie wichtigen Kontext, ohne zwischen Diensten zu wechseln.",
+    sideTitle: "Tools für fokussierte KI-Arbeit",
+    sideDescription: "Vergleichen Sie Antworten, führen Sie Agenten aus und behalten Sie nützlichen Kontext direkt bei Ihrer Aufgabe.",
     sideTriggers: ["40+ Modelle", "Agenten und Speicher", "Pay as you go"],
     pleaseWait: "Bitte warten…",
     signInFailed: "Anmeldung nicht möglich",
@@ -1509,7 +1510,7 @@ export const de: Dictionary = {
     aboutSections: [
       {
         title: "Auftrag",
-        body: "Genora.art bringt führende KI-Modelle in einen Arbeitsbereich mit transparenter nutzungsbasierter Abrechnung — ohne Abos und Extra-Tabs.",
+        body: "Genora.art bietet Teams einen praktischen Arbeitsbereich zum Testen von KI-Tools, zum Bewahren wichtiger Historie und zur Abrechnung nach tatsächlicher Nutzung.",
       },
       {
         title: "Für wen es ist",

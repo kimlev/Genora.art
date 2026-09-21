@@ -5,6 +5,7 @@ export const hi: Dictionary = {
   nav: {
     why: "क्यों",
     agents: "एजेंट",
+    songs: "गाने",
     pricing: "कीमत",
     faq: "FAQ",
     signIn: "साइन इन",
@@ -351,10 +352,10 @@ export const hi: Dictionary = {
     ],
   },
   hero: {
-    badge: "VPN या विदेशी कार्ड की ज़रूरत नहीं",
-    titleBefore: "सभी टॉप ",
-    titleAccent: "AI मॉडल",
-    titleAfter: " एक जगह",
+    badge: "रोज़मर्रा के काम के लिए चुने हुए AI टूल",
+    titleBefore: "खोजें ",
+    titleAccent: "AI टूल",
+    titleAfter: " अपनी अगली कल्पना के लिए",
     promptPlaceholder:
       "कुछ भी पूछें — हम आपके लिए सबसे अच्छा मॉडल चुनेंगे...",
     demoMode: "20K टोकन उपहार में",
@@ -365,7 +366,7 @@ export const hi: Dictionary = {
       "डेमो मोड में Genora.art जवाब यहाँ दिखाता है। बिना सीमा जारी रखने के लिए खाता बनाएँ।",
     ctaPrimary: "मुफ़्त आज़माएँ",
     ctaSecondary: "डेमो देखें",
-    trust: "40+ मॉडल · Pay-as-you-go · RU/EN",
+    trust: "40+ मॉडल · उपयोग के अनुसार कीमत · RU/EN",
     messagesLabel: "संदेश",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const hi: Dictionary = {
   why: {
     eyebrow: "Genora.art क्यों",
     title: "कम टूल। ज़्यादा नतीजे।",
-    subtitle: "दर्जनों टैब और API कुंजियों की जगह एक इंटरफ़ेस",
+    subtitle: "एक ही वर्कस्पेस में परिणामों, मॉडलों और लागत की तुलना करें",
     items: [
       {
         title: "तुरंत पहुँच",
@@ -1243,14 +1244,14 @@ export const hi: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — उपयोग-आधारित बिलिंग वाला न्यूरल नेटवर्क एग्रीगेटर।",
+    tagline: "Genora.art टेक्स्ट, इमेज, वीडियो और संगीत के टूल को एक लचीले कार्यक्षेत्र में जोड़ता है।",
     product: "उत्पाद",
     company: "कंपनी",
     legal: "कानूनी",
     materials: "सामग्री",
     documentation: "दस्तावेज़",
     copyright: "© Genora.art. सर्वाधिकार सुरक्षित।",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. सर्वाधिकार सुरक्षित।",
+    copyrightFull: "© Genora.art — Sangerto LTD. सर्वाधिकार सुरक्षित।",
     securePayment: "सुरक्षित भुगतान",
     links: {
       models: "मॉडल",
@@ -1293,8 +1294,8 @@ export const hi: Dictionary = {
     pinLabel: "पिन कोड",
     pinHint: "खाते का पिन कोड दर्ज करें",
     pinInvalid: "गलत पिन कोड",
-    sideTitle: "अग्रणी AI मॉडल एक वर्कस्पेस में",
-    sideDescription: "जवाबों की तुलना करें, एजेंट चलाएँ, और सेवाएँ बदले बिना ज़रूरी संदर्भ बनाए रखें।",
+    sideTitle: "केंद्रित AI काम के लिए टूल",
+    sideDescription: "जवाबों की तुलना करें, एजेंट चलाएँ और उपयोगी संदर्भ को उसी काम के पास रखें।",
     sideTriggers: ["40+ मॉडल", "एजेंट और मेमोरी", "Pay as you go"],
     pleaseWait: "कृपया प्रतीक्षा करें…",
     signInFailed: "साइन इन नहीं हो सका",
@@ -1509,7 +1510,7 @@ export const hi: Dictionary = {
     aboutSections: [
       {
         title: "मिशन",
-        body: "Genora.art शीर्ष AI मॉडल को एक वर्कस्पेस में लाता है, पारदर्शी उपयोग-आधारित बिलिंग के साथ — बिना सब्सक्रिप्शन या अतिरिक्त टैब के।",
+        body: "Genora.art टीमों को AI टूल आज़माने, उपयोगी इतिहास रखने और वास्तविक उपयोग के अनुसार भुगतान करने के लिए व्यावहारिक वर्कस्पेस देता है।",
       },
       {
         title: "यह किसके लिए है",

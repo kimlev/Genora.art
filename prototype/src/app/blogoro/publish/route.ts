@@ -7,6 +7,7 @@ import {
 } from "@/lib/server/blogoro-page-sections";
 import { blogoroWebhookSecret, verifyBlogoroSignature } from "@/lib/server/blogoro-signature";
 import { withLocalePath } from "@/lib/i18n/locale-path";
+import { IS_STAGING, publicSiteUrl } from "@/lib/site-env";
 import { submitPageForIndexing } from "@/lib/server/search-submit";
 import { revalidatePath, revalidateTag } from "next/cache";
 
@@ -50,8 +51,8 @@ export async function POST(request: Request) {
         payload,
         request.headers.get("x-blogoro-idempotency-key") ?? "",
       );
-      // На dev поисковые роботы закрыты: только обновляем уже существующую страницу.
       revalidatePath(withLocalePath(published.pagePath, published.locale));
+      revalidatePath("/sitemap.xml");
       return Response.json(published.receipt);
     }
     const published = await publishBlogoroArticle(parseBlogoroPayload(payload));
@@ -60,14 +61,16 @@ export async function POST(request: Request) {
     revalidatePath("/[locale]/blog", "page");
     revalidatePath("/[locale]/blog/[slug]", "page");
     revalidatePath("/sitemap.xml");
-    // Русская статья уходит в Яндекс, статья на другом языке — в Google
-    const submitted = await submitPageForIndexing(published.url, published.locale, [blogIndexUrl(published.locale)]);
-    console.info("blogoro_publish_indexing", { url: published.url, locale: published.locale, submitted });
+    // Dev only refreshes its own sitemap; search-engine notifications belong to production.
+    const submitted = IS_STAGING
+      ? []
+      : await submitPageForIndexing(published.url, published.locale, [blogIndexUrl(published.locale)]);
+    console.info("blogoro_publish_indexing", { url: published.url, locale: published.locale, submitted, skippedOnDev: IS_STAGING });
     return Response.json({
       url: published.url,
       slug: published.slug,
       locale: published.locale,
-      sitemap: "https://genora.art/sitemap.xml",
+      sitemap: publicSiteUrl("/sitemap.xml"),
       indexing: submitted,
     });
   } catch (error) {

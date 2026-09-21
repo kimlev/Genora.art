@@ -9,6 +9,7 @@ import type { CharacterSummary } from "@/lib/characters";
 import { characterUiCopy } from "@/lib/i18n/copy/characters";
 import type { Locale } from "@/lib/i18n/types";
 import { cn } from "@/lib/utils";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 
 const CHARACTER_LABELS: Record<Locale, string> = {
   ru: "Персонаж",
@@ -48,12 +49,11 @@ export function CharacterPickerDialog({ locale, characters, selectedId, open, on
   const readyCharacters = characters.filter((item) => item.status === "ready");
   useEffect(() => {
     if (!open) return;
-    const previousOverflow = document.body.style.overflow;
+    const releaseScrollLock = acquireScrollLock();
     const closeWithEscape = (event: KeyboardEvent) => { if (event.key === "Escape") onClose(); };
-    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", closeWithEscape);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      releaseScrollLock();
       document.removeEventListener("keydown", closeWithEscape);
     };
   }, [onClose, open]);

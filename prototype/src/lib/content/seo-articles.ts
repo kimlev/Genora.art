@@ -13,8 +13,8 @@ export type { SeoArticle, SeoArticleBlock, SeoArticleFaq, SeoArticleId } from "@
 export const SEO_ARTICLES: Record<Exclude<SeoArticle["id"], "videos">, SeoArticle> = {
   models: {
     id: "models",
-    title: "Лучшие нейросети в одном месте: как выбрать модель и не переплачивать",
-    lead: "Каталог Genora.art собран так, чтобы человек без технической подготовки мог понять, какая модель нужна для текста, картинки или песни — и сразу увидеть, кто её делает.",
+    title: "How to choose an AI model for your work: a practical guide to quality and cost",
+    lead: "A practical Genora.art guide to matching text, image, video, and music tools with a real task, then checking quality and total spend before scaling up.",
     sections: [
       {
         heading: "Зачем нужен каталог моделей",

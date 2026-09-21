@@ -1,80 +1,102 @@
-name: Deploy to VPS
+name: Deploy Genora
+
+permissions:
+  contents: read
 
 on:
   push:
-    branches: [main]
+    branches: [dev, prod]
   workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy-dev:
+    if: github.ref_name == 'dev'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      # Список файлов репозитория: по нему сервер удаляет то, что было перемещено или удалено
-      - name: Build file manifest
-        run: git ls-files > .deploy-manifest
-
-      - name: Upload project
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          source: ".,!node_modules,!.git,!.next,!.gitnexus,!web/node_modules,!prototype/node_modules,!prototype/.next"
-          target: /srv/apps/genora-art
-          overwrite: true
-
-      - name: Rebuild containers
+      - name: Deploy isolated dev environment
         uses: appleboy/ssh-action@v1.2.0
         env:
-          BLOGORO_WEBHOOK_SECRET: ${{ secrets.BLOGORO_WEBHOOK_SECRET }}
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SHA: ${{ github.sha }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: BLOGORO_WEBHOOK_SECRET
+          envs: GH_TOKEN,RELEASE_SHA
           script_stop: true
           script: |
-            set -e
-            cd /srv/apps/genora-art
-            # Загрузка только перезаписывает файлы, поэтому удалённые и перемещённые убираем сами:
-            # иначе Next.js собирает старые маршруты рядом с новыми и падает на устаревшем коде
-            manifest=/srv/apps/genora-art/.deploy-manifest
-            test -s "$manifest"
-            test "$(wc -l < "$manifest")" -gt 100
-            find prototype/src web/src -type f 2>/dev/null | while read -r file; do
-              grep -qxF "$file" "$manifest" || rm -f "$file"
-            done
-            find prototype/src web/src -type d -empty -delete 2>/dev/null || true
-            production_env=/srv/apps/genora-art/infra/production/.env
-            test -f "$production_env"
-            if [ -n "$BLOGORO_WEBHOOK_SECRET" ]; then
-              if grep -q '^BLOGORO_WEBHOOK_SECRET=' "$production_env"; then
-                sed -i "s/^BLOGORO_WEBHOOK_SECRET=.*/BLOGORO_WEBHOOK_SECRET=$BLOGORO_WEBHOOK_SECRET/" "$production_env"
-              else
-                echo "BLOGORO_WEBHOOK_SECRET=$BLOGORO_WEBHOOK_SECRET" >> "$production_env"
-              fi
-              grep -q '^APP_BASE_URL=' "$production_env" || echo "APP_BASE_URL=https://genora.art" >> "$production_env"
-            fi
-            active_nginx_config="$(grep -l 'server_name genora.art' /etc/nginx/sites-enabled/* /etc/nginx/conf.d/*.conf 2>/dev/null | head -n 1)"
-            if [ -n "$active_nginx_config" ]; then
-              cp /srv/apps/genora-art/infra/production/nginx-genora.conf "$active_nginx_config"
-              nginx -t
-              systemctl reload nginx
-            fi
-            cd /srv/apps/genora-art/infra/production
-            docker compose up -d --build app support-worker
-            for attempt in $(seq 1 30); do
-              status="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' genora-app 2>/dev/null || true)"
-              if [ "$status" = healthy ]; then
-                break
-              fi
-              if [ "$attempt" -eq 30 ]; then
-                docker compose ps app support-worker
-                docker compose logs --tail=100 app
+            set -euo pipefail
+            release_dir="$(mktemp -d /tmp/genora-dev-release.XXXXXX)"
+            trap 'rm -rf "$release_dir"' EXIT
+            curl -fsSL -H "Authorization: Bearer $GH_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/tarball/$RELEASE_SHA" \
+              | tar -xz -C "$release_dir" --strip-components=1
+            mkdir -p /srv/apps/genora-art-dev
+            rsync -a \
+              --exclude '.env' --exclude '.env.*' --exclude '*.env' \
+              --exclude 'node_modules' --exclude '.next' --exclude '.gitnexus' \
+              "$release_dir/" /srv/apps/genora-art-dev/
+            cd /srv/apps/genora-art-dev
+            test -f infra/genora-dev/.env
+            DEST_ENV=/srv/apps/genora-art-dev/infra/genora-dev/.env bash infra/staging/update-env.sh
+            bash infra/staging/apply-dev-nginx.sh /srv/apps/genora-art-dev
+            cd infra/genora-dev
+            docker compose up -d --build postgres app support-worker
+            for attempt in $(seq 1 40); do
+              status="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' genora-dev-app 2>/dev/null || true)"
+              [ "$status" = healthy ] && break
+              if [ "$attempt" -eq 40 ]; then
+                docker compose ps
+                docker compose logs --tail=120 app
                 exit 1
               fi
               sleep 5
             done
-            docker compose ps app support-worker
+            docker compose ps
+
+  deploy-prod:
+    if: github.ref_name == 'prod'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy isolated production environment
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SHA: ${{ github.sha }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          envs: GH_TOKEN,RELEASE_SHA
+          script_stop: true
+          script: |
+            set -euo pipefail
+            release_dir="$(mktemp -d /tmp/genora-prod-release.XXXXXX)"
+            trap 'rm -rf "$release_dir"' EXIT
+            curl -fsSL -H "Authorization: Bearer $GH_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/tarball/$RELEASE_SHA" \
+              | tar -xz -C "$release_dir" --strip-components=1
+            mkdir -p /srv/apps/genora-art
+            rsync -a \
+              --exclude '.env' --exclude '.env.*' --exclude '*.env' \
+              --exclude 'node_modules' --exclude '.next' --exclude '.gitnexus' \
+              "$release_dir/" /srv/apps/genora-art/
+            cd /srv/apps/genora-art
+            bash infra/production/prepare-env.sh
+            cp infra/production/nginx-prod-hosts.conf /etc/nginx/sites-available/genora.art.conf
+            ln -sfn /etc/nginx/sites-available/genora.art.conf /etc/nginx/sites-enabled/genora.art.conf
+            nginx -t
+            systemctl reload nginx
+            cd infra/production
+            docker compose up -d --build postgres app support-worker
+            for attempt in $(seq 1 40); do
+              status="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' genora-prod-app 2>/dev/null || true)"
+              [ "$status" = healthy ] && break
+              if [ "$attempt" -eq 40 ]; then
+                docker compose ps
+                docker compose logs --tail=120 app
+                exit 1
+              fi
+              sleep 5
+            done
+            docker compose ps

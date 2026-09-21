@@ -2,31 +2,31 @@ import type { LucideIcon } from "lucide-react";
 
 const TILES = [
   {
-    surface: "border-[#f3c19a] bg-[linear-gradient(180deg,#fff3e8_0%,#fff8f2_72%,#ffffff_100%)]",
+    surface: "border-[#f3c19a] bg-[linear-gradient(180deg,#fff3e8_0%,#fff8f2_72%,#ffffff_100%)] dark:border-[#63351f] dark:bg-[linear-gradient(180deg,#241a15_0%,#1d1714_72%,#181513_100%)]",
     blob: "bg-[#e86b2c]/18",
     iconWrap: "bg-[#e86b2c] text-white shadow-[0_8px_16px_-8px_rgba(232,107,44,0.75)]",
-    title: "text-[#c24e16]",
+    title: "text-[#c24e16] dark:text-[#ff9a5a]",
     hover: "hover:border-[#e86b2c] hover:shadow-[0_22px_48px_-24px_rgba(232,107,44,0.42)]",
   },
   {
-    surface: "border-[#9ec9ff] bg-[linear-gradient(180deg,#eef6ff_0%,#f7fbff_72%,#ffffff_100%)]",
+    surface: "border-[#9ec9ff] bg-[linear-gradient(180deg,#eef6ff_0%,#f7fbff_72%,#ffffff_100%)] dark:border-[#294866] dark:bg-[linear-gradient(180deg,#151e28_0%,#141a21_72%,#12171c_100%)]",
     blob: "bg-[#FF6F00]/20",
     iconWrap: "bg-[#FF6F00] text-white shadow-[0_8px_16px_-8px_rgba(74,158,255,0.85)]",
-    title: "text-[#1d6fd4]",
+    title: "text-[#1d6fd4] dark:text-[#70adff]",
     hover: "hover:border-[#FF6F00] hover:shadow-[0_22px_48px_-24px_rgba(30,112,255,0.5)]",
   },
   {
-    surface: "border-[#8ed4bb] bg-[linear-gradient(180deg,#e8faf3_0%,#f3fcf8_72%,#ffffff_100%)]",
+    surface: "border-[#8ed4bb] bg-[linear-gradient(180deg,#e8faf3_0%,#f3fcf8_72%,#ffffff_100%)] dark:border-[#285744] dark:bg-[linear-gradient(180deg,#14231e_0%,#131c19_72%,#111714_100%)]",
     blob: "bg-[#12a37a]/18",
     iconWrap: "bg-[#12a37a] text-white shadow-[0_8px_16px_-8px_rgba(18,163,122,0.7)]",
-    title: "text-[#0d7a5b]",
+    title: "text-[#0d7a5b] dark:text-[#62c8a5]",
     hover: "hover:border-[#12a37a] hover:shadow-[0_22px_48px_-24px_rgba(18,163,122,0.42)]",
   },
   {
-    surface: "border-[#d4b3f0] bg-[linear-gradient(180deg,#f6edff_0%,#fbf7ff_72%,#ffffff_100%)]",
+    surface: "border-[#d4b3f0] bg-[linear-gradient(180deg,#f6edff_0%,#fbf7ff_72%,#ffffff_100%)] dark:border-[#4b376b] dark:bg-[linear-gradient(180deg,#201929_0%,#191620_72%,#151318_100%)]",
     blob: "bg-[#8b5cf6]/18",
     iconWrap: "bg-[#8b5cf6] text-white shadow-[0_8px_16px_-8px_rgba(139,92,246,0.7)]",
-    title: "text-[#6d28d9]",
+    title: "text-[#6d28d9] dark:text-[#b991ff]",
     hover: "hover:border-[#8b5cf6] hover:shadow-[0_22px_48px_-24px_rgba(139,92,246,0.42)]",
   },
 ] as const;

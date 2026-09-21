@@ -1,9 +1,9 @@
 # Политика cookies Genora.art
 
-**Оператор:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Оператор:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Контакт:** support@genora.art
 
-**Редакция:** 2.0
+**Редакция:** 2.1
 **Вступает в силу:** с даты публикации на сайте.
 
 ---
@@ -12,7 +12,7 @@
 
 Политика описывает, какие cookies, локальное хранилище браузера и аналогичные технологии использует Genora.art, зачем они нужны, как выражается и отзывается согласие. Документ применяется вместе с Политикой конфиденциальности и является частью Условий использования.
 
-Правовая рамка: Директива 2002/58/EC (ePrivacy) и национальные нормы стран ЕЭЗ, PECR (Великобритания), GDPR/UK GDPR в части персональных данных, PDPO (Cap. 486) Гонконга, CCPA/CPRA в части отслеживания.
+Правовая рамка: британские Privacy and Electronic Communications Regulations (PECR) и UK GDPR; Директива 2002/58/EC (ePrivacy), национальные нормы ЕЭЗ и GDPR ЕС, когда применимы; CCPA/CPRA, когда применимы.
 
 ---
 
@@ -98,4 +98,4 @@
 ## 9. Контакты
 
 Вопросы по cookies: **support@genora.art**
-ELVARON LIMITED, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+Sangerto LTD, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.

@@ -1,49 +1,73 @@
-name: genora-app
+name: genora-prod
 
 services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: genora-prod-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: genora_prod
+      POSTGRES_USER: genora
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - genora-prod-pg:/var/lib/postgresql/data
+    networks: [genora-prod-net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U genora -d genora_prod"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    security_opt: ["no-new-privileges:true"]
+
   app:
     build:
       context: ../../prototype
       dockerfile: Dockerfile
-    image: genora-app:latest
-    container_name: genora-app
+      args:
+        NEXT_PUBLIC_APP_ORIGIN: https://genora.art
+        NEXT_PUBLIC_STAGING: ""
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: "G-D07763XPWC"
+        NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
+    image: genora-app:prod
+    container_name: genora-prod-app
     restart: unless-stopped
-    env_file:
-      - .env
-    volumes:
-      - /etc/nginx/.htpasswd-genora:/run/secrets/genora-preview.htpasswd:ro
-    ports:
-      - "127.0.0.1:13310:3310"
-    networks:
-      - genora-net
+    env_file: [.env]
+    environment:
+      NEXT_PUBLIC_APP_ORIGIN: https://genora.art
+      NEXT_PUBLIC_STAGING: ""
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: "G-D07763XPWC"
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
+    ports: ["127.0.0.1:13310:3310"]
+    depends_on:
+      postgres: {condition: service_healthy}
+    networks: [genora-prod-net]
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3310/api/health >/dev/null || exit 1"]
       interval: 15s
       timeout: 5s
-      retries: 10
-      start_period: 40s
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
+      retries: 12
+      start_period: 60s
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
 
   support-worker:
-    image: genora-app:latest
-    container_name: genora-support-worker
+    image: genora-app:prod
+    container_name: genora-prod-support-worker
     restart: unless-stopped
-    env_file:
-      - .env
+    env_file: [.env]
+    environment:
+      SUPPORT_WORKER_URL: http://app:3310/api/internal/support/process
     command: ["node", "scripts/support-worker.mjs"]
     depends_on:
-      app:
-        condition: service_healthy
-    networks:
-      - genora-net
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
+      app: {condition: service_healthy}
+    networks: [genora-prod-net]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+volumes:
+  genora-prod-pg:
 
 networks:
-  genora-net:
-    external: true
+  genora-prod-net:
+    name: genora-prod-net

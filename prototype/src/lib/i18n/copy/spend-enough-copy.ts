@@ -17,7 +17,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Текстовые запросы",
     or: "или",
     images: "Изображения",
-    videos: "Видео (8 сек)",
+    videos: "Видео (480p · 5 сек)",
     songs: "Песни",
   },
   en: {
@@ -26,7 +26,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Text requests",
     or: "or",
     images: "Images",
-    videos: "Videos (8 sec)",
+    videos: "Videos (480p · 5 sec)",
     songs: "Songs",
   },
   zh: {
@@ -35,7 +35,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "文本请求",
     or: "或",
     images: "图像",
-    videos: "视频（8 秒）",
+    videos: "视频（480p · 5 秒）",
     songs: "歌曲",
   },
   hi: {
@@ -44,7 +44,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "टेक्स्ट अनुरोध",
     or: "या",
     images: "छवियाँ",
-    videos: "वीडियो (8 सेकेंड)",
+    videos: "वीडियो (480p · 5 सेकेंड)",
     songs: "गाने",
   },
   es: {
@@ -53,7 +53,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Consultas de texto",
     or: "o",
     images: "Imágenes",
-    videos: "Vídeo (8 s)",
+    videos: "Vídeo (480p · 5 s)",
     songs: "Canciones",
   },
   fr: {
@@ -62,7 +62,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Requêtes texte",
     or: "ou",
     images: "Images",
-    videos: "Vidéos (8 s)",
+    videos: "Vidéos (480p · 5 s)",
     songs: "Chansons",
   },
   ar: {
@@ -71,7 +71,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "طلبات نصية",
     or: "أو",
     images: "صور",
-    videos: "فيديو (8 ثوانٍ)",
+    videos: "فيديو (480p · 5 ثوانٍ)",
     songs: "أغانٍ",
   },
   pt: {
@@ -80,7 +80,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Pedidos de texto",
     or: "ou",
     images: "Imagens",
-    videos: "Vídeo (8 s)",
+    videos: "Vídeo (480p · 5 s)",
     songs: "Canções",
   },
   de: {
@@ -89,7 +89,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Textanfragen",
     or: "oder",
     images: "Bilder",
-    videos: "Videos (8 Sek.)",
+    videos: "Videos (480p · 5 Sek.)",
     songs: "Lieder",
   },
   ja: {
@@ -98,7 +98,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "テキストリクエスト",
     or: "または",
     images: "画像",
-    videos: "動画（8秒）",
+    videos: "動画（480p · 5秒）",
     songs: "曲",
   },
   it: {
@@ -107,7 +107,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Richieste di testo",
     or: "o",
     images: "Immagini",
-    videos: "Video (8 sec)",
+    videos: "Video (480p · 5 sec)",
     songs: "Canzoni",
   },
   ko: {
@@ -116,7 +116,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "텍스트 요청",
     or: "또는",
     images: "이미지",
-    videos: "영상 (8초)",
+    videos: "영상 (480p · 5초)",
     songs: "노래",
   },
   tr: {
@@ -125,7 +125,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Metin istekleri",
     or: "veya",
     images: "Görseller",
-    videos: "Video (8 sn)",
+    videos: "Video (480p · 5 sn)",
     songs: "Şarkılar",
   },
   pl: {
@@ -134,7 +134,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Zapytania tekstowe",
     or: "lub",
     images: "Obrazy",
-    videos: "Wideo (8 s)",
+    videos: "Wideo (480p · 5 s)",
     songs: "Piosenki",
   },
   nl: {
@@ -143,7 +143,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Tekstverzoeken",
     or: "of",
     images: "Afbeeldingen",
-    videos: "Video (8 sec)",
+    videos: "Video (480p · 5 sec)",
     songs: "Liedjes",
   },
   sv: {
@@ -152,7 +152,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Textförfrågningar",
     or: "eller",
     images: "Bilder",
-    videos: "Video (8 sek)",
+    videos: "Video (480p · 5 sek)",
     songs: "Låtar",
   },
   cs: {
@@ -161,7 +161,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Textové požadavky",
     or: "nebo",
     images: "Obrázky",
-    videos: "Video (8 s)",
+    videos: "Video (480p · 5 s)",
     songs: "Písně",
   },
   el: {
@@ -170,7 +170,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Αιτήματα κειμένου",
     or: "ή",
     images: "Εικόνες",
-    videos: "Βίντεο (8 δευτ.)",
+    videos: "Βίντεο (480p · 5 δευτ.)",
     songs: "Τραγούδια",
   },
   ro: {
@@ -179,7 +179,7 @@ const copies: Record<Locale, SpendEnoughCopy> = {
     textRequests: "Cereri text",
     or: "sau",
     images: "Imagini",
-    videos: "Video (8 sec)",
+    videos: "Video (480p · 5 sec)",
     songs: "Cântece",
   },
 };

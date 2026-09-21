@@ -5,6 +5,7 @@ export const ko: Dictionary = {
   nav: {
     why: "왜",
     agents: "에이전트",
+    songs: "노래",
     pricing: "요금",
     faq: "FAQ",
     signIn: "로그인",
@@ -351,10 +352,10 @@ export const ko: Dictionary = {
     ],
   },
   hero: {
-    badge: "VPN이나 해외 카드 불필요",
-    titleBefore: "최고의 ",
-    titleAccent: "AI 모델",
-    titleAfter: "을 한곳에",
+    badge: "일상 업무를 위한 엄선된 AI 도구",
+    titleBefore: "다음 아이디어를 위한 ",
+    titleAccent: "AI 도구를",
+    titleAfter: " 찾아보세요",
     promptPlaceholder:
       "무엇이든 물어보세요 — 가장 맞는 모델을 골라 드립니다...",
     demoMode: "20K 토큰 선물",
@@ -365,7 +366,7 @@ export const ko: Dictionary = {
       "데모 모드에서는 Genora.art이 여기에 답변을 보여 줍니다. 제한 없이 이어가려면 계정을 만드세요.",
     ctaPrimary: "무료로 체험",
     ctaSecondary: "데모 보기",
-    trust: "40+ 모델 · Pay-as-you-go · RU/EN",
+    trust: "40개 이상의 모델 · 사용량 기준 요금 · RU/EN",
     messagesLabel: "메시지",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const ko: Dictionary = {
   why: {
     eyebrow: "왜 Genora.art인가",
     title: "도구는 줄이고. 결과는 늘리고.",
-    subtitle: "수십 개의 탭과 API 키 대신 하나의 인터페이스",
+    subtitle: "하나의 작업 공간에서 결과, 모델, 비용을 비교하세요",
     items: [
       {
         title: "즉시 접근",
@@ -1243,14 +1244,14 @@ export const ko: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — 사용량 기반 과금의 신경망 애그리게이터.",
+    tagline: "Genora.art는 텍스트, 이미지, 영상, 음악 도구를 하나의 작업 공간에 모읍니다.",
     product: "제품",
     company: "회사",
     legal: "법률",
     materials: "자료",
     documentation: "문서",
     copyright: "© Genora.art. All rights reserved.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. All rights reserved.",
+    copyrightFull: "© Genora.art — Sangerto LTD. All rights reserved.",
     securePayment: "안전한 결제",
     links: {
       models: "모델",
@@ -1293,8 +1294,8 @@ export const ko: Dictionary = {
     pinLabel: "PIN 코드",
     pinHint: "계정 PIN 코드를 입력하세요",
     pinInvalid: "PIN 코드가 올바르지 않습니다",
-    sideTitle: "선도 AI 모델을 하나의 작업 공간에",
-    sideDescription: "서비스를 오가지 않고 답변을 비교하고, 에이전트를 실행하고, 중요한 맥락을 지키세요.",
+    sideTitle: "집중적인 AI 작업을 위한 도구",
+    sideDescription: "답변을 비교하고 에이전트를 실행하며 유용한 맥락을 작업 가까이에 보관하세요.",
     sideTriggers: ["40+ 모델", "에이전트와 메모리", "Pay as you go"],
     pleaseWait: "잠시만 기다려 주세요…",
     signInFailed: "로그인할 수 없습니다",
@@ -1509,7 +1510,7 @@ export const ko: Dictionary = {
     aboutSections: [
       {
         title: "미션",
-        body: "Genora.art은 최고의 AI 모델을 하나의 작업 공간에 모으고, 구독이나 추가 탭 없이 투명한 사용량 기반 과금을 제공합니다.",
+        body: "Genora.art는 팀이 AI 도구를 시험하고 유용한 기록을 보관하며 실제 사용량에 따라 결제할 수 있는 실용적인 작업 공간을 제공합니다.",
       },
       {
         title: "누구를 위한가",

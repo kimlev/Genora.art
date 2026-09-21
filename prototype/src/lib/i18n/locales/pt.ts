@@ -5,6 +5,7 @@ export const pt: Dictionary = {
   nav: {
     why: "Por quê",
     agents: "Agentes",
+    songs: "Canções",
     pricing: "Preços",
     faq: "FAQ",
     signIn: "Entrar",
@@ -351,10 +352,10 @@ export const pt: Dictionary = {
     ],
   },
   hero: {
-    badge: "Sem VPN nem cartão estrangeiro",
-    titleBefore: "Todos os principais ",
-    titleAccent: "modelos de IA",
-    titleAfter: " em um só espaço",
+    badge: "Uma seleção de ferramentas de IA para o trabalho diário",
+    titleBefore: "Descubra ",
+    titleAccent: "ferramentas de IA",
+    titleAfter: " para a sua próxima ideia",
     promptPlaceholder:
       "Pergunte qualquer coisa — escolhemos o melhor modelo para você...",
     demoMode: "20 mil tokens de presente",
@@ -365,7 +366,7 @@ export const pt: Dictionary = {
       "No modo demonstração, o Genora.art mostra a resposta aqui. Crie uma conta para continuar sem limites.",
     ctaPrimary: "Experimentar grátis",
     ctaSecondary: "Ver demonstração",
-    trust: "40+ modelos · Pay-as-you-go · RU/EN",
+    trust: "Mais de 40 modelos · Preço por utilização · RU/EN",
     messagesLabel: "mensagens",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const pt: Dictionary = {
   why: {
     eyebrow: "Por que o Genora.art",
     title: "Menos ferramentas. Mais resultado.",
-    subtitle: "Uma interface no lugar de dezenas de abas e chaves de API",
+    subtitle: "Compare resultados, modelos e custos num único espaço de trabalho",
     items: [
       {
         title: "Acesso imediato",
@@ -1243,14 +1244,14 @@ export const pt: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — agregador de redes neurais com cobrança por uso.",
+    tagline: "A Genora.art reúne ferramentas de texto, imagem, vídeo e música num espaço de trabalho integrado.",
     product: "Produto",
     company: "Empresa",
     legal: "Jurídico",
     materials: "Materiais",
     documentation: "Documentação",
     copyright: "© Genora.art. Todos os direitos reservados.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Todos os direitos reservados.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Todos os direitos reservados.",
     securePayment: "Pagamento seguro",
     links: {
       models: "Modelos",
@@ -1293,8 +1294,8 @@ export const pt: Dictionary = {
     pinLabel: "Código PIN",
     pinHint: "Digite o código PIN da conta",
     pinInvalid: "Código PIN incorreto",
-    sideTitle: "Modelos de IA líderes em um só espaço de trabalho",
-    sideDescription: "Compare respostas, execute agentes e preserve o contexto importante sem trocar de serviço.",
+    sideTitle: "Ferramentas para um trabalho de IA focado",
+    sideDescription: "Compare respostas, execute agentes e mantenha o contexto útil junto de cada tarefa.",
     sideTriggers: ["40+ modelos", "Agentes e memória", "Pay as you go"],
     pleaseWait: "Aguarde…",
     signInFailed: "Não foi possível entrar",
@@ -1509,7 +1510,7 @@ export const pt: Dictionary = {
     aboutSections: [
       {
         title: "Missão",
-        body: "O Genora.art reúne os principais modelos de IA em um espaço de trabalho, com cobrança transparente por uso — sem assinaturas nem abas extras.",
+        body: "A Genora.art oferece às equipas um espaço prático para testar ferramentas de IA, guardar um histórico útil e pagar conforme a utilização real.",
       },
       {
         title: "Para quem é",

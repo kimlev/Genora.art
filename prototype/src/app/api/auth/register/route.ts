@@ -59,13 +59,13 @@ export async function POST(request: Request) {
     const tokenHash = hashToken(token);
     const historyCopy = usageHistoryCopy(locale);
     const bonusTokens = await getRegistrationBonusTokens();
-    const result = await withTransaction(async (client) => {
+    const sent = await withTransaction(async (client) => {
       const reserved = await client.query("SELECT id FROM administrators WHERE email=$1 AND active=true", [email]);
       if (reserved.rowCount) throw new Error("ADMIN_EMAIL_RESERVED");
       const existing = await client.query<{ id: string; email_verified_at: Date | null }>(
         "SELECT id,email_verified_at FROM users WHERE email=$1 FOR UPDATE", [email],
       );
-      if (existing.rows[0]?.email_verified_at) return { shouldSend: false };
+      if (existing.rows[0]?.email_verified_at) return false;
 
       let userId = existing.rows[0]?.id;
       if (!userId) {
@@ -88,20 +88,24 @@ export async function POST(request: Request) {
       }
       await client.query(`INSERT INTO email_verification_tokens(token_hash,user_id,expires_at)
         VALUES($1,$2,now()+interval '24 hours')`, [tokenHash, userId]);
-      return { shouldSend: true };
-    });
-
-    if (result.shouldSend) {
+      // Keep the user and token uncommitted until SMTP accepts the message.
+      // A failed delivery must not leave a new registration or invalidate the
+      // previous verification link for an existing pending account.
       await sendEmailVerification(email, `${publicBaseUrl()}${withLocalePath("/verify-email", locale)}#${token}`, locale);
-    }
+      return true;
+    });
+    if (sent) console.info("register_verification_smtp_accepted");
+
     return Response.json(
       { pendingVerification: true, message: getAuthMailCopy(locale).verification.title },
       { status: 202 },
     );
   } catch (error) {
-    console.error("register_failed", error instanceof Error ? error.message : "unknown");
-    if ((error as Error).message === "SMTP_NOT_CONFIGURED") return jsonError(copy.mailNotConfigured, 503);
-    if ((error as Error).message === "ADMIN_EMAIL_RESERVED") return jsonError(copy.adminEmailReserved, 409);
+    const message = error instanceof Error ? error.message : "unknown";
+    const code = typeof error === "object" && error !== null && "code" in error ? String(error.code) : "";
+    console.error("register_failed", code || message);
+    if (message === "SMTP_NOT_CONFIGURED" || /timeout|ETIMEDOUT|ECONNREFUSED|ECONNRESET|EAUTH|EENVELOPE|SMTP_RECIPIENT_NOT_ACCEPTED/i.test(`${code} ${message}`)) return jsonError(copy.mailNotConfigured, 503);
+    if (message === "ADMIN_EMAIL_RESERVED") return jsonError(copy.adminEmailReserved, 409);
     return jsonError(copy.registerFailed, 500);
   }
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Loader2, RefreshCw, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { IS_STAGING } from "@/lib/site-env";
 import { AdminDateRange } from "./admin-date-range";
 import { number, td, th } from "./admin-types";
 
@@ -104,7 +105,9 @@ export function AdminSeo(){
             :null}
     </Card>
 
-    <Card title="Мгновенное уведомление о страницах" hint={data?.indexNow.configured?data.indexNow.keyUrl:undefined}>
+    {IS_STAGING ? <Card title="Уведомление поисковых систем">
+      <p className="text-xs text-slate-400">На dev публикации Blogoro обновляют только страницы и sitemap. Отправка адресов в Google, Яндекс и IndexNow доступна только на production.</p>
+    </Card> : <Card title="Мгновенное уведомление о страницах" hint={data?.indexNow.configured?data.indexNow.keyUrl:undefined}>
       {data?.indexNow.configured
         ?<p className="text-xs text-slate-400">Новые статьи блога уходят в Яндекс и Bing автоматически при публикации. Здесь можно отправить произвольные адреса — например, после правки посадочной страницы. Google этот протокол не поддерживает и берёт страницы из карты сайта.</p>
         :<Setup lines={["Ключ IndexNow не задан, автоматические уведомления отключены.","Задайте на сервере INDEXNOW_KEY: строка из латиницы, цифр и дефисов длиной от 8 символов."]}/>}
@@ -113,7 +116,7 @@ export function AdminSeo(){
         <button type="button" disabled={sending||!data?.indexNow.configured} onClick={()=>void submit()} className="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-500 px-4 text-xs font-semibold text-white disabled:opacity-60">{sending?<Loader2 className="size-4 animate-spin"/>:<Send className="size-4"/>}Отправить</button>
         {notice?<p className="text-xs text-orange-300">{notice}</p>:null}
       </div>
-    </Card>
+    </Card>}
   </div>;
 }
 

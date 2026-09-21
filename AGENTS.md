@@ -1,7 +1,7 @@
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **Genora.art** (35227 symbols, 74882 relationships, 300 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **Genora.art** (35431 symbols, 75222 relationships, 300 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > Index stale? Run `node .gitnexus/run.cjs analyze` from the project root — it auto-selects an available runner. No `.gitnexus/run.cjs` yet? `npx gitnexus analyze` (npm 11 crash → `npm i -g gitnexus`; #1939).
 
@@ -54,7 +54,8 @@ This project is indexed by GitNexus as **Genora.art** (35227 symbols, 74882 rela
 
 # Доставка изменений Genora.art
 
+- Задание на бэкенд или фронтенд: сначала графы GitNexus (`query` → `context` → `impact` с `repo: "Genora.art"`), потом код. Правило Cursor: `.cursor/rules/genora-workflow.mdc`.
 - Если пользователь просит изменить или исправить проект, после реализации и проверок самостоятельно создать коммит в текущей ветке, отправить его в `origin`, дождаться штатного автодеплоя и обновить GitNexus.
 - Для обычного push в `git@github.com:kimlev/Genora.art.git` и деплоя Genora.art повторное подтверждение не запрашивать.
-- В итоговом отчёте кратко перечислить сделанное, дать ссылку на коммит и указать статус GitNexus.
+- В итоговом отчёте по пунктам: что сделано, ссылка на коммит, деплой (ветка + URL), статус GitNexus.
 - Это правило не отменяет остановку перед раскрытием секретов, необратимыми удалениями, force-push и другими действиями за пределами обычного релиза.

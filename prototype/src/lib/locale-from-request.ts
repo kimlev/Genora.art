@@ -1,11 +1,12 @@
 import { isServedLocale, SERVED_LOCALE_CODES } from "./i18n/served-locales";
 import type { Locale } from "./i18n/types";
+import { IS_STAGING } from "@/lib/site-env";
 
 export type { Locale };
 
 const LOCALES: readonly Locale[] = SERVED_LOCALE_CODES;
 
-export const defaultRequestLocale: Locale = "ru";
+export const defaultRequestLocale: Locale = IS_STAGING ? "ru" : "en";
 
 export function isRequestLocale(value: string): value is Locale {
   return isServedLocale(value);

@@ -50,7 +50,7 @@ test("video provider can reset the dependent configuration and polling stays aut
 
 test("homepage video card opens the supplied playable video without a fullscreen caption", async () => {
   const hero = await readFile(new URL("../src/components/landing/hero-showcase.tsx", import.meta.url), "utf8");
-  assert.match(hero, /const showcaseVideo = "\/landing\/genora-showcase\.mp4"/);
+  assert.match(hero, /const showcaseVideo = "\/landing\/genora-home-video\.mp4"/);
   assert.match(hero, /<video autoPlay controls playsInline preload="auto" poster=\{showcasePoster\}/);
   assert.doesNotMatch(hero, />\{copy\.openFullscreen\}<\/span>/);
   assert.doesNotMatch(hero, /\{copy\.fullscreenComing\}/);

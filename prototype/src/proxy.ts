@@ -7,7 +7,15 @@ import {
 } from "@/lib/locale-from-request";
 import { LOCALE_COOKIE, LOCALE_HEADER, LOCALE_QUERY } from "@/lib/seo";
 import { cookiePath } from "@/lib/site-env";
+import { isAdminHostname, requestHostname } from "@/lib/admin-host";
 import { NextResponse, type NextRequest } from "next/server";
+
+function adminPublicPath(pathname: string): string | null {
+  if (pathname === "/admin") return "/";
+  if (pathname === "/admin/login") return "/login";
+  if (pathname === "/admin/accept-invite") return "/accept-invite";
+  return null;
+}
 
 const LOCALE_COOKIE_OPTIONS = {
   path: cookiePath(),
@@ -32,6 +40,38 @@ function preferredLocale(request: NextRequest): Locale {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const isAdminHost = isAdminHostname(requestHostname(
+    request.headers.get("x-forwarded-host"),
+    request.headers.get("host"),
+    request.nextUrl.hostname,
+  ));
+
+  // Административные страницы и API доступны только на выделенных поддоменах.
+  // В адресной строке поддомена внутренний префикс /admin никогда не показывается.
+  if (isAdminHost) {
+    const cleanPath = adminPublicPath(pathname);
+    if (cleanPath) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = cleanPath;
+      return NextResponse.redirect(redirectUrl, 308);
+    }
+    if (pathname === "/") {
+      const rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = "/admin";
+      return NextResponse.rewrite(rewriteUrl);
+    }
+    if (pathname === "/login" || pathname === "/accept-invite") {
+      const rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = `/admin${pathname}`;
+      return NextResponse.rewrite(rewriteUrl);
+    }
+    if (pathname.startsWith("/api/admin/")) return NextResponse.next();
+    return new NextResponse(null, { status: 404 });
+  }
+
+  if (pathname === "/admin" || pathname.startsWith("/admin/") || pathname.startsWith("/api/admin/")) {
+    return new NextResponse(null, { status: 404 });
+  }
 
   // API, админка и внешние интеграции живут без языка в адресе
   if (isUnlocalizedPath(pathname)) {
@@ -79,5 +119,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|api/|blogoro/|favicon|.*\\..*).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon|.*\\..*).*)"],
 };

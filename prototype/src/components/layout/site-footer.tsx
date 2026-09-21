@@ -3,9 +3,9 @@
 import { useT } from "@/components/providers/locale-provider";
 import { BrandWordmark } from "@/components/layout/brand-wordmark";
 import { ShieldCheck } from "lucide-react";
-import Image from "next/image";
 import { Link } from "@/components/ui/locale-link";
 import { usePublicContactEmail } from "@/components/layout/use-public-contact-email";
+import { CONSENT_OPEN_EVENT } from "@/lib/cookie-consent";
 
 const productLinks = [
   { href: "/models", labelKey: "models" as const },
@@ -43,13 +43,6 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-9 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
           <div className="col-span-2 space-y-4 lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <Image
-                src="/logo-mark.png"
-                alt=""
-                width={28}
-                height={28}
-                className="size-7"
-              />
               <BrandWordmark className="text-base" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-steel">
@@ -121,13 +114,22 @@ export function SiteFooter() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <button
+                  type="button"
+                  className="text-sm text-steel transition-colors hover:text-text"
+                  onClick={() => window.dispatchEvent(new Event(CONSENT_OPEN_EVENT))}
+                >
+                  {t.legal.consent.settings ?? t.legal.consent.dialogLabel}
+                </button>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-10 space-y-1.5 border-t border-border pt-7 text-center text-sm leading-relaxed text-steel">
-          <p>Operated by <strong className="font-semibold text-text">ELVARON LIMITED</strong> (Registration No. <strong className="font-semibold text-text">79402144</strong>)</p>
-          <p>14/F, China Building, 29 Queen&apos;s Road Central, Central, Hong Kong</p>
+          <p>Operated by <strong className="font-semibold text-text">Sangerto LTD</strong> (CRN: <strong className="font-semibold text-text">17456264</strong>)</p>
+          <p>Office address: 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM</p>
           <p>Email: <a href={`mailto:${contactEmail}`} className="font-semibold text-[#FF6F00] underline underline-offset-4">{contactEmail}</a></p>
           <p>{t.footer.copyrightFull}</p>
           <div className="pt-5" aria-label={t.footer.securePayment}>

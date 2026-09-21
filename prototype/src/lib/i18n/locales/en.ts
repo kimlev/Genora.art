@@ -5,6 +5,7 @@ export const en: Dictionary = {
   nav: {
     why: "Why",
     agents: "Agents",
+    songs: "Songs",
     pricing: "Pricing",
     faq: "FAQ",
     signIn: "Sign in",
@@ -284,7 +285,7 @@ export const en: Dictionary = {
     headline: "From idea to finished visual — in one window",
     body: "Choose a model or a ready agent, add a description and a reference if you need one. Genora.art assembles the settings and saves the result to your history.",
     cta: "Open the generator",
-    imageAlt: "Futuristic Genora.art model station",
+    imageAlt: "Futuristic Genora.art creative workspace",
     items: [
       {
         title: "Text to image",
@@ -351,10 +352,10 @@ export const en: Dictionary = {
     ],
   },
   hero: {
-    badge: "No VPN or foreign cards",
-    titleBefore: "All top ",
-    titleAccent: "AI models",
-    titleAfter: " in one space",
+    badge: "A focused set of AI tools for everyday work",
+    titleBefore: "Explore ",
+    titleAccent: "AI tools",
+    titleAfter: " built for your next idea",
     promptPlaceholder:
       "Ask anything — we'll pick the best model for you...",
     demoMode: "20K tokens as a gift",
@@ -365,7 +366,7 @@ export const en: Dictionary = {
       "In demo mode Genora.art shows the reply here. Create an account to continue without limits.",
     ctaPrimary: "Try for free",
     ctaSecondary: "See demo",
-    trust: "40+ models · Pay-as-you-go · RU/EN",
+    trust: "40+ models · Usage-based pricing · RU/EN",
     messagesLabel: "messages",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const en: Dictionary = {
   why: {
     eyebrow: "Why Genora.art",
     title: "Fewer tools. More results.",
-    subtitle: "One interface instead of a dozen tabs and API keys",
+    subtitle: "Compare results, models, and costs from one workspace",
     items: [
       {
         title: "Instant access",
@@ -1195,9 +1196,9 @@ export const en: Dictionary = {
     title: "FAQ",
     items: [
       {
-        question: "What is the Genora.art AI aggregator?",
+        question: "How does Genora.art help you choose an AI model?",
         answer:
-          "Genora.art brings AI models from different providers into one interface. You do not need separate accounts, balances, or copy-paste workflows across multiple services.",
+          "Genora.art lets you compare tools from different providers in one workspace, with shared history and usage-based costs instead of separate service workflows.",
       },
       {
         question: "Which AI models are available?",
@@ -1247,14 +1248,14 @@ export const en: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — neural network aggregator with usage-based billing.",
+    tagline: "Genora.art brings text, image, video, and music tools into one workspace where you pay for what you use.",
     product: "Product",
     company: "Company",
     legal: "Legal",
     materials: "Materials",
     documentation: "Documentation",
     copyright: "© Genora.art. All rights reserved.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. All rights reserved.",
+    copyrightFull: "© Genora.art — Sangerto LTD. All rights reserved.",
     securePayment: "Secure payment",
     links: {
       models: "Models",
@@ -1297,8 +1298,8 @@ export const en: Dictionary = {
     pinLabel: "PIN code",
     pinHint: "Enter your account PIN code",
     pinInvalid: "Incorrect PIN code",
-    sideTitle: "Leading AI models in one workspace",
-    sideDescription: "Compare responses, run agents, and preserve important context without switching between services.",
+    sideTitle: "Tools for focused AI work",
+    sideDescription: "Compare responses, run agents, and keep useful context close to the task you are solving.",
     sideTriggers: ["40+ models", "Agents and memory", "Pay as you go"],
     pleaseWait: "Please wait…",
     signInFailed: "Could not sign you in",
@@ -1423,7 +1424,7 @@ export const en: Dictionary = {
           },
           {
             role: "assistant",
-            content: "Genora.art brings leading AI models into one interface with response comparison, ready agents, long-term memory, and transparent usage-based billing.",
+            content: "Genora.art helps you test several approaches in one workspace, reuse useful context, and track the cost of the work you keep.",
           },
         ],
       },
@@ -1517,7 +1518,7 @@ export const en: Dictionary = {
     aboutSections: [
       {
         title: "Mission",
-        body: "Genora.art brings top AI models into one workspace with transparent usage-based billing — no subscriptions or extra tabs.",
+        body: "Genora.art gives teams a practical workspace for trying AI tools, keeping useful history, and paying according to actual use.",
       },
       {
         title: "Who it's for",
@@ -1534,6 +1535,12 @@ export const en: Dictionary = {
       more: "Learn more",
       reject: "Decline",
       accept: "Accept",
+      settings: "Cookie settings",
+      customize: "Customize choices",
+      save: "Save choices",
+      essential: "Essential cookies — always enabled",
+      analytics: "Analytics",
+      advertising: "Advertising and personalization",
     },
   },
   support: {

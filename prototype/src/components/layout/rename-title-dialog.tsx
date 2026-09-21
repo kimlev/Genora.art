@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useT } from "@/components/providers/locale-provider";
 import { useEffect, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 
 const TITLE_LIMIT = 40;
 
@@ -21,11 +22,7 @@ export function RenameTitleDialog({
   const [value, setValue] = useState(initial.slice(0, TITLE_LIMIT));
 
   useEffect(() => {
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previous;
-    };
+    return acquireScrollLock();
   }, []);
 
   const submit = (event: FormEvent) => {

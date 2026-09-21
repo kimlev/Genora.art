@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/components/ui/locale-link";
 import { useLocaleRouter } from "@/lib/i18n/use-locale-push";
 import { IS_STAGING } from "@/lib/site-env";
+import NextLink from "next/link";
 import { useEffect, useState, type FormEvent } from "react";
 
 type AuthFormMode = "login" | "register";
@@ -57,10 +58,9 @@ export function AuthForm({ mode, googleEnabled = false, initialError = null, pin
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [pinRequired, setPinRequired] = useState(pinPending);
   const [pin, setPin] = useState("");
-  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue.trim()) && emailValue.trim().length <= 254;
   const passwordValid = passwordValue.length >= 8 && passwordValue.length <= 128;
   const passwordsMatch = passwordValid && passwordValue === confirmPasswordValue;
-  const registrationReady = emailValid && passwordsMatch && termsAccepted && privacyAccepted;
+  const showPasswordMismatch = isRegister && confirmPasswordValue.length > 0 && !passwordsMatch;
 
   const finishLogin = () => {
     router.push("/chat");
@@ -201,7 +201,7 @@ export function AuthForm({ mode, googleEnabled = false, initialError = null, pin
             nativeButton={false}
             variant="outline"
             className="h-11 w-full gap-3 bg-surface text-text hover:bg-mist"
-            render={<a href="/api/auth/google/start?next=%2Fchat" rel="nofollow" />}
+            render={<NextLink href="/api/auth/google/start?next=%2Fchat" rel="nofollow" />}
           >
             <GoogleMark />
             {t.auth.continueWith} Google
@@ -262,6 +262,8 @@ export function AuthForm({ mode, googleEnabled = false, initialError = null, pin
             type="password"
             autoComplete={isRegister ? "new-password" : "current-password"}
             required
+            minLength={8}
+            maxLength={128}
             className="h-10 bg-surface"
             value={passwordValue}
             onChange={(event) => setPasswordValue(event.target.value)}
@@ -286,12 +288,14 @@ export function AuthForm({ mode, googleEnabled = false, initialError = null, pin
                 type="password"
                 autoComplete="new-password"
                 required
-                aria-invalid={passwordMismatch}
+                minLength={8}
+                maxLength={128}
+                aria-invalid={passwordMismatch || showPasswordMismatch}
                 className="h-10 bg-surface"
                 value={confirmPasswordValue}
                 onChange={(event) => { setConfirmPasswordValue(event.target.value); setPasswordMismatch(false); }}
               />
-              {passwordMismatch ? (
+              {passwordMismatch || showPasswordMismatch ? (
                 <p className="text-sm text-destructive">{t.auth.passwordMismatch}</p>
               ) : null}
             </div>
@@ -342,7 +346,7 @@ export function AuthForm({ mode, googleEnabled = false, initialError = null, pin
 
         <Button
           type="submit"
-          disabled={submitting || !turnstileToken || (isRegister && !registrationReady)}
+          disabled={submitting || !turnstileToken}
           className={cn(
             "mt-1 h-10 w-full border-transparent bg-text text-surface hover:bg-text/90",
             "disabled:bg-text/40 disabled:text-surface/80",

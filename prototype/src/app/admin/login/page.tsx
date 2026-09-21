@@ -3,6 +3,6 @@ import { currentAdmin } from "@/lib/server/admin-session";
 import { redirect } from "next/navigation";
 
 export default async function AdminLoginPage() {
-  if (await currentAdmin()) redirect("/admin");
+  if (await currentAdmin()) redirect("/");
   return <AdminLoginForm/>;
 }

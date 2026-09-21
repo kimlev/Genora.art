@@ -1,6 +1,7 @@
 import "server-only";
 
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { createRemoteJWKSet, jwtVerify } from "jose";
 
 export const GOOGLE_STATE_COOKIE = "genora_google_oauth";
 export const GOOGLE_STATE_TTL_SECONDS = 10 * 60;
@@ -8,6 +9,7 @@ export const GOOGLE_STATE_TTL_SECONDS = 10 * 60;
 const AUTHORIZE_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth";
 const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
 const ISSUERS = new Set(["https://accounts.google.com", "accounts.google.com"]);
+const GOOGLE_JWKS = createRemoteJWKSet(new URL("https://www.googleapis.com/oauth2/v3/certs"));
 
 export type GoogleIdentity = {
   sub: string;
@@ -95,21 +97,15 @@ export async function exchangeCodeForIdentity(
   const payload = await response.json() as { id_token?: unknown };
   const idToken = typeof payload.id_token === "string" ? payload.id_token : null;
   if (!idToken) throw new Error("GOOGLE_ID_TOKEN_MISSING");
-  return parseIdToken(idToken, config.clientId);
+  return verifyIdToken(idToken, config.clientId);
 }
 
-// The token endpoint is called server-to-server over TLS, so the id_token signature is already
-// covered by the channel (OpenID Connect Core 3.1.3.7); only the claims still need checking.
-export function parseIdToken(idToken: string, clientId: string): GoogleIdentity {
-  const segments = idToken.split(".");
-  if (segments.length !== 3) throw new Error("GOOGLE_ID_TOKEN_MALFORMED");
-  const claims = JSON.parse(Buffer.from(segments[1], "base64url").toString("utf8")) as Record<string, unknown>;
-
-  const audience = claims.aud;
-  const audiences = Array.isArray(audience) ? audience : [audience];
-  if (!audiences.includes(clientId)) throw new Error("GOOGLE_ID_TOKEN_AUDIENCE_MISMATCH");
-  if (typeof claims.iss !== "string" || !ISSUERS.has(claims.iss)) throw new Error("GOOGLE_ID_TOKEN_ISSUER_MISMATCH");
-  if (typeof claims.exp !== "number" || claims.exp * 1000 <= Date.now()) throw new Error("GOOGLE_ID_TOKEN_EXPIRED");
+export async function verifyIdToken(idToken: string, clientId: string): Promise<GoogleIdentity> {
+  const { payload: claims } = await jwtVerify(idToken, GOOGLE_JWKS, {
+    algorithms: ["RS256"],
+    audience: clientId,
+    issuer: [...ISSUERS],
+  });
 
   const sub = typeof claims.sub === "string" ? claims.sub : "";
   const email = typeof claims.email === "string" ? claims.email.trim().toLowerCase() : "";

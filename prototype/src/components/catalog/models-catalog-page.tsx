@@ -30,11 +30,11 @@ function ModelCard({ model, description, openLabel, locale }: { model: PublicMod
       aria-label={`${openLabel}: ${model.name}`}
       className={cn("group flex h-full flex-col rounded-2xl border p-5 transition-all hover:shadow-[0_20px_60px_-40px_color-mix(in_oklch,var(--accent)_40%,transparent)]", tone.card)}
     >
-      <div className="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.12em] text-steel">
+      <div className={cn("mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.12em] text-steel", tone.title)}>
         <ProviderLogo provider={model.provider} className="size-7" />
         <span>{model.provider}</span>
       </div>
-      <h3 className="text-lg font-semibold tracking-tight text-text">{model.name}</h3>
+      <h3 className={cn("text-lg font-semibold tracking-tight text-text", tone.title)}>{model.name}</h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-steel">{description}</p>
       {model.kind !== "video" && model.tags?.length ? (
         <div className="mt-3 flex flex-wrap gap-1.5">

@@ -1,5 +1,6 @@
 import { isRetiredLocale } from "@/lib/i18n/served-locales";
 import { isRequestLocale, type Locale } from "@/lib/locale-from-request";
+import { IS_STAGING } from "@/lib/site-env";
 
 /** Разделы, которые живут без языкового префикса: API, админка, внешние интеграции */
 const UNLOCALIZED_SEGMENTS = ["api", "admin", "blogoro", "_next", "favicon"];
@@ -21,7 +22,8 @@ export function splitLocalePath(pathname: string): { locale: Locale | null; path
 export function splitRetiredLocalePath(pathname: string): { path: string } | null {
   const segments = pathname.split("/");
   const head = segments[1] ?? "";
-  if (!isRetiredLocale(head)) return null;
+  const unavailable = isRetiredLocale(head) || (!IS_STAGING && head === "ru");
+  if (!unavailable) return null;
   return { path: normalizePath(`/${segments.slice(2).join("/")}`) };
 }
 

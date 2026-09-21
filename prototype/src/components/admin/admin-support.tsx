@@ -6,6 +6,7 @@ import { Download, Languages, Loader2, Mail, Pencil, Plus, Send, Sparkles, Trash
 import { Switch } from "@/components/ui/switch";
 import { SUPPORT_MAIL_PROVIDERS } from "@/lib/support-mail-providers";
 import { looksLikeRussian } from "@/lib/support-translation";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 
 type SupportMessage = { id: string; direction: "inbound" | "outbound"; authorType: "client" | "agent" | "administrator"; content: string; createdAt: string };
 type Item = { id: string; publicId: string; name: string; email: string; inboxEmail?: string | null; topic: string; status: "new" | "in_progress" | "requires_human"; draftReply: string | null; createdAt: string; repliedAt: string | null; translationRu: string | null; translatedAt: string | null; readAt: string | null; messages: SupportMessage[] };
@@ -155,9 +156,7 @@ export function AdminSupport() {
 
   useEffect(() => {
     if (!selected) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = previous; };
+    return acquireScrollLock();
   }, [selected]);
 
   const open = (item: Item) => {

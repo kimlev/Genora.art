@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/server/admin-session";
 import { query } from "@/lib/server/db";
 import { jsonError } from "@/lib/server/http";
+import { adminRequestStatus, STALE_REQUEST_AFTER_MS } from "@/lib/job-status-policy";
 
 export const runtime = "nodejs";
 
@@ -16,12 +17,6 @@ type RequestRow = {
   costUsd: number;
   status: "success" | "running" | "error";
 };
-
-function asStatus(status: string, ackedAt: Date | null): RequestRow["status"] {
-  if (status === "failed") return "error";
-  if (status === "ready") return ackedAt ? "success" : "running";
-  return "running";
-}
 
 function lastThreeDaysFrom() {
   return new Date(Date.now() - 2 * 86400_000).toISOString().slice(0, 10);
@@ -102,14 +97,14 @@ export async function GET(request: Request) {
        ) items
        WHERE ($6 = '' OR (
          CASE
-           WHEN status = 'failed' THEN 'error'
-           WHEN status = 'ready' AND acked_at IS NOT NULL THEN 'success'
+           WHEN status = 'failed' OR (status = 'creating' AND created_at < now() - ($7::bigint * interval '1 millisecond')) THEN 'error'
+           WHEN status = 'ready' THEN 'success'
            ELSE 'running'
          END
        ) = $6)
        ORDER BY created_at DESC
        LIMIT 2000`,
-      [from, to, userId, type, model, status],
+      [from, to, userId, type, model, status, STALE_REQUEST_AFTER_MS],
     );
     const items: RequestRow[] = rows.map((row) => ({
       id: row.id,
@@ -121,7 +116,7 @@ export async function GET(request: Request) {
       agent: row.agent,
       provider: row.provider,
       costUsd: Number(row.cost_usd ?? 0),
-      status: asStatus(row.status, row.acked_at),
+      status: adminRequestStatus(row.status, row.created_at),
     }));
     const modelRows = await query<{ model_label: string; provider: string | null }>(
       `SELECT model_label, MIN(provider) AS provider FROM (

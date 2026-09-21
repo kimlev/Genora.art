@@ -2,6 +2,7 @@ import { LegalMarkdownDocument } from "@/components/legal/legal-markdown-documen
 import { legalTextLocale, requestLocale } from "@/lib/i18n/request-locale";
 import { getLegalDocument, legalDocuments } from "@/lib/legal/documents";
 import { pageUrl, SITE_NAME } from "@/lib/seo";
+import { IS_STAGING } from "@/lib/site-env";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -12,11 +13,12 @@ export function generateStaticParams() {
 }
 
 function legalLanguages(slug: string) {
-  return {
+  const languages: Record<string, string> = {
     "x-default": pageUrl(`/legal/${slug}`),
-    ru: pageUrl(`/legal/${slug}`),
     en: pageUrl(`/legal/${slug}`, "en"),
   };
+  if (IS_STAGING) languages.ru = pageUrl(`/legal/${slug}`);
+  return languages;
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps<"/[locale]/legal/[slug]">): Promise<Metadata> {
@@ -32,7 +34,7 @@ export async function generateMetadata({ params, searchParams }: PageProps<"/[lo
   return {
     title,
     description,
-    robots: { index: true, follow: true },
+    robots: { index: !IS_STAGING, follow: !IS_STAGING },
     alternates: { canonical: url, languages: legalLanguages(slug) },
     openGraph: {
       type: "article",

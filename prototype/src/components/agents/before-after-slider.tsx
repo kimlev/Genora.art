@@ -85,8 +85,8 @@ export function BeforeAfterSlider({
           До и после
         </span>
         <span aria-hidden className="flex gap-0.5">
-          <span className="h-3 w-px bg-current" />
-          <span className="h-3 w-px bg-current" />
+          <span className="h-3 w-px bg-[#111111]" />
+          <span className="h-3 w-px bg-[#111111]" />
         </span>
       </div>
       <input

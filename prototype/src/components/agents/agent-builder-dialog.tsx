@@ -15,6 +15,7 @@ import { BadgeIcon, Bot, BrainCircuit, BriefcaseBusiness, Check, ChevronDown, Co
 import { useLocaleRouter } from "@/lib/i18n/use-locale-push";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 
 export const AGENT_BUILDER_EVENT = "genora-open-agent-builder";
 export const AGENT_BUILDER_CLOSE_EVENT = "genora-close-agent-builder";
@@ -140,11 +141,7 @@ export function AgentBuilderDialog() {
 
   useEffect(() => {
     if (!draft) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
+    return acquireScrollLock();
   }, [draft]);
 
   const contextLabel = (context: AgentCategory) => ({

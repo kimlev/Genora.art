@@ -3,8 +3,8 @@ import "server-only";
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
 export async function verifyTurnstile(token: unknown, remoteIp: string | null | undefined, action: string): Promise<boolean> {
-  if (process.env.NEXT_PUBLIC_STAGING === "1") return true;
   const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
+  if (process.env.NEXT_PUBLIC_STAGING === "1" && !secret) return true;
   if (!secret) return process.env.NODE_ENV !== "production";
   const responseToken = typeof token === "string" ? token.trim() : "";
   if (!responseToken || responseToken.length > 2_048) return false;

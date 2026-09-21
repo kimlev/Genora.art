@@ -1,6 +1,7 @@
 import "server-only";
 
 import { indexNowPayload, isIndexNowKey } from "@/lib/indexnow";
+import { IS_STAGING } from "@/lib/site-env";
 
 /** Общая точка приёма IndexNow: она раздаёт адреса всем участникам протокола, включая Яндекс и Bing */
 const ENDPOINT = "https://api.indexnow.org/indexnow";
@@ -18,7 +19,7 @@ export function isIndexNowConfigured(): boolean {
 export type IndexNowResult = {
   submitted: number;
   status: number | null;
-  reason?: "not-configured" | "no-urls" | "rejected" | "request-failed";
+  reason?: "disabled-on-dev" | "not-configured" | "no-urls" | "rejected" | "request-failed";
 };
 
 /**
@@ -26,6 +27,7 @@ export type IndexNowResult = {
  * Google этот протокол не поддерживает и узнаёт о страницах из карты сайта.
  */
 export async function submitToIndexNow(urls: string[]): Promise<IndexNowResult> {
+  if (IS_STAGING) return { submitted: 0, status: null, reason: "disabled-on-dev" };
   const key = indexNowKey();
   if (!key) return { submitted: 0, status: null, reason: "not-configured" };
 

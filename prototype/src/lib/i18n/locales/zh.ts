@@ -5,6 +5,7 @@ export const zh: Dictionary = {
   nav: {
     why: "为什么",
     agents: "智能体",
+    songs: "歌曲",
     pricing: "价格",
     faq: "FAQ",
     signIn: "登录",
@@ -351,10 +352,10 @@ export const zh: Dictionary = {
     ],
   },
   hero: {
-    badge: "无需 VPN 或境外银行卡",
-    titleBefore: "所有顶尖 ",
-    titleAccent: "AI 模型",
-    titleAfter: " 集于一处",
+    badge: "为日常工作精选的 AI 工具",
+    titleBefore: "探索适合下一项创意的 ",
+    titleAccent: "AI 工具",
+    titleAfter: "吧",
     promptPlaceholder:
       "随便问——我们会为你挑选最合适的模型……",
     demoMode: "赠送 20K tokens",
@@ -365,7 +366,7 @@ export const zh: Dictionary = {
       "演示模式下，Genora.art 会在这里显示回复。创建账户即可继续，不受限制。",
     ctaPrimary: "免费试用",
     ctaSecondary: "查看演示",
-    trust: "40+ 模型 · Pay-as-you-go · RU/EN",
+    trust: "40+ 模型 · 按使用量计费 · RU/EN",
     messagesLabel: "条消息",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const zh: Dictionary = {
   why: {
     eyebrow: "为什么选择 Genora.art",
     title: "更少工具。更多结果。",
-    subtitle: "一个界面，代替十几个标签页和 API 密钥",
+    subtitle: "在一个工作空间中比较结果、模型和成本",
     items: [
       {
         title: "即刻可用",
@@ -1243,14 +1244,14 @@ export const zh: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — 按用量计费的神经网络聚合器。",
+    tagline: "Genora.art 将文本、图像、视频和音乐工具汇集到一个灵活的创作空间。",
     product: "产品",
     company: "公司",
     legal: "法律信息",
     materials: "资料",
     documentation: "文档",
     copyright: "© Genora.art. 保留所有权利。",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. 保留所有权利。",
+    copyrightFull: "© Genora.art — Sangerto LTD. 保留所有权利。",
     securePayment: "安全支付",
     links: {
       models: "模型",
@@ -1293,8 +1294,8 @@ export const zh: Dictionary = {
     pinLabel: "PIN 码",
     pinHint: "请输入账户 PIN 码",
     pinInvalid: "PIN 码不正确",
-    sideTitle: "领先的 AI 模型，集中在一个工作空间",
-    sideDescription: "对比回答、运行智能体，并保留重要上下文，不必在服务之间切换。",
+    sideTitle: "专注 AI 工作所需的工具",
+    sideDescription: "对比回答、运行智能体，并让有用的上下文始终贴近当前任务。",
     sideTriggers: ["40+ 模型", "智能体与记忆", "按用量付费"],
     pleaseWait: "请稍候…",
     signInFailed: "登录失败",
@@ -1509,7 +1510,7 @@ export const zh: Dictionary = {
     aboutSections: [
       {
         title: "使命",
-        body: "Genora.art 把顶尖 AI 模型集中到一个工作空间，按用量透明计费——没有订阅，也不必多开标签页。",
+        body: "Genora.art为团队提供实用的工作空间，用于试用 AI 工具、保存有价值的历史记录，并按实际使用量付费。",
       },
       {
         title: "适合谁",

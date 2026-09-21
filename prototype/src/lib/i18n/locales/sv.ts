@@ -5,6 +5,7 @@ export const sv: Dictionary = {
   nav: {
     why: "Varför",
     agents: "Agenter",
+    songs: "Låtar",
     pricing: "Priser",
     faq: "FAQ",
     signIn: "Logga in",
@@ -351,10 +352,10 @@ export const sv: Dictionary = {
     ],
   },
   hero: {
-    badge: "Inget VPN eller utländska kort",
-    titleBefore: "Alla ledande ",
-    titleAccent: "AI-modeller",
-    titleAfter: " på ett ställe",
+    badge: "Ett utvalt urval AI-verktyg för vardagens arbete",
+    titleBefore: "Upptäck ",
+    titleAccent: "AI-verktyg",
+    titleAfter: " för din nästa idé",
     promptPlaceholder:
       "Fråga vad som helst — vi väljer den bästa modellen åt dig...",
     demoMode: "20K tokens i present",
@@ -365,7 +366,7 @@ export const sv: Dictionary = {
       "I demoläget visar Genora.art svaret här. Skapa ett konto för att fortsätta utan gränser.",
     ctaPrimary: "Prova gratis",
     ctaSecondary: "Se demo",
-    trust: "40+ modeller · Pay-as-you-go · RU/EN",
+    trust: "40+ modeller · Betala efter användning · RU/EN",
     messagesLabel: "meddelanden",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const sv: Dictionary = {
   why: {
     eyebrow: "Varför Genora.art",
     title: "Färre verktyg. Mer resultat.",
-    subtitle: "Ett gränssnitt i stället för dussintals flikar och API-nycklar",
+    subtitle: "Jämför resultat, modeller och kostnader från en och samma arbetsyta",
     items: [
       {
         title: "Direkt åtkomst",
@@ -1243,14 +1244,14 @@ export const sv: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — aggregator för neurala nätverk med användningsbaserad fakturering.",
+    tagline: "Genora.art samlar verktyg för text, bilder, video och musik i en flexibel arbetsyta.",
     product: "Produkt",
     company: "Företag",
     legal: "Juridiskt",
     materials: "Material",
     documentation: "Dokumentation",
     copyright: "© Genora.art. Alla rättigheter förbehållna.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Alla rättigheter förbehållna.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Alla rättigheter förbehållna.",
     securePayment: "Säker betalning",
     links: {
       models: "Modeller",
@@ -1293,8 +1294,8 @@ export const sv: Dictionary = {
     pinLabel: "PIN-kod",
     pinHint: "Ange kontots PIN-kod",
     pinInvalid: "Felaktig PIN-kod",
-    sideTitle: "Ledande AI-modeller i en arbetsyta",
-    sideDescription: "Jämför svar, kör agenter och bevara viktig kontext utan att byta mellan tjänster.",
+    sideTitle: "Verktyg för fokuserat AI-arbete",
+    sideDescription: "Jämför svar, kör agenter och behåll användbar kontext nära uppgiften du arbetar med.",
     sideTriggers: ["40+ modeller", "Agenter och minne", "Pay as you go"],
     pleaseWait: "Vänta…",
     signInFailed: "Det gick inte att logga in",
@@ -1509,7 +1510,7 @@ export const sv: Dictionary = {
     aboutSections: [
       {
         title: "Uppdrag",
-        body: "Genora.art samlar ledande AI-modeller i en arbetsyta med transparent användningsbaserad fakturering — utan prenumerationer eller extra flikar.",
+        body: "Genora.art ger team en praktisk arbetsyta för att prova AI-verktyg, spara användbar historik och betala efter faktisk användning.",
       },
       {
         title: "För vem det är",

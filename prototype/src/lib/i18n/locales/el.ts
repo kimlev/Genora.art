@@ -5,6 +5,7 @@ export const el: Dictionary = {
   nav: {
     why: "Γιατί",
     agents: "Πράκτορες",
+    songs: "Τραγούδια",
     pricing: "Τιμές",
     faq: "FAQ",
     signIn: "Σύνδεση",
@@ -351,10 +352,10 @@ export const el: Dictionary = {
     ],
   },
   hero: {
-    badge: "Χωρίς VPN ή ξένες κάρτες",
-    titleBefore: "Όλα τα κορυφαία ",
-    titleAccent: "μοντέλα AI",
-    titleAfter: " σε έναν χώρο",
+    badge: "Μια επιλεγμένη συλλογή εργαλείων AI για την καθημερινή εργασία",
+    titleBefore: "Ανακαλύψτε ",
+    titleAccent: "εργαλεία AI",
+    titleAfter: " για την επόμενη ιδέα σας",
     promptPlaceholder:
       "Ρωτήστε οτιδήποτε — θα διαλέξουμε το καλύτερο μοντέλο...",
     demoMode: "20K tokens δώρο",
@@ -365,7 +366,7 @@ export const el: Dictionary = {
       "Στη λειτουργία επίδειξης το Genora.art δείχνει την απάντηση εδώ. Δημιουργήστε λογαριασμό για να συνεχίσετε χωρίς όρια.",
     ctaPrimary: "Δοκιμάστε δωρεάν",
     ctaSecondary: "Δείτε επίδειξη",
-    trust: "40+ μοντέλα · Pay-as-you-go · RU/EN",
+    trust: "40+ μοντέλα · Χρέωση ανά χρήση · RU/EN",
     messagesLabel: "μηνύματα",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const el: Dictionary = {
   why: {
     eyebrow: "Γιατί Genora.art",
     title: "Λιγότερα εργαλεία. Περισσότερα αποτελέσματα.",
-    subtitle: "Μία διεπαφή αντί για δεκάδες καρτέλες και κλειδιά API",
+    subtitle: "Συγκρίνετε αποτελέσματα, μοντέλα και κόστος από έναν ενιαίο χώρο εργασίας",
     items: [
       {
         title: "Άμεση πρόσβαση",
@@ -1243,14 +1244,14 @@ export const el: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — συγκεντρωτής νευρωνικών δικτύων με χρέωση ανά χρήση.",
+    tagline: "Το Genora.art συγκεντρώνει εργαλεία κειμένου, εικόνας, βίντεο και μουσικής σε έναν ευέλικτο χώρο εργασίας.",
     product: "Προϊόν",
     company: "Εταιρεία",
     legal: "Νομικά",
     materials: "Υλικό",
     documentation: "Τεκμηρίωση",
     copyright: "© Genora.art. Με επιφύλαξη παντός δικαιώματος.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Με επιφύλαξη παντός δικαιώματος.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Με επιφύλαξη παντός δικαιώματος.",
     securePayment: "Ασφαλής πληρωμή",
     links: {
       models: "Μοντέλα",
@@ -1293,8 +1294,8 @@ export const el: Dictionary = {
     pinLabel: "Κωδικός PIN",
     pinHint: "Εισαγάγετε τον κωδικό PIN του λογαριασμού",
     pinInvalid: "Λάθος κωδικός PIN",
-    sideTitle: "Κορυφαία μοντέλα AI σε έναν χώρο εργασίας",
-    sideDescription: "Συγκρίνετε απαντήσεις, εκτελέστε πράκτορες και διατηρήστε σημαντικό πλαίσιο χωρίς εναλλαγή υπηρεσιών.",
+    sideTitle: "Εργαλεία για στοχευμένη εργασία με AI",
+    sideDescription: "Συγκρίνετε απαντήσεις, εκτελέστε πράκτορες και κρατήστε χρήσιμο πλαίσιο δίπλα στην εργασία σας.",
     sideTriggers: ["40+ μοντέλα", "Πράκτορες και μνήμη", "Pay as you go"],
     pleaseWait: "Περιμένετε…",
     signInFailed: "Η σύνδεση δεν ολοκληρώθηκε",
@@ -1509,7 +1510,7 @@ export const el: Dictionary = {
     aboutSections: [
       {
         title: "Αποστολή",
-        body: "Το Genora.art συγκεντρώνει κορυφαία μοντέλα AI σε έναν χώρο εργασίας με διαφανή χρέωση ανά χρήση — χωρίς συνδρομές ή επιπλέον καρτέλες.",
+        body: "Το Genora.art προσφέρει στις ομάδες έναν πρακτικό χώρο για δοκιμή εργαλείων AI, διατήρηση χρήσιμου ιστορικού και χρέωση με βάση την πραγματική χρήση.",
       },
       {
         title: "Για ποιον είναι",

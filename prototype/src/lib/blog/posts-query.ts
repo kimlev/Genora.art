@@ -1,11 +1,9 @@
 import "server-only";
 
 import { getPublishedPost, listPublishedPosts } from "@/lib/blog/published";
-import { fallbackPosts, type BlogPost } from "@/lib/blog/posts";
-import { IS_STAGING } from "@/lib/site-env";
+import { type BlogPost } from "@/lib/blog/posts";
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  if (IS_STAGING) return [];
   const published = await listPublishedPosts();
   const live: BlogPost[] = [...published];
 
@@ -26,7 +24,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     }
   }
 
-  const posts = live.length ? live : fallbackPosts;
+  const posts = live;
   return [...posts].sort((left, right) => right.publishedAt.localeCompare(left.publishedAt));
 }
 

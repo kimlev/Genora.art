@@ -5,6 +5,7 @@ export const tr: Dictionary = {
   nav: {
     why: "Neden",
     agents: "Ajanlar",
+    songs: "Şarkılar",
     pricing: "Fiyatlar",
     faq: "FAQ",
     signIn: "Giriş yap",
@@ -351,10 +352,10 @@ export const tr: Dictionary = {
     ],
   },
   hero: {
-    badge: "VPN veya yabancı kart yok",
-    titleBefore: "Tüm önde gelen ",
-    titleAccent: "AI modelleri",
-    titleAfter: " tek alanda",
+    badge: "Günlük işler için seçilmiş AI araçları",
+    titleBefore: "Bir sonraki fikriniz için ",
+    titleAccent: "AI araçlarını",
+    titleAfter: " keşfedin",
     promptPlaceholder:
       "Her şeyi sorun — sizin için en iyi modeli seçeceğiz...",
     demoMode: "20K token hediye",
@@ -365,7 +366,7 @@ export const tr: Dictionary = {
       "Demo modunda Genora.art yanıtı burada gösterir. Sınırsız devam etmek için hesap oluşturun.",
     ctaPrimary: "Ücretsiz dene",
     ctaSecondary: "Demoyu gör",
-    trust: "40+ model · Pay-as-you-go · RU/EN",
+    trust: "40+ model · Kullanım bazlı fiyatlandırma · RU/EN",
     messagesLabel: "mesaj",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const tr: Dictionary = {
   why: {
     eyebrow: "Neden Genora.art",
     title: "Daha az araç. Daha çok sonuç.",
-    subtitle: "Onlarca sekme ve API anahtarı yerine tek arayüz",
+    subtitle: "Sonuçları, modelleri ve maliyetleri tek bir çalışma alanından karşılaştırın",
     items: [
       {
         title: "Anında erişim",
@@ -1243,14 +1244,14 @@ export const tr: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — kullanıma göre faturalanan sinir ağı toplayıcısı.",
+    tagline: "Genora.art metin, görsel, video ve müzik araçlarını tek bir çalışma alanında bir araya getirir.",
     product: "Ürün",
     company: "Şirket",
     legal: "Yasal",
     materials: "Materyaller",
     documentation: "Dokümantasyon",
     copyright: "© Genora.art. Tüm hakları saklıdır.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. Tüm hakları saklıdır.",
+    copyrightFull: "© Genora.art — Sangerto LTD. Tüm hakları saklıdır.",
     securePayment: "Güvenli ödeme",
     links: {
       models: "Modeller",
@@ -1293,8 +1294,8 @@ export const tr: Dictionary = {
     pinLabel: "PIN kodu",
     pinHint: "Hesap PIN kodunu girin",
     pinInvalid: "Yanlış PIN kodu",
-    sideTitle: "Önde gelen AI modelleri tek çalışma alanında",
-    sideDescription: "Servisler arasında geçiş yapmadan yanıtları karşılaştırın, ajan çalıştırın ve önemli bağlamı koruyun.",
+    sideTitle: "Odaklı AI çalışması için araçlar",
+    sideDescription: "Yanıtları karşılaştırın, ajanları çalıştırın ve yararlı bağlamı görevinizin yanında tutun.",
     sideTriggers: ["40+ model", "Ajanlar ve bellek", "Pay as you go"],
     pleaseWait: "Lütfen bekleyin…",
     signInFailed: "Giriş yapılamadı",
@@ -1509,7 +1510,7 @@ export const tr: Dictionary = {
     aboutSections: [
       {
         title: "Misyon",
-        body: "Genora.art önde gelen AI modellerini tek çalışma alanında, şeffaf kullanıma dayalı faturalamayla birleştirir — abonelik veya ekstra sekme yok.",
+        body: "Genora.art ekiplerin AI araçlarını denemesi, yararlı geçmişi koruması ve gerçek kullanıma göre ödeme yapması için pratik bir çalışma alanı sunar.",
       },
       {
         title: "Kimin için",

@@ -1,12 +1,9 @@
 "use client";
 
-import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
-
-const MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-D07763XPWC";
-const CONSENT_KEY = "genora-cookie-consent";
-const CONSENT_EVENT = "genora-cookie-consent-change";
+import { CONSENT_CHANGE_EVENT, CONSENT_STORAGE_KEY, googleConsentSignals, parseCookieConsent } from "@/lib/cookie-consent";
+import { IS_STAGING } from "@/lib/site-env";
 
 declare global {
   interface Window {
@@ -17,49 +14,37 @@ declare global {
 
 function subscribe(callback: () => void) {
   window.addEventListener("storage", callback);
-  window.addEventListener(CONSENT_EVENT, callback);
+  window.addEventListener(CONSENT_CHANGE_EVENT, callback);
   return () => {
     window.removeEventListener("storage", callback);
-    window.removeEventListener(CONSENT_EVENT, callback);
+    window.removeEventListener(CONSENT_CHANGE_EVENT, callback);
   };
 }
 
 function snapshot() {
-  return localStorage.getItem(CONSENT_KEY) ?? "pending";
+  return localStorage.getItem(CONSENT_STORAGE_KEY) ?? "";
 }
 
 export function GoogleAnalytics() {
-  const consent = useSyncExternalStore(subscribe, snapshot, () => "pending");
+  const storedConsent = useSyncExternalStore(subscribe, snapshot, () => "");
+  const consent = parseCookieConsent(storedConsent);
+  const analyticsGranted = consent?.analytics === true;
   const pathname = usePathname();
-
-  if (!MEASUREMENT_ID) return null;
 
   useEffect(() => {
     window.dataLayer = window.dataLayer ?? [];
     window.gtag = window.gtag ?? function gtag(...args: unknown[]) { window.dataLayer?.push(args); };
-    window.gtag("consent", "update", {
-      analytics_storage: consent === "accepted" ? "granted" : "denied",
-      ad_storage: "denied",
-      ad_user_data: "denied",
-      ad_personalization: "denied",
-    });
-  }, [consent]);
+    window.gtag("consent", "update", googleConsentSignals(parseCookieConsent(storedConsent)));
+  }, [storedConsent]);
 
   useEffect(() => {
-    if (consent !== "accepted") return;
+    if (IS_STAGING || !analyticsGranted) return;
     window.gtag?.("event", "page_view", {
       page_path: pathname,
       page_location: window.location.href,
       page_title: document.title,
     });
-  }, [consent, pathname]);
+  }, [analyticsGranted, pathname]);
 
-  return (
-    <>
-      <Script id="genora-google-consent" strategy="afterInteractive">
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});gtag('js',new Date());gtag('config','${MEASUREMENT_ID}',{send_page_view:false,anonymize_ip:true});`}
-      </Script>
-      <Script async src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`} strategy="afterInteractive" />
-    </>
-  );
+  return null;
 }

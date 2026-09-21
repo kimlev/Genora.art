@@ -1,5 +1,4 @@
 import { FaqAccordion } from "@/components/catalog/faq-accordion";
-import { SeoArticle } from "@/components/catalog/seo-article";
 import { SeoArticlePlaceholder } from "@/components/catalog/seo-article-placeholder";
 import type { Locale } from "@/lib/i18n";
 import { pageUrl, SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
@@ -17,14 +16,8 @@ type Props = {
 };
 
 export async function BlogoroSeoArticleSlot({ pagePath, articleId, locale }: Props) {
-  if (IS_STAGING) return null;
   const published = await getBlogoroPageSection(pagePath, locale);
-  if (!published) {
-    if (locale === "ru" && (articleId === "images" || articleId === "models" || articleId === "videos")) {
-      return <SeoArticle articleId={articleId} pagePath={pagePath} />;
-    }
-    return <SeoArticlePlaceholder locale={locale} />;
-  }
+  if (!published) return IS_STAGING ? <SeoArticlePlaceholder locale={locale} /> : null;
 
   const canonical = pageUrl(pagePath, locale);
   const description = published.metaDescription || published.openGraph.description || published.title;

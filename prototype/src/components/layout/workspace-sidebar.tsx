@@ -35,7 +35,7 @@ import { Link } from "@/components/ui/locale-link";
 import { useAppPathname } from "@/lib/i18n/use-app-pathname";
 import { useLocalePrefetch, useLocalePush, useLocaleRouter } from "@/lib/i18n/use-locale-push";
 import type { BattleSession } from "@/lib/battle-history";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 type WorkspaceSidebarProps = {
   onNavigate?: () => void;
@@ -53,21 +53,22 @@ type DeleteTarget =
 const SECTION_ORDER: Surface[] = ["chat", "images", "audio", "gallery", "agents", "battle", "rating"];
 const EXPANDABLE = new Set<Surface>(["chat", "images", "audio", "agents", "battle"]);
 const AUTH_TOGGLE_ONLY = new Set<Surface>(["chat", "images", "battle"]);
-const AUTHENTICATED_PREFETCH_PATHS = [
-  "/chat",
-  CREATE_FOTO_VIDEO_PATH,
-  "/music",
-  "/gallery",
-  "/agents",
-  "/battle",
-  "/rating",
-  "/profile",
-] as const;
 
 function preloadableSurfaceForHref(href: SurfaceHref): PreloadableAuthenticatedSurface | null {
   if (href === CREATE_FOTO_VIDEO_PATH) return "images";
   if (href === "/music") return "music";
   return null;
+}
+
+function isPersistentSurfaceHref(href: SurfaceHref): boolean {
+  return href === "/chat"
+    || href === CREATE_FOTO_VIDEO_PATH
+    || href === "/image-examples"
+    || href === "/video-examples"
+    || href === "/music"
+    || href === "/battle"
+    || href === "/agents"
+    || href === "/rating";
 }
 
 function surfaceFromPath(pathname: string): Surface {
@@ -221,7 +222,6 @@ export function WorkspaceSidebar({ onNavigate, className }: WorkspaceSidebarProp
   const [rename, setRename] = useState<RenameTarget>(null);
   const [pendingDelete, setPendingDelete] = useState<DeleteTarget>(null);
   const [openSections, setOpenSections] = useState<Surface[]>(() => [surfaceFromPath(pathname)]);
-  const navigationRequest = useRef(0);
 
   const active = surfaceFromPath(pathname);
   const destGuest = IS_STAGING && !user;
@@ -239,11 +239,6 @@ export function WorkspaceSidebar({ onNavigate, className }: WorkspaceSidebarProp
     setOpenSections((current) => current.includes(active) ? current : [...current, active]);
   }, [active]);
 
-  useEffect(() => {
-    if (!authReady || !user) return;
-    AUTHENTICATED_PREFETCH_PATHS.forEach(prefetchLocale);
-  }, [authReady, prefetchLocale, user]);
-
   const hrefForSurface = (item: Surface): SurfaceHref => {
     if (item === "chat") return "/chat";
     if (item === "images") return CREATE_FOTO_VIDEO_PATH;
@@ -255,20 +250,18 @@ export function WorkspaceSidebar({ onNavigate, className }: WorkspaceSidebarProp
   };
 
   const openSurface = (href: SurfaceHref) => {
-    const request = ++navigationRequest.current;
-    onNavigate?.();
-    if (pathname === href) return;
-
-    const navigate = () => {
-      if (request === navigationRequest.current) pushLocale(href);
-    };
-    const preloadableSurface = preloadableSurfaceForHref(href);
-    if (!preloadableSurface) {
-      navigate();
-      return;
+    if (pathname !== href) {
+      const preloadableSurface = preloadableSurfaceForHref(href);
+      if (preloadableSurface) void preloadAuthenticatedSurface(preloadableSurface);
+      pushLocale(href);
     }
+    onNavigate?.();
+  };
 
-    void preloadAuthenticatedSurface(preloadableSurface).then(navigate, navigate);
+  const prepareSurface = (href: SurfaceHref) => {
+    if (!user || !isPersistentSurfaceHref(href)) prefetchLocale(href);
+    const preloadableSurface = preloadableSurfaceForHref(href);
+    if (preloadableSurface) void preloadAuthenticatedSurface(preloadableSurface);
   };
 
   const toggleSection = (item: Surface) => {
@@ -447,22 +440,22 @@ export function WorkspaceSidebar({ onNavigate, className }: WorkspaceSidebarProp
                       ) : null}
                       {item === "images" ? (
                         <>
-                          <button type="button" onClick={createImage} className={rowClass(isImageStudioPath(pathname))}>
+                          <button type="button" onPointerEnter={() => prepareSurface(CREATE_FOTO_VIDEO_PATH)} onFocus={() => prepareSurface(CREATE_FOTO_VIDEO_PATH)} onClick={createImage} className={rowClass(isImageStudioPath(pathname))}>
                             {sectionUnread ? <SurfaceLamp unread /> : <Plus className="size-3.5 shrink-0 text-accent-brand" />}
                             {t.workspace.menuPhotoCreate}
                           </button>
-                          <button type="button" onClick={() => openSurface("/image-examples")} className={rowClass(pathname.startsWith("/image-examples"))}>
+                          <button type="button" onPointerEnter={() => prepareSurface("/image-examples")} onFocus={() => prepareSurface("/image-examples")} onClick={() => openSurface("/image-examples")} className={rowClass(pathname.startsWith("/image-examples"))}>
                             <ImageIcon className="size-3.5 shrink-0 text-accent-brand" />
                             {t.workspace.menuPhotoTemplates}
                           </button>
-                          <button type="button" onClick={() => openSurface("/video-examples")} className={rowClass(pathname.startsWith("/video-examples"))}>
+                          <button type="button" onPointerEnter={() => prepareSurface("/video-examples")} onFocus={() => prepareSurface("/video-examples")} onClick={() => openSurface("/video-examples")} className={rowClass(pathname.startsWith("/video-examples"))}>
                             <Clapperboard className="size-3.5 shrink-0 text-accent-brand" />
                             {t.workspace.menuVideoTemplates}
                           </button>
                         </>
                       ) : null}
                       {item === "audio" ? (
-                        <button type="button" onClick={() => openSurface("/music")} className={rowClass(pathname.startsWith("/music"))}>
+                        <button type="button" onPointerEnter={() => prepareSurface("/music")} onFocus={() => prepareSurface("/music")} onClick={() => openSurface("/music")} className={rowClass(pathname.startsWith("/music"))}>
                           {sectionUnread ? <SurfaceLamp unread /> : <Plus className="size-3.5 shrink-0 text-accent-brand" />}
                           {t.workspace.menuMusicCreate}
                         </button>

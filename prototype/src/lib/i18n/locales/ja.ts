@@ -5,6 +5,7 @@ export const ja: Dictionary = {
   nav: {
     why: "選ばれる理由",
     agents: "エージェント",
+    songs: "曲",
     pricing: "料金",
     faq: "FAQ",
     signIn: "ログイン",
@@ -351,10 +352,10 @@ export const ja: Dictionary = {
     ],
   },
   hero: {
-    badge: "VPNも海外カードも不要",
-    titleBefore: "主要な",
-    titleAccent: "AIモデル",
-    titleAfter: "をひとつの空間に",
+    badge: "日々の仕事に役立つAIツールを厳選",
+    titleBefore: "次のアイデアに向けて ",
+    titleAccent: "AIツール",
+    titleAfter: "を見つけましょう",
     promptPlaceholder:
       "何でも聞いてください — 最適なモデルを選びます...",
     demoMode: "2万トークンをプレゼント",
@@ -365,7 +366,7 @@ export const ja: Dictionary = {
       "デモモードでは、Genora.artがここに返信を表示します。制限なく続けるにはアカウントを作成してください。",
     ctaPrimary: "無料で試す",
     ctaSecondary: "デモを見る",
-    trust: "40以上のモデル · Pay-as-you-go · RU/EN",
+    trust: "40以上のモデル · 従量課金 · RU/EN",
     messagesLabel: "メッセージ",
     entries: {
       text: {
@@ -385,7 +386,7 @@ export const ja: Dictionary = {
   why: {
     eyebrow: "Genora.artが選ばれる理由",
     title: "ツールは少なく。成果は多く。",
-    subtitle: "何十ものタブとAPIキーの代わりに、ひとつの画面",
+    subtitle: "ひとつのワークスペースで結果・モデル・費用を比較できます",
     items: [
       {
         title: "すぐ使える",
@@ -1243,14 +1244,14 @@ export const ja: Dictionary = {
     ],
   },
   footer: {
-    tagline: "Genora.art — 従量課金のニューラルネットワークアグリゲーター。",
+    tagline: "Genora.artは、テキスト・画像・動画・音楽のツールを一つの制作スペースにまとめます。",
     product: "プロダクト",
     company: "会社",
     legal: "法務",
     materials: "資料",
     documentation: "ドキュメント",
     copyright: "© Genora.art. All rights reserved.",
-    copyrightFull: "© Genora.art — ELVARON LIMITED. All rights reserved.",
+    copyrightFull: "© Genora.art — Sangerto LTD. All rights reserved.",
     securePayment: "安全な支払い",
     links: {
       models: "モデル",
@@ -1293,8 +1294,8 @@ export const ja: Dictionary = {
     pinLabel: "PINコード",
     pinHint: "アカウントのPINコードを入力してください",
     pinInvalid: "PINコードが正しくありません",
-    sideTitle: "有力なAIモデルをひとつのワークスペースに",
-    sideDescription: "サービスを切り替えずに、回答の比較、エージェントの実行、重要な文脈の保持ができます。",
+    sideTitle: "目的に集中できるAIツール",
+    sideDescription: "回答を比較し、エージェントを実行し、役立つ文脈を作業のそばに保てます。",
     sideTriggers: ["40以上のモデル", "エージェントとメモリ", "Pay as you go"],
     pleaseWait: "お待ちください…",
     signInFailed: "ログインできませんでした",
@@ -1509,7 +1510,7 @@ export const ja: Dictionary = {
     aboutSections: [
       {
         title: "ミッション",
-        body: "Genora.artは有力なAIモデルをひとつのワークスペースにまとめ、透明な従量課金で提供します。サブスクも余分なタブもありません。",
+        body: "Genora.artは、AIツールの試用、役立つ履歴の保存、実際の利用量に応じた支払いを一つにまとめる実用的な場をチームに提供します。",
       },
       {
         title: "対象",

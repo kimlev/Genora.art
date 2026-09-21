@@ -1,4 +1,4 @@
-import { IS_STAGING, publicSiteUrl } from "@/lib/site-env";
+import { publicSiteUrl } from "@/lib/site-env";
 import type { MetadataRoute } from "next";
 
 /** Разделы, которые не должны попадать в поиск ни на одном языке */
@@ -15,9 +15,6 @@ const PRIVATE_PATHS = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
-  if (IS_STAGING) {
-    return { rules: { userAgent: "*", disallow: "/" } };
-  }
   return {
     rules: {
       userAgent: "*",

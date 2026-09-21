@@ -18,7 +18,6 @@ export const LOCALE_HEADER = "x-genora-locale";
 export const PUBLIC_INDEX_PATHS = [
   "/",
   "/pricing",
-  "/images",
   "/create-foto-video",
   "/models",
   "/image-examples",

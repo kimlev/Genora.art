@@ -7,6 +7,7 @@ import { TEXT_AGENT_TAGS, textAgentGalleryCopy, type TextAgentTag } from "@/lib/
 import { agentDescription, agentName } from "@/lib/mock/agents";
 import type { Agent } from "@/lib/mock/agent-types";
 import { cn } from "@/lib/utils";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -32,11 +33,10 @@ export function TextAgentsGallery({
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") onClose(); };
     document.addEventListener("keydown", onKey);
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const releaseScrollLock = acquireScrollLock();
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previous;
+      releaseScrollLock();
     };
   }, [onClose]);
 

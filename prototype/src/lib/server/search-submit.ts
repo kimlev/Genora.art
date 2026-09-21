@@ -5,6 +5,7 @@ import { searchTargetsForLocale, type SearchTarget } from "@/lib/search-routing"
 import { isIndexNowConfigured, submitToIndexNow } from "@/lib/server/indexnow";
 import { isSearchConsoleConfigured, submitSitemapToGoogle } from "@/lib/server/search-console";
 import { isYandexWebmasterConfigured, queueYandexRecrawl } from "@/lib/server/yandex-webmaster";
+import { IS_STAGING } from "@/lib/site-env";
 
 export type SubmitOutcome = {
   target: SearchTarget;
@@ -32,6 +33,7 @@ async function attempt(
  * Яндекс — только русский. Ошибки не прерывают публикацию статьи, а возвращаются вызывающему коду.
  */
 export async function submitPageForIndexing(url: string, locale: Locale, extraUrls: string[] = []): Promise<SubmitOutcome[]> {
+  if (IS_STAGING) return [];
   const targets = searchTargetsForLocale(locale);
   const jobs: Array<Promise<SubmitOutcome>> = [];
 

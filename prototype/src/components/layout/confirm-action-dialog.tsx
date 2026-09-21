@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 
 export function ConfirmActionDialog({
   title,
@@ -20,11 +21,7 @@ export function ConfirmActionDialog({
   onConfirm: () => void;
 }) {
   useEffect(() => {
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previous;
-    };
+    return acquireScrollLock();
   }, []);
 
   return createPortal(

@@ -290,12 +290,16 @@ export const AVERAGE_VIDEO_SECONDS = 8;
 export function averageCatalogVideoTokens(
   models: Array<VideoPriceSource & { multiplier?: number; tariffs?: VideoTariffToken[] }>,
   duration = AVERAGE_VIDEO_SECONDS,
+  resolution?: string,
 ) {
   const values = models.flatMap((model) => {
     const tariffs = model.tariffs?.length
       ? model.tariffs
       : videoModelTokenPrices(model, model.multiplier ?? DEFAULT_VIDEO_MULTIPLIER).tariffs;
-    return tariffs.map((row) => row.tokens * duration).filter((value) => Number.isFinite(value) && value > 0);
+    return tariffs
+      .filter((row) => !resolution || row.resolution === resolution)
+      .map((row) => row.tokens * duration)
+      .filter((value) => Number.isFinite(value) && value > 0);
   });
   if (!values.length) return 0;
   return values.reduce((sum, value) => sum + value, 0) / values.length;

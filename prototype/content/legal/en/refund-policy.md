@@ -1,136 +1,77 @@
 # Genora.art Refund Policy
 
-**Operator:** ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+**Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
 
-**Version:** 2.0
+**Version:** 3.0
 **Effective date:** from the date of publication on the website.
 
 ---
 
-## 1. Subject and general principle
+## 1. What a Balance payment buys
 
-1.1. This Policy determines the conditions for refunds of payments for topping up the internal Genora.art Balance. It forms part of the Terms of Use; terms are used in the meanings defined in the Terms.
+Genora Balance is prepaid access to a digital service. A request can incur an AI-provider cost immediately after credit is added, so credit already spent on a completed request is normally not refundable. This document covers duplicate charges, missing credit, unauthorised payment, technical billing errors and statutory consumer withdrawal. Mandatory consumer rights always prevail.
 
-1.2. The Balance provides **immediate access to a digital service**: from the moment of crediting you may send requests to Models, and the Company incurs actual costs to AI Providers for each request.
+## 2. Digital service and withdrawal rights
 
-1.3. General principle: **used Balance is not refundable**, because it corresponds to digital services already rendered and consumed. A refund may be considered in respect of the **unused remainder** in the cases described below, and in cases where a refund is mandatory under applicable law.
+The customer may have a statutory withdrawal period under the law of the EEA country or the United Kingdom where the contract is made. Before a paid request starts, Genora asks for express consent to immediate digital performance and acknowledgment of the legal consequence. For the consumed part, the exception in Article 16(m) of Directive 2011/83/EU and its national implementation may remove the withdrawal right once performance has begun. The unused remainder remains subject to a lawful 14-day withdrawal right where applicable.
 
-1.4. Mandatory consumer rights are preserved independently of the provisions of this Policy. Nothing in the Policy limits rights that cannot be limited under the law applicable to you.
+## 3. When Genora may correct or refund
 
----
+After checking the account and payment record, Genora may approve a refund or first correct the Balance where any of these is confirmed:
 
-## 2. Consent to immediate performance and waiver of the right of withdrawal (for EEA and United Kingdom consumers)
+1. one top-up was charged more than once;
+2. a payment succeeded but the credit never appeared and cannot be fixed technically;
+3. the payment was unauthorised;
+4. a Genora billing defect charged twice or debited the wrong amount;
+5. a confirmed outage directly prevented use of the newly purchased Balance;
+6. a qualifying withdrawal concerns unused Balance;
+7. Genora ended access for a reason unrelated to the customer’s breach; or
+8. another refund is required by law.
 
-2.1. If you are a consumer in the EEA or the United Kingdom, the law generally provides a 14-day period to withdraw from a contract for digital content and digital services.
+## 4. Cases that normally do not qualify
 
-2.2. By paying for Balance, you **expressly request** that performance begin immediately and **confirm that you are aware**: upon commencement of performance and as the service is actually consumed, the right of withdrawal is lost in respect of the consumed portion (Art. 16(m) of Directive 2011/83/EU and corresponding national rules).
+No refund is normally due for:
 
-2.3. In respect of the **unused** remainder, the right of withdrawal within 14 days is preserved and is exercised in accordance with §5.
+- credit already consumed, including where the result is inaccurate, disappointing, refused by a model or unsuitable for the task;
+- an incorrect prompt, source file, model choice or price choice;
+- a changed mind or a later decision not to use the service;
+- access obtained through unprotected credentials before compromise was reported;
+- automation, loops, scripts or repeated requests initiated by the customer;
+- an outage or model change caused by a provider while other Genora functionality remained available;
+- termination caused by violation of the Terms, Acceptable Use Policy, sanctions rules or provider rules;
+- bonus or promotional credit;
+- a request too late to verify, unless a longer legal period applies; or
+- a pattern showing refund abuse, multiple accounts or a chargeback after use.
 
----
+## 5. How to submit a request
 
-## 3. Cases in which a refund is made
+Email **support@genora.art** from the account address with subject “Refund”. Give the transaction ID, date, amount and currency, payment method, reason and supporting evidence. The recommended period is 14 calendar days from payment; later requests remain possible where the facts can be checked or the law gives more time.
 
-Each request is reviewed individually and in good faith. A refund is generally approved upon confirmation of one of the following circumstances:
+For fraud protection Genora may ask for reasonable proof that the requester controls the account and payment instrument. An unexplained refusal can prevent approval.
 
-1. **Duplicate or multiple charging** for a single top-up;
-2. **A successful payment was not credited** to the Balance, and support was unable to resolve the discrepancy technically;
-3. **An unauthorized transaction**, confirmed by an investigation (including by the payment provider);
-4. **A Balance debit due to a confirmed technical error of the Service**: a tariffication failure, a repeated charge for a single request, a billing error not caused by the User. In this case the preferred remedy is a Balance adjustment, and a monetary refund — if adjustment is impossible or the User discontinues use of the Service;
-5. **Prolonged confirmed unavailability of the Service** that occurred immediately after a top-up and prevented use of the Balance;
-6. **Withdrawal in respect of the unused remainder within 14 days** for EEA and United Kingdom consumers (§2.3);
-7. **Termination of access at the Company’s initiative**, not related to a breach of the Terms by the User (§19.4 of the Terms);
-8. Any other case in which a refund is expressly provided by applicable law.
+## 6. Amount calculated
 
----
+The refundable amount is the unused portion of paid Balance at the crediting tariff. To the extent legally allowed, Genora excludes consumed resources, bonus credit, non-refundable bank or payment-provider fees, non-refundable taxes and exchange-rate differences. Genora may offer an equivalent Balance correction, but cannot replace a monetary refund where mandatory law requires money back.
 
-## 4. Cases in which a refund is not made
+## 7. Timing and destination
 
-A refund is generally not available if:
+Genora normally reviews a complete request within 10 business days. An approved money refund goes to the original payment method. The payment provider or bank controls the final posting time, usually 3–20 business days. Crypto or another irreversible method may make a return in the original asset impossible; an account correction is then the available remedy unless law says otherwise.
 
-1. the Balance **has already been consumed** on completed requests, including cases where the Output did not meet your subjective expectations, contained errors, hallucinations, a model refusal to respond, or proved unfit for your task;
-2. the request was formulated inaccurately, contained erroneous source data, or an unsuitable or more expensive Model was selected;
-3. your plans, need for the service, or purchase decision have changed;
-4. consumption arose as a result of your actions or insufficient protection of Credentials, including third-party access to your account before you reported a compromise;
-5. consumption arose due to your automation, repeated requests, loops, scripts, or integrations;
-6. unavailability or a change in the behavior of a particular Model occurred due to the actions of an AI Provider, and alternative Models remained available;
-7. access was terminated due to **your breach** of the Terms, the Acceptable Use Policy, sanctions requirements, or the Provider Terms;
-8. the matter concerns **bonus and promotional credits**, which have no monetary value and are not refundable;
-9. the request is submitted substantially later than the established time limits and the circumstances cannot be reliably verified;
-10. signs of refund abuse are established: systematic refunds, multiple accounts, use of Balance followed by a refund demand, an attempt to withdraw funds through a refund.
+## 8. Chargebacks
 
----
+Please contact support before opening a bank dispute so that a missing-credit or duplicate-charge problem can be resolved without delay. While a chargeback is investigated, Genora may freeze the disputed Balance, suspend the account and reverse credits connected to it. A knowingly or repeatedly unfounded dispute may lead to recovery of actually incurred fees and termination, to the extent lawful.
 
-## 5. Request procedure
+## 9. Account closure
 
-5.1. Send an email to **support@genora.art** from the email address linked to the account, with the subject “Refund”.
+Account deletion alone is not a refund request. Submit a refund request before deletion so that payment and Balance evidence remains available. If Genora terminates access without a customer breach, the Terms determine the treatment of unused paid Balance. Cancellation after 12 months of inactivity follows the Terms and does not create a refund except where law requires one.
 
-5.2. Specify: the payment or transaction identifier; date and time; amount and currency; payment method; grounds for the request; a description of the circumstances; and, if available, screenshots, a statement, or other confirmations.
+## 10. Version applying to a payment
 
-5.3. The recommended period for a request is **14 calendar days** from the date of payment. Requests submitted later are considered if the circumstances can be reliably confirmed, and in all cases where a longer period is established by law.
+The version in force when payment was made governs that payment, subject to mandatory law. Material future changes are published with the notice required by the Terms of Use.
 
-5.4. To protect against fraud, we may request additional information confirming control of the account and the payment instrument. An unmotivated refusal to provide such information is a ground for refusal of a refund.
-
----
-
-## 6. Calculation of the refund amount
-
-6.1. The **unused portion** of paid Balance, recalculated at the rate and tariff of crediting, is subject to refund.
-
-6.2. The following are excluded from the refund amount, to the extent permitted by law:
-
-- the cost of resources actually consumed (used Balance);
-- bonus and promotional credits, as well as the proportionate part of a bonus if the refund is partial;
-- actually withheld and non-refundable fees of payment providers and banks;
-- taxes and duties that are not refundable to the Company;
-- exchange-rate differences arising between crediting and the refund.
-
-6.3. The Company may, at its discretion, offer as an alternative to a monetary refund a **Balance adjustment** in an equivalent amount; the choice of method remains with the User if a refund is mandatory by law.
-
----
-
-## 7. Time limits and method of payment
-
-7.1. A request is reviewed within a reasonable time, generally within **10 business days** from receipt of a complete set of information.
-
-7.2. An approved refund is sent **to the original payment method**. A refund to other particulars, a third-party account, or by another method is not made, except where the original method is objectively unavailable and an alternative is agreed by the parties.
-
-7.3. The actual time of crediting is determined by the payment provider and the issuing bank and usually ranges from 3 to 20 business days. The Company is not responsible for delays on the side of banks and payment systems.
-
-7.4. Certain payment methods are irrevocable by their nature (in particular settlements in crypto-assets, if they become available). For such payments a refund in the original asset may be impossible; in that case a Balance adjustment is possible, unless otherwise required by law.
-
----
-
-## 8. Bank disputes (chargeback)
-
-8.1. Before initiating a bank dispute, contact support: most discrepancies are resolved more quickly and without account restrictions.
-
-8.2. During consideration of a bank dispute, the Company may: suspend the account; freeze the disputed Balance; reverse credits associated with the disputed payment; suspend the provision of services.
-
-8.3. If the dispute is found to be unfounded, the Company may demand reimbursement of expenses actually incurred, including payment-system fees, to the extent permitted by law, and refuse further service.
-
-8.4. Repeated unfounded bank disputes are treated as abuse and are a ground for termination of access.
-
----
-
-## 9. Account termination and Balance
-
-9.1. Deletion of an account does not in itself create a right to a refund. A refund request should be submitted **before** deletion of the account.
-
-9.2. Upon termination of access at the Company’s initiative, not related to a breach, §19.4 of the Terms of Use applies.
-
-9.3. Upon cancellation of unused Balance after 12 months of inactivity (§6.6 of the Terms), a refund is not made, except in cases provided by law; prior notice is sent to the account email address.
-
----
-
-## 10. Changes to the Policy
-
-The Policy may be updated. The version in force on the date of payment applies to a payment. Material changes are published with notice in accordance with §21 of the Terms of Use.
-
----
-
-## 11. Contacts
+## 11. Contact
 
 **support@genora.art**
-ELVARON LIMITED, Registration No. 79402144, 14/F, China Building, 29 Queen's Road Central, Central, Hong Kong.
+
+Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
