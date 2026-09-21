@@ -15,9 +15,10 @@ import type { ReactNode } from "react";
 type AppProvidersProps = {
   children: ReactNode;
   initialLocale?: Locale;
+  isAdminHost?: boolean;
 };
 
-export function AppProviders({ children, initialLocale }: AppProvidersProps) {
+export function AppProviders({ children, initialLocale, isAdminHost = false }: AppProvidersProps) {
   return (
     <ThemeProvider>
       <LocaleProvider initialLocale={initialLocale}>
@@ -27,7 +28,7 @@ export function AppProviders({ children, initialLocale }: AppProvidersProps) {
             <WorkspaceProvider>
               <ImageHistoryProvider>
                 <BattleHistoryProvider>
-                  <LenisProvider>{children}</LenisProvider>
+                  <LenisProvider isAdminHost={isAdminHost}>{children}</LenisProvider>
                 </BattleHistoryProvider>
               </ImageHistoryProvider>
             </WorkspaceProvider>

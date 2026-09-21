@@ -50,9 +50,9 @@ test("home metadata is distinct in English and Russian", () => {
   const en = seoCopy("/", "en");
   const ru = seoCopy("/", "ru");
   assert.equal(en.title, "Explore AI tools built for your next idea — Genora.art");
-  assert.equal(en.description, "A focused set of AI tools for everyday work. Compare results, models, and costs from one workspace. 40+ models · Usage-based pricing · RU/EN");
+  assert.equal(en.description, "Bring your ideas to life with powerful AI models for images, music, video, and smart chats — all in one creative workspace.");
   assert.equal(ru.title, "Откройте AI-инструменты для своих идей — Genora.art");
-  assert.equal(ru.description, "Подборка AI-инструментов для ежедневных задач. Сравнивайте результаты, модели и расходы в одном рабочем пространстве. Более 40 моделей · Оплата по использованию · RU/EN");
+  assert.equal(ru.description, "Воплощай идеи с мощными ИИ-моделями для изображений, музыки, видео и умных чатов — в одном творческом пространстве.");
   assert.doesNotMatch(en.description, /No VPN or foreign cards|One interface instead of a dozen tabs and API keys/);
   assert.doesNotMatch(ru.description, /Мы отобрали для вас самые эффективные модели|Один интерфейс вместо десятка вкладок и API-ключей/);
 });

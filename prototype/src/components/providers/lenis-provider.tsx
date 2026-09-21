@@ -29,6 +29,7 @@ const SmoothScrollContext = createContext<SmoothScrollContextValue>({
 
 type LenisProviderProps = {
   children: ReactNode;
+  isAdminHost?: boolean;
 };
 
 function prefersReducedMotion(): boolean {
@@ -46,7 +47,7 @@ function resetNativeScroll() {
   document.body.style.removeProperty("position");
 }
 
-export function LenisProvider({ children }: LenisProviderProps) {
+export function LenisProvider({ children, isAdminHost = false }: LenisProviderProps) {
   const pathname = useAppPathname();
   const lenisRef = useRef<Lenis | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -96,7 +97,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
       || pathname.startsWith("/models") || pathname.startsWith("/image-examples")
       || pathname.startsWith("/pricing") || pathname.startsWith("/legal") || pathname.startsWith("/blog")
       || pathname.startsWith("/music") || pathname.startsWith("/gallery") || pathname.startsWith("/video-examples") || pathname.startsWith("/create-foto-video") || pathname.startsWith("/about") || pathname.startsWith("/support");
-    const shouldDisable = prefersReducedMotion() || (!isHome && isInternalRoute);
+    const shouldDisable = isAdminHost || prefersReducedMotion() || (!isHome && isInternalRoute);
 
     if (shouldDisable) {
       lenisRef.current?.destroy();
@@ -130,7 +131,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
       lenisRef.current = null;
       resetNativeScroll();
     };
-  }, [pathname]);
+  }, [isAdminHost, pathname]);
 
   useEffect(() => {
     const hash = window.location.hash;

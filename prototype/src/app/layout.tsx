@@ -89,7 +89,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd(locale)) }}
         />
         <div className="flex min-h-full flex-1 flex-col overflow-x-clip">
-          <AppProviders initialLocale={locale}>
+          <AppProviders initialLocale={locale} isAdminHost={isAdminHost}>
             <SiteShell isAdminHost={isAdminHost}>{children}</SiteShell>
           </AppProviders>
         </div>
