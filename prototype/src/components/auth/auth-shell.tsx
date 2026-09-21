@@ -29,16 +29,13 @@ export function AuthShell({ children }: AuthShellProps) {
 
             <Link href="/" className="flex items-center gap-2.5 md:hidden">
               <Image
-                src="/logo-mark.png"
-                alt=""
-                width={32}
-                height={32}
-                className="size-8"
+                src="/brand/genora-logo-light.svg"
+                alt={t.brand}
+                width={170}
+                height={40}
+                className="h-10 w-auto"
                 priority
               />
-              <span className="text-lg font-semibold tracking-tight text-text">
-                {t.brand}
-              </span>
             </Link>
           </div>
 
@@ -98,14 +95,13 @@ function AuthBrandPanel() {
         className="relative z-10 flex items-center gap-3 text-white transition-opacity hover:opacity-85"
       >
         <Image
-          src="/logo-mark.png"
-          alt=""
-          width={44}
-          height={44}
-          className="size-11"
+          src="/brand/genora-logo-dark.svg"
+          alt={t.brand}
+          width={170}
+          height={40}
+          className="h-10 w-auto"
           priority
         />
-        <span className="text-2xl font-semibold tracking-tight">{t.brand}</span>
       </Link>
 
       <div className="relative z-10 mx-auto flex max-w-md flex-col items-center text-center">

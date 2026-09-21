@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
-import { CONSENT_CHANGE_EVENT, CONSENT_STORAGE_KEY, googleConsentSignals, parseCookieConsent } from "@/lib/cookie-consent";
+import { CONSENT_CHANGE_EVENT, CONSENT_STORAGE_KEY, cookieConsentFromHeader, googleConsentSignals, parseCookieConsent } from "@/lib/cookie-consent";
 import { IS_STAGING } from "@/lib/site-env";
 
 declare global {
@@ -22,7 +22,7 @@ function subscribe(callback: () => void) {
 }
 
 function snapshot() {
-  return localStorage.getItem(CONSENT_STORAGE_KEY) ?? "";
+  return cookieConsentFromHeader(document.cookie) ?? localStorage.getItem(CONSENT_STORAGE_KEY) ?? "";
 }
 
 export function GoogleAnalytics() {
