@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Genora.art",
     short_name: "Genora",
-    description: "Единое пространство для работы с текстом, изображениями, видео и музыкой.",
+    description: "Bring your ideas to life with powerful AI models for images, music, video, and smart chats.",
     start_url: "/",
     display: "standalone",
     background_color: "#111111",

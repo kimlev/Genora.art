@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: defaultCopy.title,
     description: defaultCopy.description,
     url: publicSiteUrl("/"),
-    images: [{ url: "/favicon/genora-icon.png?v=2", width: 512, height: 512, alt: SITE_NAME }],
+    images: [{ url: publicSiteUrl("/favicon/icon-512.png"), width: 512, height: 512, alt: SITE_NAME }],
   },
   twitter: {
     card: "summary_large_image",
@@ -47,6 +47,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon/icon-16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon/icon-32.png", sizes: "32x32", type: "image/png" },

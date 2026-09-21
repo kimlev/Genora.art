@@ -48,6 +48,28 @@ export function languageAlternates(path: string): Record<string, string> {
   return languages;
 }
 
+const homepageDescriptions: Record<Locale, string> = {
+  en: "Bring your ideas to life with powerful AI models for images, music, video, and smart chats — all in one creative workspace.",
+  ru: "Воплощай идеи с мощными ИИ-моделями для изображений, музыки, видео и умных чатов — в одном творческом пространстве.",
+  hi: "शक्तिशाली AI मॉडलों के साथ इमेज, संगीत, वीडियो और स्मार्ट चैट में अपने विचारों को साकार करें — एक ही रचनात्मक स्थान पर।",
+  es: "Convierte tus ideas en imágenes, música, vídeo y chats inteligentes con potentes modelos de IA, todo en un mismo espacio creativo.",
+  fr: "Donnez vie à vos idées avec de puissants modèles d’IA pour les images, la musique, la vidéo et les chats intelligents, dans un seul espace créatif.",
+  ar: "حوّل أفكارك إلى صور وموسيقى وفيديو ومحادثات ذكية باستخدام نماذج ذكاء اصطناعي قوية في مساحة إبداعية واحدة.",
+  pt: "Dê vida às suas ideias com modelos de IA para imagens, música, vídeo e chats inteligentes, tudo em um só espaço criativo.",
+  de: "Verwirkliche deine Ideen mit leistungsstarken KI-Modellen für Bilder, Musik, Video und intelligente Chats — in einem kreativen Workspace.",
+  ja: "高性能なAIモデルで、画像・音楽・動画・スマートチャットのアイデアをひとつの創作ワークスペースで形に。",
+  it: "Trasforma le tue idee con modelli IA per immagini, musica, video e chat intelligenti, tutto in un unico spazio creativo.",
+  zh: "用强大的 AI 模型把创意变成图像、音乐、视频和智能对话，尽在一个创作空间。",
+  tr: "Güçlü yapay zekâ modelleriyle fikirlerini görsellere, müziğe, videoya ve akıllı sohbetlere dönüştür — tek yaratıcı alanda.",
+  pl: "Realizuj pomysły dzięki modelom AI do obrazów, muzyki, wideo i inteligentnych rozmów — w jednej kreatywnej przestrzeni.",
+  sv: "Förverkliga dina idéer med kraftfulla AI-modeller för bilder, musik, video och smarta chattar i en kreativ arbetsyta.",
+  cs: "Proměňte své nápady v obrázky, hudbu, video a chytré chaty s výkonnými AI modely v jednom kreativním prostoru.",
+  nl: "Breng ideeën tot leven met krachtige AI-modellen voor beelden, muziek, video en slimme chats in één creatieve werkruimte.",
+  el: "Μετέτρεψε τις ιδέες σου σε εικόνες, μουσική, βίντεο και έξυπνες συνομιλίες με ισχυρά μοντέλα AI σε έναν δημιουργικό χώρο.",
+  ko: "강력한 AI 모델로 이미지, 음악, 영상과 스마트 채팅 아이디어를 하나의 창작 공간에서 실현하세요.",
+  ro: "Dă viață ideilor tale cu modele AI puternice pentru imagini, muzică, video și chat inteligent, într-un singur spațiu creativ.",
+};
+
 export function seoCopy(path: string, locale: Locale): { title: string; description: string } {
   const t = getDictionary(locale);
   const brand = t.brand;
@@ -55,7 +77,7 @@ export function seoCopy(path: string, locale: Locale): { title: string; descript
     case "/":
       return {
         title: `${t.hero.titleBefore}${t.hero.titleAccent}${t.hero.titleAfter} — ${brand}`.replace(/\s+/g, " ").trim(),
-        description: `${t.hero.badge}. ${t.why.subtitle}. ${t.hero.trust}`,
+        description: homepageDescriptions[locale],
       };
     case "/agents":
       return { title: `${t.agents.catalogTitle} — ${brand}`, description: t.agents.catalogSubtitle };
@@ -129,11 +151,18 @@ export function publicPageMetadata(path: string, lang?: string | null): Metadata
       title: copy.title,
       description: copy.description,
       url,
+      images: [{
+        url: publicSiteUrl("/favicon/icon-512.png"),
+        width: 512,
+        height: 512,
+        alt: SITE_NAME,
+      }],
     },
     twitter: {
       card: "summary_large_image",
       title: copy.title,
       description: copy.description,
+      images: [publicSiteUrl("/favicon/icon-512.png")],
     },
   };
 }
