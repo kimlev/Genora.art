@@ -5,6 +5,7 @@ export const tr: Dictionary = {
   nav: {
     why: "Neden",
     agents: "Ajanlar",
+    songs: "Şarkılar",
     pricing: "Fiyatlar",
     faq: "FAQ",
     signIn: "Giriş yap",

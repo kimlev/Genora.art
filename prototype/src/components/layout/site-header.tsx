@@ -16,6 +16,7 @@ import { useEffect, useState, type MouseEvent } from "react";
 const navItems = [
   { hash: "#why", key: "why" as const },
   { hash: "#agents", key: "agents" as const },
+  { hash: "#songs", key: "songs" as const },
   { hash: "#arena-ai", key: "arena" as const },
   { hash: "#image-generation", key: "images" as const },
   { hash: "#pricing", key: "pricing" as const },

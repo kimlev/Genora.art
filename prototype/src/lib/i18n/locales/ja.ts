@@ -5,6 +5,7 @@ export const ja: Dictionary = {
   nav: {
     why: "選ばれる理由",
     agents: "エージェント",
+    songs: "曲",
     pricing: "料金",
     faq: "FAQ",
     signIn: "ログイン",

@@ -5,6 +5,7 @@ export const el: Dictionary = {
   nav: {
     why: "Γιατί",
     agents: "Πράκτορες",
+    songs: "Τραγούδια",
     pricing: "Τιμές",
     faq: "FAQ",
     signIn: "Σύνδεση",

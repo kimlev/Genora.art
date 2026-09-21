@@ -5,6 +5,7 @@ export const sv: Dictionary = {
   nav: {
     why: "Varför",
     agents: "Agenter",
+    songs: "Låtar",
     pricing: "Priser",
     faq: "FAQ",
     signIn: "Logga in",

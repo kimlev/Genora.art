@@ -5,6 +5,7 @@ export const zh: Dictionary = {
   nav: {
     why: "为什么",
     agents: "智能体",
+    songs: "歌曲",
     pricing: "价格",
     faq: "FAQ",
     signIn: "登录",

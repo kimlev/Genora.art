@@ -5,6 +5,7 @@ export const ru: Dictionary = {
   nav: {
     why: "Почему",
     agents: "Агенты",
+    songs: "Песни",
     pricing: "Тариф",
     faq: "FAQ",
     signIn: "Войти",

@@ -5,6 +5,7 @@ export const ro: Dictionary = {
   nav: {
     why: "De ce",
     agents: "Agenți",
+    songs: "Cântece",
     pricing: "Prețuri",
     faq: "FAQ",
     signIn: "Autentificare",

@@ -5,6 +5,7 @@ export const ko: Dictionary = {
   nav: {
     why: "왜",
     agents: "에이전트",
+    songs: "노래",
     pricing: "요금",
     faq: "FAQ",
     signIn: "로그인",

@@ -5,6 +5,7 @@ export const ar: Dictionary = {
   nav: {
     why: "لماذا",
     agents: "الوكلاء",
+    songs: "أغانٍ",
     pricing: "الأسعار",
     faq: "FAQ",
     signIn: "تسجيل الدخول",

@@ -24,6 +24,7 @@ export const LOCALE_STORAGE_KEY = "arenaai-locale";
 export type NavDictionary = {
   why: string;
   agents: string;
+  songs: string;
   pricing: string;
   faq: string;
   signIn: string;

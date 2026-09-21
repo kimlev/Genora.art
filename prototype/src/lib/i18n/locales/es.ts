@@ -5,6 +5,7 @@ export const es: Dictionary = {
   nav: {
     why: "Por qué",
     agents: "Agentes",
+    songs: "Canciones",
     pricing: "Precios",
     faq: "FAQ",
     signIn: "Iniciar sesión",
