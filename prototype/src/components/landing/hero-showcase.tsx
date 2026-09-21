@@ -12,6 +12,7 @@ import {
 import { ArrowRight, Bot, ImageIcon, MessageSquare, Music2, Play, Sparkles, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 
 const singerVideo = "/landing/singer-alive.mp4";
 const singerPoster = "/landing/songs-hero-singer.jpg";
@@ -198,14 +199,13 @@ function VideoCard({ onOpen, onNavigate, copy }: { onOpen: () => void; onNavigat
 
 function VideoPreviewDialog({ onClose, copy }: { onClose: () => void; copy: HeroCopy }) {
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const releaseScrollLock = acquireScrollLock();
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      releaseScrollLock();
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [onClose]);

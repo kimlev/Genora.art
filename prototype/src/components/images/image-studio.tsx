@@ -26,6 +26,7 @@ import { getCatalogAgentOverride } from "@/lib/catalog-agent-overrides";
 import { useCatalogAgentOverrides } from "@/lib/use-catalog-agent-overrides";
 import { videoAgentCopy, videoAgentDefaults, videoAgentNeedsUserPrompt, type VideoAgentGuide, type VideoAgentSettings } from "@/lib/video-agent-catalog";
 import { imageQualityLabel } from "@/lib/image-quality";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 import { Button } from "@/components/ui/button";
 import { imageExamplesForModels } from "@/lib/catalog/image-examples";
 import { isImageStudioPath } from "@/lib/routes";
@@ -672,8 +673,7 @@ export function ImageStudio() {
 
   useEffect(() => {
     if (!previewMedia && promptOpen === null && !editorOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const releaseScrollLock = acquireScrollLock();
     const closeWithEscape = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       setPreviewMedia(null);
@@ -682,7 +682,7 @@ export function ImageStudio() {
     };
     document.addEventListener("keydown", closeWithEscape);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      releaseScrollLock();
       document.removeEventListener("keydown", closeWithEscape);
     };
   }, [previewMedia, promptOpen, editorOpen]);

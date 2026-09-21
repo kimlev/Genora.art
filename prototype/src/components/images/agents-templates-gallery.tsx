@@ -17,6 +17,7 @@ import {
   type VideoAgentFilterTag,
 } from "@/lib/video-agent-catalog";
 import { cn } from "@/lib/utils";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 import { X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -130,11 +131,10 @@ export function AgentsTemplatesGallery({
     if (variant !== "dialog" || !onClose) return;
     const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") onClose(); };
     document.addEventListener("keydown", onKey);
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const releaseScrollLock = acquireScrollLock();
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previous;
+      releaseScrollLock();
     };
   }, [onClose, variant]);
 

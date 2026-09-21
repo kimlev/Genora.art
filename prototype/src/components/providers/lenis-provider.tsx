@@ -3,6 +3,7 @@
 import Lenis from "lenis";
 import { useAppPathname } from "@/lib/i18n/use-app-pathname";
 import { isImageStudioPath } from "@/lib/routes";
+import { resetScrollLocks } from "@/lib/scroll-lock";
 import {
   createContext,
   useCallback,
@@ -35,6 +36,7 @@ function prefersReducedMotion(): boolean {
 }
 
 function resetNativeScroll() {
+  resetScrollLocks();
   const html = document.documentElement;
   html.classList.remove("lenis", "lenis-smooth", "lenis-stopped", "lenis-scrolling");
   html.style.removeProperty("overflow");

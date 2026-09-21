@@ -13,6 +13,7 @@ import { isFxRoundingCode } from "@/lib/payments/fx-rounding";
 import { Loader2, X } from "lucide-react";
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { SpendEstimateDialog } from "./spend-estimate-dialog";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 
 export const TOP_UP_EVENT = "genora-open-top-up";
 
@@ -82,8 +83,7 @@ export function TopUpDialog() {
 
   useEffect(() => {
     if (!open) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const releaseScrollLock = acquireScrollLock();
     void fetch(`/api/balance?locale=${encodeURIComponent(locale)}`, {
       cache: "no-store",
       headers: { [LOCALE_HEADER]: locale },
@@ -94,9 +94,7 @@ export function TopUpDialog() {
       setPaymentMethods(data.paymentMethods);
       setSelectedMethodId((current) => current && data.paymentMethods!.some((method) => method.id === current) ? current : null);
     }).catch(() => undefined);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
+    return releaseScrollLock;
   }, [open, locale]);
 
   const selectAmount = (value: number) => {

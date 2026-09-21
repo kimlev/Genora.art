@@ -26,6 +26,7 @@ import { withCreditGlyphs } from "@/components/ui/credit-glyph";
 import { DownloadSizeAction } from "@/components/ui/download-size-action";
 import { PromptCopyButton } from "@/components/ui/prompt-copy-button";
 import { formatTokensAsCredits } from "@/lib/credits";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 import { Archive, Eye, Grid2x2, Heart, ImageIcon, LayoutList, LayoutGrid, Music2, Play, Search, Share2, ThumbsUp, Trash2, Video, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
@@ -113,16 +114,7 @@ export function GalleryPageContent() {
   const [pendingDelete, setPendingDelete] = useState<GalleryWork | null>(null);
 
   useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtml = html.style.overflow;
-    const prevBody = body.style.overflow;
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    return () => {
-      html.style.overflow = prevHtml;
-      body.style.overflow = prevBody;
-    };
+    return acquireScrollLock();
   }, []);
   useEffect(() => {
     if (!user) return;

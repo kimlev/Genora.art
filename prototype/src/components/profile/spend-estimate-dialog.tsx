@@ -8,6 +8,7 @@ import { IS_STAGING } from "@/lib/site-env";
 import { estimateFromDailyRates, estimateTokenSpend } from "@/lib/token-spend-estimate";
 import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { acquireScrollLock } from "@/lib/scroll-lock";
 
 type DailyRates = { textTokens: number; imageTokens: number; songTokens: number; videoTokens: number };
 
@@ -25,8 +26,7 @@ export function SpendEstimateDialog({ tokens, onClose }: { tokens: number; onClo
   );
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const releaseScrollLock = acquireScrollLock();
     if (IS_STAGING) {
       void fetch("/api/spend-enough", { cache: "no-store" })
         .then((response) => (response.ok ? response.json() : null))
@@ -46,9 +46,7 @@ export function SpendEstimateDialog({ tokens, onClose }: { tokens: number; onClo
         setImagePrices((data.models ?? []).map((model) => model.token_prices ?? {}));
       }).catch(() => undefined);
     }
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
+    return releaseScrollLock;
   }, []);
 
   return (
