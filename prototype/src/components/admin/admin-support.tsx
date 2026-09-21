@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { SUPPORT_MAIL_PROVIDERS } from "@/lib/support-mail-providers";
 import { looksLikeRussian } from "@/lib/support-translation";
 import { acquireScrollLock } from "@/lib/scroll-lock";
+import { AdminSelect } from "@/components/admin/admin-select";
 
 type SupportMessage = { id: string; direction: "inbound" | "outbound"; authorType: "client" | "agent" | "administrator"; content: string; createdAt: string };
 type Item = { id: string; publicId: string; name: string; email: string; inboxEmail?: string | null; topic: string; status: "new" | "in_progress" | "requires_human"; draftReply: string | null; createdAt: string; repliedAt: string | null; translationRu: string | null; translatedAt: string | null; readAt: string | null; messages: SupportMessage[] };
@@ -242,13 +243,7 @@ export function AdminSupport() {
         <Plus className="size-4"/>Подключить почту
       </button>
       <div className="flex flex-wrap items-center gap-2">
-        <label className="text-xs font-medium text-slate-600 dark:text-slate-400">
-          Почта
-          <select value={filterInbox} onChange={(event) => setFilterInbox(event.target.value)} className="ml-2 h-10 rounded-xl border border-slate-300 bg-white px-3 text-xs text-slate-900 outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
-            <option value="">Все подключённые</option>
-            {mailboxes.map((mailbox) => <option key={mailbox.id} value={mailbox.email}>{mailbox.email}</option>)}
-          </select>
-        </label>
+        <AdminSelect label="Почта" value={filterInbox} options={mailboxes.map((mailbox) => ({ value: mailbox.email, label: mailbox.email }))} emptyLabel="Все подключённые" onChange={setFilterInbox} className="min-w-56" />
         <button type="button" onClick={applyFilter} className="inline-flex h-10 items-center rounded-xl border border-slate-300 px-4 text-xs font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Применить</button>
       </div>
     </div>
@@ -360,11 +355,7 @@ export function AdminSupport() {
           <Switch checked={formAuth} onCheckedChange={setFormAuth} className="data-checked:bg-orange-600" />
         </div>
         <p className="mt-2 text-[11px] leading-relaxed text-slate-500">Главной и 2ФА может быть только по одной почте. Главная — футер, документы и форма. 2ФА — письма регистрации и рассылки.</p>
-        <label className="mt-3 block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">Провайдер
-          <select value={formProvider} onChange={(event) => setFormProvider(event.target.value as typeof SUPPORT_MAIL_PROVIDERS[number]["id"])} className="mt-2 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm normal-case text-slate-950 outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
-            {SUPPORT_MAIL_PROVIDERS.map((provider) => <option key={provider.id} value={provider.id}>{provider.label}</option>)}
-          </select>
-        </label>
+        <AdminSelect label="Провайдер" value={formProvider} options={SUPPORT_MAIL_PROVIDERS.map((provider) => ({ value: provider.id, label: provider.label }))} emptyLabel="Выберите провайдера" onChange={(value) => setFormProvider(value as typeof SUPPORT_MAIL_PROVIDERS[number]["id"])} clearable={false} className="mt-3 w-full" />
         {formError ? <p className="mt-3 text-xs text-red-600 dark:text-red-300">{formError}</p> : null}
         <div className="mt-5 flex justify-end gap-2">
           <button type="button" onClick={() => setFormOpen(false)} className="inline-flex h-10 items-center rounded-xl border border-slate-300 px-4 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-300">Отмена</button>
