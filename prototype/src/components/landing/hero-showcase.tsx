@@ -30,8 +30,15 @@ function activateWithKeyboard(event: ReactKeyboardEvent, activate: () => void) {
 }
 
 type HeroCopy = LandingInteractiveCopy["hero"];
+type HeroMediaCopy = {
+  singerAlt: string;
+  beforeAlt: string;
+  afterAlt: string;
+  videoAlt: string;
+  capabilitiesLabel: string;
+};
 
-function HitsCard({ onNavigate, copy }: { onNavigate: Navigate; copy: HeroCopy }) {
+function HitsCard({ onNavigate, copy, mediaCopy }: { onNavigate: Navigate; copy: HeroCopy; mediaCopy: HeroMediaCopy }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const start = () => {
@@ -59,7 +66,7 @@ function HitsCard({ onNavigate, copy }: { onNavigate: Navigate; copy: HeroCopy }
     >
       <Image
         src={singerPoster}
-        alt="Певица у студийного микрофона"
+        alt={mediaCopy.singerAlt}
         fill
         priority
         sizes="(min-width: 1024px) 30vw, (min-width: 640px) 42vw, 100vw"
@@ -92,7 +99,7 @@ function HitsCard({ onNavigate, copy }: { onNavigate: Navigate; copy: HeroCopy }
   );
 }
 
-function ImagesCard({ onNavigate, copy, badges, title, description }: { onNavigate: Navigate; copy: HeroCopy; badges: LandingMediaBadges; title: string; description: string }) {
+function ImagesCard({ onNavigate, copy, badges, title, description, mediaCopy }: { onNavigate: Navigate; copy: HeroCopy; badges: LandingMediaBadges; title: string; description: string; mediaCopy: HeroMediaCopy }) {
   return (
     <article
       tabIndex={0}
@@ -115,9 +122,9 @@ function ImagesCard({ onNavigate, copy, badges, title, description }: { onNaviga
         </div>
 
         <div className="relative h-[182px] overflow-hidden rounded-[20px] border border-white/75 bg-white shadow-[0_18px_36px_-24px_rgba(71,47,9,0.65)]">
-          <Image src={imageBefore} alt="Исходная фотография" fill sizes="180px" className="object-cover" />
+          <Image src={imageBefore} alt={mediaCopy.beforeAlt} fill sizes="180px" className="object-cover" />
           <div className="absolute inset-y-0 right-0 w-1/2 overflow-hidden border-l border-white/80 transition-[width] duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full group-focus:w-full">
-            <Image src={imageAfter} alt="Результат обработки нейросетью" fill sizes="180px" className="object-cover object-right" />
+            <Image src={imageAfter} alt={mediaCopy.afterAlt} fill sizes="180px" className="object-cover object-right" />
           </div>
           <div className="absolute inset-x-3 top-3 flex justify-between text-[9px] font-bold uppercase tracking-[0.14em] text-white drop-shadow-md">
             <span className="rounded-full bg-black/38 px-2 py-1 backdrop-blur-sm">{badges.photo}</span>
@@ -165,7 +172,7 @@ function TextCard({ onNavigate, copy, title }: { onNavigate: Navigate; copy: Her
   );
 }
 
-function VideoCard({ onOpen, onNavigate, copy }: { onOpen: () => void; onNavigate: Navigate; copy: HeroCopy }) {
+function VideoCard({ onOpen, onNavigate, copy, mediaCopy }: { onOpen: () => void; onNavigate: Navigate; copy: HeroCopy; mediaCopy: HeroMediaCopy }) {
   return (
     <article
       tabIndex={0}
@@ -187,7 +194,7 @@ function VideoCard({ onOpen, onNavigate, copy }: { onOpen: () => void; onNavigat
       </div>
 
       <div className="absolute bottom-4 right-4 top-4 w-[42%] overflow-hidden rounded-[20px] border border-white/80 bg-[#12202c] shadow-[0_18px_36px_-24px_rgba(78,35,32,0.7)] transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:inset-0 group-hover:size-full group-hover:rounded-[25px] group-focus:inset-0 group-focus:size-full group-focus:rounded-[25px]">
-        <Image src={showcasePoster} alt="Превью видео" fill sizes="(min-width: 1024px) 48vw, 100vw" className="object-cover object-center" />
+        <Image src={showcasePoster} alt={mediaCopy.videoAlt} fill sizes="(min-width: 1024px) 48vw, 100vw" className="object-cover object-center" />
         <div className="absolute inset-0 bg-black/10 transition-colors duration-300 group-hover:bg-black/38 group-focus:bg-black/38" />
         <button type="button" onClick={(event) => { event.stopPropagation(); onOpen(); }} className="absolute left-1/2 top-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 scale-100 items-center justify-center rounded-full border border-white/65 bg-white/92 text-[#1a2732] opacity-100 shadow-xl backdrop-blur transition-all duration-300 sm:scale-75 sm:opacity-0 sm:group-hover:scale-100 sm:group-hover:opacity-100 sm:group-focus-visible:scale-100 sm:group-focus-visible:opacity-100" aria-label={copy.openFullscreen}>
           <Play className="ms-0.5 size-5 fill-current" />
@@ -230,6 +237,9 @@ export function HeroShowcase() {
   const { locale } = useLocale();
   const interactiveCopy = landingInteractiveCopy(locale);
   const mediaBadges = landingMediaBadges(locale);
+  const mediaCopy: HeroMediaCopy = locale === "ru"
+    ? { singerAlt: "Певица у студийного микрофона", beforeAlt: "Исходная фотография", afterAlt: "Результат обработки нейросетью", videoAlt: "Превью видео", capabilitiesLabel: "Возможности Genora.art" }
+    : { singerAlt: "Singer at a studio microphone", beforeAlt: "Original photo", afterAlt: "AI-enhanced result", videoAlt: "Video preview", capabilitiesLabel: "Genora.art capabilities" };
   const { scrollToHash } = useSmoothScroll();
   const [videoOpen, setVideoOpen] = useState(false);
 
@@ -249,11 +259,11 @@ export function HeroShowcase() {
           <p className="mt-4 text-[clamp(1rem,1.8vw,1.35rem)] font-medium text-steel">{interactiveCopy.hero.subtitle}</p>
         </div>
 
-        <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-12 lg:gap-5" aria-label="Возможности Genora.art">
-          <HitsCard onNavigate={navigate} copy={interactiveCopy.hero} />
-          <ImagesCard onNavigate={navigate} copy={interactiveCopy.hero} badges={mediaBadges} title={t.hero.entries.images.title} description={t.hero.entries.images.description} />
+        <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-12 lg:gap-5" aria-label={mediaCopy.capabilitiesLabel}>
+          <HitsCard onNavigate={navigate} copy={interactiveCopy.hero} mediaCopy={mediaCopy} />
+          <ImagesCard onNavigate={navigate} copy={interactiveCopy.hero} badges={mediaBadges} title={t.hero.entries.images.title} description={t.hero.entries.images.description} mediaCopy={mediaCopy} />
           <TextCard onNavigate={navigate} copy={interactiveCopy.hero} title={t.hero.entries.text.title} />
-          <VideoCard onOpen={() => setVideoOpen(true)} onNavigate={navigate} copy={interactiveCopy.hero} />
+          <VideoCard onOpen={() => setVideoOpen(true)} onNavigate={navigate} copy={interactiveCopy.hero} mediaCopy={mediaCopy} />
         </section>
 
         <div className="mt-7 flex justify-center">

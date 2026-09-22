@@ -91,6 +91,7 @@ export function AgentPreviewCard({
             afterSrc={cardComparePreviewAssets(agentId).after}
             beforeAlt={`${oneLineTitle}: ${labels.before}`}
             afterAlt={`${oneLineTitle}: ${labels.after}`}
+            label={locale === "ru" ? "До и после" : "Before and after"}
           />
         ) : kind === "photo" || coverSrc ? (
           <img src={coverSrc ?? cardStillPreviewSrc(agentId)} alt="" className="size-full object-cover" loading="lazy" decoding="async" />

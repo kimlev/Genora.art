@@ -101,6 +101,9 @@ export function PricingPageContent({ articleSlot }: { articleSlot?: ReactNode })
   const [imageModels,setImageModels]=useState<ImagePriceModel[]>([]);
   const [musicModels,setMusicModels]=useState<MusicPriceModel[]>([]);
   const [videoModels,setVideoModels]=useState<VideoPriceModel[]>([]);
+  const musicLabels = locale === "ru"
+    ? { mode: "Песни / музыка", note: "Конечная стоимость трека в токенах.", duration: "Длительность", price: "Цена за трек", auto: "Авто", seconds: "сек", loading: "Каталог песен загружается…" }
+    : { mode: "Songs / music", note: "Final track cost in tokens.", duration: "Duration", price: "Price per track", auto: "Auto", seconds: "sec", loading: "Loading the song catalog…" };
   useEffect(()=>{if(priceMode!=="image"||imageModels.length)return;let active=true;void fetch("/api/images/catalog").then((response)=>response.ok?response.json():null).then((payload:{models?:ImagePriceModel[]}|null)=>{if(active)setImageModels(payload?.models??[]);}).catch(()=>{});return()=>{active=false;};},[imageModels.length,priceMode]);
   useEffect(()=>{if(priceMode!=="music"||musicModels.length)return;let active=true;void fetch("/api/music/catalog").then((response)=>response.ok?response.json():null).then((payload:{models?:MusicPriceModel[]}|null)=>{if(active)setMusicModels(payload?.models??[]);}).catch(()=>{});return()=>{active=false;};},[musicModels.length,priceMode]);
   useEffect(()=>{if(priceMode!=="video"||videoModels.length)return;let active=true;void fetch("/api/video/catalog").then((response)=>response.ok?response.json():null).then((payload:{models?:VideoPriceModel[]}|null)=>{if(active)setVideoModels(payload?.models??[]);}).catch(()=>{});return()=>{active=false;};},[priceMode,videoModels.length]);
@@ -147,12 +150,12 @@ export function PricingPageContent({ articleSlot }: { articleSlot?: ReactNode })
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0 flex-1">
             <h2 id="model-prices" className="text-xl font-semibold text-text sm:text-2xl">{t.pricingPage.tableTitle}</h2>
-            <p className="mt-2 text-sm text-steel">{priceMode==="text"?withCreditGlyphs(t.pricingPage.noteText):priceMode==="music"?"Конечная стоимость трека в токенах.":priceMode==="video"?videoCopy.note:t.pricingPage.noteImage}</p>
+            <p className="mt-2 text-sm text-steel">{priceMode==="text"?withCreditGlyphs(t.pricingPage.noteText):priceMode==="music"?musicLabels.note:priceMode==="video"?videoCopy.note:t.pricingPage.noteImage}</p>
           </div>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-end">
             <div className="w-full sm:w-48">
               <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-steel">{t.pricingPage.modeLabel}</span>
-              <PriceTypeSelect value={priceMode} onChange={switchMode} label={t.pricingPage.modeLabel} textLabel={t.pricingPage.modeText} imageLabel={t.pricingPage.modeImage} musicLabel="Песни / музыка" videoLabel={videoCopy.mode} />
+              <PriceTypeSelect value={priceMode} onChange={switchMode} label={t.pricingPage.modeLabel} textLabel={t.pricingPage.modeText} imageLabel={t.pricingPage.modeImage} musicLabel={musicLabels.mode} videoLabel={videoCopy.mode} />
             </div>
             <div className="w-full sm:w-64">
               <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-steel">{t.pricingPage.providerLabel}</span>
