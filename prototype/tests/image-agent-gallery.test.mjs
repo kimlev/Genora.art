@@ -21,6 +21,7 @@ import {
 } from "../src/lib/image-agent-gallery.ts";
 import { defaultImageAgentVariant, imageAgentVariantNotes, imageAgentVariants, imageStudioQueryKey, liveImageStudioQuery } from "../src/lib/image-agent-variants.ts";
 import { imageAgentPreset } from "../src/lib/image-agent-presets.ts";
+import { agentDescription, agentName } from "../src/lib/mock/agents.ts";
 import {
   IMAGE_AGENT_EXPANSION_IDS,
   PHOTO_POSE_AGENTS,
@@ -154,6 +155,15 @@ test("photo-pose and scene agents have complete localized gallery contracts", as
     for (const suffix of ["before.jpg", "after.jpg", "bad.jpg", "thumbs/" + id + "-before.webp", "thumbs/" + id + "-after.webp"]) {
       const file = suffix.startsWith("thumbs/") ? suffix : `${id}-${suffix}`;
       await access(new URL(`../public/agents/${file}`, import.meta.url));
+    }
+  }
+});
+
+test("localized card labels override stored Russian image-agent values", () => {
+  const locales = ["en", "hi", "es", "fr", "ar", "pt", "de", "it", "tr", "pl", "sv", "cs"];
+  for (const locale of locales) {
+    for (const id of IMAGE_AGENT_EXPANSION_IDS) {
+      assert.equal(/[А-Яа-яЁё]/.test(`${agentName(id, locale)} ${agentDescription(id, locale)}`), false, `${locale}:${id}`);
     }
   }
 });
