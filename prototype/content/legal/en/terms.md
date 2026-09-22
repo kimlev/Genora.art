@@ -3,8 +3,8 @@
 **Operator:** Sangerto LTD, CRN: 17456264, 71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM.
 **Contact:** support@genora.art
 
-**Version:** 3.0
-**Effective date:** for a new account, on publication; for an existing account, 30 calendar days after notice.
+**Version:** 3.1
+**Effective date:** 22 September 2026 for a new account; for an existing account, 30 calendar days after notice.
 
 ---
 
@@ -40,7 +40,7 @@ Give accurate registration information and keep the email current. Protect the p
 
 6.2. A request may reserve or spend Balance when submitted. Provider costs, failed or partial jobs and technical corrections are handled under the Refund Policy. Promotion and bonus credits have no cash value.
 
-6.3. Balance unused for 12 consecutive months may expire after notice, subject to mandatory law. A payment provider may be an independent controller and can impose its own verification.
+6.3. Balance unused for 12 consecutive months may expire after clear notice, subject to mandatory law. No expiry or forfeiture removes a mandatory consumer remedy or a right to recover unused paid Balance where applicable. A payment provider may be an independent controller and can impose its own verification.
 
 6.4. You authorise the selected payment method for the displayed amount. Report an unauthorised charge promptly. Taxes, bank fees and currency conversion are allocated as shown at checkout or required by law.
 
@@ -101,23 +101,23 @@ The Company or its licensors own the code, design, text, catalogue, architecture
 
 TO THE MAXIMUM EXTENT ALLOWED BY LAW, THE SERVICE, MODELS, OUTPUTS AND PLATFORM MATERIAL ARE PROVIDED “AS IS” AND “AS AVAILABLE”. THE COMPANY DISCLAIMS IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS, TITLE, NON-INFRINGEMENT, ACCURACY, CONTINUITY, SECURITY AND ERROR-FREE OPERATION. GENORA DOES NOT PROMISE AN OUTPUT WILL BE CORRECT, CURRENT, UNIQUE, LAWFUL, SAFE, ORIGINAL OR FIT FOR A PARTICULAR PURPOSE, OR THAT DATA WILL NEVER BE LOST.
 
-This section does not remove rights that cannot be excluded, including mandatory consumer rights and liability for death or personal injury caused by negligence, fraud or fraudulent misrepresentation.
+Nothing in these Terms excludes or limits rights or liability that cannot lawfully be excluded or limited. This includes liability for death or personal injury caused by negligence, fraud or fraudulent misrepresentation, and mandatory consumer remedies for digital content or services that are faulty, not as described, or not provided with reasonable care and skill. A disclaimer applies only to the extent the law permits it.
 
 ## 17. Liability limits
 
-TO THE MAXIMUM EXTENT PERMITTED, THE COMPANY PARTIES are not liable for indirect, special, punitive or consequential loss, lost profit/revenue/goodwill/data, replacement services or a decision based on Output. Their total liability for claims connected with the Service is limited to the greater of the amount paid to the Company in the three months before the event or USD 100.
+TO THE MAXIMUM EXTENT PERMITTED, THE COMPANY PARTIES are not liable for indirect, special, punitive or consequential loss, lost profit/revenue/goodwill/data, replacement services or a decision based on Output. Subject to the non-excludable rights and liabilities described in §16, their total liability for claims connected with the Service is limited to the greater of the amount paid to the Company in the three months before the event or USD 100.
 
-The limit does not apply where law prohibits it. Genora is not responsible for a Provider’s act, third-party outage, your Input, an unprotected credential, data loss not caused by Genora or prohibited use. A claim must be brought within one year after it arose unless a mandatory period is longer.
+The limit does not apply where law prohibits it and does not restrict a mandatory repair, re-performance, price reduction, refund or other consumer remedy. Genora is not responsible for a Provider’s act, third-party outage, your Input, an unprotected credential, data loss not caused by Genora or prohibited use. Nothing in these Terms shortens a mandatory limitation period or prevents a consumer from using rights and courts available under local law.
 
 ## 18. Your indemnity
 
-You will defend and reimburse the Company Parties for claims, fines, losses and reasonable legal costs arising from your Input, Output use, breach, unlawful data, rights infringement, sanctions/export violation or dispute with your own users or customers. Genora may take over the defence; you must assist and cannot settle in a way that binds or admits fault for Genora without written consent.
+To the extent permitted by law, and primarily for business use, you will defend and reimburse the Company Parties for third-party claims and reasonable legal costs directly caused by your unlawful or wilful misuse of the Service, your breach of these Terms, unlawful data, rights infringement or sanctions/export violation. This does not cover losses caused by Genora’s negligence, breach or liability that cannot lawfully be excluded, and does not reduce consumer rights. Genora may take over the defence; you must assist and cannot settle in a way that binds or admits fault for Genora without written consent.
 
 ## 19. Suspension and termination
 
 You may stop using Genora and request deletion under the Account Deletion Policy. Genora may suspend or terminate for breach, suspected fraud/compromise, provider/payment/authority demand, sanctions or legal risk, or discontinuation, with notice where practical.
 
-Termination ends access but not charges already incurred. If Genora ends access for a reason unrelated to your breach, unused paid Balance can be refunded to the original payment method on written request, less permitted fees and bonus credit. After your breach, it is not refunded to the extent lawful. Data follows the Privacy and Account Deletion Policies.
+Termination ends access but not charges already incurred. If Genora ends access for a reason unrelated to your breach, unused paid Balance can be refunded to the original payment method on written request, less permitted fees and bonus credit. After your breach, it is not refunded only to the extent lawful. Any suspension, termination or Balance treatment remains subject to the Refund Policy and mandatory consumer remedies; no non-waivable right is forfeited. Data follows the Privacy and Account Deletion Policies.
 
 ## 20. Law and disputes
 
@@ -125,7 +125,7 @@ England and Wales law governs these Terms, but a consumer keeps mandatory protec
 
 ## 21. Changes to these Terms
 
-Material changes are announced at least 30 calendar days before taking effect by email or the interface, unless urgent law/security requires another method. Continued use accepts the new text; if you disagree, stop using the Service and request any eligible unused-Balance refund. Corrections, contact updates and provider-list changes can take effect on publication. The version applicable when a claim arose governs it.
+Material changes are announced at least 30 calendar days before taking effect by email or the interface, unless urgent law/security requires another method. Continued use may evidence acceptance where permitted, but material changes do not bind an existing consumer where express acceptance is required, and do not reduce rights attached to prepaid Balance without a lawful basis. If you disagree, stop using the Service and request any eligible unused-Balance refund. Corrections, contact updates and provider-list changes can take effect on publication. The version applicable when a claim arose governs it.
 
 ## 22. Electronic notices
 
@@ -147,7 +147,7 @@ Genora is not responsible for delay caused by an AI, hosting, network, payment o
 
 These Terms and incorporated documents are the entire agreement. Failure to enforce a right is not a waiver. If one clause is invalid, the rest remains effective and the clause is narrowed or replaced to the closest lawful effect. Provisions on payment, input, privacy, rights, disclaimers, liability, indemnity, disputes and this section survive termination.
 
-The Russian version is the authentic version of these Terms; this English text is provided for convenience, except where mandatory law requires otherwise. Preserve important data before closing an account.
+The English version is the version used for Genora’s production service. Translations are provided for convenience; if a translation differs, the English version controls to the extent permitted by law. Mandatory local law and consumer protections always prevail. Preserve important data before closing an account.
 
 ## 27. Operator and contact
 

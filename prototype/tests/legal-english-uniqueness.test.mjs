@@ -32,6 +32,8 @@ const documentMarkers = {
 };
 const documentVersions = {
   "cookies.md": "3.1",
+  "refund-policy.md": "3.1",
+  "terms.md": "3.1",
 };
 
 test("English Genora legal set has independent wording and no legacy operator references", async () => {
