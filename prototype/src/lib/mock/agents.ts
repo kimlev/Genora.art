@@ -338,10 +338,12 @@ export function getPopularAgents(): Agent[] {
  */
 export function agentDescription(id: string, locale: Locale): string {
   const override = getCatalogAgentOverride(id);
-  const localized = catalogUiCopy(locale).agents[id];
+  const localizedCopy = catalogUiCopy(locale);
+  const localized = localizedCopy.agents[id] ?? localizedCopy.imageAgents[id];
   if (localized) return localized;
   if (locale === "ru") return (override?.description || getAgentById(id)?.description) ?? "";
-  return catalogUiCopy("en").agents[id] ?? override?.description ?? id;
+  const englishCopy = catalogUiCopy("en");
+  return englishCopy.agents[id] ?? englishCopy.imageAgents[id] ?? override?.description ?? id;
 }
 
 /**
@@ -350,8 +352,10 @@ export function agentDescription(id: string, locale: Locale): string {
  */
 export function agentName(id: string, locale: Locale): string {
   const override = getCatalogAgentOverride(id);
-  const localized = catalogUiCopy(locale).agentNames[id];
+  const localizedCopy = catalogUiCopy(locale);
+  const localized = localizedCopy.agentNames[id] ?? localizedCopy.imageAgentNames[id];
   if (localized) return localized;
   if (locale === "ru") return (override?.name || getAgentById(id)?.name) ?? "";
-  return catalogUiCopy("en").agentNames[id] ?? override?.name ?? id;
+  const englishCopy = catalogUiCopy("en");
+  return englishCopy.agentNames[id] ?? englishCopy.imageAgentNames[id] ?? override?.name ?? id;
 }
