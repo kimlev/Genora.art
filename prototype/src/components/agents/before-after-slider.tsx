@@ -8,6 +8,7 @@ type BeforeAfterSliderProps = {
   afterSrc: string;
   beforeAlt: string;
   afterAlt: string;
+  label?: string;
   className?: string;
 };
 
@@ -16,6 +17,7 @@ export function BeforeAfterSlider({
   afterSrc,
   beforeAlt,
   afterAlt,
+  label = "Before and after",
   className,
 }: BeforeAfterSliderProps) {
   const labelId = useId();
@@ -82,7 +84,7 @@ export function BeforeAfterSlider({
         style={{ left: `${split}%` }}
       >
         <span className="sr-only" id={labelId}>
-          До и после
+          {label}
         </span>
         <span aria-hidden className="flex gap-0.5">
           <span className="h-3 w-px bg-[#111111]" />

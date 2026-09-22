@@ -912,7 +912,7 @@ export function MusicStudio() {
               value={prompt}
               maxLength={limit}
               onChange={(event) => setPrompt(event.target.value.slice(0, limit))}
-              placeholder={selected?.video_input ? "Настроение можно не писать — модель смотрит ролик" : mode === "song" ? copy.promptPlaceholder : copy.musicPlaceholder}
+              placeholder={selected?.video_input ? (locale === "ru" ? "Настроение можно не писать — модель смотрит ролик" : "You can leave the mood blank — the model watches the clip") : mode === "song" ? copy.promptPlaceholder : copy.musicPlaceholder}
               className={cn("min-h-40 w-full resize-none bg-transparent px-3 pt-3 text-sm text-text outline-none placeholder:text-steel", fileError ? "pb-24" : "pb-20")}
             />
             {fileError ? <p className="pointer-events-none absolute inset-x-3 bottom-12 text-[11px] leading-snug text-rose-600">{fileError}</p> : null}
@@ -951,7 +951,7 @@ export function MusicStudio() {
                 ) : null}
               </div>
               <div className="flex flex-col items-end gap-0.5">
-                <button type="button" aria-label="Растянуть поле. Двойной клик — открыть целиком" title="Растянуть поле. Двойной клик — открыть целиком" onPointerDown={startPromptResize} onDoubleClick={() => setEditorOpen(true)} className="grid size-8 cursor-ns-resize place-items-center rounded-lg text-steel hover:bg-mist hover:text-text">
+                <button type="button" aria-label={locale === "ru" ? "Растянуть поле. Двойной клик — открыть целиком" : "Expand the field. Double-click to open it fully"} title={locale === "ru" ? "Растянуть поле. Двойной клик — открыть целиком" : "Expand the field. Double-click to open it fully"} onPointerDown={startPromptResize} onDoubleClick={() => setEditorOpen(true)} className="grid size-8 cursor-ns-resize place-items-center rounded-lg text-steel hover:bg-mist hover:text-text">
                   <ChevronsUpDown className="size-4" />
                 </button>
                 <span className="text-xs text-steel">{prompt.length} {copy.charsOf} {limit}</span>
@@ -1016,7 +1016,7 @@ export function MusicStudio() {
             {withCreditGlyphs(`${copy.generate} ${formatTokensAsCredits(price, "ru-RU", "price")}`)}
           </Button>
         )}
-        {user && price > (user.balanceTokens ?? 0) ? <p className="mt-2 text-xs text-steel">На балансе может не хватить токенов для этой модели.</p> : null}
+        {user && price > (user.balanceTokens ?? 0) ? <p className="mt-2 text-xs text-steel">{locale === "ru" ? "На балансе может не хватить токенов для этой модели." : "Your balance may be too low for this model."}</p> : null}
       </section>
 
       <section data-lenis-prevent className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto bg-[#f3f6f8] px-4 py-4 lg:px-6 dark:bg-slate-950">
@@ -1260,7 +1260,7 @@ export function MusicStudio() {
               <textarea
                 value={prompt}
                 onChange={(event) => setPrompt(event.target.value.slice(0, limit))}
-                placeholder={selected?.video_input ? "Настроение можно не писать — модель смотрит ролик" : mode === "song" ? copy.promptPlaceholder : copy.musicPlaceholder}
+                placeholder={selected?.video_input ? (locale === "ru" ? "Настроение можно не писать — модель смотрит ролик" : "You can leave the mood blank — the model watches the clip") : mode === "song" ? copy.promptPlaceholder : copy.musicPlaceholder}
                 className="h-full min-h-0 w-full resize-none rounded-xl border border-border bg-bg px-4 pb-8 pt-3 text-sm leading-relaxed text-text outline-none placeholder:text-steel/75 focus:border-accent-brand"
                 maxLength={limit}
                 autoFocus
