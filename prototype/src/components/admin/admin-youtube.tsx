@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Bot, CheckCircle2, Clock, ExternalLink, Link2, Loader2, Play, RefreshCw, Save, ShieldCheck, Unplug, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AdminSelect } from "@/components/admin/admin-select";
 
 export type YoutubeAdminSection = "youtube-connect" | "youtube-research" | "youtube-plan" | "youtube-script" | "youtube-package" | "youtube-production" | "youtube-publish" | "youtube-analytics";
 type Stage = "research" | "plan" | "script" | "package" | "production" | "publish" | "analytics";
@@ -61,9 +62,9 @@ const STAGE_HINT:Record<Stage,string>={
   publish:"Финальная проверка, ручное подтверждение, upload или расписание YouTube.",
   analytics:"Метрики YouTube Analytics за 28 дней и следующий цикл улучшений.",
 };
-const inputClass="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-100 outline-none focus:border-orange-500";
+const inputClass="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 outline-none focus:border-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100";
 const primaryButton="inline-flex h-10 items-center gap-2 rounded-xl bg-orange-600 px-4 text-xs font-semibold text-white disabled:opacity-50";
-const secondaryButton="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-700 px-4 text-xs font-semibold text-slate-200 disabled:opacity-50";
+const secondaryButton="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-300 px-4 text-xs font-semibold text-slate-800 disabled:opacity-50 dark:border-slate-700 dark:text-slate-200";
 
 function asString(value:unknown){return typeof value==="string"?value:"";}
 function localDateTime(value:string|null){return value?new Date(value).toISOString().slice(0,16):"";}
@@ -149,17 +150,17 @@ export function AdminYoutube({section,onNavigate}:{section:YoutubeAdminSection;o
   if(loading&&!data)return <div className="grid min-h-72 place-items-center"><Loader2 className="size-6 animate-spin text-orange-400"/></div>;
   if(!data||!settings)return <Message tone="error">{error??"YouTube workspace недоступен"}</Message>;
 
-  return <div className="space-y-5">
-    <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
+  return <div className="youtube-admin space-y-5">
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-300 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/40">
       <div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-red-500/15 text-red-300"><Video className="size-5"/></span><div><h2 className="font-semibold">YouTube Genora</h2><p className="text-xs text-slate-500">Последовательный production workflow с ручным контролем публикации</p></div></div>
-      <div className="flex items-center gap-2"><Status ok={settings.connected} label={settings.connected?settings.channelTitle||"Канал подключён":"Канал не подключён"}/><button type="button" onClick={()=>void load()} className="grid size-9 place-items-center rounded-xl border border-slate-700 text-slate-300"><RefreshCw className="size-4"/></button></div>
+      <div className="flex items-center gap-2"><Status ok={settings.connected} label={settings.connected?settings.channelTitle||"Канал подключён":"Канал не подключён"}/><button type="button" onClick={()=>void load()} className="grid size-9 place-items-center rounded-xl border border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-300"><RefreshCw className="size-4"/></button></div>
     </div>
     {error?<Message tone="error">{error}</Message>:null}{notice?<Message>{notice}</Message>:null}
     {section==="youtube-connect"?<Connection settings={settings} setSettings={setSettings} requirements={data.requirements} busy={busy} onSave={()=>void saveSettings()} onConnect={()=>void connect()} onDisconnect={()=>void call({action:"disconnect"},"Канал отключён")} onNext={()=>onNavigate("youtube-research")}/>:<>
       <ProjectBar projects={data.projects} selectedId={selectedId} onSelect={selectProject}/>
       {!selected?<NewProject draft={draft} setDraft={setDraft} busy={busy} onCreate={()=>void createProject()}/>:<StageView stage={SECTION_STAGE[section]??"research"} project={selected} form={projectForm} setForm={setProjectForm} assets={data.videoAssets} busy={busy} onSave={()=>void saveProject()} onRun={(stage)=>void runStage(stage)} onApprove={()=>void call({action:"approve-publish",projectId:selected.id},"Публикация подтверждена")}/>}
     </>}
-    {busy?<div className="fixed inset-0 z-40 grid place-items-center bg-slate-950/35"><div className="flex items-center gap-3 rounded-2xl border border-slate-700 bg-slate-900 px-5 py-4 text-sm"><Loader2 className="size-5 animate-spin text-orange-400"/>Выполняется этап YouTube…</div></div>:null}
+    {busy?<div className="fixed inset-0 z-40 grid place-items-center bg-slate-950/35"><div className="flex items-center gap-3 rounded-2xl border border-slate-300 bg-white px-5 py-4 text-sm text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"><Loader2 className="size-5 animate-spin text-orange-400"/>Выполняется этап YouTube…</div></div>:null}
   </div>;
 }
 
@@ -184,7 +185,7 @@ function Connection({settings,setSettings,requirements,busy,onSave,onConnect,onD
 }
 
 function ProjectBar({projects,selectedId,onSelect}:{projects:Project[];selectedId:string;onSelect:(value:string)=>void}){
-  return <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-800 bg-slate-900/40 p-4"><label className="min-w-72 flex-1 text-xs text-slate-500">Проект<select value={selectedId} onChange={(event)=>onSelect(event.target.value)} className={cn(inputClass,"mt-1 h-10")}>{projects.map((project)=><option key={project.id} value={project.id}>{project.title} · {project.status}</option>)}</select></label><p className="text-xs text-slate-500">Нет проекта? Создайте его на этапе «Исследование».</p></div>;
+  return <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-300 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/40"><AdminSelect label="Проект" value={selectedId} options={projects.map((project)=>({value:project.id,label:`${project.title} · ${project.status}`}))} emptyLabel="Выберите проект" onChange={onSelect} clearable={false} className="min-w-72 flex-1"/><p className="text-xs text-slate-500">Нет проекта? Создайте его на этапе «Исследование».</p></div>;
 }
 
 function NewProject({draft,setDraft,busy,onCreate}:{draft:{title:string;topic:string;targetAudience:string;goal:string;language:string};setDraft:(value:typeof draft)=>void;busy:boolean;onCreate:()=>void}){
