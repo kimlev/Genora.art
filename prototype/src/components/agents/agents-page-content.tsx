@@ -12,7 +12,7 @@ import { studioGalleryCopy } from "@/lib/i18n/copy/studio-gallery-copy";
 import { IMAGE_AGENT_TAGS, imageAgentMatchesTag, type ImageAgentTag } from "@/lib/image-agent-gallery";
 import { useCatalogAgentOverrides } from "@/lib/use-catalog-agent-overrides";
 import { getCatalogAgentOverride } from "@/lib/catalog-agent-overrides";
-import { agentName, listVisibleAgents, type AgentCategory } from "@/lib/mock/agents";
+import { agentDescription, agentName, listVisibleAgents, type AgentCategory } from "@/lib/mock/agents";
 import { Clapperboard, Hash, ImageIcon, LayoutGrid, Pencil, Type, UserRound, type LucideIcon } from "lucide-react";
 import { useLocalePush, useLocaleRouter } from "@/lib/i18n/use-locale-push";
 import { useEffect, useMemo, useState } from "react";
@@ -58,7 +58,7 @@ export function AgentsPageContent() {
   const [savedId, setSavedId] = useState<string | null>(null);
   const galleryCopy = studioGalleryCopy(locale);
   const catalogVersion = useCatalogAgentOverrides();
-  const agents = useMemo(() => listVisibleAgents(), [catalogVersion]);
+  const agents = useMemo(() => listVisibleAgents(), [catalogVersion, locale]);
 
   useEffect(() => {
     const onSaved = (event: Event) => {
@@ -118,7 +118,7 @@ export function AgentsPageContent() {
     pushLocale(agentLaunchHref(id, context));
   };
 
-  const schema = { "@context": "https://schema.org", "@type": "ItemList", name: t.agents.catalogTitle, itemListElement: agents.map((agent, index) => ({ "@type": "ListItem", position: index + 1, name: agentName(agent.id, locale), description: t.agents.items[agent.id]?.description ?? agent.description })) };
+  const schema = { "@context": "https://schema.org", "@type": "ItemList", name: t.agents.catalogTitle, itemListElement: agents.map((agent, index) => ({ "@type": "ListItem", position: index + 1, name: agentName(agent.id, locale), description: agentDescription(agent.id, locale) })) };
 
   return (
     <div className="mx-auto max-w-6xl px-5 pt-4 pb-12 sm:px-8 sm:pb-16">
@@ -193,8 +193,8 @@ export function AgentsPageContent() {
               key={agent.id}
               agentId={agent.id}
               headingAs="h2"
-              title={custom ? agent.name : (t.agents.items[agent.id]?.name ?? agent.name)}
-              description={custom ? agent.description : (t.agents.items[agent.id]?.description ?? agent.description)}
+              title={custom ? agent.name : agentName(agent.id, locale)}
+              description={custom ? agent.description : agentDescription(agent.id, locale)}
               useLabel={t.agents.useAgent}
               tag={custom ? t.agents.filterMine : agentContextLabel(agent.category, t.agents)}
               coverSrc={custom ? MY_AGENT_COVER : (getCatalogAgentOverride(agent.id)?.coverUrl ?? undefined)}

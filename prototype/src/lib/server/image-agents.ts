@@ -239,8 +239,8 @@ export function localizeImageAgent(agent:ImageAgent,locale:Locale):ImageAgent{
   if(!catalog)return agent;
   return {
     ...agent,
-    name:agent.name!==catalog.name?agent.name:imageAgentName(agent.id,locale,agent.name),
-    description:agent.description!==catalog.description?agent.description:imageAgentDescription(agent.id,locale,agent.description),
+    name:imageAgentName(agent.id,locale,agent.name),
+    description:imageAgentDescription(agent.id,locale,agent.description),
   };
 }
 

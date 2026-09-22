@@ -74,7 +74,7 @@ export function WelcomeBonusCard() {
   return (
     <>
       <div className="relative mb-2 rounded-2xl border border-border bg-surface p-3 shadow-sm text-text">
-        <button type="button" aria-label="Закрыть" className="absolute end-2 top-2 rounded-md p-1 text-steel hover:bg-mist" onClick={() => { void fetch("/api/welcome-bonus", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "dismiss" }) }); setProgress({ ...progress, showTeaser: false }); }}>
+        <button type="button" aria-label={copy.title} className="absolute end-2 top-2 rounded-md p-1 text-steel hover:bg-mist" onClick={() => { void fetch("/api/welcome-bonus", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "dismiss" }) }); setProgress({ ...progress, showTeaser: false }); }}>
           <X className="size-3.5" />
         </button>
         <button type="button" onClick={() => setOpen(true)} className="flex w-full items-start gap-2.5 pe-6 text-left">
