@@ -30,11 +30,14 @@ const documentMarkers = {
   "subprocessors.md": "Why this list exists",
   "terms.md": "The contract you are accepting",
 };
+const documentVersions = {
+  "cookies.md": "3.1",
+};
 
 test("English Genora legal set has independent wording and no legacy operator references", async () => {
   for (const file of legalFiles) {
     const content = await readFile(join(legalRoot, file), "utf8");
-    assert.match(content, /^\*\*Version:\*\*\s*3\.0/m, file);
+    assert.match(content, new RegExp(`^\\*\\*Version:\\*\\*\\s*${documentVersions[file] ?? "3.0"}`, "m"), file);
     assert.match(content, /Genora/i, file);
     assert.match(content, new RegExp(documentMarkers[file]), file);
     assert.doesNotMatch(content, /ModelStation|ELVARON LIMITED|Hong Kong|NAZARII SEMENYNA|\bDirector\s*:/i, file);
