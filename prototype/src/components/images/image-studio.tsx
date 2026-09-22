@@ -21,7 +21,7 @@ import { imageAgentGuideAssets, imageAgentPreferredStyle, imageAgentRequiresPhot
 import { imageAgentPreset } from "@/lib/image-agent-presets";
 import { filterModelsForMinReferences, imageAgentMinReferences, modelSupportsMinReferences } from "@/lib/image-agent-models";
 import { defaultImageAgentVariant, imageAgentVariantNotes, imageAgentVariants, imageStudioQueryKey, liveImageStudioQuery } from "@/lib/image-agent-variants";
-import { agentName, listVisibleAgents } from "@/lib/mock/agents";
+import { agentDescription, agentName, listVisibleAgents } from "@/lib/mock/agents";
 import { getCatalogAgentOverride } from "@/lib/catalog-agent-overrides";
 import { useCatalogAgentOverrides } from "@/lib/use-catalog-agent-overrides";
 import { videoAgentCopy, videoAgentDefaults, videoAgentNeedsUserPrompt, type VideoAgentGuide, type VideoAgentSettings } from "@/lib/video-agent-catalog";
@@ -128,130 +128,6 @@ const emptyCatalog: Catalog = { providers: [], models: [], styles: [], available
 const MAX_REFERENCE_EDGE = 2048;
 const TARGET_REFERENCE_BYTES = 1_200_000;
 const PROMPT_MAX = 20_000;
-
-const UI = {
-  photo: "Картинку",
-  video: "Видео",
-  t2i: "Текст в картинку",
-  i2i: "Картинка в картинку",
-  provider: "Провайдер",
-  model: "Модель",
-  agent: "Агент",
-  templates: "Шаблоны фото",
-  templatesSoon: "Раздел шаблонов будет доработан позже. Здесь появятся сотни примеров с тегами и фильтрами.",
-  templatesClose: "Закрыть",
-  agentsTemplates: "Агенты/Шаблоны",
-  agents: "Агенты",
-  creating: "Создаётся…",
-  createFailed: "Не получилось",
-  promptTitle: "Промт",
-  expandPrompt: "Потянуть, чтобы растянуть. Двойной клик — открыть целиком",
-  expandPromptFull: "Открыть текст целиком",
-  noAgent: "Без агента",
-  mic: "Надиктовать промт",
-  micStop: "Остановить запись",
-  size: "Размер",
-  format: "Формат",
-  quality: "Качество",
-  styles: "Стили",
-  generate: "Сгенерировать",
-  noFunds: "не хватает средств",
-  videoStub: "Видео в разработке",
-  videoStubLead: "Этот режим скоро появится. Сейчас можно создавать только фото.",
-  t2v: "Текст в видео",
-  animate: "Оживить фото",
-  i2v: "Картинка в видео",
-  v2v: "Видео в видео",
-  duration: "Продолжительность",
-  seconds: "сек",
-  sound: "Звук",
-  soundYes: "да",
-  soundNo: "нет",
-  creatingVideo: "Создаём видео…",
-  badgeVideo: "ВИДЕО",
-  templatesVideo: "Шаблоны видео",
-  templatesVideoSoon: "Шаблоны и агенты для видео появятся позже. Сейчас можно выбрать стиль и описать ролик.",
-  addVideoNeeded: "Добавьте файл для выбранного режима",
-  uploadRef: "Референс",
-  videoCatalogFailed: "Не удалось загрузить каталог видео",
-  fileTooBig: "Размер большой",
-  filesTotalBig: "Сумма файлов больше лимита",
-  pickModel: "Выберите модель",
-  library: "Моя галерея",
-  libraryLead: "Ваши произведения и история создания",
-  filterType: "Тип",
-  filterProvider: "Провайдер",
-  filterModel: "Модель",
-  filterSound: "Звук",
-  filterAll: "Все",
-  typePhoto: "Фото",
-  typeVideo: "Видео",
-  soundOn: "Со звуком",
-  soundOff: "Без звука",
-  badgePhoto: "ФОТО",
-  emptyLibrary: "Здесь появятся ваши работы",
-  emptyFavorites: "В избранном пока ничего нет",
-  filterFavorites: "Избранное",
-  filterFavoritesOff: "Показать все работы",
-  loginLibrary: "Войдите, чтобы видеть историю",
-  addPhotoNeeded: "Добавьте фото для режима «Картинка в картинку»",
-  variants: "вар",
-  limit: "20 000",
-  uploadPhoto: "Загрузите фото",
-  uploadPhotoLead: "Чтобы получить такой результат",
-  exampleGood: "Как хорошо",
-  exampleBad: "Как плохо",
-  uploadHere: "Загрузить",
-  guideClose: "Закрыть",
-  guideBell: "Как должно выглядеть фото",
-  placeholderTemplate: "Загрузите своё фото по инструкции колокольчика. Здесь можно дописать, что изменить.",
-  placeholderCustom: "Напишите, что должен сделать агент. Если нужна картинка — добавьте её плюсом.",
-  placeholderPhotoAgent: "Можно дописать, что изменить.",
-} as const;
-
-const AGENT_HINTS: Record<string, string> = {
-  "logo-generator": "Укажите название бренда, чем занимается, характер (2–4 слова) и тип знака: слово, буква, символ или эмблема.",
-  "business-card": "Напишите ФИО, должность, компанию и контакты, которые должны быть на визитке. Лишнего не добавляйте.",
-  "brand-style-mini": "Укажите название бренда, сферу, настроение и где применять стиль: бланк, аватар, бейдж.",
-  "background-removal": "Загрузите одно фото. По желанию напишите, кого оставить и какой фон: прозрачный, белый или чёрный.",
-  "pro-headshot": "Загрузите портрет анфас, лицо в кадре и в фокусе. По желанию: фон, одежда и кадр — по плечи или по пояс.",
-  "face-swap": "Фото 1 — кого поставить. Фото 2 — чьё лицо меняем.",
-  "background-replace": "Укажите новый фон: место, свет и время суток. Если оставить пустым — подставится фон из промта агента.",
-  "gta-filter": "Загрузите одно фото. Агент превратит его в постерную стилистику GTA и добавит фирменную вставку справа снизу.",
-  "natural-retouch": "Загрузите портрет. Напишите силу ретуши и что сохранить: родинки, веснушки, возраст.",
-  "privacy-redaction": "Загрузите фото и укажите, что закрыть: лица, номера, документы — и как: пиксели или сплошной блок.",
-  "business-outfit": "Загрузите фото человека. Опишите одежду: рубашка, пиджак, цвет и насколько строго.",
-  "restore-old-photo": "Загрузите старое фото. По желанию уточните, что восстановить в первую очередь.",
-  "remove-objects": "Укажите, какие объекты удалить. Если оставить пустым — уберём явный мусор на переднем плане.",
-  "apply-tan": "Загрузите фото. По желанию уточните силу загара.",
-  "remove-tattoo": "Загрузите фото с тату. По желанию укажите, какую именно убрать.",
-  "character-card": "Загрузите три фото одного человека: лицо анфас, лицо сбоку и полный рост.",
-  "ai-character-card": "Опишите нового персонажа: возраст, пол, цвет волос, рост, одежду, особые приметы и желаемый стиль.",
-  "remove-makeup": "Загрузите портрет с макияжем крупным планом.",
-  "add-makeup": "Выберите тип макияжа миниатюрой или опишите его здесь.",
-  "change-eye-color": "Укажите новый цвет глаз. Если оставить пустым — подставится изумрудный.",
-  "plump-lips": "Выберите степень пухлости миниатюрой или опишите её здесь.",
-  "whiten-teeth": "Загрузите улыбку крупным планом. По желанию уточните, насколько белыми сделать зубы.",
-  "remove-wrinkles": "Загрузите портрет крупным планом. По желанию укажите, какие морщины смягчить.",
-  "add-cheekbones": "Загрузите портрет крупным планом. По желанию уточните силу скул.",
-  caricature: "Загрузите портрет. Стиль шаржа уже выбран в настройках.",
-  comic: "Загрузите фото. Стиль комикса уже выбран в настройках.",
-  "comic-2": "Загрузите фото от колен, лучше на улице. Стиль мультяшного комикса уже выбран в настройках.",
-  "fashion-caricature": "Загрузите фото человека. Стиль модной карикатуры уже выбран в настройках.",
-  "pixel-illustration": "Загрузите портрет крупным планом, лицо в кадре. Стиль пиксельной иллюстрации уже выбран в настройках.",
-  watercolor: "Загрузите портрет крупным планом, лицо в кадре. Стиль акварели уже выбран в настройках.",
-  "x-ray": "Загрузите портрет, лучше в три четверти. Стиль рентгена уже выбран в настройках.",
-  "old-age": "Укажите возраст, в котором хотите себя видеть, мы это значение подставим для генерации.",
-};
-
-const VARIANT_LABELS: Record<string, string> = {
-  natural: "Натуральный",
-  evening: "Вечерний",
-  editorial: "Editorial",
-  subtle: "Увеличенные",
-  medium: "Большие",
-  full: "Силикон",
-};
 
 /** Было 128×96 (`h-32 w-24`), меньше в 1.3 раза — нижний край совпадает со стрелкой раскрытия. */
 const VARIANT_THUMB_CLASS = "relative h-[98px] w-[74px] shrink-0 overflow-hidden rounded-xl border";
@@ -383,6 +259,84 @@ export function ImageStudio() {
   const pathname = useAppPathname();
   const searchParams = useSearchParams();
   const copy = workspaceUiCopy(locale);
+  const videoUi = videoStudioUiCopy(locale);
+  const UI = {
+    photo: videoUi.photo,
+    video: videoUi.video,
+    t2i: t.workspace.menuPhotoCreate,
+    i2i: copy.addPhoto,
+    provider: t.studio.provider,
+    model: t.studio.model,
+    templates: t.workspace.menuPhotoTemplates,
+    templatesSoon: t.workspace.videoTemplatesLead,
+    templatesClose: copy.close,
+    agentsTemplates: videoUi.agentsTemplates,
+    agents: videoUi.agents,
+    creating: t.workspace.newGeneration,
+    createFailed: t.studio.unavailable,
+    promptTitle: t.hero.promptPlaceholder,
+    expandPrompt: copy.previewAria,
+    expandPromptFull: copy.previewAria,
+    noAgent: copy.noAgent,
+    mic: videoUi.mic,
+    micStop: videoUi.micStop,
+    size: videoUi.size,
+    format: videoUi.format,
+    quality: t.studio.quality,
+    styles: videoUi.styles,
+    generate: videoUi.generate,
+    noFunds: videoUi.noFunds,
+    videoStub: videoUi.soon,
+    videoStubLead: videoUi.templatesVideoSoon,
+    t2v: videoUi.t2v,
+    animate: videoUi.animate,
+    i2v: videoUi.i2v,
+    v2v: videoUi.v2v,
+    duration: videoUi.duration,
+    seconds: videoUi.seconds,
+    sound: videoUi.sound,
+    soundYes: videoUi.soundYes,
+    soundNo: videoUi.soundNo,
+    creatingVideo: videoUi.creatingVideo,
+    badgeVideo: videoUi.badgeVideo,
+    templatesVideo: videoUi.templatesVideo,
+    templatesVideoSoon: videoUi.templatesVideoSoon,
+    addVideoNeeded: videoUi.addVideoNeeded,
+    uploadRef: copy.addAttachment,
+    videoCatalogFailed: videoUi.videoCatalogFailed,
+    fileTooBig: videoUi.fileTooBig,
+    filesTotalBig: videoUi.filesTotalBig,
+    pickModel: videoUi.pickModel,
+    library: t.workspace.menuGallery,
+    libraryLead: t.workspace.galleryEmpty,
+    filterType: t.rating.filterType,
+    filterProvider: t.rating.filterProvider,
+    filterModel: t.studio.model,
+    filterSound: videoUi.sound,
+    filterAll: t.rating.filterTypeAll,
+    typePhoto: t.rating.filterTypePhoto,
+    typeVideo: t.rating.filterTypeVideo,
+    soundOn: videoUi.soundYes,
+    soundOff: videoUi.soundNo,
+    badgePhoto: t.rating.filterTypePhoto,
+    emptyLibrary: t.workspace.imageHistoryEmpty,
+    emptyFavorites: t.workspace.imageHistoryEmpty,
+    filterFavorites: t.rating.filterTypeFavorites,
+    filterFavoritesOff: t.workspace.menuGallery,
+    loginLibrary: t.workspace.gallerySignIn,
+    addPhotoNeeded: copy.addPhoto,
+    variants: copy.variantsShort,
+    uploadPhoto: copy.uploadPhoto,
+    uploadPhotoLead: copy.addPhoto,
+    exampleGood: copy.uploadPhoto,
+    exampleBad: copy.uploadPhoto,
+    uploadHere: copy.addFile,
+    guideClose: copy.close,
+    guideBell: copy.addImageAria,
+    placeholderTemplate: copy.placeholderAgent,
+    placeholderCustom: copy.placeholderDefault,
+    placeholderPhotoAgent: copy.addPhoto,
+  };
   const text = studioBattleCopy(locale);
   const deleteCopy = deleteConfirmationCopy(locale);
   const { user, ready: authReady, setBalanceTokens } = useAuth();
@@ -603,8 +557,8 @@ export function ImageStudio() {
     };
     const load = async () => {
       try {
-        const [catalogResponse, agentResponse] = await Promise.all([
-          fetch("/api/images/catalog"), fetch("/api/image-agents"),
+      const [catalogResponse, agentResponse] = await Promise.all([
+          fetch("/api/images/catalog"), fetch(`/api/image-agents?locale=${encodeURIComponent(locale)}`),
         ]);
         if (!catalogResponse.ok) throw new Error("image_catalog_failed");
         const catalogData = await catalogResponse.json() as Catalog;
@@ -636,7 +590,7 @@ export function ImageStudio() {
     void loadVideo();
     void load();
     return () => { active = false; streamRef.current?.getTracks().forEach((track) => track.stop()); };
-  }, [authReady, user?.id]);
+  }, [authReady, user?.id, locale]);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -891,8 +845,8 @@ export function ImageStudio() {
       if (!videoMode) return [];
       return [{
         id: item.id,
-        name: override?.name || item.name,
-        description: override?.description || item.description,
+        name: agentName(item.id, locale) || override?.name || item.name,
+        description: agentDescription(item.id, locale) || override?.description || item.description,
         tag: override?.tag ?? defaults?.tag ?? "entertainment",
         providerId: override?.providerId ?? defaults?.providerId ?? "",
         modelId: override?.modelId ?? defaults?.modelId ?? item.modelId,
@@ -907,7 +861,7 @@ export function ImageStudio() {
         maxUserReferences: defaults?.maxUserReferences,
       }];
     });
-  }, [catalogAgentVersion]);
+  }, [catalogAgentVersion, locale]);
 
   const urlAgent = searchParams.get("agent") ?? "";
   const urlVideoAgent = searchParams.get("videoAgent") ?? "";
@@ -996,7 +950,7 @@ export function ImageStudio() {
   const composerPlaceholder = authReady && !user
     ? copy.placeholderGuest
     : selectedAgent
-      ? (composerHints.placeholder[selectedAgent.id] ?? AGENT_HINTS[selectedAgent.id] ?? (imageAgentRequiresPhoto(selectedAgent.id) ? UI.placeholderPhotoAgent : UI.placeholderCustom))
+      ? (composerHints.placeholder[selectedAgent.id] ?? (imageAgentRequiresPhoto(selectedAgent.id) ? UI.placeholderPhotoAgent : UI.placeholderCustom))
       : templateId
         ? UI.placeholderTemplate
         : copy.placeholderDefault;
@@ -1509,13 +1463,13 @@ export function ImageStudio() {
                   <button
                     key={item.id}
                     type="button"
-                    title={VARIANT_LABELS[item.id] ?? item.id}
-                    aria-label={VARIANT_LABELS[item.id] ?? item.id}
+                    title={copy.variant}
+                    aria-label={copy.variant}
                     aria-pressed={variantId === item.id}
                     onClick={() => setVariantId(item.id)}
                     className={cn(VARIANT_THUMB_CLASS, variantId === item.id ? "border-accent-brand ring-2 ring-accent-brand/30" : "border-border")}
                   >
-                    <Image src={item.thumb} alt={VARIANT_LABELS[item.id] ?? item.id} fill unoptimized className="object-cover" />
+                    <Image src={item.thumb} alt={copy.variant} fill unoptimized className="object-cover" />
                   </button>
                 ))}
               </div>
@@ -1838,13 +1792,13 @@ export function ImageStudio() {
                     <button
                       key={item.id}
                       type="button"
-                      title={VARIANT_LABELS[item.id] ?? item.id}
-                      aria-label={VARIANT_LABELS[item.id] ?? item.id}
+                      title={copy.variant}
+                      aria-label={copy.variant}
                       aria-pressed={variantId === item.id}
                       onClick={() => setVariantId(item.id)}
                       className={cn(VARIANT_THUMB_CLASS, variantId === item.id ? "border-accent-brand ring-2 ring-accent-brand/30" : "border-border")}
                     >
-                      <Image src={item.thumb} alt={VARIANT_LABELS[item.id] ?? item.id} fill unoptimized className="object-cover" />
+                      <Image src={item.thumb} alt={copy.variant} fill unoptimized className="object-cover" />
                     </button>
                   ))}
                 </div>
@@ -2641,8 +2595,8 @@ function VideoStudioPanel({
               <button
                 type="button"
                 onClick={() => setAgentGuideOpen(true)}
-                aria-label={UI.guideBell}
-                title={UI.guideBell}
+                aria-label={copy.addImageAria}
+                title={copy.addImageAria}
                 className="relative grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-accent-brand/40 bg-accent-brand/10 text-accent-brand hover:bg-accent-brand/15"
               >
                 <span className="studio-bell-pulse absolute inset-1 rounded-full bg-accent-brand/35" aria-hidden />
@@ -2834,10 +2788,10 @@ function VideoStudioPanel({
       )}
 
       {editorOpen ? createPortal(
-        <div className="fixed inset-0 z-[400] grid place-items-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-label={UI.expandPromptFull} onClick={() => setEditorOpen(false)}>
+        <div className="fixed inset-0 z-[400] grid place-items-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-label={copy.previewAria} onClick={() => setEditorOpen(false)}>
           <div className="flex h-[min(86dvh,760px)] w-full max-w-3xl flex-col rounded-2xl bg-surface p-5 shadow-2xl" onClick={(event) => event.stopPropagation()}>
             <div className="mb-3 flex items-center justify-between gap-3">
-              <h3 className="text-base font-semibold text-text">{UI.promptTitle}</h3>
+              <h3 className="text-base font-semibold text-text">{mediaTitleCopy(locale).prompt}</h3>
               <button type="button" aria-label={copy.close} onClick={() => setEditorOpen(false)} className="grid size-9 place-items-center rounded-full border border-border hover:bg-mist"><X className="size-4" /></button>
             </div>
             <div className="relative min-h-0 flex-1">
@@ -2864,24 +2818,24 @@ function VideoStudioPanel({
       {agentGuideOpen && selectedVideoAgent?.guide ? createPortal(
         <div className="fixed inset-0 z-[430] grid place-items-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="video-agent-guide-title" onClick={() => setAgentGuideOpen(false)}>
           <div className="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-3xl bg-surface p-6 shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <h3 id="video-agent-guide-title" className="text-center text-xl font-semibold text-text">{UI.uploadPhoto}</h3>
+            <h3 id="video-agent-guide-title" className="text-center text-xl font-semibold text-text">{copy.uploadPhoto}</h3>
             <div className="mt-5 grid grid-cols-3 gap-3">
               <figure className="relative">
                 <span className="relative block aspect-square overflow-hidden rounded-2xl bg-mist">
-                  <Image src={selectedVideoAgent.guide.goodImageUrl} alt={UI.exampleGood} fill unoptimized className="object-contain" />
+                  <Image src={selectedVideoAgent.guide.goodImageUrl} alt={copy.uploadPhoto} fill unoptimized className="object-contain" />
                 </span>
-                <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{UI.exampleGood}</figcaption>
+                <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{copy.uploadPhoto}</figcaption>
                 <CheckCircle2 className="absolute -bottom-0.5 -end-0.5 size-7 rounded-full bg-surface text-emerald-500" aria-hidden />
               </figure>
               <figure className="relative">
                 <span className="relative block aspect-square overflow-hidden rounded-2xl bg-mist">
-                  <Image src={selectedVideoAgent.guide.badImageUrl} alt={UI.exampleBad} fill unoptimized className="object-cover" />
+                  <Image src={selectedVideoAgent.guide.badImageUrl} alt={copy.uploadPhoto} fill unoptimized className="object-cover" />
                 </span>
-                <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{UI.exampleBad}</figcaption>
+                <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{copy.uploadPhoto}</figcaption>
                 <CircleX className="absolute -bottom-0.5 -end-0.5 size-7 rounded-full bg-surface text-red-500" aria-hidden />
               </figure>
               {selectedVideoAgent.guide.uploadFromGuide ? (
-                <button type="button" onClick={() => agentGuideFileRef.current?.click()} className="relative flex aspect-square flex-col items-center justify-center rounded-2xl border border-border bg-bg hover:bg-mist" aria-label={UI.uploadHere}>
+                <button type="button" onClick={() => agentGuideFileRef.current?.click()} className="relative flex aspect-square flex-col items-center justify-center rounded-2xl border border-border bg-bg hover:bg-mist" aria-label={copy.addFile}>
                   <span className="grid size-14 place-items-center rounded-full bg-accent-brand text-white"><Plus className="size-7" /></span>
                 </button>
               ) : null}
@@ -2899,11 +2853,11 @@ function VideoStudioPanel({
                   }}
                 />
             ) : null}
-            <p className="mt-5 text-center text-sm text-steel">{UI.uploadPhotoLead}</p>
+            <p className="mt-5 text-center text-sm text-steel">{copy.addPhoto}</p>
             <div className="mt-3 overflow-hidden rounded-2xl bg-black">
               <video src={selectedVideoAgent.videoUrl ?? undefined} poster={selectedVideoAgent.coverUrl ?? undefined} controls muted playsInline className="max-h-[42dvh] w-full object-contain" />
             </div>
-            <Button type="button" variant="secondary" className="mt-5 h-11 w-full" onClick={() => setAgentGuideOpen(false)}>{UI.guideClose}</Button>
+            <Button type="button" variant="secondary" className="mt-5 h-11 w-full" onClick={() => setAgentGuideOpen(false)}>{copy.close}</Button>
           </div>
         </div>,
         document.body,
@@ -2919,6 +2873,7 @@ function tokensForImage(generation: ImageGeneration) {
 
 function PendingCard({ job, locale, deleteLabel, onDismiss, onShowPrompt }: { job: PendingImageJob; locale: string; deleteLabel: string; onDismiss: () => void; onShowPrompt: () => void }) {
   const videoUi = videoStudioUiCopy((locale as Locale) || "en");
+  const copy = workspaceUiCopy((locale as Locale) || "en");
   const errorLabel = generationErrorLabel((locale as Locale) || "en");
   const failureLabel = generationFailureLabel((locale as Locale) || "en", job.errorCode);
   return (
@@ -2929,11 +2884,11 @@ function PendingCard({ job, locale, deleteLabel, onDismiss, onShowPrompt }: { jo
       <div className="p-3">
         <div className="flex h-4 items-center gap-2"><p className="min-w-0 flex-1 truncate text-xs font-medium text-text">{job.prompt || "—"}</p><button type="button" aria-label={mediaTitleCopy(locale).prompt} onClick={onShowPrompt} className="relative grid size-4 shrink-0 place-items-center rounded text-steel after:absolute after:-inset-1.5 hover:bg-mist hover:text-text"><Eye className="size-3.5" /></button></div>
         <div className="mt-2 flex items-center gap-2">
-          <span className="rounded-full bg-accent-brand/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-text">{job.kind === "video" ? videoUi.badgeVideo : UI.badgePhoto}</span>
+          <span className="rounded-full bg-accent-brand/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-text">{job.kind === "video" ? videoUi.badgeVideo : copy.variant}</span>
           <span className="truncate text-[11px] text-steel">{job.modelLabel}</span>
         </div>
         <div className="mt-2 flex items-center justify-between text-[11px] tabular-nums">
-          <span className={job.status === "failed" ? "font-medium text-destructive" : "text-steel"}>{job.status === "creating" ? (job.kind === "video" ? videoUi.creatingVideo : UI.creating) : errorLabel}</span>
+          <span className={job.status === "failed" ? "font-medium text-destructive" : "text-steel"}>{job.status === "creating" ? (job.kind === "video" ? videoUi.creatingVideo : copy.uploadPhoto) : errorLabel}</span>
           <span className="inline-flex items-center text-text">{withCreditGlyphs(formatTokensAsCredits(Math.round(job.billedTokens / Math.max(job.count, 1)), locale, "price"))}</span>
         </div>
         {job.status === "failed" ? (
@@ -2967,7 +2922,7 @@ function ResultCard({ copy, locale, deleteLabel, generation, imageItem, imageInd
           <button type="button" aria-label={mediaTitleCopy(locale).prompt} onClick={onShowPrompt} className="relative grid size-4 shrink-0 place-items-center rounded text-steel after:absolute after:-inset-1.5 hover:bg-mist hover:text-text"><Eye className="size-3.5" /></button>
         </div>
         <div className="mt-2 flex items-center gap-2">
-          <span className="rounded-full bg-accent-brand/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-text">{generation.kind === "video" ? videoUi.badgeVideo : UI.badgePhoto}</span>
+          <span className="rounded-full bg-accent-brand/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-text">{generation.kind === "video" ? videoUi.badgeVideo : copy.variant}</span>
           <span className="min-w-0 truncate text-[11px] text-steel">
             {generation.modelLabel}{generation.size ? ` · ${generation.size}` : ""}
           </span>
@@ -2985,7 +2940,7 @@ function ResultCard({ copy, locale, deleteLabel, generation, imageItem, imageInd
           <DownloadSizeAction label={copy.download} url={imageItem.url} onClick={() => void onDownload(imageItem.url, imageItem.id)} />
           <IconAction label={copy.share} onClick={() => void onShare(imageItem.url, imageItem.id)}><Share2 className="size-3.5" /></IconAction>
           <IconAction label={copy.rate} active={rated} onClick={() => saveModelFeedback(imageItem.id, generation.modelId, generation.modelLabel, 1)}><ThumbsUp className={cn("size-3.5", rated && "fill-current")} /></IconAction>
-          <IconAction label="В избранное" active={liked} onClick={onFavorite}><Heart className={cn("size-3.5", liked && "fill-current")} /></IconAction>
+          <IconAction label={copy.rate} active={liked} onClick={onFavorite}><Heart className={cn("size-3.5", liked && "fill-current")} /></IconAction>
           {generation.kind === "video" ? null : <IconAction label={copy.reuse} onClick={() => void onReuse(generation, imageItem)}><RotateCcw className="size-3.5" /></IconAction>}
           <IconAction label={deleteLabel} onClick={onDelete}><Trash2 className="size-3.5" /></IconAction>
         </div>
@@ -3044,7 +2999,7 @@ function IconAction({ label, active, onClick, children }: { label: string; activ
 
 function CountPicker({ copy, value, onChange }: { copy: WorkspaceUiCopy; value: 1 | 2 | 4; onChange: (value: 1 | 2 | 4) => void }) {
   const [open, setOpen] = useState(false);
-  return <div className="relative"><button type="button" aria-label={copy.countAria} title={copy.countAria} onClick={() => setOpen((current) => !current)} className="flex h-8 items-center gap-1 rounded-full px-2 text-xs font-semibold text-text hover:bg-mist">{value} {UI.variants}<ChevronDown className="size-3"/></button>{open ? <><button type="button" aria-label={copy.closeList} className="fixed inset-0 z-40" onClick={() => setOpen(false)}/><div className="absolute bottom-[calc(100%+.45rem)] end-0 z-50 w-28 rounded-xl border border-border bg-surface p-1 shadow-xl">{([1, 2, 4] as const).map((item) => <button key={item} type="button" onClick={() => { onChange(item); setOpen(false); }} className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs text-text hover:bg-mist"><span>{item} {UI.variants}</span>{item === value ? <Check className="size-3.5 text-accent-brand"/> : null}</button>)}</div></> : null}</div>;
+  return <div className="relative"><button type="button" aria-label={copy.countAria} title={copy.countAria} onClick={() => setOpen((current) => !current)} className="flex h-8 items-center gap-1 rounded-full px-2 text-xs font-semibold text-text hover:bg-mist">{value} {copy.variantsShort}<ChevronDown className="size-3"/></button>{open ? <><button type="button" aria-label={copy.closeList} className="fixed inset-0 z-40" onClick={() => setOpen(false)}/><div className="absolute bottom-[calc(100%+.45rem)] end-0 z-50 w-28 rounded-xl border border-border bg-surface p-1 shadow-xl">{([1, 2, 4] as const).map((item) => <button key={item} type="button" onClick={() => { onChange(item); setOpen(false); }} className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs text-text hover:bg-mist"><span>{item} {copy.variantsShort}</span>{item === value ? <Check className="size-3.5 text-accent-brand"/> : null}</button>)}</div></> : null}</div>;
 }
 
 function ChoiceSelect({ value, choices, onChange, disabled = false, direction = "down", align = "start", compact = false, prefix, placeholder, leading, revealed = true, onReveal, revealOnOpen = false, center = false, highlight = false, onClear, clearLabel }: { value: string; choices: Choice[]; onChange: (value: string) => void; disabled?: boolean; direction?: "up" | "down"; align?: "start" | "end"; compact?: boolean; prefix?: string; placeholder?: string; leading?: ReactNode; revealed?: boolean; onReveal?: () => void; revealOnOpen?: boolean; center?: boolean; highlight?: boolean; onClear?: () => void; clearLabel?: string }) {

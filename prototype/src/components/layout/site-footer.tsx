@@ -1,11 +1,12 @@
 "use client";
 
-import { useT } from "@/components/providers/locale-provider";
+import { useLocale, useT } from "@/components/providers/locale-provider";
 import { BrandWordmark } from "@/components/layout/brand-wordmark";
 import { ShieldCheck } from "lucide-react";
 import { Link } from "@/components/ui/locale-link";
 import { usePublicContactEmail } from "@/components/layout/use-public-contact-email";
 import { CONSENT_OPEN_EVENT } from "@/lib/cookie-consent";
+import { legalDocuments } from "@/lib/legal/documents";
 
 const productLinks = [
   { href: "/models", labelKey: "models" as const },
@@ -26,15 +27,9 @@ const discoveryLinks = [
   { href: "/agents", labelKey: "agents" as const },
 ];
 
-const footerLegalLinks = [
-  { href: "/legal/terms", labelKey: "terms" as const },
-  { href: "/legal/privacy", labelKey: "privacy" as const },
-  { href: "/legal/cookies", labelKey: "cookies" as const },
-  { href: "/legal/terms", labelKey: "allDocuments" as const },
-];
-
 export function SiteFooter() {
   const t = useT();
+  const { locale } = useLocale();
   const contactEmail = usePublicContactEmail();
 
   return (
@@ -104,13 +99,13 @@ export function SiteFooter() {
               {t.footer.documentation}
             </h3>
             <ul className="space-y-2">
-              {footerLegalLinks.map((document) => (
-                <li key={`${document.href}-${document.labelKey}`}>
+              {legalDocuments.map((document) => (
+                <li key={document.slug}>
                   <Link
-                    href={document.href}
+                    href={`/legal/${document.slug}`}
                     className="text-sm text-steel transition-colors hover:text-text"
                   >
-                    {t.footer.links[document.labelKey]}
+                    {locale === "ru" ? document.shortTitle : document.shortTitleEn}
                   </Link>
                 </li>
               ))}
