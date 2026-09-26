@@ -40,18 +40,6 @@ test("accepts a signed-delivery target only for an allowed localized SEO slot", 
   assert.equal(BLOGORO_PAGE_SECTION_CAPABILITY, "page_section_v1");
 });
 
-test("maps the legacy singular song URL to the canonical songs page SEO slot", () => {
-  const targetUrl = "https://genora.art/de/song";
-  const result = validateBlogoroPageSectionTarget(payload({
-    article: { ...payload().article, language: "de", canonicalUrl: targetUrl },
-    publication: { ...payload().publication, targetUrl },
-  }), `7:42:${revision}`);
-
-  assert.equal(result.pagePath, "/songs");
-  assert.equal(result.locale, "de");
-  assert.equal(result.targetUrl, "https://genora.art/de/songs");
-});
-
 test("protects curated Russian articles from automatic replacement", () => {
   const targetUrl = "https://genora.art/ru/models";
   assert.throws(
@@ -192,10 +180,4 @@ test("all seven pages render the server SEO slot instead of old placeholder arti
   assert.doesNotMatch(slot, /<SeoArticle articleId=/);
   assert.doesNotMatch(gallery, /<SeoArticle|history\.pushState/);
   assert.match(gallery, /router\.push\(hrefForTab\(next\)\)/);
-});
-
-test("legacy singular song URL permanently redirects to the canonical localized songs page", () => {
-  const root = path.resolve(import.meta.dirname, "..");
-  const route = readFileSync(path.join(root, "src/app/[locale]/song/page.tsx"), "utf8");
-  assert.match(route, /permanentRedirect\(isRequestLocale\(locale\) \? withLocalePath\("\/songs", locale\) : "\/songs"\)/);
 });

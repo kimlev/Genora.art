@@ -2,7 +2,7 @@ import "server-only";
 
 import { markdownToHtml } from "@/lib/blog/markdown-html";
 import { isServedLocale, type Locale } from "@/lib/i18n";
-import { localizeHref, splitLocalePath, withLocalePath } from "@/lib/i18n/locale-path";
+import { localizeHref, splitLocalePath } from "@/lib/i18n/locale-path";
 import { localizeArticleHref } from "@/lib/content/seo-article-links";
 import { publicPageMetadata } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/site-env";
@@ -26,10 +26,6 @@ const PAGE_ARTICLES = {
   "/songs": "songs",
   "/video-examples": "videos",
 } as const;
-
-const PAGE_ARTICLE_ALIASES: Record<string, BlogoroPagePath> = {
-  "/song": "/songs",
-};
 
 const CURATED_RUSSIAN_PAGE_PATHS = new Set<BlogoroPagePath>([
   "/image-examples",
@@ -225,15 +221,11 @@ export function validateBlogoroPageSectionTarget(payload: BlogoroPageSectionPayl
   }
 
   const localized = splitLocalePath(url.pathname);
-  if (!localized.locale || !isServedLocale(localized.locale)) {
+  if (!localized.locale || !isServedLocale(localized.locale) || !(localized.path in PAGE_ARTICLES)) {
     throw new BlogoroPublishError("На этой странице нет блока для SEO-статьи", 422);
   }
-  const pagePath = localized.path in PAGE_ARTICLES
-    ? localized.path as BlogoroPagePath
-    : PAGE_ARTICLE_ALIASES[localized.path];
-  if (!pagePath) throw new BlogoroPublishError("На этой странице нет блока для SEO-статьи", 422);
+  const pagePath = localized.path as BlogoroPagePath;
   const locale = localized.locale;
-  const targetUrl = new URL(withLocalePath(pagePath, locale), SITE_ORIGIN).toString();
   if (normalizeLanguage(article.language) !== locale) {
     throw new BlogoroPublishError("Язык статьи не совпадает с языком страницы", 422);
   }
@@ -244,7 +236,7 @@ export function validateBlogoroPageSectionTarget(payload: BlogoroPageSectionPayl
   const revision = asString(publication.revision);
   const expectedKey = `${project.id}:${article.id}:${revision}`;
   if (idempotencyKey !== expectedKey) throw new BlogoroPublishError("Некорректный ключ доставки", 422);
-  return { project, article, pagePath, locale, revision, targetUrl, expectedKey };
+  return { project, article, pagePath, locale, revision, targetUrl: rawUrl, expectedKey };
 }
 
 export async function publishBlogoroPageSection(
