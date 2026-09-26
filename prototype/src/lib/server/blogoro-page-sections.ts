@@ -151,6 +151,42 @@ function articleBodyMarkdown(markdown: string, h1: string): string {
   return body.replace(/^(#{1,5})\s+/gm, (_match, hashes: string) => `${"#".repeat(Math.max(3, hashes.length + 1))} `);
 }
 
+const FAQ_HEADING = /^#{1,6}\s+(?:faq|faqs|frequently asked questions|h[aä]ufig gestellte fragen|preguntas frecuentes|foire aux questions|domande frequenti)\s*:?\s*$/i;
+
+/** Extract a trailing FAQ section so it is rendered with the page's accordion and FAQ schema. */
+export function extractFaqSection(markdown: string): {
+  body: string;
+  faq: Array<{ question: string; answer: string }>;
+} {
+  const normalized = markdown.replace(/\r\n?/g, "\n");
+  const lines = normalized.split("\n");
+  const headingIndex = lines.findIndex((line) => FAQ_HEADING.test(line.trim()));
+  if (headingIndex < 0) return { body: normalized.trim(), faq: [] };
+
+  const blocks = lines.slice(headingIndex + 1).join("\n").trim().split(/\n\s*\n/).map((block) => block.trim()).filter(Boolean);
+  const faq: Array<{ question: string; answer: string }> = [];
+  let question = "";
+  let answer: string[] = [];
+  const save = () => {
+    if (question && answer.length) faq.push({ question, answer: answer.join("\n\n").trim() });
+  };
+
+  for (const block of blocks) {
+    const match = /^\*\*(.+?)\*\*\s*\??$/.exec(block);
+    if (match) {
+      save();
+      question = match[1].trim().replace(/[?？]+$/, "") + (/[?？]$/.test(match[1].trim()) ? "?" : "");
+      answer = [];
+    } else if (question) {
+      answer.push(block);
+    }
+  }
+  save();
+  return faq.length
+    ? { body: lines.slice(0, headingIndex).join("\n").trim(), faq }
+    : { body: normalized.trim(), faq: [] };
+}
+
 export function validateBlogoroPageSectionTarget(payload: BlogoroPageSectionPayload, idempotencyKey: string) {
   if (payload.event !== BLOGORO_PAGE_SECTION_EVENT) throw new BlogoroPublishError("Неизвестное событие", 422);
   const project = payload.project;
@@ -216,9 +252,12 @@ export async function publishBlogoroPageSection(
   const receipt: BlogoroPageSectionReceipt = { url: targetUrl, slotId: BLOGORO_SEO_SLOT, articleId, revision };
   const sourceUpdatedAt = asTimestamp(article.updatedAt);
   const keywords = (article.keywords ?? []).map(asString).filter(Boolean);
-  const faq = (article.faq ?? [])
+  const sourceFaq = (article.faq ?? [])
     .filter((item) => asString(item.question) && asString(item.answer))
     .map((item) => ({ question: asString(item.question), answer: asString(item.answer) }));
+  const extractedFaq = extractFaqSection(sourceBody);
+  const faq = sourceFaq.length ? sourceFaq : extractedFaq.faq;
+  const bodyWithoutFaq = extractedFaq.faq.length ? extractedFaq.body : sourceBody;
   const internalLinks = (article.internalLinks ?? [])
     .filter((item) => asString(item.anchor) && asString(item.url))
     .map((item) => ({ anchor: asString(item.anchor), url: asString(item.url) }));
@@ -249,7 +288,7 @@ export async function publishBlogoroPageSection(
       }
     }
 
-    const initialBody = markdownToHtml(articleBodyMarkdown(localizeSectionMarkdown(sourceBody, locale), h1));
+    const initialBody = markdownToHtml(articleBodyMarkdown(localizeSectionMarkdown(bodyWithoutFaq, locale), h1));
     await client.query(
       `INSERT INTO blogoro_page_sections(
          page_path, locale, slot_id, project_id, article_id, revision, idempotency_key, source_updated_at,
@@ -267,7 +306,7 @@ export async function publishBlogoroPageSection(
       [
         pagePath, locale, BLOGORO_SEO_SLOT, projectId, articleId, revision, expectedKey, sourceUpdatedAt,
         title, h1, asString(article.metaDescription), targetUrl, asString(article.robots) || "index,follow",
-        asString(article.language), keywords, sourceBody, initialBody, JSON.stringify(faq), JSON.stringify(internalLinks),
+        asString(article.language), keywords, bodyWithoutFaq, initialBody, JSON.stringify(faq), JSON.stringify(internalLinks),
         JSON.stringify(openGraph), JSON.stringify(Array.isArray(article.jsonLd) ? article.jsonLd : []),
         article.readingTimeMinutes ?? 1, article.wordCount ?? sourceBody.split(/\s+/).filter(Boolean).length,
         JSON.stringify(article.technical && typeof article.technical === "object" ? article.technical : {}),
@@ -312,7 +351,7 @@ export async function publishBlogoroPageSection(
       coverAlt = inlineGraphics[0].alt;
     }
 
-    const placedBody = placeArticleGraphics(sourceBody, inlineGraphics, title);
+    const placedBody = placeArticleGraphics(bodyWithoutFaq, inlineGraphics, title);
     const localizedBody = localizeSectionMarkdown(placedBody, locale);
     const bodyHtml = markdownToHtml(articleBodyMarkdown(localizedBody, h1));
     await client.query(

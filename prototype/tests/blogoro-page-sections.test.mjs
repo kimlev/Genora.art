@@ -5,6 +5,7 @@ import test from "node:test";
 
 import {
   BLOGORO_PAGE_SECTION_CAPABILITY,
+  extractFaqSection,
   validateBlogoroPageSectionTarget,
 } from "../src/lib/server/blogoro-page-sections.ts";
 
@@ -83,7 +84,26 @@ test("rejects unknown pages, mismatched languages and delivery keys", () => {
   );
 });
 
-test("receiver advertises the capability, renders verification attributes and skips search submission for page sections", () => {
+test("extracts a markdown FAQ block for accordion rendering without leaving duplicate body text", () => {
+  const markdown = [
+    "## Article content",
+    "\nSome useful text.",
+    "\n## FAQ",
+    "\n**What is an AI video generator?**",
+    "\nIt creates videos from prompts.",
+    "\n**Can I use it commercially?**",
+    "\nCheck the selected model's license.",
+  ].join("\n");
+  const result = extractFaqSection(markdown);
+
+  assert.equal(result.body, "## Article content\n\nSome useful text.");
+  assert.deepEqual(result.faq, [
+    { question: "What is an AI video generator?", answer: "It creates videos from prompts." },
+    { question: "Can I use it commercially?", answer: "Check the selected model's license." },
+  ]);
+});
+
+test("receiver advertises the capability, renders verification attributes and submits page sections for indexing", () => {
   const root = path.resolve(import.meta.dirname, "..");
   const route = readFileSync(path.join(root, "src/app/blogoro/publish/route.ts"), "utf8");
   const component = readFileSync(path.join(root, "src/components/catalog/blogoro-seo-article-slot.tsx"), "utf8");
@@ -91,7 +111,8 @@ test("receiver advertises the capability, renders verification attributes and sk
   const pageBranch = route.slice(route.indexOf("payload.event === BLOGORO_PAGE_SECTION_EVENT"), route.indexOf("const published = await publishBlogoroArticle"));
 
   assert.match(route, /capabilities: \[BLOGORO_PAGE_SECTION_CAPABILITY\]/);
-  assert.doesNotMatch(pageBranch, /submitPageForIndexing/);
+  assert.match(pageBranch, /submitPageForIndexing\(published\.receipt\.url, published\.locale\)/);
+  assert.match(pageBranch, /IS_STAGING/);
   assert.match(pageBranch, /revalidatePath\("\/sitemap\.xml"\)/);
   assert.match(component, /data-blogoro-slot=\{BLOGORO_SEO_SLOT\}/);
   assert.match(component, /data-blogoro-article-id=\{published\.articleId\}/);
