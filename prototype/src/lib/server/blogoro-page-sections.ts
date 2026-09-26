@@ -190,6 +190,21 @@ export function extractFaqSection(markdown: string): {
     : { body: normalized.trim(), faq: [] };
 }
 
+export function mergePageSectionFaq(
+  sourceBody: string,
+  sourceFaq: Array<{ question: string; answer: string }>,
+): { body: string; faq: Array<{ question: string; answer: string }> } {
+  const extracted = extractFaqSection(sourceBody);
+  const seen = new Set<string>();
+  const faq = [...sourceFaq, ...extracted.faq].filter((item) => {
+    const question = item.question.normalize("NFKC").toLowerCase().replace(/\s+/g, " ").replace(/[?？\s]+$/g, "").trim();
+    if (!question || seen.has(question)) return false;
+    seen.add(question);
+    return true;
+  });
+  return { body: extracted.faq.length ? extracted.body : sourceBody, faq };
+}
+
 export function validateBlogoroPageSectionTarget(payload: BlogoroPageSectionPayload, idempotencyKey: string) {
   if (payload.event !== BLOGORO_PAGE_SECTION_EVENT) throw new BlogoroPublishError("Неизвестное событие", 422);
   const project = payload.project;
@@ -258,9 +273,7 @@ export async function publishBlogoroPageSection(
   const sourceFaq = (article.faq ?? [])
     .filter((item) => asString(item.question) && asString(item.answer))
     .map((item) => ({ question: asString(item.question), answer: asString(item.answer) }));
-  const extractedFaq = extractFaqSection(sourceBody);
-  const faq = sourceFaq.length ? sourceFaq : extractedFaq.faq;
-  const bodyWithoutFaq = extractedFaq.faq.length ? extractedFaq.body : sourceBody;
+  const { body: bodyWithoutFaq, faq } = mergePageSectionFaq(sourceBody, sourceFaq);
   const internalLinks = (article.internalLinks ?? [])
     .filter((item) => asString(item.anchor) && asString(item.url))
     .map((item) => ({ anchor: asString(item.anchor), url: asString(item.url) }));
