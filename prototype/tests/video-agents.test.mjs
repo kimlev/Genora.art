@@ -91,15 +91,18 @@ test("Michael Jackson dance pins the Kling provider, allows Kling Motion Control
   assert.equal(defaults?.modelId, "kling-2.6-mc-std", "default recommendation only; the user may choose another Kling Motion Control model");
   assert.equal(defaults?.videoMode, "v2v");
   assert.equal(defaults?.maxUserReferences, 2);
-  assert.equal(defaults?.videoPreviewUrl, null, "don't present the source dance clip as the child-result preview");
+  assert.ok(defaults?.videoPreviewUrl?.includes("michael-jackson-dance-preview.m4v"));
+  assert.ok(defaults?.coverUrl?.includes("michael-jackson-dance-poster.jpg"));
   assert.equal(videoAgentRequiresMotionControlInputs(id), true);
   assert.equal(videoAgentNeedsUserPrompt(id), false);
   assert.equal(videoAgentMinUserReferences(id), 1);
-  assert.match(agent?.systemPrompt ?? "", /motion reference/i);
+  assert.match(agent?.systemPrompt ?? "", /any uploaded dance or motion video only as a movement reference/i);
   assert.match(agent?.systemPrompt ?? "", /exact first frame/i);
   assert.match(agent?.systemPrompt ?? "", /clothing, footwear, accessories, background, lighting/i);
-  assert.match(agent?.systemPrompt ?? "", /Change only the person's movement/i);
+  assert.match(agent?.systemPrompt ?? "", /Change only the photographed person's movement/i);
   assert.match(agent?.systemPrompt ?? "", /age-appropriate and non-sexual/i);
+  assert.ok((await stat(new URL("../public/agents/video/michael-jackson-dance/michael-jackson-dance-preview.m4v", import.meta.url))).size > 0);
+  assert.ok((await stat(new URL("../public/agents/video/michael-jackson-dance/michael-jackson-dance-poster.jpg", import.meta.url))).size > 0);
   for (const locale of ["ru", "en", "zh", "hi", "es", "fr", "ar", "pt", "de", "ja", "it", "ko", "tr", "pl", "nl", "sv", "cs", "el", "ro"]) {
     const copy = videoAgentCopy(id, locale);
     assert.ok(copy?.name && copy?.description && copy?.placeholder && copy?.guideNotice, locale);

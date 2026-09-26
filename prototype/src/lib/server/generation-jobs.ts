@@ -61,10 +61,11 @@ export async function insertGenerationJob(input: {
   payload?: Record<string, unknown>;
   reservationTokens?: number;
   complimentary?: boolean;
+  deferReservation?: boolean;
 }): Promise<GenerationJobRow> {
   const id = input.id ?? randomUUID();
   return withTransaction(async (client) => {
-  const balanceTokens = input.kind === "chat" || input.complimentary ? undefined
+  const balanceTokens = input.kind === "chat" || input.complimentary || input.deferReservation ? undefined
     : await reserveGenerationTokens(client, id, input.userId, input.reservationTokens ?? NaN);
   const { rows } = await client.query<GenerationJobRow>(
     `INSERT INTO generation_jobs(id,user_id,kind,surface,conversation_id,status,title,model_label,payload)
@@ -83,6 +84,28 @@ export async function insertGenerationJob(input: {
   );
   return { ...rows[0], balanceTokens };
   });
+}
+
+export async function reserveGenerationJobTokens(jobId: string, userId: string, tokens: number): Promise<number> {
+  return withTransaction((client) => reserveGenerationTokens(client, jobId, userId, tokens));
+}
+
+export async function updateGenerationJobDetails(jobId: string, input: {
+  conversationId?: string | null;
+  title?: string | null;
+  modelLabel?: string | null;
+  payload?: Record<string, unknown>;
+}): Promise<void> {
+  await query(
+    `UPDATE generation_jobs
+        SET conversation_id=COALESCE($2,conversation_id),
+            title=COALESCE($3,title),
+            model_label=COALESCE($4,model_label),
+            payload=payload || $5::jsonb,
+            updated_at=now()
+      WHERE id=$1 AND status='creating'`,
+    [jobId, input.conversationId ?? null, input.title ?? null, input.modelLabel ?? null, JSON.stringify(input.payload ?? {})],
+  );
 }
 
 export async function getGenerationJob(userId: string, jobId: string): Promise<GenerationJobRow | undefined> {
@@ -128,11 +151,17 @@ export async function listCreatingJobsForLamp(userId: string) {
 }
 
 export async function markGenerationJobReady(jobId: string, result: Record<string, unknown>): Promise<void> {
-  await query(
-    `UPDATE generation_jobs SET status='ready', result=$2::jsonb, error=NULL, updated_at=now()
-      WHERE id=$1 AND status='creating'`,
-    [jobId, JSON.stringify(result)],
-  );
+  await withTransaction(async (client) => {
+    const updated = await client.query(
+      `UPDATE generation_jobs SET status='ready', result=$2::jsonb, error=NULL, updated_at=now()
+        WHERE id=$1 AND status='creating' RETURNING id`,
+      [jobId, JSON.stringify(result)],
+    );
+    if (updated.rowCount) await client.query(
+      `UPDATE generation_request_registry SET status='success',error=NULL,response_at=now(),updated_at=now() WHERE id=$1 AND status='running'`,
+      [jobId],
+    );
+  });
 }
 
 export async function markGenerationJobFailed(jobId: string, error: string, onlyUndispatched = false): Promise<void> {
@@ -185,6 +214,10 @@ export async function markGenerationJobFailed(jobId: string, error: string, only
     `UPDATE generation_jobs SET status='failed', error=$2, updated_at=now() WHERE id=$1 AND status='creating'`,
     [jobId, error.slice(0, 500)],
   );
+    await client.query(
+      `UPDATE generation_request_registry SET status='error',error=$2,response_at=now(),updated_at=now() WHERE id=$1 AND status='running'`,
+      [jobId, error.slice(0, 500)],
+    );
     if (typeof row.payload.characterId === "string") {
       await client.query(
         "UPDATE characters SET status='failed',error=$2,updated_at=now() WHERE id=$1 AND status='creating'",

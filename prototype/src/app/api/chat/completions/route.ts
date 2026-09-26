@@ -8,7 +8,8 @@ import {
 import { withTransaction } from "@/lib/server/db";
 import { MINIMUM_REQUEST_BALANCE_TOKENS, prepareRequestAttachments } from "@/lib/server/chat-service";
 import { executeChatJob } from "@/lib/server/chat-jobs";
-import { getGenerationJob, insertGenerationJob, publicGenerationJob } from "@/lib/server/generation-jobs";
+import { getGenerationJob, insertGenerationJob, markGenerationJobFailed, publicGenerationJob, updateGenerationJobDetails } from "@/lib/server/generation-jobs";
+import { failGenerationRequest, registerGenerationRequest, updateGenerationRequestMetadata } from "@/lib/server/generation-request-registry";
 import { resolveModelRoute } from "@/lib/server/auto-router";
 import { videoChatSlots } from "@/lib/request-slots";
 import { integratorProviderId } from "@/lib/provider-id";
@@ -47,12 +48,16 @@ export async function POST(request: Request) {
   const contentLength = Number(request.headers.get("content-length") || 0);
   const largeBody = Number.isFinite(contentLength) && contentLength > LARGE_CHAT_BODY_BYTES;
   let releaseVideo: (() => void) | undefined;
+  let trackedJobId: string | null = null;
+  let requestId: string | null = null;
+  let workScheduled = false;
   try {
+    const user = await requireUser();
+    requestId = await registerGenerationRequest(user.id, "chat");
     if (largeBody) {
       releaseVideo = (await videoChatSlots.acquire(VIDEO_CHAT_SLOT_WAIT_MS)) ?? undefined;
-      if (!releaseVideo) return jsonError(apiAppCopy(locale).modelTimedOut, 504);
+      if (!releaseVideo) throw new Error("CHAT_TIMEOUT");
     }
-    const user = await requireUser();
     const body = await request.json().catch(() => null) as ChatBody | null;
     if (typeof body?.locale === "string") locale = await requestLocale(body.locale);
     const copy = usageHistoryCopy(locale);
@@ -65,28 +70,40 @@ export async function POST(request: Request) {
     const attachments = parseChatAttachments(body?.attachments, locale);
     const images = Array.isArray(body?.images) ? body.images.filter((value): value is string => typeof value === "string" && /^data:image\/(?:png|jpeg|webp);base64,/i.test(value) && value.length <= 8_000_000).slice(0, 4) : [];
     let depth = ["fast", "balanced", "deep", "auto"].includes(String(body?.depth)) ? String(body?.depth) as "fast"|"balanced"|"deep"|"auto" : "auto";
+    await updateGenerationRequestMetadata(requestId, { provider: providerId, modelId, modelLabel: modelId, agent: agentId });
     if (isVideoPromptAgent(agentId)) {
-      if (images.length || attachments.some((item) => item.kind !== "video")) return jsonError(chatVideoCopy(locale).videoOnlyGemini);
-      if (!attachments.some((item) => item.kind === "video")) return jsonError(chatVideoCopy(locale).videoRequired);
-      if (!videoPromptModelAllowed(modelId)) return jsonError(apiAppCopy(locale).invalidRequest);
+      if (images.length || attachments.some((item) => item.kind !== "video")) throw new Error("CHAT_VIDEO_ONLY");
+      if (!attachments.some((item) => item.kind === "video")) throw new Error("CHAT_VIDEO_REQUIRED");
+      if (!videoPromptModelAllowed(modelId)) throw new Error("CHAT_INVALID_REQUEST");
       providerId = videoPromptProviderIdForModel(modelId);
       if (depth === "auto") depth = videoPromptDepthForModel(modelId);
     }
     if (isPhotoPromptAgent(agentId)) {
-      if (attachments.some((item) => item.kind !== "image")) return jsonError(photoPromptCopy(locale).photosOnly);
-      if (!attachments.some((item) => item.kind === "image") && !images.length) return jsonError(photoPromptCopy(locale).photoRequired);
+      if (attachments.some((item) => item.kind !== "image")) throw new Error("CHAT_PHOTOS_ONLY");
+      if (!attachments.some((item) => item.kind === "image") && !images.length) throw new Error("CHAT_PHOTO_REQUIRED");
     }
     const conversationProviderId = providerId === "auto" ? null : providerId;
     const conversationModelId = modelId === "auto" ? null : modelId;
     const conversationDepth = depth;
-    if (!conversationId || !providerId || !modelId || (!content && !attachments.length)) return jsonError(apiAppCopy(locale).invalidRequest);
+    if (!conversationId || !providerId || !modelId || (!content && !attachments.length)) throw new Error("CHAT_INVALID_REQUEST");
+    const title = (String(body?.title ?? content).trim() || copy.studyAttachment).slice(0, 200);
+    const job = await insertGenerationJob({
+      id: requestId,
+      userId: user.id,
+      kind: "chat",
+      surface: "chat",
+      conversationId,
+      title,
+      modelLabel: modelId,
+      payload: { conversationId, title, locale, providerId, modelId, agentId, source: "Genora.art" },
+    });
+    trackedJobId = job.id;
     if (!releaseVideo && attachments.some((item) => item.kind === "video")) {
       releaseVideo = (await videoChatSlots.acquire(VIDEO_CHAT_SLOT_WAIT_MS)) ?? undefined;
       if (!releaseVideo) throw new Error("CHAT_TIMEOUT");
     }
 
     const preparedAttachments = await prepareRequestAttachments(attachments, locale);
-    const title = (String(body?.title ?? content).trim() || copy.studyAttachment).slice(0, 200);
     const setup = await withTransaction(async (client) => {
       await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [user.id]);
       const balance = await client.query<{ balance_tokens: string }>("SELECT balance_tokens FROM users WHERE id=$1 FOR UPDATE", [user.id]);
@@ -122,20 +139,14 @@ export async function POST(request: Request) {
 
     const route = setup.route;
     if (!isVideoPromptAgent(agentId) && attachments.some((item) => item.kind === "video") && !chatModelAcceptsVideo(route.providerId, route.modelId)) {
-      return jsonError(chatVideoCopy(locale).videoOnlyGemini);
+      throw new Error("CHAT_VIDEO_UNSUPPORTED");
     }
     const attemptTimeout = chatAttemptTimeoutMs(route.modelId, route.depth);
-    const job = await insertGenerationJob({
-      userId: user.id,
-      kind: "chat",
-      surface: "chat",
+    await updateGenerationJobDetails(job.id, {
       conversationId,
       title,
       modelLabel: route.modelId,
       payload: {
-        conversationId,
-        title,
-        locale,
         providerId: route.providerId,
         modelId: route.modelId,
         routeDepth: route.depth,
@@ -149,6 +160,7 @@ export async function POST(request: Request) {
         conversationDepth,
       },
     });
+    await updateGenerationRequestMetadata(requestId, { provider: route.providerId, modelId: route.modelId, modelLabel: route.modelId, agent: agentId });
     const heldVideo = releaseVideo;
     releaseVideo = undefined;
     const jobPrompt = isVideoPromptAgent(agentId)
@@ -185,9 +197,11 @@ export async function POST(request: Request) {
     } satisfies Parameters<typeof executeChatJob>[0];
     if (request.headers.get("x-genora-job-protocol") === "1") {
       after(() => executeChatJob(chatJobInput));
+      workScheduled = true;
       return Response.json({ job: publicGenerationJob(job) }, { status: 202 });
     }
     // Совместимость с вкладками, открытыми до обновления фонового протокола.
+    workScheduled = true;
     await executeChatJob(chatJobInput);
     const completed = await getGenerationJob(user.id, job.id);
     if (completed?.status === "ready" && completed.result) return Response.json(completed.result);
@@ -197,6 +211,12 @@ export async function POST(request: Request) {
     return Response.json({ job: publicGenerationJob(job) }, { status: 202 });
   } catch (error) {
     const errorCopy = apiAppCopy(locale);
+    if (trackedJobId && !workScheduled) {
+      await markGenerationJobFailed(trackedJobId, error instanceof Error ? error.message : "CHAT_REQUEST_FAILED").catch((trackingError) => {
+        console.error("chat_request_tracking_failed", trackedJobId, trackingError instanceof Error ? trackingError.message : "unknown");
+      });
+    }
+    if (requestId) await failGenerationRequest(requestId, error instanceof Error ? error.message : "CHAT_REQUEST_FAILED").catch(() => {});
     if ((error as Error).message === "UNAUTHORIZED") return jsonError(errorCopy.authRequired, 401);
     if ((error as Error).message === "INSUFFICIENT_BALANCE" || (error as Error).message === "ANSWER_REQUIRES_TOP_UP") {
       return jsonTopUpError(errorCopy.topUpToSeeAnswer, topUpBalanceFromError(error));
@@ -204,6 +224,12 @@ export async function POST(request: Request) {
     if ((error as Error).message === "CHAT_BUSY" || (error as Error).message === "CHAT_TIMEOUT") {
       return jsonError(errorCopy.modelTimedOut, 504);
     }
+    if ((error as Error).message === "CHAT_VIDEO_UNSUPPORTED") return jsonError(chatVideoCopy(locale).videoOnlyGemini);
+    if ((error as Error).message === "CHAT_VIDEO_ONLY") return jsonError(chatVideoCopy(locale).videoOnlyGemini);
+    if ((error as Error).message === "CHAT_VIDEO_REQUIRED") return jsonError(chatVideoCopy(locale).videoRequired);
+    if ((error as Error).message === "CHAT_PHOTOS_ONLY") return jsonError(photoPromptCopy(locale).photosOnly);
+    if ((error as Error).message === "CHAT_PHOTO_REQUIRED") return jsonError(photoPromptCopy(locale).photoRequired);
+    if ((error as Error).message === "CHAT_INVALID_REQUEST") return jsonError(errorCopy.invalidRequest);
     if ((error as Error).message.startsWith("ATTACHMENT_INVALID:")) return jsonError((error as Error).message.slice("ATTACHMENT_INVALID:".length), 400);
     console.error("chat_completion_failed", error instanceof Error ? error.message : "unknown");
     return jsonError(errorCopy.modelNoAnswer, 502);

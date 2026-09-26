@@ -270,10 +270,11 @@ function AdminRequests() {
   const [models, setModels] = useState<Array<{ label: string; provider: string | null }>>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const running = items.some((item) => item.status === "running");
   const timer = useRef<number | null>(null);
   const filtersRef = useRef({ from, to, userId, type, model, status });
-  filtersRef.current = { from, to, userId, type, model, status };
+  useEffect(() => {
+    filtersRef.current = { from, to, userId, type, model, status };
+  }, [from, to, userId, type, model, status]);
 
   const load = async (next = filtersRef.current) => {
     setLoading(true);
@@ -306,16 +307,18 @@ function AdminRequests() {
   };
 
   useEffect(() => {
-    void load();
-    return () => { if (timer.current) window.clearInterval(timer.current); };
+    const initialLoad = window.setTimeout(() => { void load(); }, 0);
+    return () => {
+      window.clearTimeout(initialLoad);
+      if (timer.current) window.clearInterval(timer.current);
+    };
   }, []);
 
   useEffect(() => {
     if (timer.current) window.clearInterval(timer.current);
-    if (!running) return;
-    timer.current = window.setInterval(() => { void load(); }, 2000);
+    timer.current = window.setInterval(() => { void load(); }, 3000);
     return () => { if (timer.current) window.clearInterval(timer.current); };
-  }, [running, from, to, userId, type, model, status]);
+  }, [from, to, userId, type, model, status]);
 
   const resetPeriod = () => {
     const period = lastThreeDays();

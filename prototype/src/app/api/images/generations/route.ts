@@ -4,7 +4,8 @@ import { quoteImage } from "@/lib/server/generation-quote";
 import { integratorImageCatalog } from "@/lib/server/integrator";
 import { query, withTransaction } from "@/lib/server/db";
 import { executeImageJob } from "@/lib/server/image-jobs";
-import { insertGenerationJob, publicGenerationJob } from "@/lib/server/generation-jobs";
+import { insertGenerationJob, markGenerationJobFailed, publicGenerationJob, reserveGenerationJobTokens, updateGenerationJobDetails } from "@/lib/server/generation-jobs";
+import { failGenerationRequest, registerGenerationRequest, updateGenerationRequestMetadata } from "@/lib/server/generation-request-registry";
 import { topUpBalanceFromError } from "@/lib/server/paid-balance";
 import { isSameOrigin, jsonError, jsonTopUpError } from "@/lib/server/http";
 import { consumeRateLimit } from "@/lib/server/rate-limit";
@@ -185,14 +186,17 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   let locale = await requestLocale();
   if (!isSameOrigin(request)) return jsonError(apiAppCopy(locale).invalidOrigin, 403);
+  let trackedJobId: string | null = null;
+  let requestId: string | null = null;
+  let workScheduled = false;
   try {
     const user = await requireUser();
+    requestId = await registerGenerationRequest(user.id, "image");
     const body = await request.json().catch(() => null) as GenerationBody | null;
     if (typeof body?.locale === "string") locale = await requestLocale(body.locale);
     const copy = usageHistoryCopy(locale);
-    const appCopy = apiAppCopy(locale);
     const allowed = await consumeRateLimit({ scope: "image-generation", identifier: user.id, limit: 30, windowSeconds: 60 * 60 });
-    if (!allowed) return jsonError(appCopy.imageRateLimited, 429);
+    if (!allowed) throw new Error("IMAGE_BUSY");
 
     const provider = String(body?.provider ?? "").slice(0, 80);
     const model = String(body?.model ?? "").slice(0, 160);
@@ -205,6 +209,7 @@ export async function POST(request: Request) {
     const characterId = String(body?.characterId ?? "").slice(0, 80) || undefined;
     const characterSlot = Math.max(0, Math.min(3, Math.trunc(Number(body?.characterSlot) || 0)));
     const requestedConversationId = String(body?.conversationId ?? "").slice(0, 80);
+    await updateGenerationRequestMetadata(requestId, { provider, modelId: model, modelLabel: model, agent: imageAgentId });
     const count = ([1, 2, 4].includes(Number(body?.count)) ? Number(body?.count) : 1) as 1 | 2 | 4;
     const asInputImage = (value: unknown) => (
       typeof value === "string"
@@ -220,8 +225,21 @@ export async function POST(request: Request) {
     let inputImage = inputImages[0] ?? asInputImage(body?.inputImage);
     if (inputImage && !inputImages.length) inputImages.push(inputImage);
     let sourceImageCount = Math.max(0, Math.min(4, inputImages.length || Number(body?.sourceImageCount ?? (inputImage ? 1 : 0)) || 0));
-    if (!provider || !model || (!prompt && !imageAgentId) || !size || !format) return jsonError(appCopy.imageParamsRequired);
-    if (requestedConversationId && !/^[0-9a-f-]{36}$/i.test(requestedConversationId)) return jsonError(appCopy.conversationInvalid);
+    if (!provider || !model || (!prompt && !imageAgentId) || !size || !format) throw new Error("IMAGE_PARAMS_INVALID");
+    if (requestedConversationId && !/^[0-9a-f-]{36}$/i.test(requestedConversationId)) throw new Error("IMAGE_CONVERSATION_ID_INVALID");
+
+    const trackedJob = await insertGenerationJob({
+      id: requestId,
+      userId: user.id,
+      kind: "image",
+      surface: "images",
+      conversationId: requestedConversationId || null,
+      title: prompt || imageAgentId || copy.imagePromptFallback,
+      modelLabel: model,
+      deferReservation: true,
+      payload: { locale, provider, model, imageAgentId: imageAgentId ?? null, prompt, size, format, style, reasoning, count },
+    });
+    trackedJobId = trackedJob.id;
 
     const catalog = await integratorImageCatalog();
     const catalogModel = catalog.models.find((item) => item.provider === provider && item.id === model);
@@ -263,33 +281,24 @@ export async function POST(request: Request) {
       };
     });
 
-    const job = await insertGenerationJob({
-      reservationTokens: quoteImage(catalogModel, size, reasoning, count, setup.multiplier),
-      userId: user.id,
-      kind: "image",
-      surface: "images",
+    await updateGenerationJobDetails(trackedJob.id, {
       conversationId: setup.conversation.id,
       title: setup.storedPrompt,
-      modelLabel: model,
+      modelLabel: catalogModel.label,
       payload: {
         conversationId: setup.conversation.id,
         conversationTitle: setup.conversation.title,
-        locale,
         multiplier: setup.multiplier,
-        provider,
-        model,
         prompt: setup.finalPrompt,
         storedPrompt: setup.storedPrompt,
-        size,
-        format,
-        style,
-        reasoning,
-        count,
         imageAgentId: setup.imageAgent?.id ?? null,
         imageAgentName: setup.imageAgent?.name,
         sourceImageCount,
       },
     });
+    await updateGenerationRequestMetadata(requestId, { provider, modelId: model, modelLabel: catalogModel.label, agent: setup.imageAgent?.name ?? imageAgentId });
+    const balanceTokens = await reserveGenerationJobTokens(trackedJob.id, user.id, quoteImage(catalogModel, size, reasoning, count, setup.multiplier));
+    const job = { ...trackedJob, conversation_id: setup.conversation.id, model_label: catalogModel.label, balanceTokens };
     after(() => executeImageJob({
       jobId: job.id,
       userId: user.id,
@@ -312,6 +321,7 @@ export async function POST(request: Request) {
       imageAgentName: setup.imageAgent?.name,
       sourceImageCount,
     }));
+    workScheduled = true;
     return Response.json({
       job: publicGenerationJob(job),
       balanceTokens: job.balanceTokens,
@@ -320,11 +330,18 @@ export async function POST(request: Request) {
   } catch (error) {
     const message = (error as Error).message;
     const errorCopy = apiAppCopy(locale);
+    if (trackedJobId && !workScheduled) {
+      await markGenerationJobFailed(trackedJobId, message || "IMAGE_REQUEST_FAILED").catch((trackingError) => {
+        console.error("image_request_tracking_failed", trackedJobId, trackingError instanceof Error ? trackingError.message : "unknown");
+      });
+    }
+    if (requestId) await failGenerationRequest(requestId, message || "IMAGE_REQUEST_FAILED").catch(() => {});
     if (message === "UNAUTHORIZED") return jsonError(errorCopy.authRequired, 401);
     if (message === "INSUFFICIENT_BALANCE" || message === "ANSWER_REQUIRES_TOP_UP") {
       return jsonTopUpError(errorCopy.topUpToSeeAnswer, topUpBalanceFromError(error));
     }
     if (message === "IMAGE_BUSY") return jsonError(errorCopy.imageRateLimited, 429);
+    if (message === "IMAGE_PARAMS_INVALID" || message === "IMAGE_CONVERSATION_ID_INVALID") return jsonError(message === "IMAGE_PARAMS_INVALID" ? errorCopy.imageParamsRequired : errorCopy.conversationInvalid, 400);
     if (message === "PROVIDER_NOT_AVAILABLE") return jsonError(errorCopy.imageProviderUnavailable, 409);
     if (message === "IMAGE_AGENT_NOT_FOUND") return jsonError(errorCopy.imageAgentUnavailable, 409);
     if (message === "CHARACTER_NOT_FOUND" || message === "CHARACTER_MODEL_UNSUPPORTED") return jsonError(characterUiCopy(locale).noReady, 400);

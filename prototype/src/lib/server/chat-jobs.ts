@@ -187,6 +187,7 @@ async function persistChatJob(
       chatTitle: input.title.slice(0, 200),
       agentName,
       integratorChatId: input.integratorChatId,
+      usageId: `chat-${input.jobId}`,
       locale: input.locale,
     });
     const jobResult = {
@@ -217,6 +218,10 @@ async function persistChatJob(
       `UPDATE generation_jobs SET status='ready', result=$2::jsonb, error=NULL, updated_at=now()
         WHERE id=$1 AND status='creating'`,
       [input.jobId, JSON.stringify(jobResult)],
+    );
+    await client.query(
+      `UPDATE generation_request_registry SET status='success',error=NULL,response_at=now(),updated_at=now() WHERE id=$1 AND status='running'`,
+      [input.jobId],
     );
     return { balanceTokens: usage.balanceTokens };
   });

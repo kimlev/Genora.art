@@ -12,7 +12,7 @@ export function parseUsageKind(value?: string | null): UsageKind | null {
 
 type SummaryRow={users:string;clients:string;client_paid_tokens:string;client_tokens:string;active_sessions:string;requests:string;input_tokens:string;output_tokens:string;cost_usd:string;revenue_usd:string};
 type UserRow={id:string;email:string;name:string|null;nickname:string|null;avatar_data_url:string|null;derived_status:string;is_administrator:boolean;balance_tokens:string;paid_balance_tokens:string;created_at:Date;conversation_count:string;request_count:string;spent_tokens:string;profit_usd:string;session_count:string;last_seen_at:Date|null};
-type UsageRow={id:string;user_id:string;email:string;created_at:Date;chat_title:string;provider:string;model:string;model_id:string|null;agent:string;input_tokens:number;output_tokens:number;billed_tokens:number;administrator_id:string|null;is_administrator:boolean;cost_usd:string;revenue_usd:string;internal_only:boolean};
+type UsageRow={id:string;user_id:string;email:string;created_at:Date;chat_title:string;provider:string;model:string;model_id:string|null;agent:string;kind:UsageKind;request_id:string|null;request_status:string;input_tokens:number;output_tokens:number;billed_tokens:number;administrator_id:string|null;is_administrator:boolean;cost_usd:string;revenue_usd:string;internal_only:boolean};
 type SessionRow={user_id:string;session_ref:string;ip_address:string|null;country_code:string|null;user_agent:string|null;created_at:Date;last_seen_at:Date;expires_at:Date};
 type ConversationRow={user_id:string;id:string;title:string;model_id:string|null;message_count:string;updated_at:Date};
 type DailyRow={report_day:string;cost_usd:string;revenue_usd:string};
@@ -24,21 +24,44 @@ type UsageTotalRow={requests:string;input_usd:string;output_usd:string;billed_to
 type ClientTokenRow={client_tokens:string};
 
 export const USAGE_PAGE_SIZE=25;
-const USAGE_KIND=`CASE
-  WHEN ue.id LIKE 'image-%' OR coalesce(ue.model_id,'') LIKE 'image:%' THEN 'image'
-  WHEN ue.id LIKE 'video-%' OR coalesce(ue.model_id,'') LIKE 'video:%' THEN 'video'
-  WHEN ue.id LIKE 'music-%' OR coalesce(ue.model_id,'') LIKE 'music:%' THEN 'song'
-  ELSE 'chat'
-END`;
+const ADMIN_USAGE_CTE=`WITH admin_usage AS (
+  SELECT ue.id,ue.user_id,u.email,ue.created_at,ue.chat_title,
+    coalesce(p.display_name,ue.provider,'') provider,ue.provider provider_id,ue.model,ue.model_id,ue.agent,
+    CASE WHEN ue.id LIKE 'image-%' OR coalesce(ue.model_id,'') LIKE 'image:%' THEN 'image'
+      WHEN ue.id LIKE 'video-%' OR coalesce(ue.model_id,'') LIKE 'video:%' THEN 'video'
+      WHEN ue.id LIKE 'music-%' OR coalesce(ue.model_id,'') LIKE 'music:%' THEN 'song' ELSE 'chat' END kind,
+    COALESCE(substring(ue.id from '^(?:chat|image|video|music)(?:-failed)?-(.+)$'),ue.upstream_request_id) request_id,
+    CASE WHEN ue.internal_only THEN 'error' ELSE 'success' END request_status,
+    coalesce(ue.billed_input_tokens,0)::int input_tokens,coalesce(ue.billed_output_tokens,0)::int output_tokens,
+    coalesce(ue.billed_tokens,0)::int billed_tokens,ue.administrator_id::text administrator_id,
+    EXISTS(SELECT 1 FROM administrators a WHERE a.email=u.email AND a.active=true) is_administrator,
+    ue.cost_usd,ue.revenue_usd,ue.internal_only
+  FROM usage_entries ue JOIN users u ON u.id=ue.user_id LEFT JOIN ai_providers p ON p.id=ue.provider
+  UNION ALL
+  SELECT 'request-'||r.id::text,r.user_id,u.email,r.created_at,
+    COALESCE(j.title,j.payload->>'title',v.prompt,r.model_label,r.model_id,'Generation request'),
+    coalesce(p.display_name,r.provider,''),r.provider,COALESCE(r.model_label,r.model_id,'—'),r.model_id,
+    COALESCE(r.agent,''),CASE WHEN r.kind='music' THEN 'song' ELSE r.kind END,r.id::text,
+    CASE WHEN r.status='running' AND r.created_at < now() - interval '12 hours' THEN 'error' ELSE r.status END,0,0,0,NULL::text,
+    EXISTS(SELECT 1 FROM administrators a WHERE a.email=u.email AND a.active=true),
+    0::numeric,0::numeric,r.status='error'
+  FROM generation_request_registry r JOIN users u ON u.id=r.user_id
+  LEFT JOIN generation_jobs j ON j.id=r.id LEFT JOIN video_jobs v ON v.id=r.id
+  LEFT JOIN ai_providers p ON p.id=r.provider
+  WHERE NOT EXISTS (SELECT 1 FROM usage_entries ue WHERE ue.upstream_request_id=r.id::text
+    OR ue.id IN ('chat-'||r.id,'image-'||r.id,'video-'||r.id,'music-'||r.id,
+      'chat-failed-'||r.id,'image-failed-'||r.id,'video-failed-'||r.id,'music-failed-'||r.id))
+)
+`;
 const USAGE_WHERE=`ue.created_at >= $1::date AND ue.created_at < ($2::date+interval '1 day')
   AND ($3::uuid IS NULL OR ue.user_id=$3::uuid)
   AND ($4::text IS NULL OR ue.model=$4 OR ue.model_id=$4)
   AND ($5::text IS NULL OR EXISTS (
     SELECT 1 FROM ai_models m WHERE m.provider_id=$5 AND (m.id=ue.model_id OR m.display_name=ue.model)
   ) OR EXISTS (
-    SELECT 1 FROM ai_providers p WHERE p.id=$5 AND (ue.provider=p.id OR ue.provider=p.display_name)
+    SELECT 1 FROM ai_providers p WHERE p.id=$5 AND (ue.provider_id=p.id OR ue.provider=p.display_name)
   ))
-  AND ($6::text IS NULL OR (${USAGE_KIND})=$6)`;
+  AND ($6::text IS NULL OR ue.kind=$6)`;
 
 function mapUsage(rows:UsageRow[]){
   return rows.map((row)=>{
@@ -46,13 +69,15 @@ function mapUsage(rows:UsageRow[]){
     const ledger=alignUsageTokens({ billedInput:row.input_tokens, billedOutput:row.output_tokens, billed:row.billed_tokens });
     return {
       id:row.id,
+      requestId:row.request_id??row.id,
+      requestStatus:row.request_status as "running"|"success"|"error",
       user_id:row.user_id,
       email:row.email,
       createdAt:row.created_at.toISOString(),
       chat_title:row.chat_title,
       provider:row.provider||"—",
       model:row.model,
-      kind:usageKindFromEntry(row.id,row.model_id),
+      kind:row.kind ?? usageKindFromEntry(row.id,row.model_id),
       agent:displayUsageAgent(row.agent),
       input_tokens:ledger.inputTokens,
       output_tokens:ledger.outputTokens,
@@ -60,7 +85,7 @@ function mapUsage(rows:UsageRow[]){
       adminSpend,
       costUsd:Number(row.cost_usd),
       revenueUsd:Number(row.revenue_usd),
-      failed:row.internal_only,
+      failed:row.request_status === "error" || row.internal_only,
     };
   });
 }
@@ -71,25 +96,15 @@ export async function getAdminUsageSlice(from:string,to:string,userId?:string|nu
   const type=parseUsageKind(kind);
   const filterValues=[from,to,userId??null,model??null,provider??null,type];
   const [usage,totals,clients]=await Promise.all([
-    query<UsageRow>(`SELECT ue.id,ue.user_id,u.email,ue.created_at,ue.chat_title,
-      coalesce(p.display_name,ue.provider,'') provider,ue.model,ue.model_id,ue.agent,
-      coalesce(ue.billed_input_tokens,0)::int input_tokens,
-      coalesce(ue.billed_output_tokens,0)::int output_tokens,
-      coalesce(ue.billed_tokens,0)::int billed_tokens,
-      ue.administrator_id::text administrator_id,
-      EXISTS(SELECT 1 FROM administrators a WHERE a.email=u.email AND a.active=true) is_administrator,
-      ue.cost_usd,ue.revenue_usd,ue.internal_only
-      FROM usage_entries ue JOIN users u ON u.id=ue.user_id
-      LEFT JOIN ai_providers p ON p.id=ue.provider
-      WHERE ${USAGE_WHERE}
+    query<UsageRow>(`${ADMIN_USAGE_CTE} SELECT * FROM admin_usage ue WHERE ${USAGE_WHERE}
       ORDER BY ue.created_at DESC LIMIT $7 OFFSET $8`,[...filterValues,USAGE_PAGE_SIZE,offset]),
-    query<UsageTotalRow>(`SELECT count(*)::text requests,
+    query<UsageTotalRow>(`${ADMIN_USAGE_CTE} SELECT count(*)::text requests,
       '0'::text input_usd,
       '0'::text output_usd,
       coalesce(sum(CASE WHEN ue.administrator_id IS NULL AND NOT EXISTS(SELECT 1 FROM administrators a JOIN users uu ON uu.email=a.email WHERE uu.id=ue.user_id AND a.active=true) THEN coalesce(ue.billed_tokens,0) ELSE 0 END),0)::text billed_tokens,
       coalesce(sum(ue.cost_usd),0)::text cost_usd,
       coalesce(sum(ue.revenue_usd),0)::text revenue_usd
-      FROM usage_entries ue WHERE ${USAGE_WHERE}`,filterValues),
+      FROM admin_usage ue WHERE ${USAGE_WHERE}`,filterValues),
     query<ClientTokenRow>(`SELECT coalesce(sum(u.balance_tokens),0)::text client_tokens
       FROM users u
       WHERE EXISTS (
@@ -133,7 +148,9 @@ export async function getAdminDashboardData(from=new Date(Date.now()-30*86400_00
       (SELECT coalesce(sum(paid_balance_tokens),0) FROM clients)::text client_paid_tokens,
       (SELECT coalesce(sum(balance_tokens),0) FROM clients)::text client_tokens,
       (SELECT count(*) FROM sessions WHERE expires_at>now())::text active_sessions,
-      (SELECT count(*) FROM usage_entries WHERE created_at >= $1::date AND created_at < ($2::date+interval '1 day'))::text requests,
+      ((SELECT count(*) FROM usage_entries WHERE created_at >= $1::date AND created_at < ($2::date+interval '1 day'))+
+       (SELECT count(*) FROM generation_request_registry r WHERE r.created_at >= $1::date AND r.created_at < ($2::date+interval '1 day')
+         AND NOT EXISTS (SELECT 1 FROM usage_entries ue WHERE ue.upstream_request_id=r.id::text OR ue.id IN ('chat-'||r.id,'image-'||r.id,'video-'||r.id,'music-'||r.id,'chat-failed-'||r.id,'image-failed-'||r.id,'video-failed-'||r.id,'music-failed-'||r.id))))::text requests,
       (SELECT coalesce(sum(coalesce(billed_input_tokens,0)),0) FROM usage_entries WHERE created_at >= $1::date AND created_at < ($2::date+interval '1 day'))::text input_tokens,
       (SELECT coalesce(sum(coalesce(billed_output_tokens,0)),0) FROM usage_entries WHERE created_at >= $1::date AND created_at < ($2::date+interval '1 day'))::text output_tokens,
       (SELECT coalesce(sum(cost_usd),0) FROM usage_entries WHERE created_at >= $1::date AND created_at < ($2::date+interval '1 day'))::text cost_usd,

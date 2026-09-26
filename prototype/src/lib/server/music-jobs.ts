@@ -206,7 +206,7 @@ async function persistReadyMusicJob(input: MusicJobInput, result: IntegratorMusi
     const billedTokens = reservation ? Number(reservation.tokens) : chargedTokensFromUsd(costUsd, input.multiplier);
     const revenueUsd = usdFromPaidTokens(reservation ? Number(reservation.paid_tokens) : paidTokensSpent(paidTokens, totalTokens, billedTokens));
     const unpaidTokens = reservation ? 0 : unpaidOverdraftTokens(totalTokens, billedTokens);
-    const usageId = `music-${result.request_id || input.jobId}`;
+    const usageId = `music-${input.jobId}`;
     await client.query(
       `INSERT INTO usage_entries(id,user_id,chat_title,model,model_id,provider,agent,input_tokens,output_tokens,billed_input_tokens,billed_output_tokens,billed_tokens,unpaid_tokens,billing_multiplier,cost_usd,revenue_usd,tool_cost_usd,latency_ms,integrator_chat_id,upstream_request_id,usage_comment)
        VALUES($1,$2,$3,$4,$5,$6,$7,0,0,0,$8,$8,$9,$10,$11,$12,0,$13,$14,$14,$15)
@@ -253,6 +253,10 @@ async function persistReadyMusicJob(input: MusicJobInput, result: IntegratorMusi
     await client.query(
       "UPDATE generation_jobs SET status='ready',result=$2::jsonb,error=NULL,updated_at=now() WHERE id=$1 AND status='creating'",
       [input.jobId, JSON.stringify({ track: track ? publicMusicTrack(track) : null, billedTokens, balanceTokens: remaining })]);
+    await client.query(
+      `UPDATE generation_request_registry SET status='success',error=NULL,response_at=now(),updated_at=now() WHERE id=$1 AND status='running'`,
+      [input.jobId],
+    );
     return { track, remaining, billedTokens };
   });
   if (!persisted) return;
