@@ -53,7 +53,20 @@ export async function POST(request: Request) {
       );
       revalidatePath(withLocalePath(published.pagePath, published.locale));
       revalidatePath("/sitemap.xml");
-      return Response.json(published.receipt);
+      const submitted = IS_STAGING
+        ? []
+        : await submitPageForIndexing(published.receipt.url, published.locale);
+      console.info("blogoro_page_section_indexing", {
+        url: published.receipt.url,
+        locale: published.locale,
+        submitted,
+        skippedOnDev: IS_STAGING,
+      });
+      return Response.json({
+        ...published.receipt,
+        sitemap: publicSiteUrl("/sitemap.xml"),
+        indexing: submitted,
+      });
     }
     const published = await publishBlogoroArticle(parseBlogoroPayload(payload));
     revalidateTag("blogoro-posts", "max");
