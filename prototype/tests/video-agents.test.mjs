@@ -4,7 +4,7 @@ import test from "node:test";
 
 import { getAgentById } from "../src/lib/mock/agents.ts";
 import { isSystemAgentTag, systemAgentTagOptions } from "../src/lib/system-agent-kind.ts";
-import { VIDEO_AGENT_TAGS, videoAgentCopy, videoAgentDefaults, videoAgentMinUserReferences, videoAgentNeedsUserPrompt, videoAgentTagLabel } from "../src/lib/video-agent-catalog.ts";
+import { VIDEO_AGENT_TAGS, videoAgentCopy, videoAgentDefaults, videoAgentMinUserReferences, videoAgentNeedsUserPrompt, videoAgentRequiresMotionControlInputs, videoAgentTagLabel } from "../src/lib/video-agent-catalog.ts";
 
 test("video-agent categories are available in catalog and admin", () => {
   assert.deepEqual([...systemAgentTagOptions("video")], [...VIDEO_AGENT_TAGS]);
@@ -80,6 +80,34 @@ test("angel is a six-second full-body I2V agent with an optional user prompt", a
   ]) assert.ok((await stat(new URL(path, import.meta.url))).size > 0, path);
 });
 
+test("Michael Jackson dance pins the Kling provider, allows Kling Motion Control models, and localizes the full-body workflow", () => {
+  const id = "michael-jackson-dance";
+  const agent = getAgentById(id);
+  const defaults = videoAgentDefaults(id);
+  assert.equal(agent?.category, "video");
+  assert.equal(agent?.name, "Michael Jackson Dance");
+  assert.equal(defaults?.tag, "animate-photo");
+  assert.equal(defaults?.providerId, "kling");
+  assert.equal(defaults?.modelId, "kling-2.6-mc-std", "default recommendation only; the user may choose another Kling Motion Control model");
+  assert.equal(defaults?.videoMode, "v2v");
+  assert.equal(defaults?.maxUserReferences, 2);
+  assert.equal(defaults?.videoPreviewUrl, null, "don't present the source dance clip as the child-result preview");
+  assert.equal(videoAgentRequiresMotionControlInputs(id), true);
+  assert.equal(videoAgentNeedsUserPrompt(id), false);
+  assert.equal(videoAgentMinUserReferences(id), 1);
+  assert.match(agent?.systemPrompt ?? "", /motion reference/i);
+  assert.match(agent?.systemPrompt ?? "", /exact first frame/i);
+  assert.match(agent?.systemPrompt ?? "", /clothing, footwear, accessories, background, lighting/i);
+  assert.match(agent?.systemPrompt ?? "", /Change only the person's movement/i);
+  assert.match(agent?.systemPrompt ?? "", /age-appropriate and non-sexual/i);
+  for (const locale of ["ru", "en", "zh", "hi", "es", "fr", "ar", "pt", "de", "ja", "it", "ko", "tr", "pl", "nl", "sv", "cs", "el", "ro"]) {
+    const copy = videoAgentCopy(id, locale);
+    assert.ok(copy?.name && copy?.description && copy?.placeholder && copy?.guideNotice, locale);
+  }
+  assert.match(videoAgentCopy(id, "en")?.placeholder ?? "", /full-body photo/i);
+  assert.match(videoAgentCopy(id, "ru")?.placeholder ?? "", /полный рост/i);
+});
+
 test("built-in video agent copy is localized for every served locale", () => {
   const locales = ["ru", "en", "zh", "hi", "es", "fr", "ar", "pt", "de", "ja", "it", "ko", "tr", "pl", "nl", "sv", "cs", "el", "ro"];
   for (const locale of locales) {
@@ -125,4 +153,9 @@ test("server composes hidden agent prompts without exposing or requiring angel t
   assert.match(source, /agentId === "angel" \? "" : rawPrompt/);
   assert.match(source, /videoAgentMinUserReferences/);
   assert.match(source, /userReferenceCount < videoAgentMinUserReferences/);
+  assert.match(source, /provider !== pinnedDefaults\.providerId \|\| uiMode !== pinnedDefaults\.videoMode/);
+  assert.doesNotMatch(source, /model !== pinnedDefaults\.modelId/);
+  assert.match(source, /requiresMotionControl && \(/);
+  assert.match(source, /studioIntegratorMode\(uiMode, catalogModel\) !== "motion-control"/);
+  assert.match(source, /firstFrame: mode === "image-to-video" \|\| mode === "motion-control" \? \(firstFrame \|\| references\[0\]\)/);
 });

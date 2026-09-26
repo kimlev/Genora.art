@@ -43,9 +43,9 @@ export type VideoAgentDefaults = {
   providerId: string;
   modelId: string;
   videoMode: StudioVideoMode;
-  videoUrl: string;
-  videoPreviewUrl: string;
-  coverUrl: string;
+  videoUrl: string | null;
+  videoPreviewUrl: string | null;
+  coverUrl: string | null;
   promptPlaceholder: string;
   referenceInputs: VideoAgentReferenceInput[];
   videoSettings: VideoAgentSettings;
@@ -57,7 +57,6 @@ export type VideoAgentDefaults = {
 const weatherRoot = "/agents/video/weather-change";
 const glassesLogoRoot = "/agents/video/glasses-logo-promo";
 const angelRoot = "/agents/video/angel";
-
 export const VIDEO_AGENT_DEFAULTS: Record<string, VideoAgentDefaults> = {
   "weather-change": {
     id: "weather-change",
@@ -105,6 +104,21 @@ export const VIDEO_AGENT_DEFAULTS: Record<string, VideoAgentDefaults> = {
     minUserReferences: 1,
     maxUserReferences: 1,
   },
+  "michael-jackson-dance": {
+    id: "michael-jackson-dance",
+    tag: "animate-photo",
+    providerId: "kling",
+    modelId: "kling-2.6-mc-std",
+    videoMode: "v2v",
+    videoUrl: null,
+    videoPreviewUrl: null,
+    coverUrl: null,
+    promptPlaceholder: "Upload a full-body photo and a dance video. Kling Motion Control transfers the dance onto the person in your photo.",
+    referenceInputs: [],
+    videoSettings: { duration: 10, resolution: "720p", aspectRatio: "9:16", sound: "off", style: "auto" },
+    minUserReferences: 1,
+    maxUserReferences: 2,
+  },
 };
 
 export type VideoAgentCopy = {
@@ -114,6 +128,28 @@ export type VideoAgentCopy = {
   guideNotice?: string;
   goodHint?: string;
   badHint?: string;
+};
+
+const MICHAEL_JACKSON_DANCE_COPY: Record<Locale, VideoAgentCopy> = {
+  ru: { name: "Танец в стиле Майкла Джексона", description: "Переносит танцевальные движения на человека с фото, сохраняя исходный кадр.", placeholder: "Загрузите фото в полный рост и видео с танцем. Фото станет первым кадром; одежда и фон сохранятся без изменений.", guideNotice: "Загрузите чёткое фото в полный рост и видео с танцем. Фото станет первым кадром: человек, одежда, фон, свет и композиция сохраняются. Из видео переносится только движение." },
+  en: { name: "Michael Jackson Dance", description: "Transfers dance moves onto the person in your photo while preserving the original frame.", placeholder: "Upload a full-body photo and a dance video. Your photo becomes the first frame; clothing and background stay unchanged.", guideNotice: "Upload a clear full-body photo and a dance video. Your photo becomes the first frame: the person, clothes, background, lighting, and composition stay unchanged. Only movement transfers from the video." },
+  zh: { name: "迈克尔·杰克逊舞蹈", description: "将舞蹈动作迁移到照片人物身上，同时保留原始画面。", placeholder: "上传全身照和舞蹈视频。照片将作为首帧；服装和背景保持不变。", guideNotice: "请上传清晰的全身照和舞蹈视频。照片作为首帧：人物、服装、背景、光线和构图均保持不变，只迁移动作。" },
+  hi: { name: "माइकल जैक्सन डांस", description: "मूल फ्रेम को जस का तस रखते हुए फोटो वाले व्यक्ति पर डांस मूव्स लागू करता है।", placeholder: "पूरे शरीर की फोटो और डांस वीडियो अपलोड करें। आपकी फोटो पहला फ्रेम होगी; कपड़े और बैकग्राउंड नहीं बदलेंगे।", guideNotice: "साफ़ फुल-बॉडी फोटो और डांस वीडियो अपलोड करें। फोटो पहला फ्रेम होगी: व्यक्ति, कपड़े, बैकग्राउंड, रोशनी और फ्रेमिंग जस की तस रहेंगी। केवल मूवमेंट वीडियो से लिया जाएगा।" },
+  es: { name: "Baile de Michael Jackson", description: "Transfiere los pasos de baile a la persona de tu foto y conserva el encuadre original.", placeholder: "Sube una foto de cuerpo entero y un vídeo de baile. La foto será el primer fotograma; la ropa y el fondo no cambiarán.", guideNotice: "Sube una foto nítida de cuerpo entero y un vídeo de baile. La foto será el primer fotograma: se mantienen la persona, la ropa, el fondo, la luz y la composición. Solo se transfieren los movimientos." },
+  fr: { name: "Danse de Michael Jackson", description: "Transfère la danse sur la personne de votre photo tout en conservant l’image d’origine.", placeholder: "Importez une photo en pied et une vidéo de danse. La photo sera la première image ; les vêtements et le décor resteront inchangés.", guideNotice: "Importez une photo nette en pied et une vidéo de danse. La photo devient la première image : personne, vêtements, décor, lumière et cadrage restent inchangés. Seuls les mouvements sont transférés." },
+  ar: { name: "رقصة مايكل جاكسون", description: "ينقل حركات الرقص إلى الشخص في صورتك مع الحفاظ على الإطار الأصلي.", placeholder: "ارفع صورة كاملة للجسم وفيديو رقص. ستكون الصورة الإطار الأول، ولن تتغير الملابس أو الخلفية.", guideNotice: "ارفع صورة واضحة لكامل الجسم وفيديو رقص. تصبح الصورة الإطار الأول؛ ويبقى الشخص والملابس والخلفية والإضاءة والتكوين كما هي. تُنقل الحركة فقط من الفيديو." },
+  pt: { name: "Dança de Michael Jackson", description: "Transfere os movimentos para a pessoa da foto e mantém o enquadramento original.", placeholder: "Carregue uma foto de corpo inteiro e um vídeo de dança. A foto será o primeiro fotograma; roupa e fundo não mudam.", guideNotice: "Carregue uma foto nítida de corpo inteiro e um vídeo de dança. A foto será o primeiro fotograma: pessoa, roupa, fundo, iluminação e composição permanecem iguais. Só os movimentos são transferidos." },
+  de: { name: "Michael-Jackson-Tanz", description: "Überträgt die Tanzbewegungen auf die Person im Foto und erhält den ursprünglichen Bildaufbau.", placeholder: "Lade ein Ganzkörperfoto und ein Tanzvideo hoch. Dein Foto wird zum ersten Frame; Kleidung und Hintergrund bleiben unverändert.", guideNotice: "Lade ein klares Ganzkörperfoto und ein Tanzvideo hoch. Das Foto ist der erste Frame: Person, Kleidung, Hintergrund, Licht und Bildaufbau bleiben unverändert. Nur die Bewegung wird übertragen." },
+  ja: { name: "マイケル・ジャクソンのダンス", description: "元の画面を保ったまま、写真の人物にダンスの動きを転写します。", placeholder: "全身写真とダンス動画をアップロードしてください。写真が最初のフレームになり、服装と背景は変わりません。", guideNotice: "鮮明な全身写真とダンス動画をアップロードしてください。写真が最初のフレームです。人物、服装、背景、光、構図はそのままに、動きだけを動画から転写します。" },
+  it: { name: "Ballo di Michael Jackson", description: "Trasferisce i passi alla persona della foto mantenendo invariata l’inquadratura originale.", placeholder: "Carica una foto a figura intera e un video di danza. La foto sarà il primo fotogramma; abiti e sfondo non cambieranno.", guideNotice: "Carica una foto nitida a figura intera e un video di danza. La foto sarà il primo fotogramma: persona, abiti, sfondo, luce e composizione restano invariati. Si trasferiscono solo i movimenti." },
+  ko: { name: "마이클 잭슨 댄스", description: "원본 프레임을 유지하면서 사진 속 인물에게 춤 동작을 옮깁니다.", placeholder: "전신 사진과 춤 영상을 업로드하세요. 사진이 첫 프레임이 되며 의상과 배경은 바뀌지 않습니다.", guideNotice: "선명한 전신 사진과 춤 영상을 업로드하세요. 사진이 첫 프레임이며 인물, 의상, 배경, 조명, 구도를 그대로 유지하고 동작만 영상에서 가져옵니다." },
+  tr: { name: "Michael Jackson Dansı", description: "Orijinal kadrajı koruyarak dans hareketlerini fotoğrafınızdaki kişiye aktarır.", placeholder: "Tam boy fotoğraf ve dans videosu yükleyin. Fotoğraf ilk kare olur; kıyafet ve arka plan değişmez.", guideNotice: "Net bir tam boy fotoğraf ve dans videosu yükleyin. Fotoğraf ilk kare olur: kişi, kıyafet, arka plan, ışık ve kadraj aynı kalır. Yalnızca hareket videodan aktarılır." },
+  pl: { name: "Taniec Michaela Jacksona", description: "Przenosi ruchy na osobę ze zdjęcia, zachowując oryginalny kadr.", placeholder: "Prześlij zdjęcie całej sylwetki i film taneczny. Zdjęcie będzie pierwszą klatką; ubranie i tło pozostaną bez zmian.", guideNotice: "Prześlij wyraźne zdjęcie całej sylwetki i film taneczny. Zdjęcie stanie się pierwszą klatką: osoba, ubranie, tło, światło i kadr pozostaną bez zmian. Przenoszony jest tylko ruch." },
+  nl: { name: "Michael Jackson-dans", description: "Zet dansbewegingen over op de persoon op je foto en behoud het oorspronkelijke beeld.", placeholder: "Upload een foto waarop iemand volledig te zien is en een dansvideo. De foto wordt het eerste frame; kleding en achtergrond blijven hetzelfde.", guideNotice: "Upload een duidelijke foto waarop de persoon volledig te zien is en een dansvideo. De foto wordt het eerste frame: persoon, kleding, achtergrond, belichting en compositie blijven ongewijzigd. Alleen de beweging wordt overgezet." },
+  sv: { name: "Michael Jackson-dans", description: "Överför dansrörelser till personen på fotot och behåller originalbilden.", placeholder: "Ladda upp ett helkroppsfoto och en dansvideo. Fotot blir den första bildrutan; kläder och bakgrund ändras inte.", guideNotice: "Ladda upp ett tydligt helkroppsfoto och en dansvideo. Fotot blir den första bildrutan: personen, kläderna, bakgrunden, ljuset och kompositionen förblir oförändrade. Endast rörelsen överförs." },
+  cs: { name: "Tanec Michaela Jacksona", description: "Přenese taneční pohyby na osobu na fotografii a zachová původní záběr.", placeholder: "Nahrajte fotografii celé postavy a taneční video. Fotografie bude prvním snímkem; oblečení i pozadí zůstanou stejné.", guideNotice: "Nahrajte jasnou fotografii celé postavy a taneční video. Fotografie bude prvním snímkem: osoba, oblečení, pozadí, světlo i kompozice zůstanou beze změny. Přenese se pouze pohyb." },
+  el: { name: "Χορός του Michael Jackson", description: "Μεταφέρει τις κινήσεις στο άτομο της φωτογραφίας διατηρώντας το αρχικό κάδρο.", placeholder: "Ανεβάστε ολόσωμη φωτογραφία και βίντεο χορού. Η φωτογραφία θα είναι το πρώτο καρέ· ρούχα και φόντο δεν αλλάζουν.", guideNotice: "Ανεβάστε καθαρή ολόσωμη φωτογραφία και βίντεο χορού. Η φωτογραφία γίνεται το πρώτο καρέ: άτομο, ρούχα, φόντο, φωτισμός και σύνθεση μένουν ίδια. Μεταφέρεται μόνο η κίνηση." },
+  ro: { name: "Dansul lui Michael Jackson", description: "Transferă mișcările asupra persoanei din fotografie, păstrând cadrul original.", placeholder: "Încarcă o fotografie cu persoana în întregime și un videoclip de dans. Fotografia va fi primul cadru; hainele și fundalul rămân neschimbate.", guideNotice: "Încarcă o fotografie clară cu persoana în întregime și un videoclip de dans. Fotografia devine primul cadru: persoana, hainele, fundalul, lumina și compoziția rămân neschimbate. Se transferă doar mișcarea." },
 };
 
 const WEATHER_COPY: Record<Locale, VideoAgentCopy> = {
@@ -215,12 +251,18 @@ export function videoAgentCopy(id: string, locale: string): VideoAgentCopy | nul
       ? GLASSES_LOGO_COPY
       : id === "angel"
         ? ANGEL_COPY
+        : id === "michael-jackson-dance"
+          ? MICHAEL_JACKSON_DANCE_COPY
         : null;
   return copy?.[locale as Locale] ?? copy?.en ?? null;
 }
 
 export function videoAgentNeedsUserPrompt(id: string): boolean {
-  return id !== "angel";
+  return id !== "angel" && id !== "michael-jackson-dance";
+}
+
+export function videoAgentRequiresMotionControlInputs(id: string): boolean {
+  return id === "michael-jackson-dance";
 }
 
 export function videoAgentMinUserReferences(id: string): number {
