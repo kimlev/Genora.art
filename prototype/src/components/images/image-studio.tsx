@@ -2010,6 +2010,7 @@ function VideoStudioPanel({
   const [characterSlot, setCharacterSlot] = useState(0);
   const [characterPickerOpen, setCharacterPickerOpen] = useState(false);
   const [agentGuideOpen, setAgentGuideOpen] = useState(false);
+  const [agentGuideDismissed, setAgentGuideDismissed] = useState(false);
   const [characterPickerSlot, setCharacterPickerSlot] = useState(0);
   const [attachmentMenuSlot, setAttachmentMenuSlot] = useState<number | null>(null);
   const [refs, setRefs] = useState<Array<VideoRef | null>>([]);
@@ -2033,6 +2034,10 @@ function VideoStudioPanel({
   const userPromptRequired = videoAgentNeedsUserPrompt(selectedVideoAgent?.id ?? "");
   const userPromptAllowed = videoAgentAllowsUserPrompt(selectedVideoAgent?.id ?? "");
   const motionTransferAgent = videoAgentRequiresMotionControlInputs(selectedVideoAgent?.id ?? "");
+  const dismissVideoAgentGuide = () => {
+    setAgentGuideOpen(false);
+    setAgentGuideDismissed(true);
+  };
 
   useEffect(() => () => { flushAndStopRecorder(recorderRef.current); recorderRef.current = null; }, []);
   useEffect(() => {
@@ -2054,8 +2059,11 @@ function VideoStudioPanel({
     setCharacterSlot(0);
     setRefs([]);
     setRefErrors([]);
-    setAgentGuideOpen(false);
   }, [catalog.models, selectedVideoAgent]);
+  useEffect(() => {
+    setAgentGuideOpen(false);
+    setAgentGuideDismissed(false);
+  }, [selectedVideoAgentId]);
   useEffect(() => {
     if (!initialCharacterId || !characters.some((item) => item.id === initialCharacterId)) return;
     const timer = window.setTimeout(() => { setCharacterId(initialCharacterId); setCharacterSlot(0); setMode("i2v"); setProvider(""); setModelId(""); }, 0);
@@ -2619,7 +2627,7 @@ function VideoStudioPanel({
       <div className={cn("relative mt-4 rounded-[24px] border bg-bg p-2 shadow-[0_10px_32px_-20px_rgba(15,40,80,.45)] focus-within:border-accent-brand/50 focus-within:ring-2 focus-within:ring-accent-brand/10", selectedVideoAgent ? "border-accent-brand ring-2 ring-accent-brand/20" : "border-border")}>
         <div className="relative flex items-start justify-between gap-2 px-1">
           <div className="flex min-w-0 flex-1 pr-24">
-            {selectedVideoAgent && (selectedVideoAgent.guide || selectedVideoAgentCopy?.guideNotice) ? (
+            {selectedVideoAgent && !agentGuideDismissed && (selectedVideoAgent.guide || selectedVideoAgentCopy?.guideNotice) ? (
               <button
                 type="button"
                 onClick={() => setAgentGuideOpen(true)}
@@ -2888,7 +2896,8 @@ function VideoStudioPanel({
             ) : null}
             {selectedVideoAgent.guide?.resultVideoUrl ? (
               <>
-                <div className="mt-5 overflow-hidden rounded-2xl bg-black">
+                {selectedVideoAgentCopy?.resultHint ? <p className="mt-5 text-center text-sm text-steel">{selectedVideoAgentCopy.resultHint}</p> : null}
+                <div className={cn("overflow-hidden rounded-2xl bg-black", selectedVideoAgentCopy?.resultHint ? "mt-3" : "mt-5")}>
                   <video src={selectedVideoAgent.guide.resultVideoUrl} poster={selectedVideoAgent.guide.goodImageUrl} controls muted playsInline className="max-h-[42dvh] w-full object-contain" />
                 </div>
               </>
@@ -2897,7 +2906,7 @@ function VideoStudioPanel({
                 <Image src={selectedVideoAgent.coverUrl} alt={selectedVideoAgentCopy?.name ?? selectedVideoAgent.name} fill unoptimized className="object-contain" />
               </div>
             ) : null}
-            <Button type="button" variant="secondary" className="mt-5 h-11 w-full" onClick={() => setAgentGuideOpen(false)}>{copy.close}</Button>
+            <Button type="button" variant="secondary" className="mt-5 h-11 w-full" onClick={dismissVideoAgentGuide}>{copy.close}</Button>
           </div>
         </div>,
         document.body,

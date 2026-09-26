@@ -117,7 +117,7 @@ test("Michael Jackson dance uses V2V with one uploaded photo, a hidden built-in 
   ]) assert.ok((await stat(new URL(path, import.meta.url))).size > 0, path);
   for (const locale of ["ru", "en", "zh", "hi", "es", "fr", "ar", "pt", "de", "ja", "it", "ko", "tr", "pl", "nl", "sv", "cs", "el", "ro"]) {
     const copy = videoAgentCopy(id, locale);
-    assert.ok(copy?.name && copy?.description && copy?.placeholder && copy?.goodHint && copy?.badHint, locale);
+    assert.ok(copy?.name && copy?.description && copy?.placeholder && copy?.goodHint && copy?.badHint && copy?.resultHint, locale);
     assert.equal(copy?.guideNotice, undefined, locale);
   }
   assert.match(videoAgentCopy(id, "en")?.placeholder ?? "", /optional/i);
@@ -126,6 +126,9 @@ test("Michael Jackson dance uses V2V with one uploaded photo, a hidden built-in 
   assert.match(studio, /userReferenceCount === 1 && !characterId/);
   assert.match(studio, /motionTransferInputsReady = !motionTransferAgent \|\| \(refs\.filter\(\(item\) => item\?\.kind === "image"\)\.length === 1 && !refs\.some\(\(item\) => item\?\.kind === "video"\)\)/);
   assert.match(studio, /selectedVideoAgent\.guide\.resultVideoUrl/);
+  assert.match(studio, /selectedVideoAgentCopy\?\.resultHint/);
+  assert.match(studio, /agentGuideDismissed/);
+  assert.match(studio, /onClick=\{dismissVideoAgentGuide\}/);
   assert.match(studio, /selectedVideoAgentCopy\?\.goodHint/);
   assert.match(studio, /selectedVideoAgentCopy\?\.badHint/);
   assert.match(studio, /mode === "v2v" && !motionTransferAgent \? copy\.addFile : copy\.addPhoto/);
@@ -166,6 +169,8 @@ test("video-agent guide uses the common photo examples and an optional separate 
   assert.match(source, /\{UI\.exampleGood\}/);
   assert.match(source, /\{UI\.exampleBad\}/);
   assert.match(source, /selectedVideoAgent\.guide\?\.resultVideoUrl/);
+  assert.match(source, /selectedVideoAgentCopy\?\.resultHint/);
+  assert.match(source, /!agentGuideDismissed/);
   assert.match(source, /\{UI\.guideClose\}/);
   assert.match(source, /userPromptRequired && !prompt\.trim\(\)/);
   assert.match(source, /!agentReferencesReady/);
