@@ -24,7 +24,7 @@ import { defaultImageAgentVariant, imageAgentVariantNotes, imageAgentVariants, i
 import { agentDescription, agentName, listVisibleAgents } from "@/lib/mock/agents";
 import { getCatalogAgentOverride } from "@/lib/catalog-agent-overrides";
 import { useCatalogAgentOverrides } from "@/lib/use-catalog-agent-overrides";
-import { videoAgentCopy, videoAgentDefaults, videoAgentNeedsUserPrompt, type VideoAgentGuide, type VideoAgentSettings } from "@/lib/video-agent-catalog";
+import { videoAgentCopy, videoAgentDefaults, videoAgentNeedsUserPrompt, videoAgentRequiresMotionControlInputs, type VideoAgentGuide, type VideoAgentSettings } from "@/lib/video-agent-catalog";
 import { imageQualityLabel } from "@/lib/image-quality";
 import { acquireScrollLock } from "@/lib/scroll-lock";
 import { Button } from "@/components/ui/button";
@@ -2031,15 +2031,19 @@ function VideoStudioPanel({
   const selectedVideoAgent = videoAgents.find((item) => item.id === selectedVideoAgentId) ?? null;
   const selectedVideoAgentCopy = videoAgentCopy(selectedVideoAgent?.id ?? "", locale);
   const userPromptRequired = videoAgentNeedsUserPrompt(selectedVideoAgent?.id ?? "");
+  const motionTransferAgent = videoAgentRequiresMotionControlInputs(selectedVideoAgent?.id ?? "");
 
   useEffect(() => () => { flushAndStopRecorder(recorderRef.current); recorderRef.current = null; }, []);
   useEffect(() => {
     if (!selectedVideoAgent) return;
-    const recommended = catalog.models.find((item) => item.provider === selectedVideoAgent.providerId && item.id === selectedVideoAgent.modelId);
+    const recommended = catalog.models.find((item) => item.provider === selectedVideoAgent.providerId && item.id === selectedVideoAgent.modelId)
+      ?? (videoAgentRequiresMotionControlInputs(selectedVideoAgent.id)
+        ? catalog.models.find((item) => item.provider === selectedVideoAgent.providerId && isMotionControlModel(item))
+        : undefined);
     setMode(selectedVideoAgent.videoMode);
     setDuration(selectedVideoAgent.videoSettings.duration ?? 8);
-    setProvider(recommended ? selectedVideoAgent.providerId : "");
-    setModelId(recommended ? selectedVideoAgent.modelId : "");
+    setProvider(selectedVideoAgent.providerId);
+    setModelId(recommended?.id ?? "");
     setSize(selectedVideoAgent.videoSettings.resolution ?? "");
     setFormat(selectedVideoAgent.videoSettings.aspectRatio ?? "");
     setSound(selectedVideoAgent.videoSettings.sound ?? "off");
@@ -2097,7 +2101,7 @@ function VideoStudioPanel({
     () => filterVideoModels(characterModels, { mode, duration, resolution: size || undefined, aspect: format || undefined, sound, provider: provider || undefined }),
     [characterModels, duration, format, mode, provider, size, sound],
   );
-  const model = characterModels.find((item) => item.id === modelId && item.provider === provider && filterVideoModels([item], { mode, duration }).length)
+  const model = characterModels.find((item) => item.id === modelId && item.provider === provider && (motionTransferAgent ? isMotionControlModel(item) : filterVideoModels([item], { mode, duration }).length > 0))
     ?? undefined;
   const selectedCharacter = characters.find((character) => character.id === characterId && character.status === "ready");
   const characterRightsRequired = Boolean(selectedCharacter && selectedCharacter.kind !== "ai" && videoCharacterRightsRequired(model));
@@ -2126,6 +2130,7 @@ function VideoStudioPanel({
   const slotCount = Math.min(modelSlotCount, selectedVideoAgent?.maxUserReferences ?? modelSlotCount);
   const userReferenceCount = refs.filter((item) => item?.kind === "image").length + (characterId ? 1 : 0);
   const agentReferencesReady = userReferenceCount >= (selectedVideoAgent?.minUserReferences ?? 0);
+  const motionTransferInputsReady = !motionTransferAgent || (refs.some((item) => item?.kind === "image") && refs.some((item) => item?.kind === "video"));
   const sounds = model ? videoSoundModes(model) : ["off", "on"] as VideoSound[];
   const perFileMax = videoPerFileMaxBytes(mode, model, durationModels);
   const totalMax = videoTotalMaxBytes();
@@ -2164,6 +2169,7 @@ function VideoStudioPanel({
 
   const motionClip = refs.find((item): item is VideoRef => item?.kind === "video") ?? null;
   const motionLocked = isMotionControlModel(model) && Boolean(motionClip);
+  const durationLocked = motionTransferAgent || motionLocked;
   const billedDuration = isMotionControlModel(model)
     ? (motionClip ? motionControlDurationFromClip(model, motionClip.durationSec ?? 0) : null)
     : nearestVideoDuration(model?.durations ?? [], duration);
@@ -2193,8 +2199,18 @@ function VideoStudioPanel({
     if (billed != null && billed !== duration) setDuration(billed);
   }, [duration, locale, model, motionClip, refs, slotCount]);
   const styleChoices: Choice[] = styles.map((item) => ({ value: item.id, label: item.label, description: item.description, visual: <Palette className="size-4 shrink-0 text-accent-brand" /> }));
-  const providerChoices = providers.map((item) => ({ value: item.id, label: item.label, logoName: item.label }));
-  const modelChoices: Choice[] = providerModels.map((item) => ({ value: item.id, label: item.label, description: mediaModelDescription(locale, item.id) }));
+  const lockedProvider = motionTransferAgent && selectedVideoAgent
+    ? catalog.providers.find((item) => item.id === selectedVideoAgent.providerId) ?? { id: selectedVideoAgent.providerId, label: "Kling" }
+    : null;
+  const providerChoices = (lockedProvider ? [lockedProvider] : providers)
+    .map((item) => ({ value: item.id, label: item.label, logoName: item.label }));
+  const agentMotionModels = motionTransferAgent
+    ? characterModels.filter((item) => item.provider === selectedVideoAgent?.providerId
+      && isMotionControlModel(item)
+      && (!motionClip || !motionControlClipIssue(item, motionClip.bytes, motionClip.durationSec ?? 0)))
+    : providerModels;
+  const modelChoices: Choice[] = agentMotionModels
+    .map((item) => ({ value: item.id, label: item.label, description: mediaModelDescription(locale, item.id) }));
   const sizeChoices: Choice[] = sortStudioSizes(sizes).map((item) => ({ value: item, label: item, description: copy.sizes[item] ?? copy.sizeFallback }));
   const formatChoices: Choice[] = formats.map((item) => ({ value: item, label: item, description: copy.formats[item] ?? copy.formatFallback, visual: <RatioIcon value={item} /> }));
 
@@ -2395,6 +2411,10 @@ function VideoStudioPanel({
     }
     const imagesPreview = filled.filter((item) => item.kind === "image");
     const clipsPreview = filled.filter((item) => item.kind === "video");
+    if (motionTransferAgent && (!imagesPreview.length || !clipsPreview.length)) {
+      showError(v.addVideoNeeded);
+      return;
+    }
     if (integratorMode === "video-to-video" && imagesPreview.length && clipsPreview.length && !videoV2vAcceptsPhotos(model)) {
       showError(videoReferenceMixUnsupportedCopy(locale));
       return;
@@ -2561,13 +2581,13 @@ function VideoStudioPanel({
             max={30}
             step={1}
             value={billedDuration ?? duration}
-            disabled={motionLocked}
+            disabled={durationLocked}
             onChange={(event) => {
-              if (motionLocked) return;
+              if (durationLocked) return;
               setDuration(Number(event.target.value));
               resetVideoConfiguration();
             }}
-            className={cn("h-2 w-full appearance-none rounded-full bg-mist accent-current [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-brand", motionLocked ? "cursor-not-allowed opacity-60" : "cursor-pointer")}
+            className={cn("h-2 w-full appearance-none rounded-full bg-mist accent-current [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-brand", durationLocked ? "cursor-not-allowed opacity-60" : "cursor-pointer")}
           />
           <span
             className="pointer-events-none absolute top-8 whitespace-nowrap text-[10px] font-medium leading-none text-steel"
@@ -2703,6 +2723,7 @@ function VideoStudioPanel({
           leading={providerIcon}
           revealed={Boolean(provider)}
           highlight={Boolean(provider)}
+          disabled={motionTransferAgent}
           onChange={(value) => { setProvider(value); setModelId(""); }}
           onClear={provider ? resetVideoConfiguration : undefined}
           clearLabel={videoProviderResetCopy(locale)}
@@ -2715,13 +2736,15 @@ function VideoStudioPanel({
           revealed={Boolean(modelId)}
           highlight={Boolean(modelId)}
           onChange={(value) => {
-            const next = providerModels.find((item) => item.id === value) ?? filtered.find((item) => item.id === value) ?? catalog.models.find((item) => item.id === value);
+            const next = agentMotionModels.find((item) => item.id === value) ?? filtered.find((item) => item.id === value) ?? catalog.models.find((item) => item.id === value);
             if (!next) return;
             setModelId(next.id);
             setProvider(next.provider);
           }}
         />
       </div>
+
+      {selectedVideoAgentCopy?.guideNotice ? <p className="mt-3 text-xs leading-relaxed text-steel">{selectedVideoAgentCopy.guideNotice}</p> : null}
 
       {slotCount > 0 ? (
         <div className="mt-4 flex flex-wrap justify-center gap-3">
@@ -2779,7 +2802,7 @@ function VideoStudioPanel({
       {!authReady ? (
         <div className="mt-6 grid h-12 place-items-center"><LoaderCircle className="size-5 animate-spin text-accent-brand" /></div>
       ) : user ? (
-        <Button type="submit" disabled={!catalog.available || shortOnFunds || (userPromptRequired && !prompt.trim()) || !agentReferencesReady || !model || !motionClipReady || characterRightsRequired} className={cn("mt-6 h-auto min-h-12 w-full flex-col gap-0.5 whitespace-normal py-2", shortOnFunds && "disabled:opacity-100")}>
+        <Button type="submit" disabled={!catalog.available || shortOnFunds || (userPromptRequired && !prompt.trim()) || !agentReferencesReady || !motionTransferInputsReady || !model || !motionClipReady || characterRightsRequired} className={cn("mt-6 h-auto min-h-12 w-full flex-col gap-0.5 whitespace-normal py-2", shortOnFunds && "disabled:opacity-100")}>
           <span className={cn(shortOnFunds && "opacity-50")}>{withCreditGlyphs(`${v.generate}${price != null ? ` ${formatTokensAsCredits(price, locale, "price")}` : ""}`)}</span>
           {shortOnFunds ? <span className="text-[11px] font-medium leading-none text-red-500">{v.noFunds}</span> : null}
         </Button>

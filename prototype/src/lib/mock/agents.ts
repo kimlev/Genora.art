@@ -2,6 +2,7 @@ import { getCatalogAgentOverride, listCreatedCatalogAgents } from "@/lib/catalog
 import { catalogUiCopy } from "@/lib/i18n/copy/catalog-ui";
 import type { Locale } from "@/lib/i18n/types";
 import { IMAGE_AGENT_EXPANSIONS, imageAgentExpansionCopy } from "@/lib/image-agent-expansions";
+import { videoAgentCopy } from "@/lib/video-agent-catalog";
 import type { Agent } from "./agent-types";
 import { textAgents } from "./text-agents";
 
@@ -132,6 +133,15 @@ GLOBAL VISUAL / AUDIO TREATMENT
 - Visual: Saturated daylight exterior, deep blue sky, bright high-contrast sunlight, wide-angle distortion with linear vertical lens flares.
 - Audio: Highway traffic hum, rushing air drafts, and ambient urban road rumble; no intelligible speech.`,
     icon: "sparkles",
+  },
+  {
+    id: "michael-jackson-dance",
+    name: "Michael Jackson Dance",
+    category: "video",
+    description: "Transfers dance movements from a reference video onto the person in your full-body photo.",
+    modelId: "kling-2.6-mc-std",
+    systemPrompt: "Treat the uploaded full-body photo as the exact first frame and the immutable visual source for the entire result. Keep its person, identity, face, apparent age, body proportions, clothing, footwear, accessories, background, lighting, colors, objects, camera framing, and composition unchanged. Use the uploaded video only as a motion reference: transfer its dance movement, timing, and pose changes onto the person from the photo. Change only the person's movement; do not replace, restyle, regenerate, or alter the background, clothes, lighting, or framing. Do not copy the reference dancer's identity, face, clothes, or surroundings. Keep motion natural and anatomically plausible. If the photo shows a child, keep the dance and presentation strictly age-appropriate and non-sexual. Do not add text, logos, or extra people.",
+    icon: "music",
   },
   {
     id: "code-review",
@@ -337,6 +347,8 @@ export function getPopularAgents(): Agent[] {
  * которых нет в каталоге переводов (например, пользовательских).
  */
 export function agentDescription(id: string, locale: Locale): string {
+  const videoCopy = videoAgentCopy(id, locale);
+  if (videoCopy) return videoCopy.description;
   const override = getCatalogAgentOverride(id);
   const localizedCopy = catalogUiCopy(locale);
   const localized = localizedCopy.agents[id] ?? localizedCopy.imageAgents[id];
@@ -351,6 +363,8 @@ export function agentDescription(id: string, locale: Locale): string {
  * SQL Helper) в каталоге переводов совпадают с исходными.
  */
 export function agentName(id: string, locale: Locale): string {
+  const videoCopy = videoAgentCopy(id, locale);
+  if (videoCopy) return videoCopy.name;
   const override = getCatalogAgentOverride(id);
   const localizedCopy = catalogUiCopy(locale);
   const localized = localizedCopy.agentNames[id] ?? localizedCopy.imageAgentNames[id];

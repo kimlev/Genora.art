@@ -33,7 +33,7 @@ import { videoCharacterRightsCopy, videoReferenceMixUnsupportedCopy, videoStudio
 import { promptBlockedCopy } from "@/lib/i18n/copy/prompt-blocked";
 import { characterKindForUser, characterReferenceDataUrls } from "@/lib/server/characters";
 import { resolveVideoAgentDefinition, videoAgentReferenceDataUrls } from "@/lib/server/system-agents";
-import { videoAgentMinUserReferences, videoAgentNeedsUserPrompt } from "@/lib/video-agent-catalog";
+import { videoAgentDefaults, videoAgentMinUserReferences, videoAgentNeedsUserPrompt, videoAgentRequiresMotionControlInputs } from "@/lib/video-agent-catalog";
 
 export const runtime = "nodejs";
 export const maxDuration = 1800;
@@ -91,6 +91,11 @@ export async function POST(request: Request) {
     const userReferenceCount = Number(Boolean(firstFrame)) + Number(Boolean(lastFrame)) + references.length + Number(Boolean(characterId));
     if (!provider || !model || (!prompt && videoAgentNeedsUserPrompt(agentId ?? "")) || !resolution || !aspectRatio) return jsonError(appCopy.imageParamsRequired);
     if (userReferenceCount < videoAgentMinUserReferences(agentId ?? "")) throw new Error("VIDEO_INPUT_REQUIRED");
+    const requiresMotionControl = videoAgentRequiresMotionControlInputs(agentId ?? "");
+    const pinnedDefaults = requiresMotionControl ? videoAgentDefaults(agentId ?? "") : null;
+    if (requiresMotionControl && (!pinnedDefaults || provider !== pinnedDefaults.providerId || uiMode !== pinnedDefaults.videoMode)) {
+      throw new Error("VIDEO_AGENT_INVALID");
+    }
     if (requestedConversationId && !/^[0-9a-f-]{36}$/i.test(requestedConversationId)) return jsonError(appCopy.conversationInvalid);
 
     const catalog = await integratorVideoCatalogFull();
@@ -98,6 +103,12 @@ export async function POST(request: Request) {
     if (!catalogModel) throw new Error("PROVIDER_NOT_AVAILABLE");
     const videoAgent = agentId ? await resolveVideoAgentDefinition(agentId) : null;
     if (agentId && (!videoAgent || videoAgent.videoMode !== uiMode)) throw new Error("VIDEO_AGENT_INVALID");
+    if (requiresMotionControl && (
+      !(firstFrame || lastFrame || references.length)
+      || videos.length === 0
+      || catalogModel.provider !== pinnedDefaults?.providerId
+      || studioIntegratorMode(uiMode, catalogModel) !== "motion-control"
+    )) throw new Error("VIDEO_INPUT_REQUIRED");
     if (videoAgent) {
       const configured = await videoAgentReferenceDataUrls(videoAgent);
       for (const item of configured) {
