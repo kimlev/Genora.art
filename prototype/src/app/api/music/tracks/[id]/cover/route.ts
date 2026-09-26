@@ -1,7 +1,8 @@
 import { after } from "next/server";
 import { quoteImage } from "@/lib/server/generation-quote";
 import { executeImageJob } from "@/lib/server/image-jobs";
-import { insertGenerationJob, publicGenerationJob } from "@/lib/server/generation-jobs";
+import { insertGenerationJob, markGenerationJobFailed, publicGenerationJob } from "@/lib/server/generation-jobs";
+import { failGenerationRequest, registerGenerationRequest, updateGenerationRequestMetadata } from "@/lib/server/generation-request-registry";
 import {
   SONG_COVER_FORMAT,
   SONG_COVER_MODEL,
@@ -30,8 +31,12 @@ export const maxDuration = 180;
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   let locale = await requestLocale();
   if (!isSameOrigin(request)) return jsonError(apiAppCopy(locale).invalidOrigin, 403);
+  let requestId: string | null = null;
+  let trackedJobId: string | null = null;
   try {
     const user = await requireUser();
+    requestId = await registerGenerationRequest(user.id, "image");
+    await updateGenerationRequestMetadata(requestId, { provider: SONG_COVER_PROVIDER, modelId: SONG_COVER_MODEL, modelLabel: SONG_COVER_MODEL, agent: "Music cover" });
     const { id } = await params;
     const body = await request.json().catch(() => null) as { words?: unknown; description?: unknown; lyrics?: unknown; locale?: unknown } | null;
     if (typeof body?.locale === "string") locale = await requestLocale(body.locale);
@@ -83,13 +88,18 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       count: 1 as const, sourceImageCount: 0, coverTrackId: id,
     };
     const job = await insertGenerationJob({
+      id: requestId,
       userId: user.id, kind: "image", surface: "audio", conversationId: setup.conversation.id,
       title: setup.conversation.title, modelLabel: SONG_COVER_MODEL, payload: input,
       reservationTokens: quoteImage(catalogModel, SONG_COVER_SIZE, undefined, 1, setup.multiplier),
     });
+    trackedJobId = job.id;
+    await updateGenerationRequestMetadata(requestId, { provider: SONG_COVER_PROVIDER, modelId: SONG_COVER_MODEL, modelLabel: catalogModel.label, agent: "Music cover" });
     after(() => executeImageJob({ ...input, jobId: job.id }));
     return Response.json({ job: publicGenerationJob(job), balanceTokens: job.balanceTokens }, { status: 202 });
   } catch (error) {
+    if (trackedJobId) await markGenerationJobFailed(trackedJobId, (error as Error).message || "SONG_COVER_FAILED").catch(() => undefined);
+    if (requestId) await failGenerationRequest(requestId, (error as Error).message || "SONG_COVER_FAILED").catch(() => undefined);
     const message = (error as Error).message;
     const errorCopy = apiAppCopy(locale);
     if (message === "UNAUTHORIZED") return jsonError(errorCopy.authRequired, 401);

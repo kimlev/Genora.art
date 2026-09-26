@@ -18,6 +18,7 @@ import { topUpBalanceFromError } from "@/lib/server/paid-balance";
 import { requireUser } from "@/lib/server/session";
 import { incrementWelcomeBonus } from "@/lib/server/welcome-bonus";
 import { usageHistoryCopy } from "@/lib/usage-history-copy";
+import { completeGenerationRequest, failGenerationRequest, registerGenerationRequest, updateGenerationRequestMetadata } from "@/lib/server/generation-request-registry";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -27,15 +28,26 @@ type Body = { context?: unknown; description?: unknown; locale?: unknown };
 export async function POST(request: Request) {
   let locale = await requestLocale();
   if (!isSameOrigin(request)) return jsonError(apiAppCopy(locale).invalidOrigin, 403);
+  let requestId: string | null = null;
   try {
     const user = await requireUser();
+    requestId = await registerGenerationRequest(user.id, "chat");
     const body = await request.json().catch(() => null) as Body | null;
     if (typeof body?.locale === "string") locale = await requestLocale(body.locale);
     const copy = usageHistoryCopy(locale);
     const errors = apiAppCopy(locale);
     const context = isAgentCategory(body?.context) ? body.context : "writing";
     const description = String(body?.description ?? "").trim().slice(0, AGENT_DESCRIPTION_MAX);
-    if (!description) return jsonError(errors.agentFieldsRequired);
+    if (!description) {
+      await failGenerationRequest(requestId, "AGENT_FIELDS_REQUIRED");
+      return jsonError(errors.agentFieldsRequired);
+    }
+    await updateGenerationRequestMetadata(requestId, {
+      provider: AGENT_HELP_PROVIDER_ID,
+      modelId: AGENT_HELP_MODEL_ID,
+      modelLabel: AGENT_HELP_MODEL_ID,
+      agent: copy.agentHelp,
+    });
 
     const contextLabel = {
       images: "images",
@@ -80,6 +92,7 @@ export async function POST(request: Request) {
         chatTitle: copy.agentHelp,
         agentName: copy.agentHelp,
         integratorChatId: setup.helpId.slice(0, 120),
+        usageId: `chat-${requestId}`,
         locale,
         note: copy.agentHelp,
         fixedBilledTokens: AGENT_HELP_BILLED_TOKENS,
@@ -90,11 +103,13 @@ export async function POST(request: Request) {
         balanceTokens: usage.balanceTokens,
       };
     });
+    await completeGenerationRequest(requestId);
     if (payload.balanceTokens < 0) return jsonTopUpError(apiAppCopy(locale).topUpToSeeAnswer, payload.balanceTokens);
     if (!payload.prompt) throw new Error("EMPTY_PROMPT");
     await incrementWelcomeBonus(user.id, "texts").catch(() => undefined);
     return Response.json(payload);
   } catch (error) {
+    if (requestId) await failGenerationRequest(requestId, (error as Error).message || "AGENT_PROMPT_HELP_FAILED").catch(() => undefined);
     const errors = apiAppCopy(locale);
     if ((error as Error).message === "UNAUTHORIZED") return jsonError(errors.authRequired, 401);
     if ((error as Error).message === "INSUFFICIENT_BALANCE" || (error as Error).message === "ANSWER_REQUIRES_TOP_UP") {

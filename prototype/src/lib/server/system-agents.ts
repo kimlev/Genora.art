@@ -1,5 +1,7 @@
 import "server-only";
 
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { IMAGE_AGENT_RESULT_PROMPTS } from "@/lib/image-agent-result-prompts";
 import { agents, getAgentById } from "@/lib/mock/agents";
 import type { Agent, AgentCategory } from "@/lib/mock/agent-types";
@@ -405,12 +407,25 @@ function agentAssetId(url: string): string | null {
 
 export async function videoAgentReferenceDataUrls(agent: AdminSystemAgent): Promise<VideoAgentReferenceInput[]> {
   const output: VideoAgentReferenceInput[] = [];
-  for (const item of agent.referenceInputs) {
+  const referenceInputs = agent.id === "michael-jackson-dance"
+    ? [{
+      kind: "video" as const,
+      role: "reference" as const,
+      url: "/agents/video/michael-jackson-dance/michael-jackson-dance-preview.m4v",
+    }]
+    : agent.referenceInputs;
+  for (const item of referenceInputs) {
     const id = agentAssetId(item.url);
-    if (!id) continue;
-    const asset = await loadMediaAsset(id);
-    if (!asset) continue;
-    output.push({ ...item, url: `data:${asset.mime};base64,${asset.bytes.toString("base64")}` });
+    if (id) {
+      const asset = await loadMediaAsset(id);
+      if (asset) output.push({ ...item, url: `data:${asset.mime};base64,${asset.bytes.toString("base64")}` });
+      continue;
+    }
+    if (agent.id === "michael-jackson-dance" && item.kind === "video"
+      && item.url === "/agents/video/michael-jackson-dance/michael-jackson-dance-preview.m4v") {
+      const bytes = await readFile(join(process.cwd(), "public", item.url.slice(1)));
+      output.push({ ...item, url: `data:video/mp4;base64,${bytes.toString("base64")}` });
+    }
   }
   return output;
 }

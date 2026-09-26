@@ -38,3 +38,12 @@ export async function failGenerationRequest(requestId: string, error: string): P
     [requestId, error.slice(0, 500)],
   );
 }
+
+export async function completeGenerationRequest(requestId: string): Promise<void> {
+  await query(
+    `UPDATE generation_request_registry
+        SET status='success', error=NULL, response_at=now(), updated_at=now()
+      WHERE id=$1 AND status='running'`,
+    [requestId],
+  );
+}

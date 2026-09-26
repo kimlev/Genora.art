@@ -9,6 +9,7 @@ import { requireUser } from "@/lib/server/session";
 import { createCharacterGeneration, listUserCharacters } from "@/lib/server/characters";
 import { topUpBalanceFromError } from "@/lib/server/paid-balance";
 import { apiAppCopy } from "@/lib/i18n/copy/api-app";
+import { failGenerationRequest, registerGenerationRequest, updateGenerationRequestMetadata } from "@/lib/server/generation-request-registry";
 
 export const runtime = "nodejs";
 export const maxDuration = 720;
@@ -25,16 +26,25 @@ export async function GET() {
 export async function POST(request: Request) {
   let locale = await requestLocale();
   if (!isSameOrigin(request)) return jsonError(characterUiCopy(locale).genericError, 403);
+  let requestId: string | null = null;
   try {
     const user = await requireUser();
+    requestId = await registerGenerationRequest(user.id, "image");
     const body = await request.json().catch(() => null) as Record<string, unknown> | null;
     if (typeof body?.locale === "string") locale = await requestLocale(body.locale);
     const copy = characterUiCopy(locale);
     const allowed = await consumeRateLimit({ scope: "character-generation", identifier: user.id, limit: 5, windowSeconds: 60 * 60 });
-    if (!allowed) return jsonError(copy.genericError, 429);
+    if (!allowed) {
+      await failGenerationRequest(requestId, "CHARACTER_RATE_LIMITED");
+      return jsonError(copy.genericError, 429);
+    }
     const kind = body?.kind === "ai" ? "ai" : "personal";
-    if (kind === "personal" && body?.consent !== true) return jsonError(copy.consentError, 400);
+    if (kind === "personal" && body?.consent !== true) {
+      await failGenerationRequest(requestId, "CONSENT_REQUIRED");
+      return jsonError(copy.consentError, 400);
+    }
     const created = await createCharacterGeneration({
+      requestId,
       userId: user.id,
       locale,
       kind,
@@ -43,9 +53,16 @@ export async function POST(request: Request) {
       images: Array.isArray(body?.images) ? body.images.filter((item): item is string => typeof item === "string") : [],
       consentConfirmed: body?.consent === true,
     });
+    await updateGenerationRequestMetadata(requestId, {
+      provider: created.executeInput.provider,
+      modelId: created.executeInput.model,
+      modelLabel: created.job.model_label,
+      agent: created.executeInput.imageAgentName ?? "Character generator",
+    });
     after(() => executeImageJob(created.executeInput));
     return Response.json({ character: created.character, job: publicGenerationJob(created.job), balanceTokens: created.job.balanceTokens }, { status: 202 });
   } catch (error) {
+    if (requestId) await failGenerationRequest(requestId, (error as Error).message || "CHARACTER_GENERATION_FAILED").catch(() => undefined);
     const message = (error as Error).message;
     const copy = characterUiCopy(locale);
     if (message === "UNAUTHORIZED") return jsonError(copy.genericError, 401);

@@ -34,6 +34,7 @@ export type VideoAgentSettings = {
 export type VideoAgentGuide = {
   goodImageUrl: string;
   badImageUrl: string;
+  resultVideoUrl?: string;
   uploadFromGuide?: boolean;
 };
 
@@ -114,11 +115,17 @@ export const VIDEO_AGENT_DEFAULTS: Record<string, VideoAgentDefaults> = {
     videoUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-preview.m4v`,
     videoPreviewUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-preview.m4v`,
     coverUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-poster.jpg`,
-    promptPlaceholder: "Upload a full-body photo and a dance video. Kling Motion Control transfers the dance onto the person in your photo.",
-    referenceInputs: [],
+    promptPlaceholder: "Optional: add a brief note about the dance.",
+    referenceInputs: [{ kind: "video", role: "reference", url: `${michaelJacksonDanceRoot}/michael-jackson-dance-preview.m4v` }],
     videoSettings: { duration: 10, resolution: "720p", aspectRatio: "9:16", sound: "off", style: "auto" },
+    guide: {
+      goodImageUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-good-photo.jpg`,
+      badImageUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-bad-photo.jpg`,
+      resultVideoUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-result.m4v`,
+      uploadFromGuide: true,
+    },
     minUserReferences: 1,
-    maxUserReferences: 2,
+    maxUserReferences: 1,
   },
 };
 
@@ -219,6 +226,38 @@ const ANGEL_COPY: Record<Locale, VideoAgentCopy> = {
   ro: { name: "Înger", description: "Transformă persoana din fotografie într-un înger cinematografic pe autostradă.", placeholder: "Încarcă o fotografie completă sau alege un personaj", guideNotice: "Folosește o fotografie completă sau un card cu capul și încălțămintea integral vizibile.", goodHint: "Bine: fața, mâinile, corpul și picioarele se văd clar.", badHint: "Rău: portret până la umeri, selfie sau picioare tăiate." },
 };
 
+const MICHAEL_DANCE_PROMPT_PLACEHOLDER: Record<Locale, string> = {
+  ru: "Необязательно: добавьте пожелание к танцу.",
+  en: "Optional: add a brief note about the dance.",
+  zh: "可选：补充一句对舞蹈的要求。",
+  hi: "वैकल्पिक: डांस के बारे में छोटा निर्देश लिखें।",
+  es: "Opcional: añade una breve indicación sobre el baile.",
+  fr: "Facultatif : ajoutez une courte précision sur la danse.",
+  ar: "اختياري: أضف ملاحظة قصيرة عن الرقصة.",
+  pt: "Opcional: adicione uma breve instrução sobre a dança.",
+  de: "Optional: Füge eine kurze Anmerkung zum Tanz hinzu.",
+  ja: "任意：ダンスについて短い指示を追加できます。",
+  it: "Facoltativo: aggiungi una breve nota sul ballo.",
+  ko: "선택 사항: 춤에 대한 간단한 요청을 입력하세요.",
+  tr: "İsteğe bağlı: dansla ilgili kısa bir not ekleyin.",
+  pl: "Opcjonalnie: dodaj krótką uwagę dotyczącą tańca.",
+  nl: "Optioneel: voeg een korte aanwijzing voor de dans toe.",
+  sv: "Valfritt: lägg till en kort instruktion om dansen.",
+  cs: "Volitelné: přidejte krátkou poznámku k tanci.",
+  el: "Προαιρετικά: προσθέστε μια σύντομη οδηγία για τον χορό.",
+  ro: "Opțional: adaugă o scurtă indicație despre dans.",
+};
+
+const PHOTO_GUIDE_LABELS: Record<Locale, { good: string; bad: string }> = {
+  ru: { good: "Хорошо", bad: "Плохо" }, en: { good: "Good", bad: "Bad" }, zh: { good: "正确", bad: "错误" },
+  hi: { good: "अच्छा", bad: "खराब" }, es: { good: "Bien", bad: "Mal" }, fr: { good: "Bien", bad: "À éviter" },
+  ar: { good: "جيد", bad: "سيئ" }, pt: { good: "Bom", bad: "Ruim" }, de: { good: "Gut", bad: "Schlecht" },
+  ja: { good: "良い例", bad: "悪い例" }, it: { good: "Bene", bad: "Male" }, ko: { good: "좋은 예", bad: "나쁜 예" },
+  tr: { good: "İyi", bad: "Kötü" }, pl: { good: "Dobrze", bad: "Źle" }, nl: { good: "Goed", bad: "Niet goed" },
+  sv: { good: "Bra", bad: "Dåligt" }, cs: { good: "Dobře", bad: "Špatně" }, el: { good: "Καλό", bad: "Κακό" },
+  ro: { good: "Bine", bad: "Greșit" },
+};
+
 const VIDEO_TAG_COPY: Record<Locale, Record<VideoAgentFilterTag, string>> = {
   ru: { all: "Все", intro: "Интро", "ai-dances": "ИИ танцы", promo: "Промо", entertainment: "Развлечения", "animate-photo": "Оживи фото", "luxury-life": "Роскошная жизнь", birthday: "С днём рождения", background: "Работа с фоном" },
   en: { all: "All", intro: "Intro", "ai-dances": "AI dances", promo: "Promo", entertainment: "Entertainment", "animate-photo": "Animate photo", "luxury-life": "Luxury life", birthday: "Happy birthday", background: "Background editing" },
@@ -255,11 +294,23 @@ export function videoAgentCopy(id: string, locale: string): VideoAgentCopy | nul
         : id === "michael-jackson-dance"
           ? MICHAEL_JACKSON_DANCE_COPY
         : null;
-  return copy?.[locale as Locale] ?? copy?.en ?? null;
+  const localized = copy?.[locale as Locale] ?? copy?.en ?? null;
+  if (id !== "michael-jackson-dance" || !localized) return localized;
+  return {
+    ...localized,
+    guideNotice: undefined,
+    placeholder: MICHAEL_DANCE_PROMPT_PLACEHOLDER[locale as Locale] ?? MICHAEL_DANCE_PROMPT_PLACEHOLDER.en,
+    goodHint: PHOTO_GUIDE_LABELS[locale as Locale]?.good ?? PHOTO_GUIDE_LABELS.en.good,
+    badHint: PHOTO_GUIDE_LABELS[locale as Locale]?.bad ?? PHOTO_GUIDE_LABELS.en.bad,
+  };
 }
 
 export function videoAgentNeedsUserPrompt(id: string): boolean {
   return id !== "angel" && id !== "michael-jackson-dance";
+}
+
+export function videoAgentAllowsUserPrompt(id: string): boolean {
+  return id !== "angel";
 }
 
 export function videoAgentRequiresMotionControlInputs(id: string): boolean {

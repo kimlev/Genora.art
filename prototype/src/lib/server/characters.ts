@@ -129,6 +129,7 @@ function characterModel(models: IntegratorImageModel[]) {
 }
 
 export async function createCharacterGeneration(input: {
+  requestId: string;
   userId: string;
   name: string;
   locale: Locale;
@@ -195,6 +196,7 @@ export async function createCharacterGeneration(input: {
       photoCount: personal ? CHARACTER_SOURCE_COUNT : 0,
     });
     const job = await insertGenerationJob({
+      id: input.requestId,
       complimentary,
       reservationTokens: complimentary ? undefined : quoteImage(selected.model, selected.size, selected.reasoning, 1, setup.multiplier),
       userId: input.userId,
