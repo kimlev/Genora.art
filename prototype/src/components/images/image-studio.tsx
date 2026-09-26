@@ -2562,6 +2562,20 @@ function VideoStudioPanel({
     setStyle("auto");
     setRevealed({ size: false, format: false, style: false });
   };
+  const resetSelectedVideoAgent = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("videoAgent");
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    onSelectedVideoAgentChange("");
+    setMode("t2v");
+    setPrompt("");
+    setRefs([]);
+    setRefErrors([]);
+    setCharacterId("");
+    setCharacterSlot(0);
+    setAgentGuideOpen(false);
+    resetVideoConfiguration();
+  };
   const selectVideoCharacter = (id: string) => {
     setCharacterId(id);
     if (id) {
@@ -2642,7 +2656,7 @@ function VideoStudioPanel({
             {selectedVideoAgent ? (
               <span className="absolute left-1/2 top-1 z-10 flex max-w-[52%] -translate-x-1/2 items-center gap-1 rounded-full bg-accent-brand/25 py-1 ps-2.5 pe-1 text-xs font-semibold text-text">
                 <span className="truncate">{videoAgentCopy(selectedVideoAgent.id, locale)?.name ?? selectedVideoAgent.name}</span>
-                <button type="button" onClick={() => { onSelectedVideoAgentChange(""); setMode("t2v"); setPrompt(""); setRefs([]); setRefErrors([]); setAgentGuideOpen(false); resetVideoConfiguration(); }} aria-label={copy.close} title={copy.close} className="grid size-5 shrink-0 place-items-center rounded-full hover:bg-surface/70"><X className="size-3.5" /></button>
+                <button type="button" onClick={resetSelectedVideoAgent} aria-label={copy.close} title={copy.close} className="grid size-5 shrink-0 place-items-center rounded-full hover:bg-surface/70"><X className="size-3.5" /></button>
               </span>
             ) : null}
           </div>

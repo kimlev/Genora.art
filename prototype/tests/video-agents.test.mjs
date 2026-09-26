@@ -129,6 +129,9 @@ test("Michael Jackson dance uses V2V with one uploaded photo, a hidden built-in 
   assert.match(studio, /selectedVideoAgentCopy\?\.resultHint/);
   assert.match(studio, /agentGuideDismissed/);
   assert.match(studio, /onClick=\{dismissVideoAgentGuide\}/);
+  assert.match(studio, /const resetSelectedVideoAgent = \(\) => \{[\s\S]*?url\.searchParams\.delete\("videoAgent"\)[\s\S]*?window\.history\.replaceState/);
+  assert.match(studio, /onClick=\{resetSelectedVideoAgent\}/);
+  assert.match(studio, /setRefs\(\[\]\);\s*setRefErrors\(\[\]\);\s*setCharacterId\(""\)/);
   assert.match(studio, /selectedVideoAgentCopy\?\.goodHint/);
   assert.match(studio, /selectedVideoAgentCopy\?\.badHint/);
   assert.match(studio, /mode === "v2v" && !motionTransferAgent \? copy\.addFile : copy\.addPhoto/);
@@ -157,7 +160,7 @@ test("selected video agent is shown inside the prompt box as a removable name ch
   const source = await readFile(new URL("../src/components/images/image-studio.tsx", import.meta.url), "utf8");
   const promptBox = source.slice(source.indexOf('selectedVideoAgent ? "border-accent-brand'), source.indexOf("<VideoPromptTextarea", source.indexOf('selectedVideoAgent ? "border-accent-brand')));
   assert.match(promptBox, /videoAgentCopy\(selectedVideoAgent\.id, locale\)\?\.name/);
-  assert.match(promptBox, /onSelectedVideoAgentChange\(""\)/);
+  assert.match(promptBox, /onClick=\{resetSelectedVideoAgent\}/);
   assert.doesNotMatch(promptBox, /selectedVideoAgent\.description/);
 });
 
