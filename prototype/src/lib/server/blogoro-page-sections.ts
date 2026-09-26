@@ -172,10 +172,13 @@ export function extractFaqSection(markdown: string): {
   };
 
   for (const block of blocks) {
-    const match = /^\*\*(.+?)\*\*\s*\??$/.exec(block);
-    if (match) {
+    const headingQuestion = /^#{1,6}\s+(.+?)\s*$/.exec(block);
+    const boldQuestion = /^\*\*(.+?)\*\*\s*\??$/.exec(block);
+    const nextQuestion = headingQuestion?.[1] ?? boldQuestion?.[1];
+    if (nextQuestion) {
       save();
-      question = match[1].trim().replace(/[?？]+$/, "") + (/[?？]$/.test(match[1].trim()) ? "?" : "");
+      const normalizedQuestion = nextQuestion.trim();
+      question = normalizedQuestion.replace(/[?？]+$/, "") + (/[?？]$/.test(normalizedQuestion) ? "?" : "");
       answer = [];
     } else if (question) {
       answer.push(block);
