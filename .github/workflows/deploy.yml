@@ -6,7 +6,20 @@ permissions:
 on:
   push:
     branches: [dev, prod]
+    paths-ignore:
+      - "docs/**"
+      - "**/docs/**"
+      - "AGENTS.md"
+      - "**/AGENTS.md"
+      - "CLAUDE.md"
+      - "**/CLAUDE.md"
+      - ".gitnexus/**"
+      - "**/.gitnexus/**"
   workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy-dev:
