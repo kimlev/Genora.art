@@ -7,6 +7,8 @@ import {
   BLOGORO_PAGE_SECTION_CAPABILITY,
   extractFaqSection,
   mergePageSectionFaq,
+  sameFaqItems,
+  samePageSectionContent,
   validateBlogoroPageSectionTarget,
 } from "../src/lib/server/blogoro-page-sections.ts";
 
@@ -157,6 +159,46 @@ test("does not remove article text when no Markdown FAQ was extracted", () => {
   assert.deepEqual(result.faq, [
     { question: "Structured question?", answer: "Structured answer." },
   ]);
+});
+
+test("extracts inline-answer FAQ questions and keeps the following article section", () => {
+  const markdown = [
+    "## Article content",
+    "",
+    "Original article text.",
+    "",
+    "## FAQ",
+    "",
+    "**First question?**",
+    "First answer on the next line.",
+    "",
+    "**Second question?**",
+    "Second answer on the next line.",
+    "",
+    "## Key Takeaways",
+    "",
+    "This section must stay in the article.",
+  ].join("\n");
+  const result = extractFaqSection(markdown);
+
+  assert.equal(result.body, "## Article content\n\nOriginal article text.\n\n## Key Takeaways\n\nThis section must stay in the article.");
+  assert.deepEqual(result.faq, [
+    { question: "First question?", answer: "First answer on the next line." },
+    { question: "Second question?", answer: "Second answer on the next line." },
+  ]);
+});
+
+test("same-version delivery is reused only when its stored FAQ is complete", () => {
+  const complete = [{ question: "First?", answer: "One." }, { question: "Second?", answer: "Two." }];
+  assert.equal(sameFaqItems(complete, complete), true);
+  assert.equal(sameFaqItems(complete.slice(0, 1), complete), false);
+  assert.equal(sameFaqItems([{ question: "First?", answer: "Old." }, complete[1]], complete), false);
+  assert.equal(samePageSectionContent({ faq: complete, body_markdown: "Original and following section" },
+    complete, "Original and following section", false), true);
+  assert.equal(samePageSectionContent({ faq: complete, body_markdown: "Original" },
+    complete, "Original and following section", false), false);
+  assert.equal(samePageSectionContent({ faq: complete, body_markdown: "Original and following section" },
+    complete, "Original and following section", true), false);
 });
 
 test("receiver advertises the capability, renders verification attributes and submits page sections for indexing", () => {

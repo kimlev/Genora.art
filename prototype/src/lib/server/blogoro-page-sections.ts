@@ -89,6 +89,8 @@ type SlotRow = {
   revision: string;
   idempotency_key: string;
   source_updated_at: Date | null;
+  faq: Array<{ question: string; answer: string }>;
+  body_markdown: string;
 };
 
 type StoredRow = {
@@ -151,9 +153,9 @@ function articleBodyMarkdown(markdown: string, h1: string): string {
   return body.replace(/^(#{1,5})\s+/gm, (_match, hashes: string) => `${"#".repeat(Math.max(3, hashes.length + 1))} `);
 }
 
-const FAQ_HEADING = /^#{1,6}\s+(?:faq|faqs|frequently asked questions|h[aä]ufig gestellte fragen|preguntas frecuentes|foire aux questions|domande frequenti)\s*:?\s*$/i;
+const FAQ_HEADING = /^(#{1,6})\s+(?:faq|faqs|frequently asked questions|h[aä]ufig gestellte fragen|preguntas frecuentes|foire aux questions|domande frequenti)\s*:?\s*$/i;
 
-/** Extract a trailing FAQ section so it is rendered with the page's accordion and FAQ schema. */
+/** Extract the FAQ section without removing any article sections that follow it. */
 export function extractFaqSection(markdown: string): {
   body: string;
   faq: Array<{ question: string; answer: string }>;
@@ -163,31 +165,63 @@ export function extractFaqSection(markdown: string): {
   const headingIndex = lines.findIndex((line) => FAQ_HEADING.test(line.trim()));
   if (headingIndex < 0) return { body: normalized.trim(), faq: [] };
 
-  const blocks = lines.slice(headingIndex + 1).join("\n").trim().split(/\n\s*\n/).map((block) => block.trim()).filter(Boolean);
+  const headingLevel = FAQ_HEADING.exec(lines[headingIndex].trim())![1].length;
+  const followingSection = lines.findIndex((line, index) => {
+    const heading = /^(#{1,6})\s+/.exec(line.trim());
+    return index > headingIndex && !!heading && heading[1].length <= headingLevel;
+  });
+  const endIndex = followingSection < 0 ? lines.length : followingSection;
   const faq: Array<{ question: string; answer: string }> = [];
   let question = "";
   let answer: string[] = [];
   const save = () => {
-    if (question && answer.length) faq.push({ question, answer: answer.join("\n\n").trim() });
+    const text = answer.join("\n").trim();
+    if (question && text) faq.push({ question, answer: text });
   };
 
-  for (const block of blocks) {
-    const headingQuestion = /^#{1,6}\s+(.+?)\s*$/.exec(block);
-    const boldQuestion = /^\*\*(.+?)\*\*\s*\??$/.exec(block);
-    const nextQuestion = headingQuestion?.[1] ?? boldQuestion?.[1];
+  for (const line of lines.slice(headingIndex + 1, endIndex)) {
+    const trimmed = line.trim();
+    const headingQuestion = /^(#{1,6})\s+(.+?)\s*$/.exec(trimmed);
+    const boldQuestion = /^\*\*(.+?)\*\*\s*[?？]?\s*$/.exec(trimmed);
+    const nextQuestion = headingQuestion && headingQuestion[1].length > headingLevel
+      ? headingQuestion[2]
+      : boldQuestion?.[1];
     if (nextQuestion) {
       save();
       const normalizedQuestion = nextQuestion.trim();
       question = normalizedQuestion.replace(/[?？]+$/, "") + (/[?？]$/.test(normalizedQuestion) ? "?" : "");
       answer = [];
     } else if (question) {
-      answer.push(block);
+      answer.push(line);
     }
   }
   save();
   return faq.length
-    ? { body: lines.slice(0, headingIndex).join("\n").trim(), faq }
+    ? {
+      body: [lines.slice(0, headingIndex).join("\n").trim(), lines.slice(endIndex).join("\n").trim()]
+        .filter(Boolean).join("\n\n"),
+      faq,
+    }
     : { body: normalized.trim(), faq: [] };
+}
+
+export function sameFaqItems(
+  stored: unknown,
+  incoming: Array<{ question: string; answer: string }>,
+): boolean {
+  return Array.isArray(stored) && stored.length === incoming.length
+    && stored.every((item, index) => item?.question === incoming[index].question
+      && item?.answer === incoming[index].answer);
+}
+
+export function samePageSectionContent(
+  stored: Pick<SlotRow, "faq" | "body_markdown">,
+  faq: Array<{ question: string; answer: string }>,
+  bodyMarkdown: string,
+  hasInlineGraphics: boolean,
+): boolean {
+  return !hasInlineGraphics && sameFaqItems(stored.faq, faq)
+    && stored.body_markdown === bodyMarkdown;
 }
 
 export function mergePageSectionFaq(
@@ -274,6 +308,9 @@ export async function publishBlogoroPageSection(
     .filter((item) => asString(item.question) && asString(item.answer))
     .map((item) => ({ question: asString(item.question), answer: asString(item.answer) }));
   const { body: bodyWithoutFaq, faq } = mergePageSectionFaq(sourceBody, sourceFaq);
+  const expectedBodyMarkdown = localizeSectionMarkdown(bodyWithoutFaq, locale);
+  const hasInlineGraphics = (article.graphics ?? []).some((item) => item.kind !== "cover" && item.kind !== "thumbnail"
+    && !!item.imageBase64 && !!item.mime);
   const internalLinks = (article.internalLinks ?? [])
     .filter((item) => asString(item.anchor) && asString(item.url))
     .map((item) => ({ anchor: asString(item.anchor), url: asString(item.url) }));
@@ -287,7 +324,7 @@ export async function publishBlogoroPageSection(
     const lockKey = `${pagePath}:${locale}:${BLOGORO_SEO_SLOT}`;
     await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [lockKey]);
     const currentResult = await client.query<SlotRow>(
-      `SELECT project_id, article_id, revision, idempotency_key, source_updated_at
+      `SELECT project_id, article_id, revision, idempotency_key, source_updated_at, faq, body_markdown
        FROM blogoro_page_sections
        WHERE page_path=$1 AND locale=$2 AND slot_id=$3
        FOR UPDATE`,
@@ -298,8 +335,10 @@ export async function publishBlogoroPageSection(
       if (Number(current.project_id) !== projectId || Number(current.article_id) !== articleId) {
         throw new BlogoroPublishError("SEO-блок принадлежит другой статье", 409);
       }
-      if (current.revision === revision && current.idempotency_key === expectedKey) return;
-      if (current.source_updated_at && sourceUpdatedAt && sourceUpdatedAt.getTime() < current.source_updated_at.getTime()) {
+      const sameRevision = current.revision === revision && current.idempotency_key === expectedKey;
+      if (sameRevision && samePageSectionContent(current, faq, expectedBodyMarkdown, hasInlineGraphics)) return;
+      if (!sameRevision && current.source_updated_at && sourceUpdatedAt
+        && sourceUpdatedAt.getTime() < current.source_updated_at.getTime()) {
         throw new BlogoroPublishError("Нельзя заменить SEO-блок более старой версией", 409);
       }
     }
