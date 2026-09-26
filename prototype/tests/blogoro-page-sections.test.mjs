@@ -103,6 +103,30 @@ test("extracts a markdown FAQ block for accordion rendering without leaving dupl
   ]);
 });
 
+test("extracts heading-form FAQ questions used by recent Blogoro publications", () => {
+  const markdown = [
+    "Intro text.",
+    "\n## FAQ",
+    "\n### Was ist der wichtigste Vorteil eines KI-Aggregators?",
+    "\nMehrere Modelle und Aufgabenbereiche werden in einer einzigen Oberfläche gebündelt.",
+    "\n### Wie kann ich ein passendes KI-Modell finden?",
+    "\nDie Auswahl sollte von der konkreten Aufgabe ausgehen.",
+  ].join("\n");
+  const result = extractFaqSection(markdown);
+
+  assert.equal(result.body, "Intro text.");
+  assert.deepEqual(result.faq, [
+    {
+      question: "Was ist der wichtigste Vorteil eines KI-Aggregators?",
+      answer: "Mehrere Modelle und Aufgabenbereiche werden in einer einzigen Oberfläche gebündelt.",
+    },
+    {
+      question: "Wie kann ich ein passendes KI-Modell finden?",
+      answer: "Die Auswahl sollte von der konkreten Aufgabe ausgehen.",
+    },
+  ]);
+});
+
 test("receiver advertises the capability, renders verification attributes and submits page sections for indexing", () => {
   const root = path.resolve(import.meta.dirname, "..");
   const route = readFileSync(path.join(root, "src/app/blogoro/publish/route.ts"), "utf8");
