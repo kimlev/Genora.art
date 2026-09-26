@@ -20,6 +20,8 @@ test("public agent catalog exposes the video category", async () => {
   assert.match(source, /type CatalogFilter = AgentKind \| "mine"/);
   assert.match(source, /video: Clapperboard/);
   assert.match(source, /\{ id: "video", label: t\.agents\.filterVideo \}/);
+  assert.match(source, /videoAgentDefaults\(agent\.id\)/);
+  assert.match(source, /videoPreviewSrc=\{videoOverride\?\.videoPreviewUrl \?\? videoDefaults\?\.videoPreviewUrl \?\? undefined\}/);
 });
 
 test("weather-change is an 8-second vertical V2V agent with a changeable recommendation", async () => {

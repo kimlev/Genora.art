@@ -13,6 +13,7 @@ import { IMAGE_AGENT_TAGS, imageAgentMatchesTag, type ImageAgentTag } from "@/li
 import { useCatalogAgentOverrides } from "@/lib/use-catalog-agent-overrides";
 import { getCatalogAgentOverride } from "@/lib/catalog-agent-overrides";
 import { agentDescription, agentName, listVisibleAgents, type AgentCategory } from "@/lib/mock/agents";
+import { videoAgentDefaults } from "@/lib/video-agent-catalog";
 import { Clapperboard, Hash, ImageIcon, LayoutGrid, Pencil, Type, UserRound, type LucideIcon } from "lucide-react";
 import { useLocalePush, useLocaleRouter } from "@/lib/i18n/use-locale-push";
 import { useEffect, useMemo, useState } from "react";
@@ -188,6 +189,8 @@ export function AgentsPageContent() {
           const custom = "category" in agent && agent.category === "custom";
           const context = custom ? agent.context : agent.category;
           const isMedia = context === "images" || context === "video";
+          const videoOverride = !custom && agent.category === "video" ? getCatalogAgentOverride(agent.id) : null;
+          const videoDefaults = agent.category === "video" ? videoAgentDefaults(agent.id) : null;
           return (
             <AgentPreviewCard
               key={agent.id}
@@ -197,7 +200,8 @@ export function AgentsPageContent() {
               description={custom ? agent.description : agentDescription(agent.id, locale)}
               useLabel={t.agents.useAgent}
               tag={custom ? t.agents.filterMine : agentContextLabel(agent.category, t.agents)}
-              coverSrc={custom ? MY_AGENT_COVER : (getCatalogAgentOverride(agent.id)?.coverUrl ?? undefined)}
+              coverSrc={custom ? MY_AGENT_COVER : (videoOverride?.coverUrl ?? videoDefaults?.coverUrl ?? getCatalogAgentOverride(agent.id)?.coverUrl ?? undefined)}
+              videoPreviewSrc={videoOverride?.videoPreviewUrl ?? videoDefaults?.videoPreviewUrl ?? undefined}
               href={isMedia ? agentLaunchHref(agent.id, context) : undefined}
               disabled={!authReady && !isMedia}
               onUse={isMedia ? undefined : () => launchAgent(agent.id)}
