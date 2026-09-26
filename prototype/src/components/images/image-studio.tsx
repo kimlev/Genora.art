@@ -2611,12 +2611,12 @@ function VideoStudioPanel({
       <div className={cn("relative mt-4 rounded-[24px] border bg-bg p-2 shadow-[0_10px_32px_-20px_rgba(15,40,80,.45)] focus-within:border-accent-brand/50 focus-within:ring-2 focus-within:ring-accent-brand/10", selectedVideoAgent ? "border-accent-brand ring-2 ring-accent-brand/20" : "border-border")}>
         <div className="relative flex items-start justify-between gap-2 px-1">
           <div className="flex min-w-0 flex-1 pr-24">
-            {selectedVideoAgent?.guide ? (
+            {selectedVideoAgent && (selectedVideoAgent.guide || selectedVideoAgentCopy?.guideNotice) ? (
               <button
                 type="button"
                 onClick={() => setAgentGuideOpen(true)}
-                aria-label={copy.addImageAria}
-                title={copy.addImageAria}
+                aria-label={selectedVideoAgentCopy?.name ?? copy.addImageAria}
+                title={selectedVideoAgentCopy?.name ?? copy.addImageAria}
                 className="relative grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-accent-brand/40 bg-accent-brand/10 text-accent-brand hover:bg-accent-brand/15"
               >
                 <span className="studio-bell-pulse absolute inset-1 rounded-full bg-accent-brand/35" aria-hidden />
@@ -2838,32 +2838,35 @@ function VideoStudioPanel({
         </div>,
         document.body,
       ) : null}
-      {agentGuideOpen && selectedVideoAgent?.guide ? createPortal(
+      {agentGuideOpen && selectedVideoAgent && (selectedVideoAgent.guide || selectedVideoAgentCopy?.guideNotice) ? createPortal(
         <div className="fixed inset-0 z-[430] grid place-items-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="video-agent-guide-title" onClick={() => setAgentGuideOpen(false)}>
           <div className="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-3xl bg-surface p-6 shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <h3 id="video-agent-guide-title" className="text-center text-xl font-semibold text-text">{copy.uploadPhoto}</h3>
-            <div className="mt-5 grid grid-cols-3 gap-3">
-              <figure className="relative">
-                <span className="relative block aspect-square overflow-hidden rounded-2xl bg-mist">
-                  <Image src={selectedVideoAgent.guide.goodImageUrl} alt={copy.uploadPhoto} fill unoptimized className="object-contain" />
-                </span>
-                <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{copy.uploadPhoto}</figcaption>
-                <CheckCircle2 className="absolute -bottom-0.5 -end-0.5 size-7 rounded-full bg-surface text-emerald-500" aria-hidden />
-              </figure>
-              <figure className="relative">
-                <span className="relative block aspect-square overflow-hidden rounded-2xl bg-mist">
-                  <Image src={selectedVideoAgent.guide.badImageUrl} alt={copy.uploadPhoto} fill unoptimized className="object-cover" />
-                </span>
-                <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{copy.uploadPhoto}</figcaption>
-                <CircleX className="absolute -bottom-0.5 -end-0.5 size-7 rounded-full bg-surface text-red-500" aria-hidden />
-              </figure>
-              {selectedVideoAgent.guide.uploadFromGuide ? (
+            <h3 id="video-agent-guide-title" className="text-center text-xl font-semibold text-text">{selectedVideoAgentCopy?.name ?? copy.uploadPhoto}</h3>
+            {selectedVideoAgentCopy?.guideNotice ? <p className="mt-3 text-center text-sm leading-relaxed text-steel">{selectedVideoAgentCopy.guideNotice}</p> : null}
+            {selectedVideoAgent.guide?.goodImageUrl && selectedVideoAgent.guide.badImageUrl ? (
+              <div className="mt-5 grid grid-cols-3 gap-3">
+                <figure className="relative">
+                  <span className="relative block aspect-square overflow-hidden rounded-2xl bg-mist">
+                    <Image src={selectedVideoAgent.guide.goodImageUrl} alt={copy.uploadPhoto} fill unoptimized className="object-contain" />
+                  </span>
+                  <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{copy.uploadPhoto}</figcaption>
+                  <CheckCircle2 className="absolute -bottom-0.5 -end-0.5 size-7 rounded-full bg-surface text-emerald-500" aria-hidden />
+                </figure>
+                <figure className="relative">
+                  <span className="relative block aspect-square overflow-hidden rounded-2xl bg-mist">
+                    <Image src={selectedVideoAgent.guide.badImageUrl} alt={copy.uploadPhoto} fill unoptimized className="object-cover" />
+                  </span>
+                  <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{copy.uploadPhoto}</figcaption>
+                  <CircleX className="absolute -bottom-0.5 -end-0.5 size-7 rounded-full bg-surface text-red-500" aria-hidden />
+                </figure>
+                {selectedVideoAgent.guide.uploadFromGuide ? (
                 <button type="button" onClick={() => agentGuideFileRef.current?.click()} className="relative flex aspect-square flex-col items-center justify-center rounded-2xl border border-border bg-bg hover:bg-mist" aria-label={copy.addFile}>
                   <span className="grid size-14 place-items-center rounded-full bg-accent-brand text-white"><Plus className="size-7" /></span>
                 </button>
-              ) : null}
-            </div>
-            {selectedVideoAgent.guide.uploadFromGuide ? (
+                ) : null}
+              </div>
+            ) : null}
+            {selectedVideoAgent.guide?.uploadFromGuide ? (
                 <input
                   ref={agentGuideFileRef}
                   type="file"
@@ -2876,10 +2879,18 @@ function VideoStudioPanel({
                   }}
                 />
             ) : null}
-            <p className="mt-5 text-center text-sm text-steel">{copy.addPhoto}</p>
-            <div className="mt-3 overflow-hidden rounded-2xl bg-black">
-              <video src={selectedVideoAgent.videoUrl ?? undefined} poster={selectedVideoAgent.coverUrl ?? undefined} controls muted playsInline className="max-h-[42dvh] w-full object-contain" />
-            </div>
+            {selectedVideoAgent.videoUrl ? (
+              <>
+                <p className="mt-5 text-center text-sm text-steel">{copy.addPhoto}</p>
+                <div className="mt-3 overflow-hidden rounded-2xl bg-black">
+                  <video src={selectedVideoAgent.videoUrl} poster={selectedVideoAgent.coverUrl ?? undefined} controls muted playsInline className="max-h-[42dvh] w-full object-contain" />
+                </div>
+              </>
+            ) : selectedVideoAgent.coverUrl ? (
+              <div className="relative mt-5 aspect-video overflow-hidden rounded-2xl bg-mist">
+                <Image src={selectedVideoAgent.coverUrl} alt={selectedVideoAgentCopy?.name ?? selectedVideoAgent.name} fill unoptimized className="object-contain" />
+              </div>
+            ) : null}
             <Button type="button" variant="secondary" className="mt-5 h-11 w-full" onClick={() => setAgentGuideOpen(false)}>{copy.close}</Button>
           </div>
         </div>,
