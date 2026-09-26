@@ -80,7 +80,7 @@ test("angel is a six-second full-body I2V agent with an optional user prompt", a
   ]) assert.ok((await stat(new URL(path, import.meta.url))).size > 0, path);
 });
 
-test("Michael Jackson dance pins the Kling provider, allows Kling Motion Control models, and localizes the full-body workflow", () => {
+test("Michael Jackson dance pins the Kling provider, allows Kling Motion Control models, and localizes the full-body workflow", async () => {
   const id = "michael-jackson-dance";
   const agent = getAgentById(id);
   const defaults = videoAgentDefaults(id);
@@ -106,6 +106,9 @@ test("Michael Jackson dance pins the Kling provider, allows Kling Motion Control
   }
   assert.match(videoAgentCopy(id, "en")?.placeholder ?? "", /full-body photo/i);
   assert.match(videoAgentCopy(id, "ru")?.placeholder ?? "", /полный рост/i);
+  const studio = await readFile(new URL("../src/components/images/image-studio.tsx", import.meta.url), "utf8");
+  assert.match(studio, /selectedVideoAgent\.guide \|\| selectedVideoAgentCopy\?\.guideNotice/);
+  assert.match(studio, /selectedVideoAgent\.videoUrl \? \(/, "don't render an empty video player when no sample clip exists");
 });
 
 test("built-in video agent copy is localized for every served locale", () => {
@@ -132,8 +135,8 @@ test("selected video agent is shown inside the prompt box as a removable name ch
 
 test("angel guide matches the common compact photo guide and requires one reference", async () => {
   const source = await readFile(new URL("../src/components/images/image-studio.tsx", import.meta.url), "utf8");
-  assert.match(source, /selectedVideoAgent\?\.guide/);
-  assert.match(source, /selectedVideoAgent\.guide\.goodImageUrl/);
+  assert.match(source, /selectedVideoAgent\.guide \|\| selectedVideoAgentCopy\?\.guideNotice/);
+  assert.match(source, /selectedVideoAgent\.guide\?\.goodImageUrl/);
   assert.match(source, /selectedVideoAgent\.guide\.badImageUrl/);
   assert.match(source, /\{UI\.exampleGood\}/);
   assert.match(source, /\{UI\.exampleBad\}/);
