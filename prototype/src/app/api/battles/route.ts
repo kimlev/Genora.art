@@ -20,6 +20,7 @@ import { requestLocale } from "@/lib/i18n/request-locale";
 import { apiAppCopy, type ApiAppCopy } from "@/lib/i18n/copy/api-app";
 import { usageHistoryCopy } from "@/lib/usage-history-copy";
 import type { BattleAnswer, BattleDepth, BattleRound, BattleSession, BattleSideSettings } from "@/lib/battle-history";
+import { completeGenerationRequest, failGenerationRequest, registerGenerationRequest, updateGenerationRequestMetadata } from "@/lib/server/generation-request-registry";
 
 export const runtime = "nodejs";
 export const maxDuration = 3000;
@@ -106,8 +107,11 @@ function successfulAnswer(executed: ExecutedBattle): BattleAnswer {
 export async function POST(request: Request) {
   let locale = await requestLocale();
   if (!isSameOrigin(request)) return jsonError(apiAppCopy(locale).invalidOrigin, 403);
+  const requestIds: string[] = [];
   try {
     const user = await requireUser();
+    requestIds.push(await registerGenerationRequest(user.id, "chat"));
+    requestIds.push(await registerGenerationRequest(user.id, "chat"));
     const body = await request.json().catch(() => null) as BattleBody | null;
     if (typeof body?.locale === "string") locale = await requestLocale(body.locale);
     const copy = usageHistoryCopy(locale);
@@ -118,17 +122,31 @@ export async function POST(request: Request) {
     const photoPrompt = isPhotoPromptAgent(agentId);
     const attachments = parseChatAttachments(body?.attachments, locale);
     if (videoPrompt) {
-      if (attachments.some((item) => item.kind !== "video")) return jsonError(chatVideoCopy(locale).videoOnlyGemini);
-      if (!attachments.some((item) => item.kind === "video")) return jsonError(chatVideoCopy(locale).videoRequired);
+      if (attachments.some((item) => item.kind !== "video")) {
+        await Promise.all(requestIds.map((id) => failGenerationRequest(id, "BATTLE_ATTACHMENTS_INVALID")));
+        return jsonError(chatVideoCopy(locale).videoOnlyGemini);
+      }
+      if (!attachments.some((item) => item.kind === "video")) {
+        await Promise.all(requestIds.map((id) => failGenerationRequest(id, "BATTLE_VIDEO_REQUIRED")));
+        return jsonError(chatVideoCopy(locale).videoRequired);
+      }
     } else if (photoPrompt) {
-      if (attachments.some((item) => item.kind !== "image")) return jsonError(photoPromptCopy(locale).photosOnly);
-      if (!attachments.some((item) => item.kind === "image")) return jsonError(photoPromptCopy(locale).photoRequired);
+      if (attachments.some((item) => item.kind !== "image")) {
+        await Promise.all(requestIds.map((id) => failGenerationRequest(id, "BATTLE_ATTACHMENTS_INVALID")));
+        return jsonError(photoPromptCopy(locale).photosOnly);
+      }
+      if (!attachments.some((item) => item.kind === "image")) {
+        await Promise.all(requestIds.map((id) => failGenerationRequest(id, "BATTLE_PHOTO_REQUIRED")));
+        return jsonError(photoPromptCopy(locale).photoRequired);
+      }
     } else if (attachments.some((item) => item.kind === "video")) {
+      await Promise.all(requestIds.map((id) => failGenerationRequest(id, "BATTLE_ATTACHMENTS_INVALID")));
       return jsonError(appCopy.invalidRequest);
     }
     const left = body?.left; const right = body?.right;
     if (videoPrompt && left && right) {
       if (!videoPromptModelAllowed(String(left.model)) || !videoPromptModelAllowed(String(right.model))) {
+        await Promise.all(requestIds.map((id) => failGenerationRequest(id, "BATTLE_MODEL_INVALID")));
         return jsonError(appCopy.battleInvalidData);
       }
       left.provider = videoPromptProviderIdForModel(String(left.model));
@@ -138,8 +156,18 @@ export async function POST(request: Request) {
       if (right) right.provider = integratorProviderId(String(right.provider ?? ""));
     }
     const requestedSessionId=String(body?.sessionId??"");
-    if (requestedSessionId&&!uuidPattern.test(requestedSessionId)) return jsonError(appCopy.battleInvalid);
-    if ((!prompt && !attachments.length) || !left?.model || !right?.model || !left.provider || !right.provider) return jsonError(appCopy.battleInvalidData);
+    if (requestedSessionId&&!uuidPattern.test(requestedSessionId)) {
+      await Promise.all(requestIds.map((id) => failGenerationRequest(id, "BATTLE_SESSION_INVALID")));
+      return jsonError(appCopy.battleInvalid);
+    }
+    if ((!prompt && !attachments.length) || !left?.model || !right?.model || !left.provider || !right.provider) {
+      await Promise.all(requestIds.map((id) => failGenerationRequest(id, "BATTLE_DATA_INVALID")));
+      return jsonError(appCopy.battleInvalidData);
+    }
+    await Promise.all([
+      updateGenerationRequestMetadata(requestIds[0], { provider: String(left.provider), modelId: String(left.model), modelLabel: String(left.model), agent: agentId }),
+      updateGenerationRequestMetadata(requestIds[1], { provider: String(right.provider), modelId: String(right.model), modelLabel: String(right.model), agent: agentId }),
+    ]);
     const sourcePrompt = prompt === copy.reviewAttachment ? "" : prompt;
     const displayPrompt = videoPrompt
       ? videoPromptDisplayContent(sourcePrompt, locale)
@@ -209,7 +237,7 @@ export async function POST(request: Request) {
       const persisted = await withTransaction(async (client) => {
         await client.query("SELECT pg_advisory_xact_lock(hashtext($1))",[user.id]);
         await client.query("SELECT id FROM users WHERE id=$1 FOR UPDATE",[user.id]);
-        for (const [side, run, answer] of [["left", leftRun, leftAnswer], ["right", rightRun, rightAnswer]] as const) {
+        for (const [side, run, answer, requestId] of [["left", leftRun, leftAnswer, requestIds[0]], ["right", rightRun, rightAnswer, requestIds[1]]] as const) {
           await client.query(`INSERT INTO battle_responses(battle_id,side,model_id,content,input_tokens,output_tokens,billed_input_tokens,billed_output_tokens,thinking_ms)
             VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`, [setup.battleId, side, answer.model, answer.content,
             run.ok ? run.executed.result.usage.prompt_tokens : 0, run.ok ? run.executed.result.usage.completion_tokens : 0,
@@ -217,7 +245,7 @@ export async function POST(request: Request) {
           if (run.ok) {
             const usage = await recordUsage({ client, userId: user.id, result: run.executed.result, pricing: run.executed.pricing, battleId: setup.battleId,
               chatTitle: copy.battleChatTitle(displayPrompt), agentName: run.executed.agentName,
-              integratorChatId: `ms-battle-${user.id.slice(0,8)}-${setup.sessionId}-${side}`, usageId: `battle-${setup.battleId}-${side}`, locale });
+              integratorChatId: `ms-battle-${user.id.slice(0,8)}-${setup.sessionId}-${side}`, usageId: `chat-${requestId}`, locale });
             if (usage.balanceTokens < 0) {
               answer.content = appCopy.topUpToSeeAnswer;
               await client.query(`UPDATE battle_responses SET content=$3 WHERE battle_id=$1 AND side=$2`,
@@ -233,8 +261,12 @@ export async function POST(request: Request) {
     } catch (error) {
       console.error("battle_persist_failed", error instanceof Error ? error.message : "unknown");
     }
+    await Promise.all([leftRun, rightRun].map((run, index) => run.ok
+      ? completeGenerationRequest(requestIds[index])
+      : failGenerationRequest(requestIds[index], "BATTLE_SIDE_FAILED")));
     return Response.json({ sessionId: setup.sessionId, id: setup.battleId, left: leftAnswer, right: rightAnswer, balanceTokens }, { status: 201 });
   } catch (error) {
+    await Promise.all(requestIds.map((id) => failGenerationRequest(id, (error as Error).message || "BATTLE_FAILED").catch(() => undefined)));
     const errorCopy = apiAppCopy(locale);
     if ((error as Error).message === "UNAUTHORIZED") return jsonError(errorCopy.authRequired, 401);
     if ((error as Error).message === "INSUFFICIENT_BALANCE" || (error as Error).message === "ANSWER_REQUIRES_TOP_UP") {

@@ -117,18 +117,15 @@ export async function POST(request: Request) {
     if (requiresMotionControl && (!pinnedDefaults || provider !== pinnedDefaults.providerId || uiMode !== pinnedDefaults.videoMode)) {
       throw new Error("VIDEO_AGENT_INVALID");
     }
+    if (requiresMotionControl && (!firstFrame || lastFrame || references.length || characterId || videos.length)) {
+      throw new Error("VIDEO_INPUT_REQUIRED");
+    }
     const catalog = await integratorVideoCatalogFull();
     const catalogModel = catalog.models.find((item) => item.provider === provider && item.id === model) as VideoCatalogModel | undefined;
     if (!catalogModel) throw new Error("PROVIDER_NOT_AVAILABLE");
     await updateGenerationRequestMetadata(requestId, { provider, modelId: model, modelLabel: catalogModel.label, agent: agentId });
     const videoAgent = agentId ? await resolveVideoAgentDefinition(agentId) : null;
     if (agentId && (!videoAgent || videoAgent.videoMode !== uiMode)) throw new Error("VIDEO_AGENT_INVALID");
-    if (requiresMotionControl && (
-      !(firstFrame || lastFrame || references.length)
-      || videos.length === 0
-      || catalogModel.provider !== pinnedDefaults?.providerId
-      || studioIntegratorMode(uiMode, catalogModel) !== "motion-control"
-    )) throw new Error("VIDEO_INPUT_REQUIRED");
     if (videoAgent) {
       const configured = await videoAgentReferenceDataUrls(videoAgent);
       for (const item of configured) {
@@ -138,13 +135,21 @@ export async function POST(request: Request) {
         else references = [...references, item.url];
       }
     }
+    const mode = requiresMotionControl && catalogModel.modes?.includes("motion-control")
+      ? "motion-control"
+      : studioIntegratorMode(uiMode, catalogModel);
+    if (requiresMotionControl && (
+      !firstFrame
+      || videos.length !== 1
+      || catalogModel.provider !== pinnedDefaults?.providerId
+      || mode !== "motion-control"
+    )) throw new Error("VIDEO_INPUT_REQUIRED");
     const combinedPrompt = videoAgent?.systemPrompt.trim()
       ? prompt
         ? `${videoAgent.systemPrompt.trim()}\n\nUser request: ${prompt}`
         : videoAgent.systemPrompt.trim()
       : prompt;
     const promptForTransfer = combinedPrompt.slice(0, videoUserPromptHardChars(catalogModel, videoStylePromptExtraChars(locale, style)));
-    const mode = studioIntegratorMode(uiMode, catalogModel);
     if (!mode && uiMode === "v2v" && catalogModel.provider === "alibaba" && catalogModel.id === "wan-3.0") {
       throw new Error("VIDEO_REFERENCE_MIX_UNSUPPORTED");
     }
@@ -170,7 +175,7 @@ export async function POST(request: Request) {
     if (mode === "motion-control" && (!videos.length || (!firstFrame && !references.length))) throw new Error("VIDEO_INPUT_REQUIRED");
     if (slots > 0 && mode === "image-to-video" && lastFrame && slots < 2) throw new Error("VIDEO_INPUT_REQUIRED");
     if (mode === "motion-control") {
-      const clipSeconds = Number(body?.clipDuration);
+      const clipSeconds = Number(body?.clipDuration ?? pinnedDefaults?.videoSettings.duration);
       const videoBytes = dataUrlDecodedBytes(videos[0] ?? "");
       const issue = motionControlClipIssue(catalogModel, videoBytes, clipSeconds);
       if (issue) {

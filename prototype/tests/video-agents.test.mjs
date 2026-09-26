@@ -4,7 +4,7 @@ import test from "node:test";
 
 import { getAgentById } from "../src/lib/mock/agents.ts";
 import { isSystemAgentTag, systemAgentTagOptions } from "../src/lib/system-agent-kind.ts";
-import { VIDEO_AGENT_TAGS, videoAgentCopy, videoAgentDefaults, videoAgentMinUserReferences, videoAgentNeedsUserPrompt, videoAgentRequiresMotionControlInputs, videoAgentTagLabel } from "../src/lib/video-agent-catalog.ts";
+import { VIDEO_AGENT_TAGS, videoAgentAllowsUserPrompt, videoAgentCopy, videoAgentDefaults, videoAgentMinUserReferences, videoAgentNeedsUserPrompt, videoAgentRequiresMotionControlInputs, videoAgentTagLabel } from "../src/lib/video-agent-catalog.ts";
 
 test("video-agent categories are available in catalog and admin", () => {
   assert.deepEqual([...systemAgentTagOptions("video")], [...VIDEO_AGENT_TAGS]);
@@ -80,7 +80,7 @@ test("angel is a six-second full-body I2V agent with an optional user prompt", a
   ]) assert.ok((await stat(new URL(path, import.meta.url))).size > 0, path);
 });
 
-test("Michael Jackson dance pins the Kling provider, allows Kling Motion Control models, and localizes the full-body workflow", async () => {
+test("Michael Jackson dance uses V2V with one uploaded photo, a hidden built-in motion clip, and localized optional prompts", async () => {
   const id = "michael-jackson-dance";
   const agent = getAgentById(id);
   const defaults = videoAgentDefaults(id);
@@ -90,28 +90,48 @@ test("Michael Jackson dance pins the Kling provider, allows Kling Motion Control
   assert.equal(defaults?.providerId, "kling");
   assert.equal(defaults?.modelId, "kling-2.6-mc-std", "default recommendation only; the user may choose another Kling Motion Control model");
   assert.equal(defaults?.videoMode, "v2v");
-  assert.equal(defaults?.maxUserReferences, 2);
+  assert.equal(defaults?.maxUserReferences, 1);
+  assert.equal(defaults?.minUserReferences, 1);
   assert.ok(defaults?.videoPreviewUrl?.includes("michael-jackson-dance-preview.m4v"));
   assert.ok(defaults?.coverUrl?.includes("michael-jackson-dance-poster.jpg"));
+  assert.ok(defaults?.referenceInputs.some((item) => item.kind === "video" && item.url.includes("michael-jackson-dance-preview.m4v")));
+  assert.ok(defaults?.guide?.resultVideoUrl?.includes("michael-jackson-dance-result.m4v"));
   assert.equal(videoAgentRequiresMotionControlInputs(id), true);
   assert.equal(videoAgentNeedsUserPrompt(id), false);
+  assert.equal(videoAgentAllowsUserPrompt(id), true);
   assert.equal(videoAgentMinUserReferences(id), 1);
-  assert.match(agent?.systemPrompt ?? "", /any uploaded dance or motion video only as a movement reference/i);
+  assert.match(agent?.systemPrompt ?? "", /built-in Michael Jackson dance clip supplied as a hidden motion reference/i);
+  assert.match(agent?.systemPrompt ?? "", /user's optional prompt may refine the dance only/i);
   assert.match(agent?.systemPrompt ?? "", /exact first frame/i);
   assert.match(agent?.systemPrompt ?? "", /clothing, footwear, accessories, background, lighting/i);
   assert.match(agent?.systemPrompt ?? "", /Change only the photographed person's movement/i);
   assert.match(agent?.systemPrompt ?? "", /age-appropriate and non-sexual/i);
-  assert.ok((await stat(new URL("../public/agents/video/michael-jackson-dance/michael-jackson-dance-preview.m4v", import.meta.url))).size > 0);
-  assert.ok((await stat(new URL("../public/agents/video/michael-jackson-dance/michael-jackson-dance-poster.jpg", import.meta.url))).size > 0);
+  for (const path of [
+    "../public/agents/video/michael-jackson-dance/michael-jackson-dance-preview.m4v",
+    "../public/agents/video/michael-jackson-dance/michael-jackson-dance-poster.jpg",
+    "../public/agents/video/michael-jackson-dance/michael-jackson-dance-result.m4v",
+    "../public/agents/video/michael-jackson-dance/michael-jackson-dance-good-photo.jpg",
+    "../public/agents/video/michael-jackson-dance/michael-jackson-dance-bad-photo.jpg",
+  ]) assert.ok((await stat(new URL(path, import.meta.url))).size > 0, path);
   for (const locale of ["ru", "en", "zh", "hi", "es", "fr", "ar", "pt", "de", "ja", "it", "ko", "tr", "pl", "nl", "sv", "cs", "el", "ro"]) {
     const copy = videoAgentCopy(id, locale);
-    assert.ok(copy?.name && copy?.description && copy?.placeholder && copy?.guideNotice, locale);
+    assert.ok(copy?.name && copy?.description && copy?.placeholder && copy?.goodHint && copy?.badHint, locale);
+    assert.equal(copy?.guideNotice, undefined, locale);
   }
-  assert.match(videoAgentCopy(id, "en")?.placeholder ?? "", /full-body photo/i);
-  assert.match(videoAgentCopy(id, "ru")?.placeholder ?? "", /полный рост/i);
+  assert.match(videoAgentCopy(id, "en")?.placeholder ?? "", /optional/i);
+  assert.match(videoAgentCopy(id, "ru")?.placeholder ?? "", /необязательно/i);
   const studio = await readFile(new URL("../src/components/images/image-studio.tsx", import.meta.url), "utf8");
-  assert.match(studio, /selectedVideoAgent\.guide \|\| selectedVideoAgentCopy\?\.guideNotice/);
-  assert.match(studio, /selectedVideoAgent\.videoUrl \? \(/, "don't render an empty video player when no sample clip exists");
+  assert.match(studio, /userReferenceCount === 1 && !characterId/);
+  assert.match(studio, /motionTransferInputsReady = !motionTransferAgent \|\| \(refs\.filter\(\(item\) => item\?\.kind === "image"\)\.length === 1 && !refs\.some\(\(item\) => item\?\.kind === "video"\)\)/);
+  assert.match(studio, /selectedVideoAgent\.guide\.resultVideoUrl/);
+  assert.match(studio, /selectedVideoAgentCopy\?\.goodHint/);
+  assert.match(studio, /selectedVideoAgentCopy\?\.badHint/);
+  assert.match(studio, /mode === "v2v" && !motionTransferAgent \? copy\.addFile : copy\.addPhoto/);
+  const route = await readFile(new URL("../src/app/api/video/generations/route.ts", import.meta.url), "utf8");
+  assert.match(route, /requiresMotionControl && \(!firstFrame \|\| lastFrame \|\| references\.length \|\| characterId \|\| videos\.length\)/);
+  assert.match(route, /const mode = requiresMotionControl && catalogModel\.modes\?\.includes\("motion-control"\)/);
+  const serverAgents = await readFile(new URL("../src/lib/server/system-agents.ts", import.meta.url), "utf8");
+  assert.match(serverAgents, /readFile\(join\(process\.cwd\(\), "public", item\.url\.slice\(1\)\)\)/);
 });
 
 test("built-in video agent copy is localized for every served locale", () => {
@@ -136,14 +156,14 @@ test("selected video agent is shown inside the prompt box as a removable name ch
   assert.doesNotMatch(promptBox, /selectedVideoAgent\.description/);
 });
 
-test("angel guide matches the common compact photo guide and requires one reference", async () => {
+test("video-agent guide uses the common photo examples and an optional separate result clip", async () => {
   const source = await readFile(new URL("../src/components/images/image-studio.tsx", import.meta.url), "utf8");
   assert.match(source, /selectedVideoAgent\.guide \|\| selectedVideoAgentCopy\?\.guideNotice/);
   assert.match(source, /selectedVideoAgent\.guide\?\.goodImageUrl/);
   assert.match(source, /selectedVideoAgent\.guide\.badImageUrl/);
   assert.match(source, /\{UI\.exampleGood\}/);
   assert.match(source, /\{UI\.exampleBad\}/);
-  assert.match(source, /selectedVideoAgent\.videoUrl/);
+  assert.match(source, /selectedVideoAgent\.guide\?\.resultVideoUrl/);
   assert.match(source, /\{UI\.guideClose\}/);
   assert.match(source, /userPromptRequired && !prompt\.trim\(\)/);
   assert.match(source, /!agentReferencesReady/);
@@ -162,6 +182,7 @@ test("server composes hidden agent prompts without exposing or requiring angel t
   assert.match(source, /provider !== pinnedDefaults\.providerId \|\| uiMode !== pinnedDefaults\.videoMode/);
   assert.doesNotMatch(source, /model !== pinnedDefaults\.modelId/);
   assert.match(source, /requiresMotionControl && \(/);
-  assert.match(source, /studioIntegratorMode\(uiMode, catalogModel\) !== "motion-control"/);
+  assert.match(source, /const mode = requiresMotionControl && catalogModel\.modes\?\.includes\("motion-control"\)/);
+  assert.match(source, /requiresMotionControl && \(!firstFrame \|\| lastFrame \|\| references\.length \|\| characterId \|\| videos\.length\)/);
   assert.match(source, /firstFrame: mode === "image-to-video" \|\| mode === "motion-control" \? \(firstFrame \|\| references\[0\]\)/);
 });

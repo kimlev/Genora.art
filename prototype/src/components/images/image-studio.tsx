@@ -24,7 +24,7 @@ import { defaultImageAgentVariant, imageAgentVariantNotes, imageAgentVariants, i
 import { agentDescription, agentName, listVisibleAgents } from "@/lib/mock/agents";
 import { getCatalogAgentOverride } from "@/lib/catalog-agent-overrides";
 import { useCatalogAgentOverrides } from "@/lib/use-catalog-agent-overrides";
-import { videoAgentCopy, videoAgentDefaults, videoAgentNeedsUserPrompt, videoAgentRequiresMotionControlInputs, type VideoAgentGuide, type VideoAgentSettings } from "@/lib/video-agent-catalog";
+import { videoAgentAllowsUserPrompt, videoAgentCopy, videoAgentDefaults, videoAgentNeedsUserPrompt, videoAgentRequiresMotionControlInputs, type VideoAgentGuide, type VideoAgentSettings } from "@/lib/video-agent-catalog";
 import { imageQualityLabel } from "@/lib/image-quality";
 import { acquireScrollLock } from "@/lib/scroll-lock";
 import { Button } from "@/components/ui/button";
@@ -2031,6 +2031,7 @@ function VideoStudioPanel({
   const selectedVideoAgent = videoAgents.find((item) => item.id === selectedVideoAgentId) ?? null;
   const selectedVideoAgentCopy = videoAgentCopy(selectedVideoAgent?.id ?? "", locale);
   const userPromptRequired = videoAgentNeedsUserPrompt(selectedVideoAgent?.id ?? "");
+  const userPromptAllowed = videoAgentAllowsUserPrompt(selectedVideoAgent?.id ?? "");
   const motionTransferAgent = videoAgentRequiresMotionControlInputs(selectedVideoAgent?.id ?? "");
 
   useEffect(() => () => { flushAndStopRecorder(recorderRef.current); recorderRef.current = null; }, []);
@@ -2129,8 +2130,10 @@ function VideoStudioPanel({
   const modelSlotCount = model ? videoSlotCount(mode, model) : videoModeSlotMax(mode);
   const slotCount = Math.min(modelSlotCount, selectedVideoAgent?.maxUserReferences ?? modelSlotCount);
   const userReferenceCount = refs.filter((item) => item?.kind === "image").length + (characterId ? 1 : 0);
-  const agentReferencesReady = userReferenceCount >= (selectedVideoAgent?.minUserReferences ?? 0);
-  const motionTransferInputsReady = !motionTransferAgent || (refs.some((item) => item?.kind === "image") && refs.some((item) => item?.kind === "video"));
+  const agentReferencesReady = motionTransferAgent
+    ? userReferenceCount === 1 && !characterId
+    : userReferenceCount >= (selectedVideoAgent?.minUserReferences ?? 0);
+  const motionTransferInputsReady = !motionTransferAgent || (refs.filter((item) => item?.kind === "image").length === 1 && !refs.some((item) => item?.kind === "video"));
   const sounds = model ? videoSoundModes(model) : ["off", "on"] as VideoSound[];
   const perFileMax = videoPerFileMaxBytes(mode, model, durationModels);
   const totalMax = videoTotalMaxBytes();
@@ -2168,10 +2171,13 @@ function VideoStudioPanel({
   }, [seedImage]);
 
   const motionClip = refs.find((item): item is VideoRef => item?.kind === "video") ?? null;
-  const motionLocked = isMotionControlModel(model) && Boolean(motionClip);
+  const motionSourceDuration = motionTransferAgent
+    ? selectedVideoAgent?.videoSettings.duration ?? duration
+    : motionClip?.durationSec ?? 0;
+  const motionLocked = isMotionControlModel(model) && (Boolean(motionClip) || motionTransferAgent);
   const durationLocked = motionTransferAgent || motionLocked;
   const billedDuration = isMotionControlModel(model)
-    ? (motionClip ? motionControlDurationFromClip(model, motionClip.durationSec ?? 0) : null)
+    ? motionSourceDuration ? motionControlDurationFromClip(model, motionSourceDuration) : null
     : nearestVideoDuration(model?.durations ?? [], duration);
   const price = model && size && billedDuration != null ? videoTokensForClip(model, size, sound, billedDuration) : null;
   const shortOnFunds = price != null && (user?.balanceTokens ?? 0) < price;
@@ -2309,7 +2315,7 @@ function VideoStudioPanel({
 
   const attachRef = async (index: number, file: File) => {
     clearMessages();
-    const wantsMixed = mode === "v2v";
+    const wantsMixed = mode === "v2v" && !motionTransferAgent;
     if (wantsMixed && !file.type.startsWith("video/") && !file.type.startsWith("image/")) {
       setSlotError(index, text.unsupportedFormat);
       return;
@@ -2404,30 +2410,32 @@ function VideoStudioPanel({
       showError(v.addVideoNeeded);
       return;
     }
-    const integratorMode = studioIntegratorMode(mode, model);
+    const integratorMode = motionTransferAgent && isMotionControlModel(model)
+      ? "motion-control"
+      : studioIntegratorMode(mode, model);
     if (!integratorMode) {
       showError(mode === "v2v" ? videoReferenceMixUnsupportedCopy(locale) : v.addVideoNeeded);
       return;
     }
     const imagesPreview = filled.filter((item) => item.kind === "image");
     const clipsPreview = filled.filter((item) => item.kind === "video");
-    if (motionTransferAgent && (!imagesPreview.length || !clipsPreview.length)) {
-      showError(v.addVideoNeeded);
+    if (motionTransferAgent && (imagesPreview.length !== 1 || clipsPreview.length !== 0 || characterId)) {
+      showError(copy.uploadPhoto);
       return;
     }
     if (integratorMode === "video-to-video" && imagesPreview.length && clipsPreview.length && !videoV2vAcceptsPhotos(model)) {
       showError(videoReferenceMixUnsupportedCopy(locale));
       return;
     }
-    if (integratorMode === "motion-control" && (!imagesPreview.length || !clipsPreview.length)) {
+    if (integratorMode === "motion-control" && (!imagesPreview.length || (!clipsPreview.length && !motionTransferAgent))) {
       showError(v.addVideoNeeded);
       return;
     }
     const submitClip = clipsPreview[0];
     const submitDuration = integratorMode === "motion-control"
-      ? motionControlDurationFromClip(model, submitClip?.durationSec ?? 0)
+      ? motionControlDurationFromClip(model, motionTransferAgent ? motionSourceDuration : submitClip?.durationSec ?? 0)
       : nearestVideoDuration(model.durations ?? [], duration);
-    if (integratorMode === "motion-control") {
+    if (integratorMode === "motion-control" && !motionTransferAgent) {
       const issue = motionControlClipIssue(model, submitClip?.bytes ?? 0, submitClip?.durationSec ?? 0);
       if (issue || submitDuration == null) {
         const bounds = motionControlClipBounds(model);
@@ -2491,7 +2499,7 @@ function VideoStudioPanel({
           prompt: userPrompt,
           locale,
           duration: usedDuration,
-          clipDuration: integratorMode === "motion-control" ? submitClip?.durationSec : undefined,
+          clipDuration: integratorMode === "motion-control" ? (motionTransferAgent ? motionSourceDuration : submitClip?.durationSec) : undefined,
           resolution: size,
           aspectRatio: format,
           sound,
@@ -2501,10 +2509,10 @@ function VideoStudioPanel({
           conversationId: activeConversationId || undefined,
           firstFrame: integratorMode === "image-to-video" || integratorMode === "motion-control" ? images[0] : undefined,
           lastFrame: integratorMode === "image-to-video" ? images[1] : undefined,
-          references: integratorMode === "ref-to-video" || integratorMode === "motion-control" || (integratorMode === "video-to-video" && videoV2vAcceptsPhotos(model))
+          references: !motionTransferAgent && (integratorMode === "ref-to-video" || integratorMode === "motion-control" || (integratorMode === "video-to-video" && videoV2vAcceptsPhotos(model)))
             ? images
             : undefined,
-          videos: integratorMode === "video-to-video" || integratorMode === "motion-control" ? clips : undefined,
+          videos: !motionTransferAgent && (integratorMode === "video-to-video" || integratorMode === "motion-control") ? clips : undefined,
           agentId: usedAgentId || undefined,
         }),
       });
@@ -2643,7 +2651,7 @@ function VideoStudioPanel({
               type="button"
               aria-label={isRecording ? v.micStop : v.mic}
               title={isRecording ? v.micStop : v.mic}
-              disabled={(authReady && !user) || !userPromptRequired}
+              disabled={(authReady && !user) || !userPromptAllowed}
               onClick={() => void togglePromptMic()}
               className={cn("grid size-8 shrink-0 place-items-center rounded-lg", isRecording ? "bg-destructive/10 text-destructive" : "text-steel hover:bg-mist hover:text-text", (authReady && !user) && "cursor-not-allowed opacity-40")}
             >
@@ -2655,7 +2663,7 @@ function VideoStudioPanel({
           textareaRef={composerRef}
           value={prompt}
           acceptedChars={promptHighlightMax}
-          disabled={(authReady && !user) || !userPromptRequired}
+          disabled={(authReady && !user) || !userPromptAllowed}
           placeholder={selectedVideoAgentCopy?.placeholder ?? selectedVideoAgent?.promptPlaceholder ?? copy.placeholderDefault}
           onValueChange={updatePrompt}
           textareaClassName="min-h-28 w-full resize-none overflow-y-auto bg-transparent px-3 py-2 text-sm leading-relaxed outline-none placeholder:text-steel/75 disabled:cursor-not-allowed disabled:opacity-70"
@@ -2752,13 +2760,13 @@ function VideoStudioPanel({
             const item = refs[index];
             const characterInSlot = Boolean(selectedCharacter) && characterSlot === index;
             const slotError = refErrors[index];
-            const frameLabel = mode === "v2v" ? `${v.photo} / ${v.video}` : mode === "animate" || index === 0 ? v.firstFrame : index === slotCount - 1 ? v.lastFrame : null;
+            const frameLabel = mode === "v2v" && !motionTransferAgent ? `${v.photo} / ${v.video}` : mode === "animate" || motionTransferAgent || index === 0 ? v.firstFrame : index === slotCount - 1 ? v.lastFrame : null;
             return (
               <div key={index} ref={attachmentMenuSlot === index ? attachmentMenuRef : undefined} className="relative">
                 <input
                   ref={(node) => { fileRefs.current[index] = node; }}
                   type="file"
-                  accept={mode === "v2v" ? (model && !videoV2vAcceptsPhotos(model) ? "video/mp4,video/quicktime,video/webm" : V2V_FILE_ACCEPT) : "image/png,image/jpeg,image/webp"}
+                  accept={motionTransferAgent ? "image/png,image/jpeg,image/webp" : mode === "v2v" ? (model && !videoV2vAcceptsPhotos(model) ? "video/mp4,video/quicktime,video/webm" : V2V_FILE_ACCEPT) : "image/png,image/jpeg,image/webp"}
                   className="sr-only"
                   onChange={(event) => { const file = event.target.files?.[0]; setAttachmentMenuSlot(null); if (file) void attachRef(index, file); event.currentTarget.value = ""; }}
                 />
@@ -2780,7 +2788,7 @@ function VideoStudioPanel({
                 ) : null}
                 {attachmentMenuSlot === index ? (
                   <div role="menu" className="absolute bottom-[calc(100%+.5rem)] start-1/2 z-[90] w-52 -translate-x-1/2 rounded-2xl border border-border bg-surface p-1.5 shadow-2xl">
-                    <button type="button" role="menuitem" onClick={() => fileRefs.current[index]?.click()} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-start text-sm text-text hover:bg-mist"><ImagePlus className="size-4 text-accent-brand" />{mode === "v2v" ? copy.addFile : copy.addPhoto}</button>
+                    <button type="button" role="menuitem" onClick={() => fileRefs.current[index]?.click()} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-start text-sm text-text hover:bg-mist"><ImagePlus className="size-4 text-accent-brand" />{mode === "v2v" && !motionTransferAgent ? copy.addFile : copy.addPhoto}</button>
                     <button type="button" role="menuitem" onClick={() => cameraRefs.current[index]?.click()} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-start text-sm text-text hover:bg-mist"><Camera className="size-4 text-accent-brand" />{copy.takePhoto}</button>
                     {mode === "i2v" && (!model || videoModelSupportsCharacter(model)) ? <button type="button" role="menuitem" onClick={() => { setCharacterPickerSlot(index); setAttachmentMenuSlot(null); setCharacterPickerOpen(true); }} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-start text-sm text-text hover:bg-mist"><UserRound className="size-4 text-accent-brand" />{characterPickerLabel(locale)}</button> : null}
                   </div>
@@ -2821,7 +2829,7 @@ function VideoStudioPanel({
               <VideoPromptTextarea
                 value={prompt}
                 acceptedChars={promptHighlightMax}
-                disabled={(authReady && !user) || !userPromptRequired}
+                disabled={(authReady && !user) || !userPromptAllowed}
                 placeholder={selectedVideoAgentCopy?.placeholder ?? selectedVideoAgent?.promptPlaceholder ?? copy.placeholderDefault}
                 onValueChange={(value) => setPrompt(value)}
                 containerClassName="h-full rounded-xl border border-border bg-bg focus-within:border-accent-brand"
@@ -2841,26 +2849,25 @@ function VideoStudioPanel({
       {agentGuideOpen && selectedVideoAgent && (selectedVideoAgent.guide || selectedVideoAgentCopy?.guideNotice) ? createPortal(
         <div className="fixed inset-0 z-[430] grid place-items-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="video-agent-guide-title" onClick={() => setAgentGuideOpen(false)}>
           <div className="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-3xl bg-surface p-6 shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <h3 id="video-agent-guide-title" className="text-center text-xl font-semibold text-text">{selectedVideoAgentCopy?.name ?? copy.uploadPhoto}</h3>
-            {selectedVideoAgentCopy?.guideNotice ? <p className="mt-3 text-center text-sm leading-relaxed text-steel">{selectedVideoAgentCopy.guideNotice}</p> : null}
+            <h3 id="video-agent-guide-title" className="text-center text-xl font-semibold text-text">{copy.addPhoto}</h3>
             {selectedVideoAgent.guide?.goodImageUrl && selectedVideoAgent.guide.badImageUrl ? (
               <div className="mt-5 grid grid-cols-3 gap-3">
                 <figure className="relative">
                   <span className="relative block aspect-square overflow-hidden rounded-2xl bg-mist">
                     <Image src={selectedVideoAgent.guide.goodImageUrl} alt={copy.uploadPhoto} fill unoptimized className="object-contain" />
                   </span>
-                  <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{copy.uploadPhoto}</figcaption>
+                  <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{selectedVideoAgentCopy?.goodHint}</figcaption>
                   <CheckCircle2 className="absolute -bottom-0.5 -end-0.5 size-7 rounded-full bg-surface text-emerald-500" aria-hidden />
                 </figure>
                 <figure className="relative">
                   <span className="relative block aspect-square overflow-hidden rounded-2xl bg-mist">
                     <Image src={selectedVideoAgent.guide.badImageUrl} alt={copy.uploadPhoto} fill unoptimized className="object-cover" />
                   </span>
-                  <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{copy.uploadPhoto}</figcaption>
+                  <figcaption className="mt-1.5 text-center text-[11px] font-medium text-steel">{selectedVideoAgentCopy?.badHint}</figcaption>
                   <CircleX className="absolute -bottom-0.5 -end-0.5 size-7 rounded-full bg-surface text-red-500" aria-hidden />
                 </figure>
                 {selectedVideoAgent.guide.uploadFromGuide ? (
-                <button type="button" onClick={() => agentGuideFileRef.current?.click()} className="relative flex aspect-square flex-col items-center justify-center rounded-2xl border border-border bg-bg hover:bg-mist" aria-label={copy.addFile}>
+                <button type="button" onClick={() => agentGuideFileRef.current?.click()} className="relative flex aspect-square flex-col items-center justify-center rounded-2xl border border-border bg-bg hover:bg-mist" aria-label={copy.uploadPhoto}>
                   <span className="grid size-14 place-items-center rounded-full bg-accent-brand text-white"><Plus className="size-7" /></span>
                 </button>
                 ) : null}
@@ -2879,11 +2886,10 @@ function VideoStudioPanel({
                   }}
                 />
             ) : null}
-            {selectedVideoAgent.videoUrl ? (
+            {selectedVideoAgent.guide?.resultVideoUrl ? (
               <>
-                <p className="mt-5 text-center text-sm text-steel">{copy.addPhoto}</p>
-                <div className="mt-3 overflow-hidden rounded-2xl bg-black">
-                  <video src={selectedVideoAgent.videoUrl} poster={selectedVideoAgent.coverUrl ?? undefined} controls muted playsInline className="max-h-[42dvh] w-full object-contain" />
+                <div className="mt-5 overflow-hidden rounded-2xl bg-black">
+                  <video src={selectedVideoAgent.guide.resultVideoUrl} poster={selectedVideoAgent.guide.goodImageUrl} controls muted playsInline className="max-h-[42dvh] w-full object-contain" />
                 </div>
               </>
             ) : selectedVideoAgent.coverUrl ? (
