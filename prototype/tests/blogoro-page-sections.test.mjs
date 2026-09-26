@@ -6,6 +6,7 @@ import test from "node:test";
 import {
   BLOGORO_PAGE_SECTION_CAPABILITY,
   extractFaqSection,
+  mergePageSectionFaq,
   validateBlogoroPageSectionTarget,
 } from "../src/lib/server/blogoro-page-sections.ts";
 
@@ -124,6 +125,37 @@ test("extracts heading-form FAQ questions used by recent Blogoro publications", 
       question: "Wie kann ich ein passendes KI-Modell finden?",
       answer: "Die Auswahl sollte von der konkreten Aufgabe ausgehen.",
     },
+  ]);
+});
+
+test("keeps structured and Markdown FAQ questions when both are present", () => {
+  const markdown = [
+    "Intro text.",
+    "\n## FAQ",
+    "\n### First question?",
+    "\nAnswer from the article.",
+    "\n### Second question?",
+    "\nSecond answer from the article.",
+  ].join("\n");
+  const result = mergePageSectionFaq(markdown, [
+    { question: "First question", answer: "Preferred structured answer." },
+  ]);
+
+  assert.equal(result.body, "Intro text.");
+  assert.deepEqual(result.faq, [
+    { question: "First question", answer: "Preferred structured answer." },
+    { question: "Second question?", answer: "Second answer from the article." },
+  ]);
+});
+
+test("does not remove article text when no Markdown FAQ was extracted", () => {
+  const result = mergePageSectionFaq("Intro text.\n\n## More details", [
+    { question: "Structured question?", answer: "Structured answer." },
+  ]);
+
+  assert.equal(result.body, "Intro text.\n\n## More details");
+  assert.deepEqual(result.faq, [
+    { question: "Structured question?", answer: "Structured answer." },
   ]);
 });
 
