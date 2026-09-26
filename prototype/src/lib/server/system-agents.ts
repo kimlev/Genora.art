@@ -184,7 +184,9 @@ function toAdminAgent(agent: Agent, override?: SystemAgentOverride | null, image
     promptPlaceholder: override?.promptPlaceholder ?? videoDefaults?.promptPlaceholder ?? "",
     referenceInputs: override?.referenceInputs.length ? override.referenceInputs : videoDefaults?.referenceInputs ?? [],
     videoSettings: { ...(videoDefaults?.videoSettings ?? {}), ...(override?.videoSettings ?? {}) },
-    systemPrompt: override?.systemPrompt ?? imagePrompt ?? catalogPrompt(agent),
+    systemPrompt: agent.id === "michael-jackson-dance"
+      ? catalogPrompt(agent)
+      : override?.systemPrompt || imagePrompt || catalogPrompt(agent),
     created: override?.created ?? false,
   };
 }

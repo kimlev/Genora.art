@@ -1,5 +1,6 @@
 import "server-only";
 
+import { randomUUID } from "node:crypto";
 import { chargedTokensFromUsd, paidTokensSpent, unpaidOverdraftTokens, usdFromPaidTokens } from "@/lib/billing";
 import { publicErrorCode, publicErrorMessage } from "@/lib/public-error";
 import { mediaFailureIsFinal, mediaJobOutcome } from "@/lib/server/media-job-outcome";
@@ -130,6 +131,7 @@ export function publicVideoJob(row: VideoJobRow) {
 }
 
 export async function insertVideoJob(input: {
+  id?: string;
   userId: string;
   conversationId: string;
   provider: string;
@@ -146,17 +148,20 @@ export async function insertVideoJob(input: {
   locale: string;
   requestId: string;
   reservationTokens: number;
+  deferReservation?: boolean;
   agentId?: string;
   agentLabel?: string;
 }): Promise<VideoJobRow> {
+  const id = input.id ?? randomUUID();
   return withTransaction(async (client) => {
   const { rows } = await client.query<VideoJobRow>(
     `INSERT INTO video_jobs(
-      user_id,conversation_id,status,provider,model_id,model_label,prompt,mode,duration_sec,
+      id,user_id,conversation_id,status,provider,model_id,model_label,prompt,mode,duration_sec,
       resolution,aspect_ratio,sound,style,multiplier,locale,integrator_request_id,agent_id,agent_label
-    ) VALUES($1,$2,'creating',$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+    ) VALUES($1,$2,$3,'creating',$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
     RETURNING *`,
     [
+      id,
       input.userId,
       input.conversationId,
       input.provider,
@@ -176,9 +181,58 @@ export async function insertVideoJob(input: {
       input.agentLabel ?? null,
     ],
   );
-  const balanceTokens = await reserveGenerationTokens(client, rows[0].id, input.userId, input.reservationTokens);
+  const balanceTokens = input.deferReservation
+    ? undefined
+    : await reserveGenerationTokens(client, rows[0].id, input.userId, input.reservationTokens);
   return { ...rows[0], balanceTokens };
   });
+}
+
+export async function reserveVideoJobTokens(jobId: string, userId: string, tokens: number): Promise<number> {
+  return withTransaction((client) => reserveGenerationTokens(client, jobId, userId, tokens));
+}
+
+export async function updateVideoJobDetails(jobId: string, input: {
+  conversationId?: string;
+  provider?: string;
+  modelId?: string;
+  modelLabel?: string;
+  prompt?: string;
+  mode?: string;
+  durationSec?: number;
+  resolution?: string;
+  aspectRatio?: string;
+  sound?: string;
+  style?: string;
+  multiplier?: number;
+  locale?: string;
+  agentId?: string | null;
+  agentLabel?: string | null;
+}): Promise<void> {
+  await query(
+    `UPDATE video_jobs
+        SET conversation_id=COALESCE($2,conversation_id),
+            provider=COALESCE($3,provider),
+            model_id=COALESCE($4,model_id),
+            model_label=COALESCE($5,model_label),
+            prompt=COALESCE($6,prompt),
+            mode=COALESCE($7,mode),
+            duration_sec=COALESCE($8,duration_sec),
+            resolution=COALESCE($9,resolution),
+            aspect_ratio=COALESCE($10,aspect_ratio),
+            sound=COALESCE($11,sound),
+            style=COALESCE($12,style),
+            multiplier=COALESCE($13,multiplier),
+            locale=COALESCE($14,locale),
+            agent_id=$15,
+            agent_label=$16,
+            updated_at=now()
+      WHERE id=$1 AND status='creating'`,
+    [jobId, input.conversationId ?? null, input.provider ?? null, input.modelId ?? null, input.modelLabel ?? null,
+      input.prompt ?? null, input.mode ?? null, input.durationSec ?? null, input.resolution ?? null,
+      input.aspectRatio ?? null, input.sound ?? null, input.style ?? null, input.multiplier ?? null,
+      input.locale ?? null, input.agentId ?? null, input.agentLabel ?? null],
+  );
 }
 
 export async function listCreatingVideoJobs(userId: string): Promise<VideoJobRow[]> {
@@ -258,6 +312,10 @@ export async function markVideoJobFailed(jobId: string, error: string, onlyUndis
     `UPDATE video_jobs SET status='failed', error=$2, updated_at=now() WHERE id=$1 AND status='creating'`,
     [jobId, error.slice(0, 500)],
   );
+    await client.query(
+      `UPDATE generation_request_registry SET status='error',error=$2,response_at=now(),updated_at=now() WHERE id=$1 AND status='running'`,
+      [jobId, error.slice(0, 500)],
+    );
   });
 }
 
@@ -424,6 +482,10 @@ async function persistReadyVideoJob(input: VideoJobInput & {
     await client.query(
       `UPDATE video_jobs SET status='ready', integrator_request_id=$2, model_label=$3, updated_at=now() WHERE id=$1 AND status='creating'`,
       [input.jobId, input.requestId, input.modelLabel],
+    );
+    await client.query(
+      `UPDATE generation_request_registry SET status='success',provider=$2,model_id=$3,model_label=$4,agent=$5,error=NULL,response_at=now(),updated_at=now() WHERE id=$1 AND status='running'`,
+      [input.jobId, input.provider, input.model, input.modelLabel, input.agentLabel ?? null],
     );
   });
   await ackAfterPersist(input.requestId);

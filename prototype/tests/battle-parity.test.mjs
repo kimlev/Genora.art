@@ -45,7 +45,8 @@ test("VideoPromt uses the selected model and never replaces it with the menu def
   assert.match(chatShell, /if \(isVideoPromptAgent\(requestAgentId\) && !videoPromptModelAllowed\(modelSelection\)\) return/);
   assert.match(chatShell, /const requestedModelId = modelSelection/);
   assert.match(chatShell, /videoPromptProviderForModel\(requestedModelId\)/);
-  assert.match(chatRoute, /if \(!videoPromptModelAllowed\(modelId\)\) return jsonError\(apiAppCopy\(locale\)\.invalidRequest\)/);
+  assert.match(chatRoute, /if \(!videoPromptModelAllowed\(modelId\)\) throw new Error\("CHAT_INVALID_REQUEST"\)/);
+  assert.match(chatRoute, /if \(\(error as Error\)\.message === "CHAT_INVALID_REQUEST"\) return jsonError\(errorCopy\.invalidRequest\)/);
   assert.doesNotMatch(chatRoute, /modelId = VIDEO_PROMPT_DEFAULT_MODEL/);
   assert.match(route, /!videoPromptModelAllowed\(String\(left\.model\)\) \|\| !videoPromptModelAllowed\(String\(right\.model\)\)/);
   assert.doesNotMatch(route, /left\.model = VIDEO_PROMPT_DEFAULT_MODEL|right\.model = videoPromptAlternateModel/);

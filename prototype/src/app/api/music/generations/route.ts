@@ -3,7 +3,8 @@ import { AUTO_DURATION_SEC, DEFAULT_MUSIC_MULTIPLIER, looksLikeMusicVideoBytes, 
 import { quoteMusic } from "@/lib/server/generation-quote";
 import { integratorMusicCatalog } from "@/lib/server/integrator";
 import { query, withTransaction } from "@/lib/server/db";
-import { insertGenerationJob, publicGenerationJob } from "@/lib/server/generation-jobs";
+import { insertGenerationJob, markGenerationJobFailed, publicGenerationJob, reserveGenerationJobTokens, updateGenerationJobDetails } from "@/lib/server/generation-jobs";
+import { failGenerationRequest, registerGenerationRequest, updateGenerationRequestMetadata } from "@/lib/server/generation-request-registry";
 import { executeMusicJob } from "@/lib/server/music-jobs";
 import { topUpBalanceFromError } from "@/lib/server/paid-balance";
 import { isSameOrigin, jsonError, jsonTopUpError } from "@/lib/server/http";
@@ -94,10 +95,14 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const locale = await requestLocale();
   if (!isSameOrigin(request)) return jsonError("Недопустимый источник запроса", 403);
+  let trackedJobId: string | null = null;
+  let requestId: string | null = null;
+  let workScheduled = false;
   try {
     const user = await requireUser();
+    requestId = await registerGenerationRequest(user.id, "music");
     const allowed = await consumeRateLimit({ scope: "music-generation", identifier: user.id, limit: 20, windowSeconds: 60 * 60 });
-    if (!allowed) return jsonError("Слишком много генераций. Подождите немного.", 429);
+    if (!allowed) throw new Error("MUSIC_BUSY");
     const body = await request.json().catch(() => null) as Record<string, unknown> | null;
     const provider = String(body?.provider ?? "").slice(0, 80);
     const model = String(body?.model ?? "").slice(0, 160);
@@ -116,17 +121,30 @@ export async function POST(request: Request) {
     const autoDuration = body?.autoDuration === true;
     const bpm = Math.max(66, Math.min(200, Number(body?.bpm) || 133));
     const inputVideo = parseClientMusicVideo(String(body?.inputVideo ?? body?.input_video ?? ""));
+    await updateGenerationRequestMetadata(requestId, { provider, modelId: model, modelLabel: model });
     if (String(body?.inputVideo ?? body?.input_video ?? "").trim() && !inputVideo) {
-      return jsonError("Нужен ролик MP4, MOV или WebM до 70 МБ", 400);
+      throw new Error("MUSIC_VIDEO_INVALID");
     }
     const duration = autoDuration && !inputVideo
       ? undefined
       : Math.max(inputVideo ? MUSIC_VIDEO_MIN_SEC : 30, Math.min(inputVideo ? MUSIC_VIDEO_MAX_SEC : 300, Math.round(Number(body?.duration) || 120)));
-    if (!provider || !model || (!prompt && !lyrics && !inputVideo)) return jsonError("Заполните описание или текст песни", 400);
+    if (!provider || !model || (!prompt && !lyrics && !inputVideo)) throw new Error("MUSIC_PARAMS_INVALID");
     if (mode === "song" && lyrics) {
       const limit = lyricsCharLimit(duration ?? AUTO_DURATION_SEC, bpm);
-      if (lyrics.length > limit) return jsonError(`Текст длиннее ${limit} символов для выбранного хронометража`, 400);
+      if (lyrics.length > limit) throw new Error(`MUSIC_LYRICS_TOO_LONG:${limit}`);
     }
+
+    const trackedJob = await insertGenerationJob({
+      id: requestId,
+      userId: user.id,
+      kind: "music",
+      surface: "audio",
+      title: title || prompt.slice(0, 80) || "Трек",
+      modelLabel: model,
+      deferReservation: true,
+      payload: { locale, provider, model, mode, prompt, lyrics, title, genre, style, mood, purpose, bpm, duration, vocal, language },
+    });
+    trackedJobId = trackedJob.id;
 
     const catalog = await integratorMusicCatalog();
     const catalogModel = catalog.find((item) => item.provider === provider && item.id === model);
@@ -140,18 +158,11 @@ export async function POST(request: Request) {
       };
     });
 
-    const job = await insertGenerationJob({
-      reservationTokens: quoteMusic(catalogModel, duration, setup.multiplier),
-      userId: user.id,
-      kind: "music",
-      surface: "audio",
-      title: title || prompt.slice(0, 80) || "Трек",
-      modelLabel: model,
+    await updateGenerationJobDetails(trackedJob.id, {
+      modelLabel: catalogModel.label,
       payload: {
         locale,
         multiplier: setup.multiplier,
-        provider,
-        model,
         mode,
         prompt: prompt || (inputVideo ? "Score this video to picture." : ""),
         lyrics,
@@ -166,6 +177,9 @@ export async function POST(request: Request) {
         language,
       },
     });
+    await updateGenerationRequestMetadata(requestId, { provider, modelId: model, modelLabel: catalogModel.label });
+    const balanceTokens = await reserveGenerationJobTokens(trackedJob.id, user.id, quoteMusic(catalogModel, duration, setup.multiplier));
+    const job = { ...trackedJob, model_label: catalogModel.label, balanceTokens };
     after(() => executeMusicJob({
       jobId: job.id,
       userId: user.id,
@@ -187,14 +201,24 @@ export async function POST(request: Request) {
       language,
       inputVideo: inputVideo || undefined,
     }));
+    workScheduled = true;
     return Response.json({ job: publicGenerationJob(job), balanceTokens: job.balanceTokens }, { status: 202 });
   } catch (error) {
     const message = (error as Error).message;
+    if (trackedJobId && !workScheduled) {
+      await markGenerationJobFailed(trackedJobId, message || "MUSIC_REQUEST_FAILED").catch((trackingError) => {
+        console.error("music_request_tracking_failed", trackedJobId, trackingError instanceof Error ? trackingError.message : "unknown");
+      });
+    }
+    if (requestId) await failGenerationRequest(requestId, message || "MUSIC_REQUEST_FAILED").catch(() => {});
     if (message === "UNAUTHORIZED") return jsonError("Войдите, чтобы создать трек", 401);
     if (message === "INSUFFICIENT_BALANCE" || message === "ANSWER_REQUIRES_TOP_UP") {
       return jsonTopUpError("Пополните баланс, чтобы создать трек", topUpBalanceFromError(error));
     }
     if (message === "MUSIC_BUSY") return jsonError("Сейчас очередь генерации занята. Попробуйте ещё раз.", 429);
+    if (message === "MUSIC_VIDEO_INVALID") return jsonError("Нужен ролик MP4, MOV или WebM до 70 МБ", 400);
+    if (message === "MUSIC_PARAMS_INVALID") return jsonError("Заполните описание или текст песни", 400);
+    if (message.startsWith("MUSIC_LYRICS_TOO_LONG:")) return jsonError(`Текст длиннее ${message.split(":")[1]} символов для выбранного хронометража`, 400);
     if (/not available in your current location|available-regions|Lyria недоступна/i.test(message)) {
       return jsonError("Google Lyria недоступна из региона сервера. Выберите ElevenLabs, Mureka или MiniMax.", 400);
     }

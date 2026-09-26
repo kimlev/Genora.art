@@ -48,6 +48,31 @@ export async function GET(request: Request) {
       cost_usd: string | null;
     }>(
       `SELECT * FROM (
+         SELECT r.id::text AS id,
+                r.kind,
+                r.status,
+                COALESCE(r.model_label,j.model_label,v.model_label) AS model_label,
+                COALESCE(r.provider,NULLIF(j.payload->>'providerId',''),v.provider) AS provider,
+                COALESCE(r.agent,NULLIF(COALESCE(j.payload->>'agentName',j.payload->>'agentId'),''),v.agent_label) AS agent,
+                r.created_at,
+                COALESCE(r.response_at,r.updated_at) AS updated_at,
+                r.response_at AS acked_at,
+                u.email,
+                ue.cost_usd::text
+           FROM generation_request_registry r
+           JOIN users u ON u.id=r.user_id
+           LEFT JOIN generation_jobs j ON j.id=r.id
+           LEFT JOIN video_jobs v ON v.id=r.id
+           LEFT JOIN LATERAL (
+             SELECT cost_usd FROM usage_entries
+              WHERE upstream_request_id=r.id::text OR id IN ('chat-'||r.id,'image-'||r.id,'music-'||r.id,'video-'||r.id)
+              ORDER BY created_at DESC LIMIT 1
+           ) ue ON true
+          WHERE r.created_at >= $1::date AND r.created_at < ($2::date + interval '1 day')
+            AND ($3 = '' OR r.user_id::text = $3)
+            AND ($4 = '' OR r.kind = $4)
+            AND ($5 = '' OR COALESCE(r.model_label,j.model_label,v.model_label,'') = $5)
+         UNION ALL
          SELECT j.id::text AS id,
                 j.kind,
                 j.status,
@@ -67,6 +92,7 @@ export async function GET(request: Request) {
               ORDER BY created_at DESC LIMIT 1
            ) ue ON true
           WHERE j.created_at >= $1::date AND j.created_at < ($2::date + interval '1 day')
+            AND NOT EXISTS (SELECT 1 FROM generation_request_registry r WHERE r.id=j.id)
             AND ($3 = '' OR j.user_id::text = $3)
             AND ($4 = '' OR j.kind = $4)
             AND ($5 = '' OR COALESCE(j.model_label,'') = $5)
@@ -76,7 +102,7 @@ export async function GET(request: Request) {
                 v.status,
                 v.model_label,
                 v.provider,
-                NULL,
+                v.agent_label,
                 v.created_at,
                 v.updated_at,
                 CASE WHEN v.status = 'ready' THEN v.updated_at ELSE NULL END,
@@ -91,12 +117,16 @@ export async function GET(request: Request) {
               ORDER BY created_at DESC LIMIT 1
            ) ue ON true
           WHERE v.created_at >= $1::date AND v.created_at < ($2::date + interval '1 day')
+            AND NOT EXISTS (SELECT 1 FROM generation_request_registry r WHERE r.id=v.id)
             AND ($3 = '' OR v.user_id::text = $3)
             AND ($4 = '' OR $4 = 'video')
             AND ($5 = '' OR COALESCE(v.model_label,'') = $5)
        ) items
        WHERE ($6 = '' OR (
          CASE
+           WHEN status = 'error' THEN 'error'
+           WHEN status = 'success' THEN 'success'
+           WHEN status = 'running' AND created_at < now() - ($7::bigint * interval '1 millisecond') THEN 'error'
            WHEN status = 'failed' OR (status = 'creating' AND created_at < now() - ($7::bigint * interval '1 millisecond')) THEN 'error'
            WHEN status = 'ready' THEN 'success'
            ELSE 'running'
@@ -109,7 +139,7 @@ export async function GET(request: Request) {
     const items: RequestRow[] = rows.map((row) => ({
       id: row.id,
       createdAt: row.created_at.toISOString(),
-      answeredAt: row.updated_at.toISOString(),
+      answeredAt: row.acked_at?.toISOString() ?? null,
       email: row.email,
       type: row.kind,
       model: row.model_label,
@@ -120,14 +150,21 @@ export async function GET(request: Request) {
     }));
     const modelRows = await query<{ model_label: string; provider: string | null }>(
       `SELECT model_label, MIN(provider) AS provider FROM (
+         SELECT r.model_label, r.provider
+           FROM generation_request_registry r
+          WHERE r.created_at >= $1::date AND r.created_at < ($2::date + interval '1 day')
+            AND r.model_label IS NOT NULL
+         UNION ALL
          SELECT j.model_label, NULLIF(j.payload->>'providerId','') AS provider
            FROM generation_jobs j
           WHERE j.created_at >= $1::date AND j.created_at < ($2::date + interval '1 day')
+            AND NOT EXISTS (SELECT 1 FROM generation_request_registry r WHERE r.id=j.id)
             AND j.model_label IS NOT NULL
          UNION ALL
          SELECT v.model_label, v.provider
            FROM video_jobs v
           WHERE v.created_at >= $1::date AND v.created_at < ($2::date + interval '1 day')
+            AND NOT EXISTS (SELECT 1 FROM generation_request_registry r WHERE r.id=v.id)
             AND v.model_label IS NOT NULL
        ) models
        GROUP BY model_label

@@ -7,8 +7,9 @@ export function isStaleRequest(createdAt: Date, now = Date.now()): boolean {
 }
 
 export function adminRequestStatus(status: string, createdAt: Date, now = Date.now()): AdminRequestStatus {
-  if (status === "failed") return "error";
-  if (status === "ready") return "success";
+  if (status === "failed" || status === "error") return "error";
+  if (status === "ready" || status === "success") return "success";
+  if (status === "running" && isStaleRequest(createdAt, now)) return "error";
   if (status === "creating" && isStaleRequest(createdAt, now)) return "error";
   return "running";
 }

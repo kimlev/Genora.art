@@ -57,6 +57,7 @@ export type VideoAgentDefaults = {
 const weatherRoot = "/agents/video/weather-change";
 const glassesLogoRoot = "/agents/video/glasses-logo-promo";
 const angelRoot = "/agents/video/angel";
+const michaelJacksonDanceRoot = "/agents/video/michael-jackson-dance";
 export const VIDEO_AGENT_DEFAULTS: Record<string, VideoAgentDefaults> = {
   "weather-change": {
     id: "weather-change",
@@ -110,9 +111,9 @@ export const VIDEO_AGENT_DEFAULTS: Record<string, VideoAgentDefaults> = {
     providerId: "kling",
     modelId: "kling-2.6-mc-std",
     videoMode: "v2v",
-    videoUrl: null,
-    videoPreviewUrl: null,
-    coverUrl: null,
+    videoUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-preview.m4v`,
+    videoPreviewUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-preview.m4v`,
+    coverUrl: `${michaelJacksonDanceRoot}/michael-jackson-dance-poster.jpg`,
     promptPlaceholder: "Upload a full-body photo and a dance video. Kling Motion Control transfers the dance onto the person in your photo.",
     referenceInputs: [],
     videoSettings: { duration: 10, resolution: "720p", aspectRatio: "9:16", sound: "off", style: "auto" },

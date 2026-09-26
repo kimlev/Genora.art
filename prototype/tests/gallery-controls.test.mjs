@@ -75,8 +75,9 @@ test("every failed request is recorded with zero usage and highlighted in admin 
   const adminUi = await readFile(new URL("../src/components/admin/admin-dashboard.tsx", import.meta.url), "utf8");
   assert.match(jobs, /`\$\{row\.kind\}-failed-\$\{jobId\}`/);
   assert.match(jobs, /0,0,0,0,0,\$9,0,0/);
-  assert.match(adminData, /failed:row\.internal_only/);
-  assert.match(adminUi, /item\.failed&&item\.billedTokens===0&&item\.costUsd===0/);
+  assert.match(adminData, /request_status === "error" \|\| row\.internal_only/);
+  assert.match(adminUi, /item\.requestStatus==="error"/);
+  assert.match(adminUi, /item\.requestId\.slice\(0,8\)/);
   assert.match(adminUi, /text-red-400/);
 });
 

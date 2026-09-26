@@ -8,7 +8,7 @@ export function parseAdminSection(value: unknown): Section {
 
 export type AdminUser={id:string;email:string;name:string|null;nickname:string|null;avatarDataUrl:string|null;status:string;isAdministrator:boolean;balanceTokens:number;paidBalanceTokens:number;createdAt:string;conversationCount:number;requestCount:number;spentTokens:number;profitUsd:number;sessionCount:number;lastSeenAt:string|null};
 export type UsageKind="chat"|"image"|"video"|"song";
-export type UsageEntry={id:string;user_id:string;email:string;createdAt:string;chat_title:string;provider:string;model:string;kind:UsageKind;agent:string;input_tokens:number;output_tokens:number;billedTokens:number;adminSpend:boolean;costUsd:number;revenueUsd:number;failed:boolean};
+export type UsageEntry={id:string;requestId:string;requestStatus:"running"|"success"|"error";user_id:string;email:string;createdAt:string;chat_title:string;provider:string;model:string;kind:UsageKind;agent:string;input_tokens:number;output_tokens:number;billedTokens:number;adminSpend:boolean;costUsd:number;revenueUsd:number;failed:boolean};
 export type AdminItem={id:string;email:string;name:string|null;nickname:string|null;timezone:string|null;active:boolean;hasPin:boolean;ipAllowlist:string[];createdAt:string;lastLoginAt:string|null};
 
 export type DashboardData={
