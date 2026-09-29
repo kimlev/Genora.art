@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Check, ChevronDown, ChevronRight, Copy, Loader2 } from "lucide-react";
-import { IS_STAGING } from "@/lib/site-env";
 import { withCreditGlyphs } from "@/components/ui/credit-glyph";
 import { ProviderLogo } from "@/components/chat/provider-logo";
 import { DEFAULT_WELCOME_BONUS_CONFIG, WELCOME_BONUS_TASKS, formatWelcomeTokens, welcomeBonusTotal, type WelcomeBonusConfig } from "@/lib/welcome-bonus";
@@ -50,11 +49,9 @@ export function AdminSettings({ page }: { page: "marketing" | "requests" | "agen
       <SettingsSection title="Бонус за регистрацию">
         <RegistrationBonusSettings />
       </SettingsSection>
-      {IS_STAGING ? (
-        <SettingsSection title="Приветственный бонус">
-          <WelcomeBonusSettings />
-        </SettingsSection>
-      ) : null}
+      <SettingsSection title="Приветственный бонус">
+        <WelcomeBonusSettings />
+      </SettingsSection>
     </div>
   );
 }
