@@ -29,7 +29,9 @@ export function looksLikeRussian(text: string): boolean {
 
 export function pickCheapestTextModel<T extends { id: string; cost: number }>(models: T[]): T | undefined {
   return models
-    .filter((model) => isTextChatModelId(model.id))
+    // Zero-cost catalog entries can be placeholders or retired upstream models.
+    // They must not win translation routing over a usable Integrator model.
+    .filter((model) => isTextChatModelId(model.id) && Number.isFinite(model.cost) && model.cost > 0)
     .sort((left, right) => left.cost - right.cost)[0];
 }
 

@@ -185,6 +185,10 @@ test("prepares a spoken Russian translation request and usage title", () => {
     { id: "deepseek-v4-flash-0731", cost: 0.1 },
     { id: "gpt-4o-mini", cost: 0.3 },
   ])?.id, "deepseek-v4-flash-0731");
+  assert.equal(pickCheapestTextModel([
+    { id: "gemma-4-31b", cost: 0 },
+    { id: "deepseek-v4-flash-0731", cost: 0.1 },
+  ])?.id, "deepseek-v4-flash-0731");
   assert.equal(applyPublicContactEmail(`Пишите на ${DEFAULT_PUBLIC_EMAIL}`, "hello@genora.art"), "Пишите на hello@genora.art");
 });
 
