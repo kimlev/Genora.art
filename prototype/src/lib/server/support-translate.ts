@@ -8,6 +8,13 @@ import { looksLikeRussian, pickCheapestTextModel, sourceTextForTranslation, TRAN
 type SupportAdmin = { id: string; email: string; name: string | null };
 type TranslateModel = { id: string; provider_id: string; display_name: string; cost: number };
 
+const FALLBACK_TRANSLATION_MODEL: TranslateModel = {
+  id: "deepseek-v4-flash-0731",
+  provider_id: "deepseek",
+  display_name: "DeepSeek V4 Flash",
+  cost: 0.12,
+};
+
 async function translationModel(): Promise<TranslateModel> {
   const candidates = await query<TranslateModel>(`SELECT id,provider_id,display_name,
       COALESCE(cost_input_per_1m_usd, 999) + COALESCE(cost_output_per_1m_usd, 999) AS cost
@@ -26,8 +33,9 @@ async function translationModel(): Promise<TranslateModel> {
       baseline_score DESC NULLS LAST
     LIMIT 40`);
   const chosen = pickCheapestTextModel(candidates);
-  if (!chosen) throw new Error("SUPPORT_MODEL_NOT_AVAILABLE");
-  return chosen;
+  if (chosen) return chosen;
+  return candidates.find((model) => model.id === FALLBACK_TRANSLATION_MODEL.id)
+    ?? FALLBACK_TRANSLATION_MODEL;
 }
 
 export async function translateSupportRequest(input: {
