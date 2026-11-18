@@ -5,8 +5,8 @@ import { requestLocale } from "@/lib/i18n/request-locale";
 import { SITE_NAME } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = getDictionary(await requestLocale());
+export async function generateMetadata({ params }: PageProps<"/[locale]/forgot-password">): Promise<Metadata> {
+  const t = getDictionary(await requestLocale((await params).locale));
   return {
     title: `${t.auth.recoveryEyebrow} — ${SITE_NAME}`,
     description: t.auth.recoverySubtitle,

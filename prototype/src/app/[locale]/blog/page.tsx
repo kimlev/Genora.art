@@ -4,8 +4,8 @@ import { getBlogPosts } from "@/lib/blog/posts-query";
 import { requestPageMetadata } from "@/lib/i18n/request-locale";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return requestPageMetadata("/blog");
+export async function generateMetadata({ params }: PageProps<"/[locale]/blog">): Promise<Metadata> {
+  return requestPageMetadata("/blog", (await params).locale);
 }
 
 export default async function BlogPage() {

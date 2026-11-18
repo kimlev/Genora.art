@@ -5,8 +5,8 @@ import { requestLocale, requestPageMetadata } from "@/lib/i18n/request-locale";
 import { publicSiteUrl } from "@/lib/site-env";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return requestPageMetadata("/logo");
+export async function generateMetadata({ params }: PageProps<"/[locale]/logo">): Promise<Metadata> {
+  return requestPageMetadata("/logo", (await params).locale);
 }
 
 export default async function LogoPage() {

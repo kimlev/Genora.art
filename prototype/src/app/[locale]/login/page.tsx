@@ -7,8 +7,8 @@ import { isGoogleOAuthConfigured } from "@/lib/server/google-oauth";
 import { hasPendingPinChallenge } from "@/lib/server/pending-pin";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = getDictionary(await requestLocale());
+export async function generateMetadata({ params }: PageProps<"/[locale]/login">): Promise<Metadata> {
+  const t = getDictionary(await requestLocale((await params).locale));
   return {
     title: t.auth.signInTitle,
     description: t.auth.signInSubtitle,

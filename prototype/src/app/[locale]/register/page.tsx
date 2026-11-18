@@ -6,8 +6,8 @@ import { isGoogleOAuthConfigured } from "@/lib/server/google-oauth";
 import { SITE_NAME } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = getDictionary(await requestLocale());
+export async function generateMetadata({ params }: PageProps<"/[locale]/register">): Promise<Metadata> {
+  const t = getDictionary(await requestLocale((await params).locale));
   return {
     title: `${t.auth.signUpTitle} — ${SITE_NAME}`,
     description: t.auth.signUpSubtitle,

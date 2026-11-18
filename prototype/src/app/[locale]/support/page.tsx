@@ -3,8 +3,8 @@ import { SupportPageContent } from "@/components/support/support-page-content";
 import { requestPageMetadata } from "@/lib/i18n/request-locale";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return requestPageMetadata("/support");
+export async function generateMetadata({ params }: PageProps<"/[locale]/support">): Promise<Metadata> {
+  return requestPageMetadata("/support", (await params).locale);
 }
 
 export default function SupportPage() {

@@ -22,11 +22,11 @@ function legalLanguages(slug: string) {
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps<"/[locale]/legal/[slug]">): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale: pathLocale } = await params;
   const { lang } = await searchParams;
   const document = getLegalDocument(slug);
   if (!document) return {};
-  const locale = await requestLocale(lang);
+  const locale = await requestLocale(lang ?? pathLocale);
   const english = legalTextLocale(locale) === "en";
   const title = `${english ? document.shortTitleEn : document.shortTitle} — ${SITE_NAME}`;
   const description = english ? document.descriptionEn : document.description;
@@ -44,13 +44,18 @@ export async function generateMetadata({ params, searchParams }: PageProps<"/[lo
       description,
       url,
     },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
   };
 }
 
 export default async function LegalPage({ params, searchParams }: PageProps<"/[locale]/legal/[slug]">) {
-  const { slug } = await params;
+  const { slug, locale: pathLocale } = await params;
   const { lang } = await searchParams;
   const document = getLegalDocument(slug);
   if (!document) notFound();
-  return <LegalMarkdownDocument slug={slug} locale={await requestLocale(lang)} />;
+  return <LegalMarkdownDocument slug={slug} locale={await requestLocale(lang ?? pathLocale)} />;
 }

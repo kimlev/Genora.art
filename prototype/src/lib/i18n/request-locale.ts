@@ -18,6 +18,6 @@ export async function requestLocale(lang?: string | string[] | null): Promise<Lo
 }
 
 /** Метаданные публичной страницы на языке текущего адреса */
-export async function requestPageMetadata(path: string): Promise<Metadata> {
-  return publicPageMetadata(path, await requestLocale());
+export async function requestPageMetadata(path: string, lang?: string | string[] | null): Promise<Metadata> {
+  return publicPageMetadata(path, await requestLocale(lang));
 }

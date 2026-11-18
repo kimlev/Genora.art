@@ -5,8 +5,8 @@ import { requestLocale } from "@/lib/i18n/request-locale";
 import { SITE_NAME } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = getDictionary(await requestLocale());
+export async function generateMetadata({ params }: PageProps<"/[locale]/reset-password">): Promise<Metadata> {
+  const t = getDictionary(await requestLocale((await params).locale));
   return {
     title: `${t.auth.resetTitle} — ${SITE_NAME}`,
     robots: { index: false, follow: false },
