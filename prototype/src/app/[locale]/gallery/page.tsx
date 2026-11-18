@@ -2,8 +2,8 @@ import { GalleryPageContent } from "@/components/gallery/gallery-page-content";
 import { requestPageMetadata } from "@/lib/i18n/request-locale";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return requestPageMetadata("/gallery");
+export async function generateMetadata({ params }: PageProps<"/[locale]/gallery">): Promise<Metadata> {
+  return requestPageMetadata("/gallery", (await params).locale);
 }
 
 export default function GalleryPage() {

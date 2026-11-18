@@ -3,8 +3,8 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { requestPageMetadata } from "@/lib/i18n/request-locale";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return requestPageMetadata("/about");
+export async function generateMetadata({ params }: PageProps<"/[locale]/about">): Promise<Metadata> {
+  return requestPageMetadata("/about", (await params).locale);
 }
 
 export default function AboutPage() {

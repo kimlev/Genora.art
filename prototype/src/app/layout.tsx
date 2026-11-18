@@ -20,7 +20,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin", "cyrillic"],
 });
 
-const defaultCopy = seoCopy("/", "ru");
+const defaultMetadataLocale = IS_STAGING ? "ru" : "en";
+const defaultCopy = seoCopy("/", defaultMetadataLocale);
 export const metadata: Metadata = {
   metadataBase: new URL(publicSiteUrl("/")),
   title: defaultCopy.title,
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
-    locale: "ru_RU",
+    locale: getLocaleOption(defaultMetadataLocale).intl.replace("-", "_"),
     siteName: SITE_NAME,
     title: defaultCopy.title,
     description: defaultCopy.description,
